@@ -2,3 +2,4 @@ app/runtime/*
 composer.lock
 public/assets/*
 vendor/*
+.idea/*
