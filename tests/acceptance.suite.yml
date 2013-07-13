@@ -15,4 +15,4 @@ modules:
         - WebHelper
     config:
         PhpBrowser:
-            url: 'http://binary-network/'
+            url: 'http://binary-network.com/'
