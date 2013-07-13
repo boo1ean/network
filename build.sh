@@ -26,6 +26,7 @@ rm $BUILD_FILE
 
 # Set shitty permissions
 chmod 777 -R public/assets app/runtime
+php yii migrate/up
 
 # Copy composer dependencies from jenkins workspace
 # Go back to workspace dir
