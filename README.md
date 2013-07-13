@@ -1,21 +1,36 @@
-# Brand new awesome application!
-How to setup project from stratch:
-1. go to terminal and run: git clone https://github.com/boo1ean/network.git
-2. cd to dirrectory with project, than /composer.phar install and finally /composer.phar install 
-3.  cd /etc/apache2/sites-available;
-4. sudo gedit mysite;
-5. 	<VirtualHost *:80>
-		ServerName yourName
-		DocumentRoot /home/USER/folderWithClonedRep/public/
-		<Directory /home/USER/folderWithClonedRep/public/>
-			DirectoryIndex index.php
-			AllowOverride All
-			Order allow,deny
-			Allow from all
-		</Directory>
-	</VirtualHost>
-6. sudo gedit /etc/hosts
-      Add to file: 127.0.0.1      yourName;
-7. sudo a2ensite mysite;
-8. sudo a2enmod rewrite;
-9. sudo service apache2 restart;
+# How to setup project locally
+
+__1.__ Clone project from github: `git clone https://github.com/boo1ean/network.git`
+
+__2.__ Go to project dir and run: `./composer.phar install`
+
+__3.__ Add new site record to apache conf `sudo gedit /etc/apache2/sites-available/network` (will create new file if doesn't exist)
+And put:
+
+```ApacheConf
+<VirtualHost *:80>
+	ServerName your-servername-here
+	DocumentRoot /path/to/network/public
+	<Directory /path/to/network/public>
+		DirectoryIndex index.php
+		AllowOverride All
+		Order allow,deny
+		Allow from all
+	</Directory>
+</VirtualHost>
+```
+
+__4.__ Add new record to hosts file due to have access to local server through alias `sudo gedit /etc/hosts` and add new line:
+
+
+__NOTE:__ alias should be same as ServerName from apache virtual host config
+
+```
+	127.0.0.1 your-servername-here
+```
+
+__5.__ Enable mod_rewrite for apache: `sudo a2enmod rewrite`
+
+__6.__ Enable newly added site: `sudo a2ensite network`
+
+__7.__ Restart apache: `sudo service apache2 restart`
