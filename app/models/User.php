@@ -4,28 +4,12 @@ namespace app\models;
 use \yii\db\ActiveRecord;
 use \yii\web\Identity;
 
-/**
- * Class User
- * @package app\models
- * @property integer $id;
- * @property string $email
- * @property string $first_name;
- * @property string $last_name;
- * @property string $password;
- * @property integer $type;
- */
+
 class User extends ActiveRecord implements Identity
 {
     // Constants for user types
     const TYPE_ADMIN = 0;
     const TYPE_USER = 1;
-    // Attributes
-    public $id;
-    public $email;
-    public $first_name;
-    public $last_name;
-    public $password;
-    public $type;
 
     public static function tableName()
     {
