@@ -26,7 +26,7 @@ __4.__ Add new record to hosts file due to have access to local server through a
 __NOTE:__ alias should be same as ServerName from apache virtual host config
 
 ```
-	127.0.0.1 your-servername-here
+127.0.0.1 your-servername-here
 ```
 
 __5.__ Enable mod_rewrite for apache: `sudo a2enmod rewrite`
