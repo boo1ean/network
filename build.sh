@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 # Deploy destination stuff
-ENV="test"
 BASE_DIR="/var/www/network"
 DEPL_FULL_PATH=$BASE_DIR/$ENV
 
