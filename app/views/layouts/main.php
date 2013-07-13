@@ -31,6 +31,7 @@ $this->beginPage(); ?>
                             'options' => array('class' => 'nav'),
                             'items' => array(
                                 array('label' => 'Home', 'url' => array('/site/index')),
+                                array('label' => 'Login', 'url' => array('/auth/login')),
                             ),
                         )); ?>
                     </div>
