@@ -12,7 +12,7 @@ echo $form->field($model, 'password')->passwordInput();
 ?>
 <div class="control-group">
     <div class="controls">
-        <?=Html::submitButton('Login', array('class' => 'btn btn-success')); ?>
+        <?php echo Html::submitButton('Login', array('class' => 'btn btn-success')); ?>
     </div>
 </div>
 
