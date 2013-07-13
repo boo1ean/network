@@ -3,3 +3,4 @@ composer.lock
 public/assets
 vendor
 .idea
+tests/_log
