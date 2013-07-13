@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Get env value from cli arguments
+ENV=$1
+
 # Deploy destination stuff
 BASE_DIR="/var/www/network"
 DEPL_FULL_PATH=$BASE_DIR/$ENV
