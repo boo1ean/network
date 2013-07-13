@@ -1,9 +1,21 @@
 <project name="binary-network" default="zip">
     <property environment="env" />
-    <target name="zip" description="Makes zip from build">
+    <target name="composer" description= "Update project dependencies through composer">
+        <exec dir="${basedir}" executable="./composer.phar" failonerror="true">
+            <arg line="update" />
+        </exec>
+    </target>
+
+    <target name="test" description= "Runs Codeception tests" depends="composer">
+        <exec dir="${basedir}" executable="./codecept" failonerror="true">
+            <arg line="run" />
+        </exec>
+    </target>
+
+    <target name="zip" description="Makes zip from build" depends="test">
         <mkdir dir="${env.JENKINS_HOME}/jobs/${env.JOB_NAME}/builds/${env.BUILD_NUMBER}/artifact"/>
         <tar destfile="${env.JENKINS_HOME}/jobs/${env.JOB_NAME}/builds/${env.BUILD_NUMBER}/artifact/binary-network-${env.BUILD_NUMBER}.tar.gz" compression="gzip">
-            <tarfileset dir="." excludes="**/.git/**" />
+            <tarfileset dir="." excludes="**/.git/** **/vendor/**" />
         </tar>
     </target>
 </project>
