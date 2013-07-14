@@ -63,7 +63,7 @@ class LoginForm extends Model
         if ($this->validate()) {
             $user = User::findByEmail($this->email);
 
-            Yii::$app->getUser()->login($user, DEFAULT_LOGIN_DURATION);
+            Yii::$app->getUser()->login($user, self::DEFAULT_LOGIN_DURATION);
             return true;
         }
         return false;
