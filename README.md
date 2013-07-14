@@ -1,6 +1,6 @@
 ## Conventions
 
-before starting work on the project read our [code conventions]()
+Before starting work on the project read our [code conventions](https://github.com/boo1ean/network/blob/master/conventions.md)
 
 ## How to setup project locally
 
