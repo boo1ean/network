@@ -34,4 +34,4 @@ cp -R vendor $DEPL_FULL_PATH
 
 # Run run migrations
 cd $DEPL_FULL_PATH
-php yii migrate/up
+yes | php yii migrate/up
