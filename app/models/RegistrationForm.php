@@ -43,11 +43,11 @@ class RegistrationForm extends Model
         return array(
             array('email, password, repeat_password', 'required'),
             array('email', 'email'),
+            array('password', 'compare', 'compareAttribute'=>'repeat_password'),
         );
     }
 
     public function registration() {
-
         if ($this->validate()) {
             // TODO: Replace by User::findByEmail when it will implemented
             $user = User::find(array('email' => $this->email));
