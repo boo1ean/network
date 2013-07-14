@@ -41,7 +41,7 @@ class User extends ActiveRecord implements Identity
     {
         return static::find()
             ->where(array('email' => $email))
-            ->all();
+            ->one();
     }
 
     public function getId()
