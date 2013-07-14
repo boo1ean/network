@@ -49,8 +49,7 @@ class LoginForm extends Model
      * Validation password
      */
     public function validatePassword() {
-        // TODO: Replace by User::findByEmail when it will implemented
-        $user = User::find(array('email' => $this->email));
+        $user = User::findByEmail($this->email);
 
         // TODO: Need add password validation
         if (!$user) {
@@ -62,15 +61,11 @@ class LoginForm extends Model
 
     public function login() {
         if ($this->validate()) {
-            // TODO: Replace by User::findByEmail when it will implemented
-            $user = User::find(array('email' => $this->email));
+            $user = User::findByEmail($this->email);
 
-            // TODO: Test it
             Yii::$app->getUser()->login($user, DEFAULT_LOGIN_DURATION);
-
             return true;
         }
-
         return false;
     }
 }
