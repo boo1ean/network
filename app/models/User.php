@@ -3,6 +3,7 @@
 namespace app\models;
 use \yii\db\ActiveRecord;
 use \yii\web\Identity;
+use \yii\helpers\SecurityHelper;
 
 
 class User extends ActiveRecord implements Identity
@@ -66,8 +67,14 @@ class User extends ActiveRecord implements Identity
         $user->email = $email;
         $user->first_name = $first_name;
         $user->last_name = $last_name;
-        $user->password = $password;
+        $user->password = self::hashPassword($password);
         $user->type = $type;
         $user->save();
+    }
+
+    public static function hashPassword($password)
+    {
+        $hash =  SecurityHelper::generatePasswordHash($password);
+        return $hash;
     }
 }
