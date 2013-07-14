@@ -13,7 +13,7 @@ echo $form->field($model, 'last_name')->textInput();
 ?>
     <div class="control-group">
         <div class="controls">
-            <?=Html::submitButton('Registration', array('class' => 'btn btn-success')); ?>
+            <?php echo Html::submitButton('Registration', array('class' => 'btn btn-success')); ?>
         </div>
     </div>
 
