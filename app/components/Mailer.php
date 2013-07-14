@@ -86,25 +86,41 @@ class Mailer extends Component {
     }
 
     /**
-     * @param $subject Mail subject
+     * @param string $subject Mail subject
      */
     public function setSubject($subject) {
         $this->message->setSubject($subject);
     }
 
-    
+    /**
+     * @param string $body Body of message
+     * @param string $contentType Message content type
+     * @param string $charset Message charset
+     */
     public function setBody($body, $contentType = null, $charset = null) {
         $this->message->setBody($body, $contentType, $charset);
     }
 
+    /**
+     * @param string $address Email of addressee
+     * @param string $name Name of addressee
+     */
     public function addTo($address, $name = null) {
         $this->message->addTo($address, $name);
     }
 
+    /**
+     * @param string $address Email of addressee
+     * @param string $name Name of addressee
+     */
     public function setTo($address, $name = null) {
         $this->message->setTo($address, $name);
     }
 
+    /**
+     * @param string $address Email of sender
+     * @param string $name Name of sender
+     */
     public function setFrom($address, $name = null) {
         $this->message->setFrom($address, $name);
     }
@@ -124,6 +140,10 @@ class Mailer extends Component {
         return $this->mailer->send($this->message, $failedRecipients);
     }
 
+    /**
+     * Return Swift_Transport according to $this->transportType
+     * @return \Swift_MailTransport|\Swift_Transport_EsmtpTransport
+     */
     private function _getTransport() {
         switch($this->transportType) {
             case 'smtp':
