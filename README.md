@@ -1,4 +1,8 @@
-# How to setup project locally
+## Conventions
+
+before starting work on the project read our [code conventions]()
+
+## How to setup project locally
 
 __1.__ Clone project from github: `git clone git@github.com:boo1ean/network.git`
 

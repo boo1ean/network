@@ -8,7 +8,7 @@ Meaning of keywords MUST, SHOULD, etc. according to [RFC2119](http://www.ietf.or
 
 ### General
 
-For files that contain only PHP code, the closing tag ("?>") is never permitted. It is not required by PHP, and omitting it prevents the accidental injection of trailing white space into the response.
+For files that contain only PHP code, the closing tag `?>` is never permitted. It is not required by PHP, and omitting it prevents the accidental injection of trailing white space into the response.
 
 PHP code must always be delimited by the full-form, standard PHP tags:
 
