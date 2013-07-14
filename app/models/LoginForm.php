@@ -40,9 +40,21 @@ class LoginForm extends Model
         return array(
             array('email, password, captcha', 'required'),
             array('email', 'email'),
+            array('email', 'validateEmail'),
             array('password', 'validatePassword'),
             //array('captcha', 'captcha'),
         );
+    }
+
+    /**
+     * Validation email
+     */
+    public function validateEmail() {
+        $user = User::findByEmail($this->email);
+
+        if (!$user) {
+            $this->addError('email', 'Incorrect email');
+        }
     }
 
     /**
@@ -51,10 +63,7 @@ class LoginForm extends Model
     public function validatePassword() {
         $user = User::findByEmail($this->email);
 
-        // TODO: Need add password validation
-        if (!$user) {
-            $this->addError('email', 'Incorrect email');
-        } elseif (!$user/*->validatePassword($this->password)*/) {        // TODO: Implement password check
+        if (!$user || User::hashPassword($this->password) != $user->password) {
             $this->addError('password', 'Incorrect password');
         }
     }
