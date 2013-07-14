@@ -19,8 +19,9 @@ class AuthController extends Controller
     public function actionLogin() {
 
         // Redirect for logged users.
-        if(!Yii::$app->getUser()->getIsGuest())
+        if(!Yii::$app->getUser()->getIsGuest()) {
             return Yii::$app->getResponse()->redirect('site/index');
+        }
 
         $loginForm = new LoginForm();
         if ($loginForm->load($_POST) && $loginForm->login()) {
