@@ -56,6 +56,15 @@ if (3 < 2) {
 }
 ```
 
+Single line if statement should be covered with curly brackets:
+
+```php
+<?php
+if ($stuff) {
+    echo $stuff;
+}
+```
+
 Method/function definition should be like:
 ```php
 <?php
@@ -117,6 +126,7 @@ $sql = "SELECT `id`, `name` FROM `people` "
 ### Associative Arrays
 
 Every `key => value` pair should go on it's own line. For readability, the various "=>" assignment operators should be padded such that they align.
+
 ```php
 <?php
 $items = array(
