@@ -32,6 +32,7 @@ $this->beginPage(); ?>
                             'items' => array(
                                 array('label' => 'Home', 'url' => array('/site/index')),
                                 array('label' => 'Login', 'url' => array('/auth/login')),
+                                array('label' => 'Registration', 'url' => array('/auth/registration')),
                             ),
                         )); ?>
                     </div>
