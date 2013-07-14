@@ -36,7 +36,18 @@ return array(
             )
         ),
 
-        'db' => require 'db.php'
+        'db' => require 'db.php',
+
+        'mail' => array(
+            'class' => 'app\components\Mailer',
+            'senderEmail'       => 'binary-network@aivus.name',
+            'transportType'     => 'smtp',
+            'smtpHost'          => 'smtp.gmail.com',
+            'smtpPort'          => '587',
+            'smtpLogin'         => 'binary-network@aivus.name',
+            'smtpPassword'      => 'nf38i2949g2obngp',
+            'smtpEncryption'    => 'tls'
+        )
     ),
 
     'params' => $params

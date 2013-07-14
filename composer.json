@@ -4,7 +4,8 @@
         "php": ">=5.3.0",
         "yiisoft/yii2": "dev-master",
         "yiisoft/yii2-composer": "dev-master",
-        "codeception/codeception": "dev-pageobjects"
+        "codeception/codeception": "dev-pageobjects",
+        "swiftmailer/swiftmailer": "v5.0.1"
     },
     "scripts": {
         "post-create-project-cmd": [
