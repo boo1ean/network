@@ -21,7 +21,7 @@ class User extends ActiveRecord implements Identity
     {
         return array(
             array('email, password', 'required', 'on' => 'login'),
-            array('email, first_name, last_name, password', 'required', 'on' => 'register')
+            array('email, password', 'required', 'on' => 'register')
         );
     }
 
@@ -29,7 +29,7 @@ class User extends ActiveRecord implements Identity
     {
         return array(
             'login' => array('email', 'password'),
-            'register' => array('email','first_name', 'last_name', 'password'),
+            'register' => array('email', 'password'),
         );
     }
 
