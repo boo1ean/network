@@ -8,13 +8,13 @@ use yii\web\Controller;
 
 class AuthController extends Controller
 {
-/*    public function actions() {
+    public function actions() {
         return array(
             'captcha' => array(
                 'class' => 'yii\web\CaptchaAction',
             ),
         );
-    }*/
+    }
 
 
     public function actionLogin() {
