@@ -39,7 +39,7 @@ return array(
         'db' => require 'db.php',
 
         'mail' => array(
-            'class' => 'app\components\Mailer',
+            'class'             => 'app\components\Mailer',
             'senderEmail'       => 'binary-network@aivus.name',
             'transportType'     => 'smtp',
             'smtpHost'          => 'smtp.gmail.com',
