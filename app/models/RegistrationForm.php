@@ -50,9 +50,9 @@ class RegistrationForm extends Model
     public function registration() {
         if ($this->validate()) {
             // TODO: Replace by User::findByEmail when it will implemented
-            $user = User::find(array('email' => $this->email));
+            $user = User::findByEmail($this->email);
 
-            User::addUser($_POST['RegistrationForm']['email'], $_POST['RegistrationForm']['first_name'], $_POST['RegistrationForm']['last_name'], $_POST['RegistrationForm']['password'], 1);
+            User::addUser($_POST['RegistrationForm']['email'], $_POST['RegistrationForm']['first_name'], $_POST['RegistrationForm']['last_name'], $_POST['RegistrationForm']['password'], User::TYPE_USER);
 
             return true;
         }
