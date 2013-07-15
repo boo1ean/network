@@ -52,6 +52,8 @@ class RegistrationForm extends Model
             // TODO: Replace by User::findByEmail when it will implemented
             $user = User::find(array('email' => $this->email));
 
+            User::addUser($_POST['RegistrationForm']['email'], $_POST['RegistrationForm']['first_name'], $_POST['RegistrationForm']['last_name'], $_POST['RegistrationForm']['password'], 1);
+
             return true;
         }
 
