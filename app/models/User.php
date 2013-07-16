@@ -60,21 +60,18 @@ class User extends ActiveRecord implements Identity
        // return $this->authKey === $authKey;
     }
 
-    public static function addUser($email, $first_name, $last_name, $password, $type = self::TYPE_USER)
-    {
-        $user = new User();
-        $user->scenario ='register';
-        $user->email = $email;
-        $user->first_name = $first_name;
-        $user->last_name = $last_name;
-        $user->password = static::hashPassword($password);
-        $user->type = $type;
-        $user->save();
-    }
-
     public static function hashPassword($password)
     {
         $hash =  SecurityHelper::generatePasswordHash($password);
         return $hash;
+    }
+
+    public function beforeSave($insert)
+    {
+        if ($this->isNewRecord)
+        {
+            $this->password = static::hashPassword($this->password);
+        }
+        return parent::beforeSave($insert);
     }
 }
