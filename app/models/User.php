@@ -82,4 +82,20 @@ class User extends ActiveRecord implements Identity
     public function getSetting() {
         return unserialize($this->settings);
     }
+
+    public function setSetting($settingArray) {
+        $this->settings = serialize($settingArray);
+    }
+
+    /**
+     * Add setting pair $key=>$value to user model
+     * @param string $key Setting key
+     * @param string $value Setting value
+     */
+    public function addSetting($key, $value) {
+        $setting = $this->getSetting();
+        $setting[$key] = $value;
+        $this->setSetting($setting);
+
+    }
 }
