@@ -66,6 +66,11 @@ class User extends ActiveRecord implements Identity
         return $hash;
     }
 
+    public function validatePassword($password)
+    {
+        return SecurityHelper::validatePassword($password, $this->password);
+    }
+
     public function beforeSave($insert)
     {
         if ($this->isNewRecord)
