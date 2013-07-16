@@ -28,8 +28,9 @@ class User extends ActiveRecord implements Identity
     public function scenarios()
     {
         return array(
-            'login' => array('email', 'password'),
-            'register' => array('email', 'password'),
+            'default'   => array ('email', 'password'),
+            'login'     => array('email', 'password'),
+            'register'  => array('email', 'password'),
         );
     }
 
