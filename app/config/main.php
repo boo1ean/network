@@ -15,10 +15,6 @@ return array(
             'identityClass' => 'app\models\User'
         ),
 
-        'assetManager' => array(
-            'bundles' => require(__DIR__ . '/assets.php')
-        ),
-
         'log' => array(
             'targets' => array(
                 array(

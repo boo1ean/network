@@ -7,7 +7,7 @@ use yii\widgets\Breadcrumbs;
  * @var $this \yii\base\View
  * @var $content string
  */
-$this->registerAssetBundle('app');
+app\config\AppAsset::register($this);
 $this->beginPage();
 
 $guest = Yii::$app->getUser()->getIsGuest();
