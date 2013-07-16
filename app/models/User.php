@@ -17,23 +17,6 @@ class User extends ActiveRecord implements Identity
         return 'users';
     }
 
-    public function rules()
-    {
-        return array(
-            array('email, password', 'required', 'on' => 'login'),
-            array('email, password', 'required', 'on' => 'register')
-        );
-    }
-
-    public function scenarios()
-    {
-        return array(
-            'default'   => array ('email', 'password'),
-            'login'     => array('email', 'password'),
-            'register'  => array('email', 'password'),
-        );
-    }
-
     public static function findIdentity($id)
     {
         return static::find($id);

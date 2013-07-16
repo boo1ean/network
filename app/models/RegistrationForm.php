@@ -9,7 +9,7 @@ use yii\base\Model;
  * Class RegistrationForm for registration form
  * @package app\models
  */
-class RegistrationForm extends Model
+class RegistrationForm extends User
 {
     /**
      * @var string Email for registration
@@ -49,10 +49,7 @@ class RegistrationForm extends Model
 
     public function registration() {
         if ($this->validate()) {
-            // TODO: Replace by User::findByEmail when it will implemented
-            $user = User::findByEmail($this->email);
-
-            User::addUser($_POST['RegistrationForm']['email'], $_POST['RegistrationForm']['first_name'], $_POST['RegistrationForm']['last_name'], $_POST['RegistrationForm']['password'], User::TYPE_USER);
+            parent::save();
 
             return true;
         }
