@@ -43,14 +43,21 @@ class RegistrationForm extends Model
         return array(
             array('email, password, repeat_password', 'required'),
             array('email', 'email'),
+            array('email', 'validateEmail'),
             array('password', 'compare', 'compareAttribute'=>'repeat_password'),
         );
     }
 
+    public function validateEmail() {
+        $user = User::findByEmail($this->email);
+
+        if ($user) {
+            $this->addError('email', 'User with this email already exist');
+        }
+    }
+
     public function registration() {
         if ($this->validate()) {
-            // TODO: Replace by User::findByEmail when it will implemented
-            $user = User::findByEmail($this->email);
 
             User::addUser($_POST['RegistrationForm']['email'], $_POST['RegistrationForm']['first_name'], $_POST['RegistrationForm']['last_name'], $_POST['RegistrationForm']['password'], User::TYPE_USER);
 
