@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
+use yii\helpers\SecurityHelper;
 
 /**
  * Class LoginForm for login form
@@ -63,7 +64,7 @@ class LoginForm extends Model
     public function validatePassword() {
         $user = User::findByEmail($this->email);
 
-        if (!$user || User::hashPassword($this->password) != $user->password) {
+        if (!$user || !SecurityHelper::validatePassword($this->password, $user->password)) {
             $this->addError('password', 'Incorrect password');
         }
     }
