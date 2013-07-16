@@ -43,7 +43,7 @@ class LoginForm extends Model
             array('email', 'email'),
             array('email', 'validateEmail'),
             array('password', 'validatePassword'),
-            array('captcha', 'captcha', 'captchaAction' => 'auth/captcha'),
+            //array('captcha', 'captcha', 'captchaAction' => 'auth/captcha'),
         );
     }
 
