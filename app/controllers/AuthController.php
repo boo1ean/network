@@ -45,4 +45,9 @@ class AuthController extends Controller
     public function actionIndex() {
         return Yii::$app->getResponse()->redirect('site/index');
     }
+
+    public function actionLogout() {
+        Yii::$app->getUser()->logout();
+        return Yii::$app->getResponse()->redirect('site/index');
+    }
 }

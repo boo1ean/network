@@ -8,7 +8,22 @@ use yii\widgets\Breadcrumbs;
  * @var $content string
  */
 $this->registerAssetBundle('app');
-$this->beginPage(); ?>
+$this->beginPage();
+
+$guest = Yii::$app->getUser()->getIsGuest();
+
+$items = array(
+    array('label' => 'Home', 'url' => array('/site/index')),
+);
+
+if ($guest) {
+    $items[] = array('label' => 'Login', 'url' => array('/auth/login'));
+    $items[] = array('label' => 'Registration', 'url' => array('/auth/registration'));
+} else {
+    $items[] = array('label' => 'Logout', 'url' => array('/auth/logout'));
+}
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -29,11 +44,7 @@ $this->beginPage(); ?>
                     <div class="container">
                         <?php echo Menu::widget(array(
                             'options' => array('class' => 'nav'),
-                            'items' => array(
-                                array('label' => 'Home', 'url' => array('/site/index')),
-                                array('label' => 'Login', 'url' => array('/auth/login')),
-                                array('label' => 'Registration', 'url' => array('/auth/registration')),
-                            ),
+                            'items' => $items,
                         )); ?>
                     </div>
                 </div>
