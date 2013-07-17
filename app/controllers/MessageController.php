@@ -16,7 +16,7 @@ class MessageController extends Controller
 
         // Check user on access
         if (Yii::$app->getUser()->getIsGuest()) {
-            return Yii::$app->getResponse()->redirect('@www');
+            return Yii::$app->getResponse()->redirect('@www/');
         }
 
         // Add event handler and

@@ -21,12 +21,12 @@ class AuthController extends Controller
 
         // Redirect for logged users.
         if(!Yii::$app->getUser()->getIsGuest()) {
-            return Yii::$app->getResponse()->redirect('@www');
+            return Yii::$app->getResponse()->redirect('@www/');
         }
 
         $loginForm = new LoginForm();
         if ($loginForm->load($_POST) && $loginForm->login()) {
-            return Yii::$app->getResponse()->redirect('@www');
+            return Yii::$app->getResponse()->redirect('@www/');
         } else {
             return $this->render('login', array('model' => $loginForm));
         }
@@ -36,18 +36,18 @@ class AuthController extends Controller
         $registrationForm = new RegistrationForm();
 
         if ($registrationForm->load($_POST) && $registrationForm->registration()) {
-            return Yii::$app->getResponse()->redirect('@www');
+            return Yii::$app->getResponse()->redirect('@www/');
         } else {
             return $this->render('registration', array('model' => $registrationForm));
         }
     }
 
     public function actionIndex() {
-        return Yii::$app->getResponse()->redirect('@www');
+        return Yii::$app->getResponse()->redirect('@www/');
     }
 
     public function actionLogout() {
         Yii::$app->getUser()->logout();
-        return Yii::$app->getResponse()->redirect('@www');
+        return Yii::$app->getResponse()->redirect('@www/');
     }
 }
