@@ -71,7 +71,7 @@ class User extends ActiveRecord implements Identity
     public function searchSetting($key) {
         $settings = $this->getSetting();
         foreach ($settings as $skey => $value) {
-            if ($key == $skey)
+            if ($key === $skey)
                 return $settings[$skey];
         }
 
