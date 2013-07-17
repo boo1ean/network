@@ -69,7 +69,7 @@ class User extends ActiveRecord implements Identity
         $user->last_name = $last_name;
         $user->password = static::hashPassword($password);
         $user->type = $type;
-        $user->settings = serialize([]);
+        $user->settings = serialize(array());
         $user->save();
     }
 
