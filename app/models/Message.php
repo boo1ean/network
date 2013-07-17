@@ -9,7 +9,6 @@
 
 namespace app\models;
 use \yii\db\ActiveRecord;
-use app\models\User;
 
 
 class Message extends ActiveRecord
