@@ -12,29 +12,9 @@ use yii\base\Model;
 class RegistrationForm extends User
 {
     /**
-     * @var string Email for registration
-     */
-    public $email;
-
-    /**
-     * @var string Password for registration
-     */
-    public $password;
-
-    /**
      * @var string Repeat_password for registration
      */
     public $repeat_password;
-
-    /**
-     * @var string First_name for registration
-     */
-    public $first_name;
-
-    /**
-     * @var string Last_name for registration
-     */
-    public $last_name;
 
     /**
      * @return validation rules array
