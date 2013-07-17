@@ -63,6 +63,21 @@ class User extends ActiveRecord implements Identity
 
     }
 
+    /**
+     * Search setting by key
+     * @param string $key Setting key
+     * @return mixed|bool Setting or false if setting by key not found
+     */
+    public function searchSetting($key) {
+        $settings = $this->getSetting();
+        foreach ($settings as $skey => $value) {
+            if ($key == $skey)
+                return $settings[$skey];
+        }
+
+        return false;
+    }
+
     public function beforeSave($insert) {
         if ($this->isNewRecord)
         {

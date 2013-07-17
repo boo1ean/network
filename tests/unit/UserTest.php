@@ -54,6 +54,11 @@ class UserTest extends \Codeception\TestCase\Test
         $this->user->addSetting("omg", "omg value");
         $this->assertEquals($this->user->setting, array_merge($expected, $addArray));
 
+        // Check User::searchSetting
+        $expected = array("omg" => "omg value");
+        $actual = $this->user->searchSetting("omg");
+        $this->assertEquals($expected, $actual);
+
     }
 
     public function testValidatePassword() {
