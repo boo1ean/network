@@ -64,7 +64,7 @@ class LoginForm extends Model
     public function validatePassword() {
         $user = User::findByEmail($this->email);
 
-        if (!$user || !SecurityHelper::validatePassword($this->password, $user->password)) {
+        if (!$user || !$user->validatePassword($this->password)) {
             $this->addError('password', 'Incorrect password');
         }
     }
