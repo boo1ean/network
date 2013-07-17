@@ -1,5 +1,6 @@
 <?php
 use Codeception\Util\Stub;
+use \yii\helpers\SecurityHelper;
 
 class UserTest extends \Codeception\TestCase\Test
 {
@@ -36,10 +37,9 @@ class UserTest extends \Codeception\TestCase\Test
         $this->user->delete();
     }
 
-    // tests
     public function testSettings()
     {
-        // Get empty array by default
+        // Get empty array by default (beforeSave)
         $setting = $this->user->setting;
         $this->assertEquals(array(), $setting);
 
@@ -54,6 +54,12 @@ class UserTest extends \Codeception\TestCase\Test
         $this->user->addSetting("omg", "omg value");
         $this->assertEquals($this->user->setting, array_merge($expected, $addArray));
 
+    }
+
+    public function testValidatePassword() {
+        // Check User::validatePassword
+        $this->assertTrue($this->user->validatePassword(self::PASSWORD));
+        $this->assertTrue(SecurityHelper::validatePassword(self::PASSWORD, $this->user->password));
     }
 
 }
