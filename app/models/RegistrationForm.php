@@ -28,6 +28,12 @@ class RegistrationForm extends User
         );
     }
 
+    public function scenarios() {
+        return array(
+            'default' => array('email', 'password', 'repeat_password', 'first_name', 'last_name')
+        );
+    }
+
     public function validateEmail() {
         $user = User::findByEmail($this->email);
 
