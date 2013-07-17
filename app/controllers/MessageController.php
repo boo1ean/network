@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\AddMessageForm;
 use yii;
 use yii\web\Controller;
 use app\models\Conversation;
@@ -35,23 +36,38 @@ class MessageController extends Controller
 
     public function actionIndex() {
         // Send message
-        $this->messageText = "Some message text";
-        $this->trigger(self::EVENT_SEND_MESSAGE);
+        //$this->messageText = "Some message text";
+        //$this->trigger(self::EVENT_SEND_MESSAGE);
+
+        // TODO: replace find()->all() to findConversationsByUser() when it will be implemented
+        $conversations = Conversation::find()->all();
+        return $this->render('conversations', array('conversations' => $conversations));
 
     }
 
     public function actionConversation($id = NULL) {
-        if(!isset($id))
-        {
-            // TODO: replace find()->all() to findConversationsByUser() when it will be implemented
-            $conversations = Conversation::find()->all();
-            return $this->render('conversations', array('conversations' => $conversations));
+
+        // If function called without parameters
+        if(!isset($id) || Conversation::find($id) == NULL) {
+            return Yii::$app->getResponse()->redirect('message');
+        }
+
+        // Create new form object and set conversation id
+        $addMessageForm = new AddMessageForm();
+        $addMessageForm->conversation_id = $id;
+
+         // If data was successfully loaded
+        if ($addMessageForm->load($_POST) && $addMessageForm->addMessage()) {
+            return Yii::$app->getResponse()->redirect('message/conversation/' . $id);
         } else {
             $conversation = Conversation::find($id);
             $messages = $conversation->messages;
             return $this->render('messages', array(
+                'conversationId'    => $id,
                 'conversationTitle' => $conversation->title,
-                'messages'          => $messages));
+                'messages'          => $messages,
+                'model'             => $addMessageForm,
+            ));
         }
     }
 }
