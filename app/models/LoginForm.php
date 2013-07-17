@@ -39,7 +39,7 @@ class LoginForm extends Model
      */
     public function rules() {
         return array(
-            array('email, password, captcha', 'required'),
+            array('email, password', 'required'),
             array('email', 'email'),
             array('email', 'validateEmail'),
             array('password', 'validatePassword'),
