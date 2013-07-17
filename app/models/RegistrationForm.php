@@ -9,32 +9,12 @@ use yii\base\Model;
  * Class RegistrationForm for registration form
  * @package app\models
  */
-class RegistrationForm extends Model
+class RegistrationForm extends User
 {
-    /**
-     * @var string Email for registration
-     */
-    public $email;
-
-    /**
-     * @var string Password for registration
-     */
-    public $password;
-
     /**
      * @var string Repeat_password for registration
      */
     public $repeat_password;
-
-    /**
-     * @var string First_name for registration
-     */
-    public $first_name;
-
-    /**
-     * @var string Last_name for registration
-     */
-    public $last_name;
 
     /**
      * @return validation rules array
@@ -58,9 +38,7 @@ class RegistrationForm extends Model
 
     public function registration() {
         if ($this->validate()) {
-
-            User::addUser($_POST['RegistrationForm']['email'], $_POST['RegistrationForm']['first_name'], $_POST['RegistrationForm']['last_name'], $_POST['RegistrationForm']['password'], User::TYPE_USER);
-
+            $this->save();
             return true;
         }
 
