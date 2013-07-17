@@ -44,7 +44,7 @@ class RegistrationForm extends Model
             array('email, password, repeat_password', 'required'),
             array('email', 'email'),
             array('email', 'validateEmail'),
-            array('password', 'compare', 'compareAttribute'=>'repeat_password'),
+            array('repeat_password', 'compare', 'compareAttribute'=>'password'),
         );
     }
 
