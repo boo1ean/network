@@ -21,6 +21,7 @@ if ($guest) {
     $items[] = array('label' => 'Registration', 'url' => array('/auth/registration'));
 } else {
     $items[] = array('label' => 'Logout', 'url' => array('/auth/logout'));
+    $items[] = array('label' => 'Messages', 'url' => array('/message/conversation'));
 }
 
 ?>

@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use yii;
 use yii\web\Controller;
+use app\models\Conversation;
 
 class MessageController extends Controller
 {
@@ -36,5 +37,15 @@ class MessageController extends Controller
         // Send message
         $this->messageText = "Some message text";
         $this->trigger(self::EVENT_SEND_MESSAGE);
+
+    }
+
+    public function actionConversation($id = NULL) {
+        if(!isset($id))
+        {
+            // TODO: replace find()->all() to findConversationsByUser() when it will be implemented
+            $conversations = Conversation::find()->all();
+            return $this->render('conversations', array('conversations' => $conversations));
+        }
     }
 }
