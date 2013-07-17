@@ -55,9 +55,8 @@ class UserTest extends \Codeception\TestCase\Test
         $this->assertEquals($this->user->setting, array_merge($expected, $addArray));
 
         // Check User::searchSetting
-        $expected = array("omg" => "omg value");
         $actual = $this->user->searchSetting("omg");
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals("omg value", $actual);
 
     }
 
