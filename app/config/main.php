@@ -28,7 +28,8 @@ return array(
             'enablePrettyUrl' => true,
 
             'rules' => array(
-                '/' => 'site/index'
+                '/' => 'site/index',
+                '/message/conversation/<id:\d+>' => 'message/conversation'
             )
         ),
 

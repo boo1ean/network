@@ -46,6 +46,12 @@ class MessageController extends Controller
             // TODO: replace find()->all() to findConversationsByUser() when it will be implemented
             $conversations = Conversation::find()->all();
             return $this->render('conversations', array('conversations' => $conversations));
+        } else {
+            $conversation = Conversation::find($id);
+            $messages = $conversation->messages;
+            return $this->render('messages', array(
+                'conversationTitle' => $conversation->title,
+                'messages'          => $messages));
         }
     }
 }

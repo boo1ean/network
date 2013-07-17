@@ -14,6 +14,6 @@ use yii\helpers\Html;
 // Print list of conversations
 foreach ($conversations as $conversation) {
     $title = $conversation->title == NULL ? 'conversation #' . $conversation->id : $conversation->title;
-    echo Html::a($title, '/message/conversation/' . $conversation->id);
+    echo Html::a($title, 'message/conversation/' . $conversation->id);
     echo '<br>';
 }
