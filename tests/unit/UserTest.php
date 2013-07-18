@@ -1,6 +1,6 @@
 <?php
 use Codeception\Util\Stub;
-use \yii\helpers\SecurityHelper;
+use \yii\helpers\Security;
 use \app\models\User;
 
 class UserTest extends \Codeception\TestCase\Test
@@ -83,7 +83,7 @@ class UserTest extends \Codeception\TestCase\Test
     public function testValidatePassword() {
         // Check User::validatePassword
         $this->assertTrue($this->user->validatePassword(self::PASSWORD));
-        $this->assertTrue(SecurityHelper::validatePassword(self::PASSWORD, $this->user->password));
+        $this->assertTrue(Security::validatePassword(self::PASSWORD, $this->user->password));
     }
 
 }

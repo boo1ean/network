@@ -4,7 +4,6 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
-use yii\helpers\SecurityHelper;
 
 /**
  * Class LoginForm for login form
