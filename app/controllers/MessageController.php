@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\AddMessageForm;
+use app\models\AddConversationForm;
 use yii;
 use yii\web\Controller;
 use app\models\Conversation;
@@ -35,9 +36,16 @@ class MessageController extends Controller
     }
 
     public function actionIndex() {
-        // Show all users conversations
+        $addConversationForm = new AddConversationForm();
+        if ($addConversationForm->load($_POST) && $addConversationForm->addConversation()) {
+            return Yii::$app->getResponse()->redirect('message');
+        }
+        // Get all users conversations
         $conversations = Yii::$app->getUser()->getIdentity()->conversations;
-        return $this->render('conversations', array('conversations' => $conversations));
+        return $this->render('conversations', array(
+            'conversations' => $conversations,
+            'model'         => $addConversationForm,
+        ));
 
     }
 
