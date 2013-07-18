@@ -78,6 +78,14 @@ class User extends ActiveRecord implements Identity
         return false;
     }
 
+    /**
+     * @return \yii\db\ActiveRelation object with user conversations
+     */
+    public function getConversations() {
+        return $this->hasMany('Conversation', array('id' => 'conversation_id'))
+            ->viaTable('user_conversations', array('user_id' => 'id'));
+    }
+
     public function beforeSave($insert) {
         if ($this->isNewRecord)
         {
