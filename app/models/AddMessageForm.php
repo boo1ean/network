@@ -21,11 +21,6 @@ class AddMessageForm extends Message
         );
     }
 
-    public function beforeValidate() {
-        $this->user_id = Yii::$app->getUser()->id;
-        return true;
-    }
-
     public function addMessage() {
         if ($this->validate()) {
             $this->save();

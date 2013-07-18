@@ -34,4 +34,13 @@ class Conversation extends ActiveRecord
         return $this->hasMany('User', array('id' => 'user_id'))
             ->viaTable('user_conversations', array('conversation_id' => 'id'));
     }
+
+    public function isConversationMember($user_id)
+    {
+        $user = $this->hasMany('User', array('id' => 'user_id'))
+            ->viaTable('user_conversations', array('conversation_id' => 'id'))
+            ->where('id =' . $user_id)
+            ->one();
+        return !empty($user);
+    }
 }

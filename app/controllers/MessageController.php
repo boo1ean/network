@@ -35,10 +35,7 @@ class MessageController extends Controller
     }
 
     public function actionIndex() {
-        // Send message
-        //$this->messageText = "Some message text";
-        //$this->trigger(self::EVENT_SEND_MESSAGE);
-
+        // Show all users conversations
         // TODO: replace find()->all() to findConversationsByUser() when it will be implemented
         $conversations = Conversation::find()->all();
         return $this->render('conversations', array('conversations' => $conversations));
@@ -52,18 +49,24 @@ class MessageController extends Controller
             return Yii::$app->getResponse()->redirect('message');
         }
 
-        // Create new form object and set conversation id
+        // Get conversation and check if current user belongs to it
+        // If user is not member of conversation redirect him
+        $conversation = Conversation::find($id);
+        if(!($conversation -> isConversationMember(Yii::$app->getUser()->id))) {
+            return Yii::$app->getResponse()->redirect('message');
+        }
+
+        // Create new form object, set conversation and user id
         $addMessageForm = new AddMessageForm();
         $addMessageForm->conversation_id = $id;
+        $addMessageForm->user_id = Yii::$app->getUser()->id;
 
          // If data was successfully loaded
         if ($addMessageForm->load($_POST) && $addMessageForm->addMessage()) {
             return Yii::$app->getResponse()->redirect('message/conversation/' . $id);
         } else {
-            $conversation = Conversation::find($id);
             $messages = $conversation->messages;
             return $this->render('messages', array(
-                'conversationId'    => $id,
                 'conversationTitle' => $conversation->title,
                 'messages'          => $messages,
                 'model'             => $addMessageForm,
