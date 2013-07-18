@@ -1,6 +1,7 @@
 <?php
 use Codeception\Util\Stub;
 use \yii\helpers\SecurityHelper;
+use \app\models\User;
 
 class UserTest extends \Codeception\TestCase\Test
 {
@@ -23,7 +24,7 @@ class UserTest extends \Codeception\TestCase\Test
     protected function _before()
     {
         // Create user
-        $this->user = new \app\models\User();
+        $this->user = new User();
         $this->user->email = self::EMAIL;
         $this->user->password = self::PASSWORD;
         $this->user->first_name = self::FIRST_NAME;
@@ -37,8 +38,27 @@ class UserTest extends \Codeception\TestCase\Test
         $this->user->delete();
     }
 
-    public function testSettings()
-    {
+    public function testGetId() {
+
+        // Get user by email
+        $user = User::findByEmail(self::EMAIL);
+        $this->assertEquals($user->id, $this->user->getId());
+    }
+
+    public function testFind() {
+
+        // Test findByEmail
+        $user = User::findByEmail(self::EMAIL);
+        $this->assertEquals($this->user->id, $user->id);
+        $this->assertEquals(self::EMAIL, $user->email);
+
+        // Test findIdentity
+        $user = User::findIdentity($this->user->id);
+        $this->assertEquals($this->user->id, $user->id);
+        $this->assertEquals(self::EMAIL, $user->email);
+    }
+
+    public function testSettings() {
         // Get empty array by default (beforeSave)
         $setting = $this->user->setting;
         $this->assertEquals(array(), $setting);
