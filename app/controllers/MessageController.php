@@ -21,7 +21,12 @@ class MessageController extends Controller
             return Yii::$app->getResponse()->redirect('@www/');
         }
 
-        // Add event handler and
+        /* Add event handler
+         *
+         * Use example:
+         * $this->messageText = "Some message text";
+         * $this->trigger(self::EVENT_SEND_MESSAGE);
+         */
         $this->on(self::EVENT_SEND_MESSAGE, array($this, 'sendMessageHandler'));
         return parent::beforeAction($action);
     }
