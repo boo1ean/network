@@ -29,7 +29,8 @@ return array(
 
             'rules' => array(
                 '/' => 'site/index',
-                '/message/conversation/<id:\d+>' => 'message/conversation'
+                '/message/conversation/<id:\d+>' => 'message/conversation',
+                '/message/members/<id:\d+>' => 'message/members'
             )
         ),
 
