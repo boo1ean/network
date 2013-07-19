@@ -36,6 +36,17 @@ class Conversation extends ActiveRecord
     }
 
     /**
+     * @return array of users don't participate in conversation
+     */
+    public function getNotUsers() {
+        foreach($this->users as $user)
+            $id[] = $user->id;
+        return User::find()
+            ->where(array('not in', 'id', $id))
+            ->all();
+    }
+
+    /**
      * @param $user_id
      * @return bool true if user is a member of conversation, false - if not
      */
