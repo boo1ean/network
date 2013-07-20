@@ -9,19 +9,17 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-echo '<h1>' . $conversationTitle . '</h1>';
+echo '<h1>' . Html::a($conversationTitle, 'message/conversation/' . $conversationId) . '</h1>';
 echo '<b> Members: ';
 foreach ($conversationMembers as $member) {
     echo $member->first_name . ' ' . $member->last_name . ', ';
 }
 echo '</b><hr>';
 $members = array();
-$options = array();
-foreach($otherUsers as $user) {
-    $members[]  = $user->first_name . ' ' . $user->last_name . ' (' . $user->email . ')';
-    $options[] = $user->id;
+foreach($unsubscribedUsers as $user) {
+    $members[$user->id] = $user->first_name . ' ' . $user->last_name . ' (' . $user->email . ')';
 }
 $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));
-echo Html::checkboxList('members', null, $members, $options);
-echo Html::submitButton('Ok', array('class' => 'btn btn-success'));
+echo Html::checkboxList('members', null, $members, null);
+echo Html::submitButton('Invite', array('class' => 'btn btn-success'));
 ActiveForm::end();

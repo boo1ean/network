@@ -97,11 +97,16 @@ class MessageController extends Controller
             return Yii::$app->getResponse()->redirect('message');
         }
         $conversation = Conversation::find($id);
+
+        if(Yii::$app->getRequest()->getIsPost()) {
+            $conversation->addSubscribed($_POST['members']);
+            return Yii::$app->getResponse()->redirect('message/conversation/' . $id);
+        }
         return $this->render('members', array(
             'conversationId'        => $conversation->id,
             'conversationTitle'     => $conversation->title,
             'conversationMembers'   => $conversation->users,
-            'otherUsers'            => $conversation->notUsers
+            'unsubscribedUsers'     => $conversation->unsubscribedUsers,
         ));
 
     }
