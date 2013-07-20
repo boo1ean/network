@@ -44,7 +44,12 @@ return array(
             'smtpLogin'         => 'binary-network@aivus.name',
             'smtpPassword'      => 'nf38i2949g2obngp',
             'smtpEncryption'    => 'tls'
-        )
+        ),
+
+        'async' => array(
+            'class'     => 'app\components\Async',
+            'servers'   => array(),         // array('127.0.0.1' => 12345, '127.0.0.2' => 12346)
+        ),
     ),
 
     'params' => $params
