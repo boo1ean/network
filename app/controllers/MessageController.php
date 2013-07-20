@@ -56,7 +56,7 @@ class MessageController extends Controller
     // Check user rights to access conversation
     private function checkAccess($id) {
         // If function called without parameters
-        if(!isset($id) || Conversation::find($id) == NULL) {
+        if(!isset($id)) {
             return false;
         }
         // Get conversation and check if current user belongs to it
