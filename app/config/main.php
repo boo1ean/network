@@ -3,7 +3,14 @@ $params = require(__DIR__ . '/params.php');
 return array(
     'id'       => 'bootstrap',
     'basePath' => dirname(__DIR__),
-    'preload'  => array('log'),
+    'preload'  => array('log', 'debug'),
+
+    'modules' => array(
+        'debug' => array(
+            'class' => 'yii\debug\Module',
+            'enabled' => YII_DEBUG && YII_ENV === 'dev',
+        ),
+    ),
 
     'components' => array(
         'cache' => array(
@@ -30,7 +37,8 @@ return array(
             'rules' => array(
                 '/' => 'site/index',
                 '/auth/login/<email:[^\s]+>/<password_hash:[^\s]+>' => 'auth/login',
-                '/message/conversation/<id:\d+>' => 'message/conversation'
+                '/message/conversation/<id:\d+>' => 'message/conversation',
+                '/message/members/<id:\d+>' => 'message/members'
             )
         ),
 
@@ -45,7 +53,12 @@ return array(
             'smtpLogin'         => 'binary-network@aivus.name',
             'smtpPassword'      => 'nf38i2949g2obngp',
             'smtpEncryption'    => 'tls'
-        )
+        ),
+
+        'async' => array(
+            'class'     => 'app\components\Async',
+            'servers'   => array(),         // array('127.0.0.1' => 12345, '127.0.0.2' => 12346)
+        ),
     ),
 
     'params' => $params

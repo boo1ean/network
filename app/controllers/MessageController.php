@@ -53,21 +53,26 @@ class MessageController extends Controller
         ));
 
     }
+    // Check user rights to access conversation
+    private function checkAccess($id) {
+        // If function called without parameters
+        if(!isset($id)) {
+            return false;
+        }
+        // Get conversation and check if current user belongs to it
+        $conversation = Conversation::find($id);
+        if(empty($conversation) || !($conversation -> isConversationMember(Yii::$app->getUser()->getIdentity()->id))) {
+            return false;
+        }
+        return true;
+    }
 
     public function actionConversation($id = NULL) {
 
-        // If function called without parameters
-        if(!isset($id) || Conversation::find($id) == NULL) {
+        if(!$this->checkAccess($id)) {
             return Yii::$app->getResponse()->redirect('message');
         }
-
-        // Get conversation and check if current user belongs to it
-        // If user is not member of conversation redirect him
         $conversation = Conversation::find($id);
-        if(!($conversation -> isConversationMember(Yii::$app->getUser()->getIdentity()->id))) {
-            return Yii::$app->getResponse()->redirect('message');
-        }
-
         // Create new form object, set conversation and user id
         $addMessageForm = new AddMessageForm();
         $addMessageForm->conversation_id = $id;
@@ -77,12 +82,32 @@ class MessageController extends Controller
         if ($addMessageForm->load($_POST) && $addMessageForm->addMessage()) {
             return Yii::$app->getResponse()->redirect('message/conversation/' . $id);
         } else {
-            $messages = $conversation->messages;
             return $this->render('messages', array(
-                'conversationTitle' => $conversation->title,
-                'messages'          => $messages,
-                'model'             => $addMessageForm,
+                'conversationId'        => $conversation->id,
+                'conversationTitle'     => $conversation->title,
+                'conversationMembers'   => $conversation->users,
+                'messages'              => $conversation->messages,
+                'model'                 => $addMessageForm,
             ));
         }
+    }
+
+    public function actionMembers($id = NULL){
+        if(!isset($id) || !$this->checkAccess($id)) {
+            return Yii::$app->getResponse()->redirect('message');
+        }
+        $conversation = Conversation::find($id);
+
+        if(Yii::$app->getRequest()->getIsPost() && isset($_POST['members'])) {
+            $conversation->addSubscribed($_POST['members']);
+            return Yii::$app->getResponse()->redirect('message/conversation/' . $id);
+        }
+        return $this->render('members', array(
+            'conversationId'        => $conversation->id,
+            'conversationTitle'     => $conversation->title,
+            'conversationMembers'   => $conversation->users,
+            'unsubscribedUsers'     => $conversation->unsubscribedUsers,
+        ));
+
     }
 }

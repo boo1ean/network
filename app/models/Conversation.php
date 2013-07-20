@@ -36,6 +36,23 @@ class Conversation extends ActiveRecord
     }
 
     /**
+     * @return array of users don't participate in conversation
+     */
+    public function getUnsubscribedUsers() {
+        foreach($this->users as $user)
+            $id[] = $user->id;
+        return User::find()
+            ->where(array('not in', 'id', $id))
+            ->all();
+    }
+
+    public function addSubscribed($idArray) {
+        foreach($idArray as $key => $userId) {
+            $this->link('users', User::find($userId));
+        }
+    }
+
+    /**
      * @param $user_id
      * @return bool true if user is a member of conversation, false - if not
      */

@@ -10,13 +10,18 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 echo '<h1>' . $conversationTitle . '</h1>';
+echo '<b> Members: ';
+foreach ($conversationMembers as $member) {
+    echo $member->first_name . ' ' . $member->last_name . ', ';
+}
+echo '</b>'. Html::a('New member', 'message/members/' . $conversationId).'<hr>';
 
 
 foreach ($messages as $message)
 {
     echo '<div>';
     if($message->user->first_name || $message->user->last_name) {
-        echo '<b> Author: ' . $message->user->first_name . ' ' . $message->user->last_name . '</b><br>';
+        echo '<u> Author: ' . $message->user->first_name . ' ' . $message->user->last_name . '</u><br>';
     }
     echo '<p> ' . $message->body . '</p>';
 }
