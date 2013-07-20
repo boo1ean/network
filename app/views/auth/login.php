@@ -7,7 +7,10 @@ use yii\widgets\Captcha;
 <?php
 $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));
 echo $form->field($model, 'email')->textInput();
-echo $form->field($model, 'password')->passwordInput();
+if(isset($model['password_hash']))
+    echo $form->field($model, 'password_hash')->passwordInput();
+else
+    echo $form->field($model, 'password')->passwordInput();
 //echo $form->field($model, 'captcha')->widget(Captcha::className(), array('options' => array('class' => 'input-small'), 'template' => "{input}<br>{image}", 'captchaAction' => 'auth/captcha'));
 ?>
 <div class="control-group">

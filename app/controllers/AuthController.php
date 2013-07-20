@@ -16,16 +16,26 @@ class AuthController extends Controller
         );
     }
 
-
-    public function actionLogin() {
-
+    /**
+     * logging in users
+     * @param string $email, when the user clicked on the link invitational
+     * @param string $password_hash, when the user clicked on the link invitational
+     * @return view
+     */
+    public function actionLogin($email = '', $password_hash = '') {
         // Redirect for logged users.
-        if(!Yii::$app->getUser()->getIsGuest()) {
+        if(!Yii::$app->getUser()->getIsGuest())
             return Yii::$app->getResponse()->redirect('@www/');
-        }
 
         $loginForm = new LoginForm();
-        if ($loginForm->load($_POST) && $loginForm->login()) {
+        $isGet = !empty($email) && !empty($password_hash);
+        if($isGet) {
+            $loginForm->email = $email;
+            $loginForm->password_hash = $password_hash;
+            $loginForm->scenario = 'onInvite';
+        }
+
+        if (($isGet || $loginForm->load($_POST)) && $loginForm->login()) {
             return Yii::$app->getResponse()->redirect('@www/');
         } else {
             return $this->render('login', array('model' => $loginForm));

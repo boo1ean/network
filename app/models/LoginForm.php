@@ -29,6 +29,11 @@ class LoginForm extends Model
     public $password;
 
     /**
+     * @var string Password_hash for login with invite
+     */
+    public $password_hash;
+
+    /**
      * @var string Captcha for login
      */
     public $captcha;
@@ -42,7 +47,19 @@ class LoginForm extends Model
             array('email', 'email'),
             array('email', 'validateEmail'),
             array('password', 'validatePassword'),
+            array('password_hash', 'validatePasswordHash'),
             //array('captcha', 'captcha', 'captchaAction' => 'auth/captcha'),
+        );
+    }
+
+    /**
+     * @return scenarios array
+     */
+    public function scenarios()
+    {
+        return array(
+            'default' => array('email', 'password'),
+            'onInvite' => array('email', 'password_hash')
         );
     }
 
@@ -66,6 +83,15 @@ class LoginForm extends Model
         if (!$user || !$user->validatePassword($this->password)) {
             $this->addError('password', 'Incorrect password');
         }
+    }
+
+    /**
+     * Validation password hash
+     */
+    public function validatePasswordHash() {
+        $user = User::findByEmail($this->email);
+        if (!$user || $this->password_hash != $user->password)
+            $this->addError('password_hash', 'Incorrect password hash in the invite token');
     }
 
     public function login() {

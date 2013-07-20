@@ -29,6 +29,7 @@ return array(
 
             'rules' => array(
                 '/' => 'site/index',
+                '/auth/login/<email:[^\s]+>/<password_hash:[^\s]+>' => 'auth/login',
                 '/message/conversation/<id:\d+>' => 'message/conversation'
             )
         ),
