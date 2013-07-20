@@ -92,8 +92,8 @@ class MessageController extends Controller
         }
     }
 
-    public function actionMembers($id){
-        if(!$this->checkAccess($id)) {
+    public function actionMembers($id = NULL){
+        if(!isset($id) || !$this->checkAccess($id)) {
             return Yii::$app->getResponse()->redirect('message');
         }
         $conversation = Conversation::find($id);
