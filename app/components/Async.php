@@ -4,6 +4,7 @@ namespace app\components;
 
 
 use yii\base\Component;
+use yii\base\InvalidConfigException;
 
 class Async extends Component
 {
@@ -23,6 +24,11 @@ class Async extends Component
      * given configuration.
      */
     public function init() {
+
+        if (!function_exists('gearman_version')) {
+            throw new InvalidConfigException("Could not found Gearman php extension.");
+        }
+
         $this->gearmanClient = new \GearmanClient();
 
         if (empty($this->servers)) {
