@@ -17,19 +17,18 @@ class UserTest extends \Codeception\TestCase\Test
     private $user;
 
     // Default const
-    const PASSWORD      = "TestPassword";
-    const FIRST_NAME    = "User_Firstname";
-    const LAST_NAME     = "User_Lastname";
+    private static $password;
 
     protected function _before()
     {
         $faker = Faker\Factory::create();
+        self::$password = str_replace('/', '-', User::hashPassword($faker->word));
         // Create user
         $this->user = new User();
         $this->user->email = $faker->email;
-        $this->user->password = self::PASSWORD;
-        $this->user->first_name = self::FIRST_NAME;
-        $this->user->last_name = self::LAST_NAME;
+        $this->user->password = self::$password;
+        $this->user->first_name = $faker->firstname;
+        $this->user->last_name = $faker->lastname;
         $this->user->save();
     }
 
@@ -83,8 +82,8 @@ class UserTest extends \Codeception\TestCase\Test
 
     public function testValidatePassword() {
         // Check User::validatePassword
-        $this->assertTrue($this->user->validatePassword(self::PASSWORD));
-        $this->assertTrue(Security::validatePassword(self::PASSWORD, $this->user->password));
+        $this->assertTrue($this->user->validatePassword(self::$password));
+        $this->assertTrue(Security::validatePassword(self::$password, str_replace('-','/',$this->user->password)));
     }
 
 }
