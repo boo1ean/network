@@ -2,6 +2,7 @@
 use Codeception\Util\Stub;
 use \yii\helpers\Security;
 use \app\models\User;
+use Faker\autoload;
 
 class UserTest extends \Codeception\TestCase\Test
 {
@@ -16,16 +17,16 @@ class UserTest extends \Codeception\TestCase\Test
     private $user;
 
     // Default const
-    const EMAIL         = "email@example.com";
     const PASSWORD      = "TestPassword";
     const FIRST_NAME    = "User_Firstname";
     const LAST_NAME     = "User_Lastname";
 
     protected function _before()
     {
+        $faker = Faker\Factory::create();
         // Create user
         $this->user = new User();
-        $this->user->email = self::EMAIL;
+        $this->user->email = $faker->email;
         $this->user->password = self::PASSWORD;
         $this->user->first_name = self::FIRST_NAME;
         $this->user->last_name = self::LAST_NAME;
@@ -41,21 +42,21 @@ class UserTest extends \Codeception\TestCase\Test
     public function testGetId() {
 
         // Get user by email
-        $user = User::findByEmail(self::EMAIL);
+        $user = User::findByEmail($this->user->email);
         $this->assertEquals($user->id, $this->user->getId());
     }
 
     public function testFind() {
 
         // Test findByEmail
-        $user = User::findByEmail(self::EMAIL);
+        $user = User::findByEmail($this->user->email);
         $this->assertEquals($this->user->id, $user->id);
-        $this->assertEquals(self::EMAIL, $user->email);
+        $this->assertEquals($this->user->email, $user->email);
 
         // Test findIdentity
         $user = User::findIdentity($this->user->id);
         $this->assertEquals($this->user->id, $user->id);
-        $this->assertEquals(self::EMAIL, $user->email);
+        $this->assertEquals($this->user->email, $user->email);
     }
 
     public function testSettings() {
