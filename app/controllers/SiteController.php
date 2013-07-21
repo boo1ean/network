@@ -22,10 +22,4 @@ class SiteController extends Controller
 
         return 'Successfully sent ' . $sent . ' messages.';
     }
-
-    public function actionTest($test)
-    {
-        echo $test;
-    }
-
 }
