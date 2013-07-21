@@ -63,4 +63,17 @@ class Conversation extends ActiveRecord
             ->one();
         return !empty($user);
     }
+
+    /**
+     * @return bool value, true if conversation is private, false if not
+     */
+    public function isPrivate() {
+        $usersCount = count($this->users);
+        if ($usersCount <= 2) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 }
