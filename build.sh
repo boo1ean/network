@@ -12,6 +12,9 @@ BUILD_PATH="$HUDSON_HOME/jobs/$PROMOTED_JOB_NAME/builds/$PROMOTED_NUMBER/artifac
 BUILD_FILE="binary-network-$PROMOTED_NUMBER.tar.gz"
 BUILD_FULL_PATH="$BUILD_PATH/$BUILD_FILE"
 
+# Check on success build
+[ ! -f $BUILD_FULL_PATH ] && exit 1
+
 # Clean up deploy dir
 rm -rf $DEPL_FULL_PATH
 mkdir $DEPL_FULL_PATH
