@@ -22,7 +22,7 @@ class UserTest extends \Codeception\TestCase\Test
     protected function _before()
     {
         $faker = Faker\Factory::create();
-        self::$password = str_replace('/', '-', User::hashPassword($faker->word));
+        self::$password = User::hashPassword($faker->word);
         // Create user
         $this->user = new User();
         $this->user->email = $faker->email;
@@ -83,7 +83,7 @@ class UserTest extends \Codeception\TestCase\Test
     public function testValidatePassword() {
         // Check User::validatePassword
         $this->assertTrue($this->user->validatePassword(self::$password));
-        $this->assertTrue(Security::validatePassword(self::$password, str_replace('-','/',$this->user->password)));
+        $this->assertTrue(Security::validatePassword(self::$password, $this->user->password));
     }
 
 }

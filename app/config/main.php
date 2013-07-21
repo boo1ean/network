@@ -37,7 +37,7 @@ return array(
             'rules' => array(
                 '/' => 'site/index',
                 '/site/test/<test:.+>' => 'site/test',
-                '/auth/registration/<email:[^\s]+>/<password_hash:[^\s]+>' => 'auth/registration',
+                '/auth/registration/<email:[^\s]+?>/<password_hash:[^\s]+>' => 'auth/registration',
                 '/message/conversation/<id:\d+>' => 'message/conversation',
                 '/message/members/<id:\d+>' => 'message/members'
             )
