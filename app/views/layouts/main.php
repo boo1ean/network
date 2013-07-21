@@ -20,7 +20,7 @@ if ($guest) {
     $items[] = array('label' => 'Login', 'url' => array('/auth/login'));
     $items[] = array('label' => 'Registration', 'url' => array('/auth/registration'));
 } else {
-    $items[] = array('label' => 'Messages', 'url' => array('/message/conversation'));
+    $items[] = array('label' => 'Messages', 'url' => array('/message/conversation'), 'active' => Yii::$app->controller->id == 'message');
     $items[] = array('label' => 'Logout', 'url' => array('/auth/logout'));
 }
 
