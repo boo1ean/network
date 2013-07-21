@@ -46,6 +46,10 @@ class Conversation extends ActiveRecord
             ->all();
     }
 
+    /**
+     * Add rows in user_conversations table which links new users to current conversation
+     * @param $idArray array of id to subscribe
+     */
     public function addSubscribed($idArray) {
         foreach($idArray as $key => $userId) {
             $this->link('users', User::find($userId));
@@ -75,5 +79,20 @@ class Conversation extends ActiveRecord
             return false;
         }
 
+    }
+
+    /**
+     * Creates a copy of conversation with its members
+     * @return mixed id of new record
+     */
+    public function copy() {
+        $newConversation = new Conversation(array(
+            'title' => $this->title,
+        ));
+        $newConversation->save();
+        foreach($this->users as $user) {
+            $newConversation->link('users', $user);
+        }
+        return $newConversation->id;
     }
 }
