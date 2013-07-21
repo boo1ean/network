@@ -97,8 +97,10 @@ class MessageController extends Controller
             return Yii::$app->getResponse()->redirect('message');
         }
         $conversation = Conversation::find($id);
-
         if(Yii::$app->getRequest()->getIsPost() && isset($_POST['members'])) {
+            if ($conversation->isPrivate()) {
+                $conversation = $conversation->copy();
+            }
             $conversation->addSubscribed($_POST['members']);
             return Yii::$app->getResponse()->redirect('message/conversation/' . $id);
         }

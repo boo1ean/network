@@ -83,7 +83,7 @@ class Conversation extends ActiveRecord
 
     /**
      * Creates a copy of conversation with its members
-     * @return mixed id of new record
+     * @return Conversation new conversation
      */
     public function copy() {
         $newConversation = new Conversation(array(
@@ -93,6 +93,6 @@ class Conversation extends ActiveRecord
         foreach($this->users as $user) {
             $newConversation->link('users', $user);
         }
-        return $newConversation->id;
+        return $newConversation;
     }
 }
