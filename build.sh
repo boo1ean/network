@@ -13,7 +13,7 @@ BUILD_FILE="binary-network-$PROMOTED_NUMBER.tar.gz"
 BUILD_FULL_PATH="$BUILD_PATH/$BUILD_FILE"
 
 # Check on success build
-[ ! -f $BUILD_FULL_PATH ] && exit 1
+[ ! -f $BUILD_FULL_PATH ] && echo "Build archive not found. Aborted!" && exit 1
 
 # Clean up deploy dir
 rm -rf $DEPL_FULL_PATH
