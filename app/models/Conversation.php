@@ -47,13 +47,25 @@ class Conversation extends ActiveRecord
     }
 
     /**
-     * Add rows in user_conversations table which links new users to current conversation
+     * Add subscribed users to conversation
      * @param $idArray array of id to subscribe
      */
     public function addSubscribed($idArray) {
-        foreach($idArray as $key => $userId) {
-            $this->link('users', User::find($userId));
+        $conversation = $this;
+        // If conversation is private and becomes common after users invitation
+        if ($this->isPrivate() && ((count($this->users) + count($idArray)) > 2 )) {
+            if ($this->messages) {
+                $conversation = $this->copyToMultiChat();
+            } else {
+                $conversation->private = 0;
+                $conversation->save();
+                $conversation->refresh();
+            }
         }
+        foreach($idArray as $key => $userId) {
+            $conversation->link('users', User::find($userId));
+        }
+        return $conversation;
     }
 
     /**
@@ -89,6 +101,7 @@ class Conversation extends ActiveRecord
             'private'   => 0,
         ));
         $newConversation->save();
+        $newConversation->refresh();
         foreach($this->users as $user) {
             $newConversation->link('users', $user);
         }

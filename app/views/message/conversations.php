@@ -13,11 +13,8 @@ use yii\widgets\ActiveForm;
 <h1>Conversations</h1>
 
 <?php
-
-$form = ActiveForm::begin(array('options' => array('class' => 'form-inline')));
-echo $form->field($model, 'title')->textInput();
-echo Html::submitButton('New conversation', array('class' => 'btn btn-primary'));
-$form->end();
+// Link for new conversation creation
+echo Html::a('New conversation', 'message/members');
 
 // Print list of conversations
 foreach ($conversations as $conversation) {
