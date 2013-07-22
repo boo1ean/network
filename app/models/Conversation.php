@@ -60,10 +60,10 @@ class Conversation extends ActiveRecord
      * @param $user_id
      * @return bool true if user is a member of conversation, false - if not
      */
-    public function isConversationMember($user_id) {
+    public function isConversationMember($userId) {
         $user = $this->hasMany('User', array('id' => 'user_id'))
             ->viaTable('user_conversations', array('conversation_id' => 'id'))
-            ->where('id = ' . $user_id)
+            ->where('id = ' . $userId)
             ->one();
         return !empty($user);
     }
@@ -72,22 +72,21 @@ class Conversation extends ActiveRecord
      * @return bool value, true if conversation is private, false if not
      */
     public function isPrivate() {
-        $usersCount = count($this->users);
-        if ($usersCount <= 2) {
+        if ($this->private) {
             return true;
         } else {
             return false;
         }
-
     }
 
     /**
      * Creates a copy of conversation with its members
      * @return Conversation new conversation
      */
-    public function copy() {
+    public function copyToMultiChat() {
         $newConversation = new Conversation(array(
-            'title' => $this->title,
+            'title'     => $this->title,
+            'private'   => 0,
         ));
         $newConversation->save();
         foreach($this->users as $user) {
