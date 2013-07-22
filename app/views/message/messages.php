@@ -16,23 +16,25 @@ foreach ($conversationMembers as $member) {
     echo '</li>';
 }
 echo '<li>'. Html::a('Add user +', 'message/members/' . $conversationId, array('class' => 'btn btn-small btn-primary')).'</li></ul>';
-echo '<br><table id="TableOfMessages" class="content">';
+echo '<br><table id="TableOfMessages">';
 foreach ($messages as $message) {
     if($message->user->first_name || $message->user->last_name) {
         echo '<tr><td id="NamesOfUsersInTableOfMessages">' . html::a($message->user->first_name . ' ' . $message->user->last_name, '#', array('class' => 'btn btn-small disabled')).'</td>';
-        echo '<td><p class="message left">' . $message->body . '</p></td></tr>';
+        echo '<td class="MessageCell"><p class="message left">' . $message->body . '</p></td></tr>';
     }
 }
 echo '<tr><td></td><td>';
 $form = ActiveForm::begin(array('options' => array('class' => 'form-inline')));
-echo $form->field($model, 'body')->input('text',array('class' => 'input-xxlarge',
-                                                       'placeholder' => 'Write your message here' ));
-echo Html::submitButton('Send', array('class' => 'btn btn-success'));
-echo '</td></tr></table>';
+echo Html::activeTextInput($model, 'body', array('class' => 'input-xxlarge',
+                                                 'placeholder' => 'Write your message here',
+                                                 'autofocus' => 'true'));
+echo Html::submitButton('Send', array('class' => 'btn btn-info',
+                                       'id' => 'MessageSend'));
 ActiveForm::end();
+echo '</td></tr></table><br>';
 /*
 <form class="form-inline">
-    <input class="input-xxlarge" type="text" placeholder="Write your message here">
+    <input class="input-xlarge" type="text" placeholder="Write your message here">
     <button type="submit" class="btn btn-success">Send</button>
 </form>
 */
