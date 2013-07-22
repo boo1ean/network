@@ -8,6 +8,10 @@ use \yii\helpers\Security;
 
 class User extends ActiveRecord implements Identity
 {
+    // User types (column `type` in db)
+    const TYPE_ADMIN = 0;
+    const TYPE_USER = 1;
+
     public static function tableName() {
         return 'users';
     }

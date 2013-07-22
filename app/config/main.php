@@ -42,6 +42,10 @@ return array(
             )
         ),
 
+        'authManager' => array(
+            'class'     => 'app\components\authManager',
+        ),
+
         'db' => require 'db.php',
 
         'mail' => array(
