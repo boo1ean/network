@@ -80,6 +80,12 @@ class UserTest extends \Codeception\TestCase\Test
 
     }
 
+    // Test default usertype after create
+    public function testUserType() {
+        $user = User::findByEmail($this->user->email);
+        $this->assertEquals(User::TYPE_USER, $user->type);
+    }
+
     public function testValidatePassword() {
         // Check User::validatePassword
         $this->assertTrue($this->user->validatePassword(self::$password));
