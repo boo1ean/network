@@ -40,7 +40,7 @@ class User extends ActiveRecord implements Identity
     }
 
     public function validatePassword($password) {
-        return Security::validatePassword($password, str_replace('-','/',$this->password));
+        return Security::validatePassword($password, $this->password);
     }
 
     public function getSetting() {
@@ -89,7 +89,7 @@ class User extends ActiveRecord implements Identity
     public function beforeSave($insert) {
         if ($this->isNewRecord)
         {
-            $this->password = str_replace('/','-',static::hashPassword($this->password));
+            $this->password = static::hashPassword($this->password);
             $this->settings = serialize(array());
         }
         return parent::beforeSave($insert);

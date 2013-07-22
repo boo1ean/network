@@ -18,37 +18,52 @@ class AuthController extends Controller
 
     /**
      * logging in users
-     * @param string $email, when the user clicked on the link invitational
-     * @param string $password_hash, when the user clicked on the link invitational
      * @return view
      */
-    public function actionLogin($email = '', $password_hash = '') {
+    public function actionLogin() {
         // Redirect for logged users.
         if(!Yii::$app->getUser()->getIsGuest())
             return Yii::$app->getResponse()->redirect('@www/');
 
         $loginForm = new LoginForm();
-        $isGet = !empty($email) && !empty($password_hash);
-        if($isGet) {
-            $loginForm->email = $email;
-            $loginForm->password_hash = $password_hash;
-            $loginForm->scenario = 'onInvite';
-        }
 
-        if (($isGet || $loginForm->load($_POST)) && $loginForm->login()) {
+        if ($loginForm->load($_POST) && $loginForm->login()) {
             return Yii::$app->getResponse()->redirect('@www/');
         } else {
             return $this->render('login', array('model' => $loginForm));
         }
     }
 
-    public function actionRegistration() {
+    /**
+     * registration users
+     * @param string $email, when the user clicked on the link invitational
+     * @param string $password_hash, when the user clicked on the link invitational
+     * @return view
+     */
+    public function actionRegistration($email = '', $password_hash = '') {
         $registrationForm = new RegistrationForm();
 
-        if ($registrationForm->load($_POST) && $registrationForm->registration()) {
+        $isPost = $registrationForm->load($_POST);
+
+        if(!$isPost && (empty($email) || empty($password_hash)))
+            return $this->render('registration', array('message' => 'Sorry guy, registration only on invitation.'));
+
+        $registrationForm->email = $email;
+        $registrationForm->password_hash = $password_hash;
+
+        if(!$isPost)
+            $registrationForm->scenario = 'firstVisit';
+        else
+            $registrationForm->scenario = 'default';
+
+        if ($isPost && $registrationForm->registration()) {
             return Yii::$app->getResponse()->redirect('@www/');
         } else {
-            return $this->render('registration', array('model' => $registrationForm));
+            $registrationForm->validate();
+            if(isset($registrationForm->errors['password_hash']) || isset($registrationForm->errors['email']))
+                return $this->render('registration', array('message' => 'Nice try guy, but you can\'t be registered without invitation.'));
+            else
+                return $this->render('registration', array('model' => $registrationForm));
         }
     }
 

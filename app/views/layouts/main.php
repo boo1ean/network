@@ -20,7 +20,7 @@ if ($guest) {
     $items[] = array('label' => 'Login', 'url' => array('/auth/login'));
     $items[] = array('label' => 'Registration', 'url' => array('/auth/registration'));
 } else {
-    $items[] = array('label' => 'Messages', 'url' => array('/message/conversation'));
+    $items[] = array('label' => 'Messages', 'url' => array('/message/conversation'), 'active' => Yii::$app->controller->id == 'message');
     $items[] = array('label' => 'Logout', 'url' => array('/auth/logout'));
 }
 
@@ -38,9 +38,7 @@ if ($guest) {
     <div class="container">
         <?php $this->beginBody(); ?>
         <div class="masthead">
-            <h3 class="muted">My Company</h3>
-
-            <div class="navbar">
+            <div class="navbar navbar-fixed-top">
                 <div class="navbar-inner">
                     <div class="container">
                         <?php echo Menu::widget(array(
@@ -53,22 +51,30 @@ if ($guest) {
             <!-- /.navbar -->
         </div>
 
-        <?php echo Breadcrumbs::widget(array(
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : array(),
-        )); ?>
+        <div class="main-container">
+            <?php echo Breadcrumbs::widget(array(
+                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : array(),
+            )); ?>
 
-        <?php echo $content; ?>
+            <?php echo $content; ?>
 
-        <hr>
+            <hr>
 
-        <div class="footer">
-            <p>&copy; My Company <?php echo date('Y'); ?></p>
-            <p>
-                <?php echo Yii::powered(); ?>
-                Template by <a href="http://twitter.github.io/bootstrap/">Twitter Bootstrap</a>
-            </p>
+<<<<<<< HEAD
+        <div class="footer, text-center">
+            <p>&copy; <a href="http://binary-studio.com">Binary Studio</a> <?php echo date('Y'); ?></p>
+=======
+            <div class="footer">
+                <p>&copy; My Company <?php echo date('Y'); ?></p>
+                <p>
+                    <?php echo Yii::powered(); ?>
+                    Template by <a href="http://twitter.github.io/bootstrap/">Twitter Bootstrap</a>
+                </p>
+            </div>
+            <?php $this->endBody(); ?>
+>>>>>>> b0b26194ae8746d8ac757b6f6b198d817eb39d72
         </div>
-        <?php $this->endBody(); ?>
+
     </div>
 </body>
 </html>
