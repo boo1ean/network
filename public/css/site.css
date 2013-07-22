@@ -64,7 +64,13 @@
 }
 
 #MessageSend {
-   margin-left: 1em;
+   margin-left: 1.5em;
+}
+
+#MessageForm {
+   margin-left: 3em;
+   resize: none;
+   min-width: 75%;
 }
 
 .main-container {

@@ -25,18 +25,19 @@ foreach ($messages as $message) {
 }
 echo '<tr><td></td><td>';
 $form = ActiveForm::begin(array('options' => array('class' => 'form-inline')));
-echo Html::activeTextInput($model, 'body', array('class' => 'input-xxlarge',
-                                                 'placeholder' => 'Write your message here',
-                                                 'autofocus' => 'true'));
-echo Html::submitButton('Send', array('class' => 'btn btn-info',
-                                       'id' => 'MessageSend'));
+echo Html::activeTextarea($model, 'body', array(
+                                         'placeholder' => 'Write your message here',
+                                         'autofocus'   => 'true',
+                                         'rows' => '2',
+                                         'maxlength' => '100',
+                                         'id' => 'MessageForm'));
+echo Html::submitButton('Send', array(
+                               'class' => 'btn btn-info',
+                               'id' => 'MessageSend'));
 ActiveForm::end();
-echo '</td></tr></table><br>';
-/*
-<form class="form-inline">
-    <input class="input-xlarge" type="text" placeholder="Write your message here">
-    <button type="submit" class="btn btn-success">Send</button>
-</form>
-*/
+echo '</td></tr></table>';
+?>
+
+
 
 
