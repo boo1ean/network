@@ -30,6 +30,7 @@ class UserTest extends \Codeception\TestCase\Test
         $this->user->first_name = $faker->firstname;
         $this->user->last_name = $faker->lastname;
         $this->user->save();
+        $this->user->refresh();
     }
 
     protected function _after()
@@ -80,10 +81,9 @@ class UserTest extends \Codeception\TestCase\Test
 
     }
 
-    // Test default usertype after create
+    // Test default user type after create
     public function testUserType() {
-        $user = User::findByEmail($this->user->email);
-        $this->assertEquals(User::TYPE_USER, $user->type);
+        $this->assertEquals(User::TYPE_USER, $this->user->type);
     }
 
     public function testValidatePassword() {
