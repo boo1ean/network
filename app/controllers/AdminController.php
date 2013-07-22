@@ -17,4 +17,17 @@ class AdminController extends Controller
 
         return $this->render('sendInvite',$param);
     }
+
+    /**
+     * This is temporary function for simplify application testing
+     */
+    public function actionTestInvite()
+    {
+        $adminForm = new AdminForm();
+        $param = array('model' => $adminForm);
+        if ($adminForm->load($_POST))
+            $param['message'] = $adminForm->sendInviteTest();
+
+        return $this->render('sendInvite',$param);
+    }
 }

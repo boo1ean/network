@@ -47,7 +47,7 @@ class AdminForm extends User
     }
 
     /**
-     * Sending message with invite token
+     * Sending message with invitation token
      * @return mixed
      */
     public function sendInvite()
@@ -73,6 +73,28 @@ class AdminForm extends User
             $sent = $mail->send();
 
             return 'Email successfully sent';
+        }
+
+        return false;
+    }
+    /**
+     * This is temporary function for simplify application testing
+     * Creating and returning invitation token
+     * @return mixed
+     */
+    public function sendInviteTest()
+    {
+        if ($this->validate())
+        {
+            // add new user with sent email
+            $this->save();
+
+            // get an auto generated password
+            $query = $this->findByEmail($this->email);
+
+            $urlManager = Yii::$app->getComponent('urlManager');
+            return 'For easy registering new user following '.
+                Html::a('this link', $urlManager->createAbsoluteUrl('/auth/registration/'.$this->email.'/'.$query->password));
         }
 
         return false;
