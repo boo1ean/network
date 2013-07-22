@@ -98,5 +98,15 @@ class User extends ActiveRecord implements Identity
         }
         return parent::beforeSave($insert);
     }
+
+    /**
+     * Find all users except this user
+     * @return array
+     */
+    public function getOtherUsers() {
+        return static::find()
+            ->where('id <> '. $this->id)
+            ->all();
+    }
 }
 
