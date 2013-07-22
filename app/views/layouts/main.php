@@ -60,25 +60,9 @@ if ($guest) {
 
             <hr>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
         <div class="footer, text-center">
             <p>&copy; <a href="http://binary-studio.com">Binary Studio</a> <?php echo date('Y'); ?></p>
-=======
-=======
->>>>>>> b0b26194ae8746d8ac757b6f6b198d817eb39d72
-            <div class="footer">
-                <p>&copy; My Company <?php echo date('Y'); ?></p>
-                <p>
-                    <?php echo Yii::powered(); ?>
-                    Template by <a href="http://twitter.github.io/bootstrap/">Twitter Bootstrap</a>
-                </p>
-            </div>
             <?php $this->endBody(); ?>
-<<<<<<< HEAD
->>>>>>> b0b26194ae8746d8ac757b6f6b198d817eb39d72
-=======
->>>>>>> b0b26194ae8746d8ac757b6f6b198d817eb39d72
         </div>
 
     </div>
