@@ -43,7 +43,7 @@ class AuthController extends Controller
         $editProfileForm = new EditProfileForm();
 
         if ($editProfileForm->load($_POST) && $editProfileForm->save()) {
-            return Yii::$app->getResponse()->redirect('@www/');
+            return $this->render('edit', array('model' => $editProfileForm, 'message' => 'Well done! You successfully update your profile.'));
         } else {
             return $this->render('edit', array('model' => $editProfileForm));
         }

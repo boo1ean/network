@@ -10,6 +10,13 @@ use yii;
 
 <h1>Edit profile</h1>
 
+    <ul class="nav nav-pills">
+        <li class="active">
+            <a href="#">Profile</a>
+        </li>
+        <li><a href="#">Settings</a></li>
+    </ul>
+
 <?php
 
     echo '<br/>';
@@ -31,6 +38,15 @@ use yii;
     <div class="controls">
         <?php echo Html::submitButton('Save', array('class' => 'btn btn-primary')); ?>
     </div>
+
+    <br/>
+
+<?php
+    if(isset($message)) {
+        echo Html::tag('div class="alert alert-success"', $message);
+        echo Html::tag('/div');
+    }
+?>
 
 <?php
 
