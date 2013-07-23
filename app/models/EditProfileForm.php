@@ -6,18 +6,18 @@ use Yii;
 use yii\base\Model;
 
 /**
- * Class RegistrationForm for registration form
+ * Class EditProfileForm
  * @package app\models
  */
 class EditProfileForm extends User
 {
     /**
-     * @var string Password_hash for registration with invite
+     * @var string Password_hash
      */
     public $password_hash;
 
     /**
-     * @var string Repeat_password for registration
+     * @var string Repeat_password
      */
     public $repeat_password;
 

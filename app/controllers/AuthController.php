@@ -4,6 +4,7 @@ namespace app\controllers;
 use app\models\LoginForm;
 use app\models\RegistrationForm;
 use app\models\EditProfileForm;
+use app\models\SettingsForm;
 use Yii;
 use yii\web\Controller;
 
