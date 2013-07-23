@@ -26,7 +26,7 @@ class EditProfileForm extends User
      */
     public function rules() {
         return array(
-            array('email, password, repeat_password', 'required'),
+            array('email', 'required'),
             array('email', 'email'),
             array('password_hash', 'validatePasswordHash'),
             array('repeat_password', 'compare', 'compareAttribute'=>'password')
@@ -73,10 +73,13 @@ class EditProfileForm extends User
                 $user->addSetting('sendNotifications','no');
             }
 
+            if($this->password != "")   {
+                $user->password = $this->hashPassword($this->password);
+            }
+
             $user->email = $this->email;
             $user->first_name = $this->first_name;
             $user->last_name = $this->last_name;
-            $user->password = $this->hashPassword($this->password);
             $user->save();
             return true;
         }

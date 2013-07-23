@@ -40,7 +40,7 @@ use yii;
                 echo Html::checkbox('send_notifications', false);
             }
             else {
-                echo Html::checkbox('send_notifications', true);
+                echo Html::checkbox('send_notifications', false);
             }
 
             echo ' Send notifications on email when someone send me a private message';
