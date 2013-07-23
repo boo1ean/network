@@ -19,6 +19,7 @@ use yii;
     $email = Yii::$app->getUser()->getIdentity()->email;
     $first_name = Yii::$app->getUser()->getIdentity()->first_name;
     $last_name = Yii::$app->getUser()->getIdentity()->last_name;
+    $notifications = Yii::$app->getUser()->getIdentity()->searchSetting('sendNotifications');
 
     echo $form->field($model, 'email')->textInput(array('value' => $email));
     echo $form->field($model, 'password')->passwordInput(array('placeholder' => 'Enter new password'));
@@ -29,16 +30,39 @@ use yii;
 ?>
 
     <div class="controls">
+
+        <?php
+
+            if ($notifications == 'yes') {
+                echo Html::checkbox('send_notifications', true);
+            }
+            else if ($notifications == 'no') {
+                echo Html::checkbox('send_notifications', false);
+            }
+            else {
+                echo Html::checkbox('send_notifications', true);
+            }
+
+            echo ' Send notifications on email when someone send me a private message';
+        ?>
+
+    </div>
+
+    <br/><br/>
+
+    <div class="controls">
         <?php echo Html::submitButton('Save', array('class' => 'btn btn-primary')); ?>
     </div>
 
     <br/>
 
 <?php
+
     if(isset($message)) {
         echo Html::tag('div class="alert alert-success"', $message);
         echo Html::tag('/div');
     }
+
 ?>
 
 <?php

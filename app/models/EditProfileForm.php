@@ -28,7 +28,6 @@ class EditProfileForm extends User
         return array(
             array('email, password, repeat_password', 'required'),
             array('email', 'email'),
-            array('email', 'validateEmail'),
             array('password_hash', 'validatePasswordHash'),
             array('repeat_password', 'compare', 'compareAttribute'=>'password')
         );
@@ -62,6 +61,19 @@ class EditProfileForm extends User
         if ($this->validate()) {
             $user = User::findByEmail($this->email);
 
+            if(!$user) {
+                $old_email = Yii::$app->getUser()->getIdentity()->email;
+                $user = User::findByEmail($old_email);
+            }
+
+            if(isset($_POST['send_notifications'])) {
+                $user->addSetting('sendNotifications','yes');
+            }
+            else {
+                $user->addSetting('sendNotifications','no');
+            }
+
+            $user->email = $this->email;
             $user->first_name = $this->first_name;
             $user->last_name = $this->last_name;
             $user->password = $this->hashPassword($this->password);
