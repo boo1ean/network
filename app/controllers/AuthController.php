@@ -3,6 +3,7 @@ namespace app\controllers;
 
 use app\models\LoginForm;
 use app\models\RegistrationForm;
+use app\models\EditProfileForm;
 use Yii;
 use yii\web\Controller;
 
@@ -31,6 +32,20 @@ class AuthController extends Controller
             return Yii::$app->getResponse()->redirect('@www/');
         } else {
             return $this->render('login', array('model' => $loginForm));
+        }
+    }
+
+    /**
+     * edit user's profile
+     * @return view
+     */
+    public function actionEdit() {
+        $editProfileForm = new EditProfileForm();
+
+        if ($editProfileForm->load($_POST) && $editProfileForm->save()) {
+            return Yii::$app->getResponse()->redirect('@www/');
+        } else {
+            return $this->render('edit', array('model' => $editProfileForm));
         }
     }
 
