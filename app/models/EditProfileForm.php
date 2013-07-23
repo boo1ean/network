@@ -57,7 +57,7 @@ class EditProfileForm extends User
             $this->addError('password_hash', 'Incorrect password hash in the invite token');
     }
 
-    public function save() {
+    public function saveProfile() {
         if ($this->validate()) {
             $user = User::findByEmail($this->email);
 

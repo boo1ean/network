@@ -43,7 +43,7 @@ class AuthController extends Controller
     public function actionEdit() {
         $editProfileForm = new EditProfileForm();
 
-        if ($editProfileForm->load($_POST) && $editProfileForm->save()) {
+        if ($editProfileForm->load($_POST) && $editProfileForm->saveProfile()) {
             return $this->render('edit', array('model' => $editProfileForm, 'message' => 'Well done! You successfully update your profile.'));
         } else {
             return $this->render('edit', array('model' => $editProfileForm));
