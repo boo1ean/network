@@ -28,7 +28,6 @@ class Fixtures extends Component
         $fakeUser->save();
     }
 
-
     /**
      * Generates users
      * @param integer $number number of users to generate
@@ -38,7 +37,7 @@ class Fixtures extends Component
             $this->generateUser();
         }
     }
-    
+        
      /**
      * Generates comversation
      */
@@ -48,8 +47,28 @@ class Fixtures extends Component
         $fakeConversation->title = $this->faker->word . 'Conversation';
         $fakeConversation->save(); 
         
+        /*Generate number of fake user*/
+        $allUsers = User::find()
+                ->all();
+        $numFakeUser = rand(0, count($allUsers)-1);
+        /*----------------------------*/
         
+        $userToSubscribe = User::find()
+                ->where(array('id'=>$allUsers[$numFakeUser]->id))
+                ->one();
+                
+        $fakeConversation->link('users', $userToSubscribe);
     }     
+    
+        /**
+     * Generates conversations
+     * @param integer $number number of conversations to generate
+     */
+    public function generateConversations($number) {
+        for( $i = 0; $i < $number; $i++) {
+            $this->generateConversation();
+        }
+    }
     
     /**
      * Generates message
@@ -66,14 +85,24 @@ class Fixtures extends Component
         $fakeMessage->user_id = $allUsers[$numFakeUser]->id;
                 
         /*Generate number of fake conversation*/
-        $allConversation = Conversation::find()
+        $allConversations = Conversation::find()
                 ->all();
-        $numFakeConversation = rand(0, count($allConversation)-1);
+        $numFakeConversation = rand(0, count($allConversations)-1);
         /*----------------------------*/
         
-        $fakeMessage->conversation_id = $allConversation[$numFakeUser]->id;
+        $fakeMessage->conversation_id = $allConversations[$numFakeUser]->id;
              
         $fakeMessage->body = $this->faker->text;
         $fakeMessage->save();
+    }
+    
+            /**
+     * Generates messages
+     * @param integer $number number of messages to generate
+     */
+    public function generateMessages($number) {
+        for( $i = 0; $i < $number; $i++) {
+            $this->generateMessage();
+        }
     }
 }
