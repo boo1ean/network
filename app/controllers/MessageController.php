@@ -2,12 +2,10 @@
 
 namespace app\controllers;
 
-use app\models\AddMessageForm;
-use app\models\AddConversationForm;
 use yii;
 use yii\web\Controller;
 use app\models\Conversation;
-use app\models\User;
+use app\models\Message;
 
 class MessageController extends Controller
 {
@@ -19,7 +17,8 @@ class MessageController extends Controller
 
         // Check user on access
         if (Yii::$app->getUser()->getIsGuest()) {
-            return Yii::$app->getResponse()->redirect('@www/');
+            Yii::$app->getResponse()->redirect('@www/');
+            return false;
         }
 
         /* Add event handler
@@ -42,15 +41,10 @@ class MessageController extends Controller
     }
 
     public function actionIndex() {
-        $addConversationForm = new AddConversationForm();
-        if ($addConversationForm->load($_POST) && $addConversationForm->addConversation()) {
-            return Yii::$app->getResponse()->redirect('message');
-        }
         // Get all users conversations
         $conversations = Yii::$app->getUser()->getIdentity()->conversations;
         return $this->render('conversations', array(
             'conversations' => $conversations,
-            'model'         => $addConversationForm,
         ));
 
     }
@@ -72,13 +66,13 @@ class MessageController extends Controller
             return Yii::$app->getResponse()->redirect('message');
         }
         $conversation = Conversation::find($id);
-        // Create new form object, set conversation and user id
-        $addMessageForm = new AddMessageForm();
-        $addMessageForm->conversation_id = $id;
-        $addMessageForm->user_id = Yii::$app->getUser()->getIdentity()->id;
 
-         // If data was successfully loaded
-        if ($addMessageForm->load($_POST) && $addMessageForm->addMessage()) {
+        if (Yii::$app->getRequest()->getIsPost() && isset($_POST['body'])) {
+            $message = new Message();
+            $message->conversation_id = $conversation->id;
+            $message->user_id = Yii::$app->getUser()->getIdentity()->id;
+            $message->body = $_POST['body'];
+            $message->save();
             return Yii::$app->getResponse()->redirect('message/conversation/' . $id);
         } else {
             return $this->render('messages', array(
@@ -86,7 +80,6 @@ class MessageController extends Controller
                 'conversationTitle'     => $conversation->title,
                 'conversationMembers'   => $conversation->users,
                 'messages'              => $conversation->messages,
-                'model'                 => $addMessageForm,
             ));
         }
     }

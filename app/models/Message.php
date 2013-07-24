@@ -9,6 +9,7 @@
 
 namespace app\models;
 use \yii\db\ActiveRecord;
+use app\models\Conversation;
 
 
 class Message extends ActiveRecord
@@ -21,9 +22,41 @@ class Message extends ActiveRecord
     }
 
     /**
+     * @return array of rules for validation
+     */
+    public function rules() {
+        return array(
+            array('user_id, conversation_id, body', 'required'),
+            array('conversation_id', 'checkConversation'),
+            array('user_id', 'checkUserAccess'),
+        );
+    }
+
+    /**
+     * Check conversation existence
+     */
+    public function checkConversation() {
+        $conversation = Conversation::find($this->conversation_id);
+        if (!$conversation) {
+            $this->addError('conversation_id', 'Conversation doesn\'t exist.');
+        }
+    }
+
+    /**
+     * Check user access to conversation
+     */
+    public function checkUserAccess() {
+        $conversation = Conversation::find($this->conversation_id);
+        if (!$conversation->isConversationMember($this->user_id)) {
+            $this->addError('user_id', 'User can\'t send messages to this conversation.');
+        }
+    }
+
+    /**
      * @return \yii\db\ActiveRelation object contains author of the message
      */
     public function getUser() {
         return $this->hasOne('user', array('id' => 'user_id'));
     }
+
 }
