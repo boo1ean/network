@@ -52,18 +52,27 @@ class Conversation extends ActiveRecord
      */
     public function addSubscribed($idArray) {
         $conversation = $this;
-        // If conversation is private and becomes common after users invitation
-        if ($this->isPrivate() && ((count($this->users) + count($idArray)) > 2 )) {
-            if ($this->messages) {
-                $conversation = $this->copyToMultiChat();
-            } else {
-                $conversation->private = 0;
-                $conversation->save();
-                $conversation->refresh();
+        $usersToSubscribe = array();
+        // Check if user exists and isn't conversation member
+        foreach ($idArray as $key => $userId) {
+            $user = User::find($userId);
+            if ($user && !($this->isConversationMember($user->id))) {
+                $usersToSubscribe[] = $user;
             }
         }
-        foreach($idArray as $key => $userId) {
-            $conversation->link('users', User::find($userId));
+        // If conversation is private and becomes common after users invitation
+        if ($this->isPrivate() && ((count($this->users) + count($usersToSubscribe)) > 2 )) {
+            // If there are messages in conversation, copy it as multichat
+            if ($this->messages) {
+                $conversation = $this->copyToMultiChat();
+            } else {    // If there are no messages, make its type not private
+                $conversation->private = 0;
+                $conversation->save();
+            }
+        }
+        // Link users to conversation
+        for($i = 0; $i < count($usersToSubscribe); $i++) {
+            $conversation->link('users', $usersToSubscribe[$i]);
         }
         return $conversation;
     }
