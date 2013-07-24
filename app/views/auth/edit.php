@@ -36,9 +36,6 @@ use yii;
             if ($notifications == 'yes') {
                 echo Html::checkbox('send_notifications', true);
             }
-            else if ($notifications == 'no') {
-                echo Html::checkbox('send_notifications', false);
-            }
             else {
                 echo Html::checkbox('send_notifications', false);
             }
