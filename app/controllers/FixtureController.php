@@ -37,13 +37,14 @@ class FixtureController extends Controller
     public function init() {
         $this->fixture = new Fixtures();
     }
-    // TODO: implement conversations and messages actions when they'll be implemented in fixture component
 
     /**
      * Creates users, conversations and members
      */
     public function actionAll($usersCount = self::USERS_COUNT, $conversationsCount = self::CONVERSATIONS_COUNT, $messagesCount = self::MESSAGES_COUNT) {
-        $this->fixture->generateUsers($usersCount);
+        $this->actionUsers($usersCount);
+        $this->actionConversations($conversationsCount);
+        $this->actionMessages($messagesCount);
     }
 
     /**
@@ -52,6 +53,7 @@ class FixtureController extends Controller
      */
     public function actionUsers($usersCount = self::USERS_COUNT) {
         $this->fixture->generateUsers($usersCount);
+        echo 'Generated ' . $usersCount . " users \n" ;
     }
 
     /**
@@ -59,7 +61,8 @@ class FixtureController extends Controller
      * @param $conversationsCount
      */
     public function actionConversations($conversationsCount = self::CONVERSATIONS_COUNT) {
-
+        $this->fixture->generateConversations($conversationsCount);
+        echo 'Generated ' . $conversationsCount . " conversations \n";
     }
 
     /**
@@ -67,6 +70,7 @@ class FixtureController extends Controller
      * @param $messagesCount
      */
     public function actionMessages($messagesCount = self::MESSAGES_COUNT) {
-
+        $this->fixture->generateMessages($messagesCount);
+        echo 'Generated ' . $messagesCount . " messages \n";
     }
 }
