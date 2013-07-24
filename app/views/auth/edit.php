@@ -14,6 +14,11 @@ use yii;
 
 <?php
 
+    if(isset($message)) {
+        echo Html::tag('div class="alert alert-success"', $message);
+        echo Html::tag('/div');
+    }
+
     $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));
 
     $email = Yii::$app->getUser()->getIdentity()->email;
@@ -52,15 +57,6 @@ use yii;
     </div>
 
     <br/>
-
-<?php
-
-    if(isset($message)) {
-        echo Html::tag('div class="alert alert-success"', $message);
-        echo Html::tag('/div');
-    }
-
-?>
 
 <?php
 
