@@ -2,6 +2,7 @@
 namespace app\components;
 
 use yii\base\Component;
+use yii;
 use app\models\User;
 use \app\models\Conversation;
 use \app\models\Message;
@@ -47,7 +48,7 @@ class Fixtures extends Component
         $fakeConversation->title = $this->faker->word . 'Conversation';
         $fakeConversation->save(); 
         
-       // $fakeConversation
+        
     }     
     
     /**
@@ -56,8 +57,22 @@ class Fixtures extends Component
     public function generateMessage() {  
         $fakeMessage = new Message;
         
-        $fakeMessage->user_id = 1;
-        $fakeMessage->conversation_id = 1;
+        /*Generate number of fake user*/
+        $allUsers = User::find()
+                ->all();
+        $numFakeUser = rand(0, count($allUsers)-1);
+        /*----------------------------*/
+        
+        $fakeMessage->user_id = $allUsers[$numFakeUser]->id;
+                
+        /*Generate number of fake conversation*/
+        $allConversation = Conversation::find()
+                ->all();
+        $numFakeConversation = rand(0, count($allConversation)-1);
+        /*----------------------------*/
+        
+        $fakeMessage->conversation_id = $allConversation[$numFakeUser]->id;
+             
         $fakeMessage->body = $this->faker->text;
         $fakeMessage->save();
     }
