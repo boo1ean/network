@@ -39,6 +39,7 @@ class Conversation extends ActiveRecord
      * @return array of users don't participate in conversation
      */
     public function getUnsubscribedUsers() {
+        $id = array();
         foreach($this->users as $user)
             $id[] = $user->id;
         return User::find()
