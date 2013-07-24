@@ -106,11 +106,13 @@ class ConversationTest extends \Codeception\TestCase\Test
         // Unsubscribed users exist
         $this->assertNotEmpty($this->conversation->unsubscribedUsers);
         $unsubscribedCount = count($this->conversation->unsubscribedUsers);
-        $this->assertContains($subscribedUser, $this->conversation->unsubscribedUsers);
+        $this->assertTrue((bool)array_search($subscribedUser, $this->conversation->unsubscribedUsers));
+        //$this->assertContains($subscribedUser, $this->conversation->unsubscribedUsers);
 
         $this->conversation->addSubscribed(array($idToSubscribe));
         // Now unsubscribed users don't contain subscribed user
-        $this->assertNotContains($subscribedUser, $this->conversation->unsubscribedUsers);
+        $this->assertFalse(array_search($subscribedUser, $this->conversation->unsubscribedUsers));
+        //$this->assertNotContains($subscribedUser, $this->conversation->unsubscribedUsers);
         $this->assertLessThan($unsubscribedCount, count($this->conversation->unsubscribedUsers));
     }
 
