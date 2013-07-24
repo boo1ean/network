@@ -2,25 +2,29 @@
 namespace app\components;
 
 use yii\base\Component;
-use \Faker\Factory;
+use app\models\User;
+use \app\models\Conversation;
+use \app\models\Message;
 
 class Fixtures extends Component
 {
     private $faker;
     
+    function __construct() {
+        $this->faker = \Faker\Factory::create();
+    }
+    
     /**
      * Generates single user
-     * @param array $data custom user data (optional)
      */
     public function generateUser() {
-        // Generate fake data, populate model and store to db
-        $faker = Faker\Factory::create();
-        $data['email'] = $faker->email;
-        $data['password'] = $faker->word;
-        $data['first_name'] = $faker->firstName;
-        $data['last_name'] = $faker->lastName;
-        
-        return $data;
+        $fakeUser = new User;
+
+        $fakeUser->email = $this->faker->email;
+        $fakeUser->password = $fakeUser->hashPassword('123');
+        $fakeUser->first_name = $this->faker->firstName;
+        $fakeUser->last_name = $this->faker->lastName;
+        $fakeUser->save();
     }
 
 
@@ -29,31 +33,32 @@ class Fixtures extends Component
      * @param integer $number number of users to generate
      */
     public function generateUsers($number) {
-        // call user method $number times
         for( $i = 0; $i < $number; $i++) {
-            $data[$i] = generateUser();
+            $this->generateUser();
         }
-        
-        return $data;
     }
     
      /**
      * Generates comversation
      */
     public function generateConversation() {  
-        $faker = Faker\Factory::create();
-        $data['title'] = $faker->title;
+        $fakeConversation = new Conversation;
         
-        return $data;
+        $fakeConversation->title = $this->faker->word . 'Conversation';
+        $fakeConversation->save(); 
+        
+       // $fakeConversation
     }     
     
     /**
      * Generates message
      */
-    public function generateMessage() {
-        $faker = Faker\Factory::create();
-        $data['body'] =  $faker->text;
+    public function generateMessage() {  
+        $fakeMessage = new Message;
         
-        return $data;
+        $fakeMessage->user_id = 1;
+        $fakeMessage->conversation_id = 1;
+        $fakeMessage->body = $this->faker->text;
+        $fakeMessage->save();
     }
 }
