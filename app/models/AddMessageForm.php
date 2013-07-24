@@ -12,15 +12,6 @@ use Yii;
 
 class AddMessageForm extends Message
 {
-    /**
-     * @return array of rules for validation
-     */
-    public function rules() {
-        return array(
-            array('user_id, conversation_id, body', 'required'),
-        );
-    }
-
     public function addMessage() {
         if ($this->validate()) {
             $this->save();
