@@ -33,6 +33,7 @@ return array(
 
         'urlManager' => array(
             'enablePrettyUrl' => true,
+            'baseUrl' => '/',
 
             'rules' => array(
                 '/' => 'site/index',
