@@ -2,7 +2,6 @@
 use Codeception\Util\Stub;
 use \app\models\AdminForm;
 use \app\models\User;
-use Faker\autoload;
 
 class AdminFormTest extends \Codeception\TestCase\Test
 {
@@ -24,16 +23,17 @@ class AdminFormTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $faker = Faker\Factory::create();
+        $faker = \Faker\Factory::create();
 
         // Create adminForm instance
         $this->adminForm = new AdminForm();
         $this->adminForm->email = $faker->email;
+        $this->adminForm->password = User::hashPassword($faker->word);
 
         // Create user instance
         $this->user = new User();
         $this->user->email = $this->adminForm->email;
-        $this->user->password = User::hashPassword($faker->word);
+        $this->user->password = $this->adminForm->password;
         $this->user->first_name = $faker->firstname;
         $this->user->last_name = $faker->lastname;
 

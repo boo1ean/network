@@ -55,6 +55,8 @@ class AdminForm extends User
         if ($this->validate())
         {
             // add new user with sent email (in future with field active = 0)
+            $faker = \Faker\Factory::create();
+            $this->password = $faker->md5;
             $this->save();
 
             // get an auto generated password
@@ -87,6 +89,8 @@ class AdminForm extends User
         if ($this->validate())
         {
             // add new user with sent email
+            $faker = \Faker\Factory::create();
+            $this->password = $faker->md5;
             $this->save();
 
             // get an auto generated password
