@@ -20,8 +20,8 @@ use yii\base\Component;
  *
  * @author Antipenko Ilya <aivus@aivus.name>
  */
-class Mailer extends Component {
-
+class Mailer extends Component
+{
     /**
      * @var \Swift_Transport  Instance of Swift_Transport
      */
@@ -81,8 +81,8 @@ class Mailer extends Component {
         parent::init();
 
         $this->transport = $this->_getTransport();
-        $this->message = \Swift_Message::newInstance();
-        $this->mailer = \Swift_Mailer::newInstance($this->transport);
+        $this->message   = \Swift_Message::newInstance();
+        $this->mailer    = \Swift_Mailer::newInstance($this->transport);
     }
 
     /**
@@ -130,9 +130,9 @@ class Mailer extends Component {
      * @param null $failedRecipients An array of failures by-reference
      * @return int The number of recipients who were accepted for delivery
      */
-    public function send(&$failedRecipients = null)
-    {
+    public function send(&$failedRecipients = null) {
         $from = $this->message->getFrom();
+
         if (empty($from)) {
             $this->message->setFrom($this->senderEmail);
         }

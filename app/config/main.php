@@ -44,7 +44,7 @@ return array(
         ),
 
         'authManager' => array(
-            'class'     => 'app\components\authManager',
+            'class' => 'app\components\AuthManager',
         ),
 
         'db' => require 'db.php',

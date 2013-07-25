@@ -5,7 +5,7 @@ use yii\base\InvalidParamException;
 use app\models\User;
 use yii\base\Object;
 
-class authManager extends Object
+class AuthManager extends Object
 {
     public function checkAccess($userId, $itemName, $params = array()) {
         $user = User::findIdentity($userId);

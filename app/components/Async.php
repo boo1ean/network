@@ -34,8 +34,7 @@ class Async extends Component
         if (empty($this->servers)) {
             $this->gearmanClient->addServer();
         } else {
-            foreach ($this->servers as $server=>$port)
-            {
+            foreach ($this->servers as $server=>$port) {
                 $this->gearmanClient->addServer($server, $port);
             }
         }

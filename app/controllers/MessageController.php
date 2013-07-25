@@ -17,7 +17,7 @@ class MessageController extends Controller
 
         // Check user on access
         if (Yii::$app->getUser()->getIsGuest()) {
-            Yii::$app->getResponse()->redirect('@www/');
+            Yii::$app->getResponse()->redirect('/');
             return false;
         }
 
@@ -46,25 +46,29 @@ class MessageController extends Controller
         return $this->render('conversations', array(
             'conversations' => $conversations,
         ));
-
     }
+
     // Check user rights to access conversation
     private function checkAccess($id) {
         if(!isset($id)) {
             return true;
         }
+
         $conversation = Conversation::find($id);
-        if(empty($conversation) || !($conversation -> isConversationMember(Yii::$app->getUser()->getIdentity()->id))) {
+        if (empty($conversation) ||
+            !($conversation->isConversationMember(Yii::$app->getUser()->getIdentity()->id))) {
             return false;
         }
+
         return true;
     }
 
-    public function actionConversation($id = NULL) {
+    public function actionConversation($id = null) {
 
-        if(!isset($id) || !$this->checkAccess($id)) {
+        if (!isset($id) || !$this->checkAccess($id)) {
             return Yii::$app->getResponse()->redirect('message');
         }
+
         $conversation = Conversation::find($id);
 
         if (Yii::$app->getRequest()->getIsPost() && isset($_POST['body'])) {
@@ -85,9 +89,10 @@ class MessageController extends Controller
     }
 
     public function actionMembers($id = NULL){
-        if(!$this->checkAccess($id)) {
+        if (!$this->checkAccess($id)) {
             return Yii::$app->getResponse()->redirect('message');
         }
+
         $conversation = Conversation::find($id);
         if(Yii::$app->getRequest()->getIsPost() && isset($_POST['members'])) {
             // if it is new conversation, create it
@@ -98,16 +103,18 @@ class MessageController extends Controller
                 $owner =  Yii::$app->getUser()->getIdentity();
                 $conversation->link('users', $owner);
             }
+
             $conversation = $conversation->addSubscribed($_POST['members']);
             $conversation->title = isset($_POST['title']) ? $_POST['title'] : null;
             $conversation->save();
             return Yii::$app->getResponse()->redirect('message/conversation/' . $conversation->id);
         }
+
         return $this->render('members', array(
-            'conversationId'        => isset($conversation->id) ? $conversation->id : null,
-            'conversationTitle'     => isset($conversation->title) ? $conversation->title : null,
-            'conversationMembers'   => isset($conversation->users) ? $conversation->users : null,
-            'unsubscribedUsers'     => isset($conversation->unsubscribedUsers) ? $conversation->unsubscribedUsers : Yii::$app->getUser()->getIdentity()->otherUsers,
+            'conversationId'      => isset($conversation->id) ? $conversation->id : null,
+            'conversationTitle'   => isset($conversation->title) ? $conversation->title : null,
+            'conversationMembers' => isset($conversation->users) ? $conversation->users : null,
+            'unsubscribedUsers'   => isset($conversation->unsubscribedUsers) ? $conversation->unsubscribedUsers : Yii::$app->getUser()->getIdentity()->otherUsers,
         ));
 
     }

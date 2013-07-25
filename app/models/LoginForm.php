@@ -49,8 +49,7 @@ class LoginForm extends Model
     /**
      * @return scenarios array
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         return array(
             'default' => array('email', 'password')
         );

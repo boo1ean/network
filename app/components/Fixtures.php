@@ -21,10 +21,10 @@ class Fixtures extends Component
     public function generateUser() {
         $fakeUser = new User;
 
-        $fakeUser->email = $this->faker->email;
-        $fakeUser->password = $fakeUser->hashPassword('123');
+        $fakeUser->email      = $this->faker->email;
+        $fakeUser->password   = '123';
         $fakeUser->first_name = $this->faker->firstName;
-        $fakeUser->last_name = $this->faker->lastName;
+        $fakeUser->last_name  = $this->faker->lastName;
         $fakeUser->save();
     }
 
@@ -54,13 +54,13 @@ class Fixtures extends Component
         /*----------------------------*/
         
         $userToSubscribe = User::find()
-                ->where(array('id'=>$allUsers[$numFakeUser]->id))
+                ->where(array('id' => $allUsers[$numFakeUser]->id))
                 ->one();
                 
         $fakeConversation->link('users', $userToSubscribe);
-    }     
-    
-        /**
+    }
+
+    /**
      * Generates conversations
      * @param integer $number number of conversations to generate
      */
@@ -77,16 +77,14 @@ class Fixtures extends Component
         $fakeMessage = new Message;
         
         /*Generate number of fake user*/
-        $allUsers = User::find()
-                ->all();
+        $allUsers = User::find()->all();
         $numFakeUser = rand(0, count($allUsers)-1);
         /*----------------------------*/
         
         $fakeMessage->user_id = $allUsers[$numFakeUser]->id;
                 
         /*Generate number of fake conversation*/
-        $allConversations = Conversation::find()
-                ->all();
+        $allConversations = Conversation::find()->all();
         $numFakeConversation = rand(0, count($allConversations)-1);
         /*----------------------------*/
         
@@ -96,7 +94,7 @@ class Fixtures extends Component
         $fakeMessage->save();
     }
     
-            /**
+    /**
      * Generates messages
      * @param integer $number number of messages to generate
      */

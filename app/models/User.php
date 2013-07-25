@@ -64,7 +64,6 @@ class User extends ActiveRecord implements Identity
         $setting = $this->getSetting();
         $setting[$key] = $value;
         $this->setSetting($setting);
-
     }
 
     /**
@@ -75,8 +74,9 @@ class User extends ActiveRecord implements Identity
     public function searchSetting($key) {
         $settings = $this->getSetting();
         foreach ($settings as $skey => $value) {
-            if ($key === $skey)
+            if ($key === $skey) {
                 return $settings[$skey];
+            }
         }
 
         return false;
@@ -91,11 +91,11 @@ class User extends ActiveRecord implements Identity
     }
 
     public function beforeSave($insert) {
-        if ($this->isNewRecord)
-        {
+        if ($this->isNewRecord) {
             $this->password = static::hashPassword($this->password);
             $this->settings = serialize(array());
         }
+
         return parent::beforeSave($insert);
     }
 
