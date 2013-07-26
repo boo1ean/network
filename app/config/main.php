@@ -60,8 +60,8 @@ return array(
             'smtpEncryption'    => 'tls'
         ),
 
-        'async' => array(
-            'class'     => 'app\components\Async',
+        'queue' => array(
+            'class'     => 'app\components\Queue',
             'servers'   => array(),         // array('127.0.0.1' => 12345, '127.0.0.2' => 12346)
         ),
     ),
