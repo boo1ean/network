@@ -6,7 +6,7 @@ namespace app\components;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 
-class Async extends Component
+class Queue extends Component
 {
     /**
      * @var \GearmanClient Gearman client instance
