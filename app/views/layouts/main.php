@@ -20,6 +20,7 @@ if ($guest) {
     $items[] = array('label' => 'Login', 'url' => array('/auth/login'));
 } else {
     $items[] = array('label' => 'Messages', 'url' => array('/message'), 'active' => Yii::$app->controller->id == 'message');
+    $items[] = array('label' => 'Library', 'url' => array('/library/books'));
     $items[] = array('label' => 'Edit profile', 'url' => array('/auth/edit'));
     $items[] = array('label' => 'Logout', 'url' => array('/auth/logout'));
 }
