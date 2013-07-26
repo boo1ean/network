@@ -57,7 +57,7 @@ class Fixtures extends Component
                 ->where(array('id' => $allUsers[$numFakeUser]->id))
                 ->one();
                 
-        $fakeConversation->link('users', $userToSubscribe);
+        $fakeConversation->addSubscribed($userToSubscribe);
     }
 
     /**
