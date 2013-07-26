@@ -19,6 +19,11 @@ class Queue extends Component
     public $servers;
 
     /**
+     * @var bool Do all jobs as sync (true) or async (false)
+     */
+    public $sync;
+
+    /**
      * Initializes the object.
      * This method is invoked at the end of the constructor after the object is initialized with the
      * given configuration.
@@ -47,8 +52,8 @@ class Queue extends Component
      * @param bool $background start task in background?
      * @return bool status whether job was successfully pushed to the queue
      */
-    public function enqueue($task, $data, $background = true) {
-        if ($background) {
+    public function enqueue($task, $data, $background = null) {
+        if (($background === null && !$this->sync) || $background === true) {
             $this->gearmanClient->doBackground($task, $data);
         } else {
             $this->gearmanClient->do($task, $data);
