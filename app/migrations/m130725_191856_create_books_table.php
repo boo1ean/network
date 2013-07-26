@@ -1,5 +1,7 @@
 <?php
 
+use yii\db\mysql\Schema;
+
 class m130725_191856_create_books_table extends \yii\db\Migration
 {
 	public function up()
@@ -17,6 +19,6 @@ class m130725_191856_create_books_table extends \yii\db\Migration
 	public function down()
 	{
         $this->db->createCommand()->dropTable('books')->execute();
-		return false;
+		return true;
 	}
 }
