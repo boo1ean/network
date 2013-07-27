@@ -13,21 +13,8 @@ class User extends ActiveRecord implements Identity
     const TYPE_ADMIN = 0;
     const TYPE_USER = 1;
 
-    /**
-     * @var Gravatar
-     */
-    private $gravatar;
-
     public static function tableName() {
         return 'users';
-    }
-
-    public function init()
-    {
-        // Maje gravatar
-        $this->gravatar = new Gravatar();
-
-        parent::init();
     }
 
     public static function findIdentity($id) {
@@ -102,7 +89,9 @@ class User extends ActiveRecord implements Identity
      */
     public function getAvatar()
     {
-        return $this->gravatar->buildGravatarURL($this->email);
+        // Make gravatar
+        $gravatar = new Gravatar();
+        return $gravatar->buildGravatarURL($this->email);
     }
 
     /**
