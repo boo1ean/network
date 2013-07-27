@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 
 <?php
 // Link for new conversation creation
-echo Html::a('New conversation', 'message/members');
+echo Html::a('New conversation', array('message/members'));
 
 // Print list of conversations
 foreach ($conversations as $conversation) {
@@ -23,7 +23,7 @@ foreach ($conversations as $conversation) {
 ?>
 
 <ul class="nav nav-tabs nav-stacked">
-    <li><?php echo Html::a($title, 'message/conversation/' . $conversation->id); ?></li>
+    <li><?php echo Html::a($title, array('message/conversation/' . $conversation->id)); ?></li>
 </ul>
 
 <?php } ?>
