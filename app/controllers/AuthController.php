@@ -25,14 +25,14 @@ class AuthController extends Controller
     public function actionLogin() {
         // Redirect for logged users.
         if(!Yii::$app->getUser()->getIsGuest()) {
-            Yii::$app->getResponse()->redirect('/');
+            Yii::$app->getResponse()->redirect('@web');
             return false;
         }
 
         $loginForm = new LoginForm();
 
         if ($loginForm->load($_POST) && $loginForm->login()) {
-            return Yii::$app->getResponse()->redirect('/');
+            return Yii::$app->getResponse()->redirect('@web');
         } else {
             return $this->render('login', array('model' => $loginForm));
         }
@@ -85,7 +85,7 @@ class AuthController extends Controller
         }
 
         if ($isPost && $registrationForm->registration()) {
-            return Yii::$app->getResponse()->redirect('/');
+            return Yii::$app->getResponse()->redirect('@web');
         } else {
             $registrationForm->validate();
             if (isset($registrationForm->errors['password_hash']) ||
@@ -100,11 +100,11 @@ class AuthController extends Controller
     }
 
     public function actionIndex() {
-        return Yii::$app->getResponse()->redirect('/');
+        return Yii::$app->getResponse()->redirect('@web');
     }
 
     public function actionLogout() {
         Yii::$app->getUser()->logout();
-        return Yii::$app->getResponse()->redirect('/');
+        return Yii::$app->getResponse()->redirect('@web');
     }
 }
