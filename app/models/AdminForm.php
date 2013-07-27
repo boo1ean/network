@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\helpers\Html;
+use yii\web\User;
 
 /**
  * Class AdminForm for administrative goals
@@ -55,8 +56,7 @@ class AdminForm extends User
         if ($this->validate())
         {
             // add new user with sent email (in future with field active = 0)
-            $faker = \Faker\Factory::create();
-            $this->password = $faker->md5;
+            $this->password = User::hashPassword(time().'-'.$this->email);
             $this->save();
 
             // get an auto generated password
@@ -89,8 +89,7 @@ class AdminForm extends User
         if ($this->validate())
         {
             // add new user with sent email
-            $faker = \Faker\Factory::create();
-            $this->password = $faker->md5;
+            $this->password = User::hashPassword(time().'-'.$this->email);
             $this->save();
 
             // get an auto generated password
