@@ -25,7 +25,9 @@ use yii;
     $first_name = Yii::$app->getUser()->getIdentity()->first_name;
     $last_name = Yii::$app->getUser()->getIdentity()->last_name;
     $notifications = Yii::$app->getUser()->getIdentity()->searchSetting('sendNotifications');
-
+?>
+    <div class="controls control-group"><?php echo Html::img($avatar); ?></div>
+<?php
     echo $form->field($model, 'email')->textInput(array('value' => $email));
     echo $form->field($model, 'password')->passwordInput(array('placeholder' => 'Enter new password'));
     echo $form->field($model, 'repeat_password')->passwordInput(array('placeholder' => 'Repeat password'));

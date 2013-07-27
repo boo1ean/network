@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models;
+use \emberlabs\GravatarLib\Gravatar;
 use \yii\db\ActiveRecord;
 use \yii\web\Identity;
 use \yii\helpers\Security;
@@ -12,8 +13,21 @@ class User extends ActiveRecord implements Identity
     const TYPE_ADMIN = 0;
     const TYPE_USER = 1;
 
+    /**
+     * @var Gravatar
+     */
+    private $gravatar;
+
     public static function tableName() {
         return 'users';
+    }
+
+    public function init()
+    {
+        // Maje gravatar
+        $this->gravatar = new Gravatar();
+
+        parent::init();
     }
 
     public static function findIdentity($id) {
@@ -80,6 +94,15 @@ class User extends ActiveRecord implements Identity
         }
 
         return false;
+    }
+
+    /**
+     * Get avatar url
+     * @return string URL to gravatar image
+     */
+    public function getAvatar()
+    {
+        return $this->gravatar->buildGravatarURL($this->email);
     }
 
     /**
