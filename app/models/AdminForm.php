@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\helpers\Html;
-use yii\web\User;
+use app\models\User;
 
 /**
  * Class AdminForm for administrative goals
@@ -17,8 +17,7 @@ class AdminForm extends User
     /**
      * @return validation rules array
      */
-    public function rules()
-    {
+    public function rules() {
         return array(
             array('email', 'required'),
             array('email', 'email'),
@@ -29,8 +28,7 @@ class AdminForm extends User
     /**
      * @return scenarios array
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         return array(
             'default' => array('email')
         );
@@ -39,22 +37,20 @@ class AdminForm extends User
     /**
      * checking email in database and adding error message if email already exist
      */
-    public function matchEmail()
-    {
+    public function matchEmail() {
         $user = User::findByEmail($this->email);
 
-        if ($user)
+        if ($user) {
             $this->addError('email', 'User with this email already exist');
+        }
     }
 
     /**
      * Sending message with invitation token
      * @return mixed
      */
-    public function sendInvite()
-    {
-        if ($this->validate())
-        {
+    public function sendInvite() {
+        if ($this->validate()) {
             // add new user with sent email (in future with field active = 0)
             $this->password = User::hashPassword(time().'-'.$this->email);
             $this->save();
@@ -84,10 +80,8 @@ class AdminForm extends User
      * Creating and returning invitation token
      * @return mixed
      */
-    public function sendInviteTest()
-    {
-        if ($this->validate())
-        {
+    public function sendInviteTest() {
+        if ($this->validate()) {
             // add new user with sent email
             $this->password = User::hashPassword(time().'-'.$this->email);
             $this->save();
