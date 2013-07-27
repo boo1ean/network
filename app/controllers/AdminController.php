@@ -8,7 +8,26 @@ use yii\web\Controller;
 
 class AdminController extends Controller
 {
+    public function beforeAction($action) {
+
+        $authManager = Yii::$app->getComponent('authManager');
+        $user = Yii::$app->getUser()->getIdentity();
+
+        // Check user on access
+        if ($user === null || !$authManager->checkAccess($user->id, 'admin')) {
+            Yii::$app->getResponse()->redirect('/');
+            return false;
+        }
+
+        return parent::beforeAction($action);
+    }
+
     public function actionIndex() {
+        // todo: open some administrate page
+        Yii::$app->getResponse()->redirect('/admin/send-invite');
+    }
+
+    public function actionSendInvite() {
         $adminForm = new AdminForm();
         $param     = array('model' => $adminForm);
 
@@ -22,7 +41,7 @@ class AdminController extends Controller
     /**
      * This is temporary function for simplify application testing
      */
-    public function actionTestInvite() {
+    public function actionSendInviteTest() {
         $adminForm = new AdminForm();
         $param     = array('model' => $adminForm);
 

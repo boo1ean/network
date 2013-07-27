@@ -10,15 +10,29 @@ use yii\widgets\Breadcrumbs;
 app\config\AppAsset::register($this);
 $this->beginPage();
 
-$guest = Yii::$app->getUser()->getIsGuest();
+//$guest = Yii::$app->getUser()->getIsGuest();
+$authManager = Yii::$app->getComponent('authManager');
+$user = Yii::$app->getUser()->getIdentity();
+
 
 $items = array(
     array('label' => 'Home', 'url' => array('/site/index')),
 );
 
-if ($guest) {
+if ($user === null) {
     $items[] = array('label' => 'Login', 'url' => array('/auth/login'));
 } else {
+
+    if ($authManager->checkAccess($user->id, 'admin')) {
+        $items_sub = array(
+            array('label' => 'Send invite', 'url' => array('/admin/send-invite')),
+            array('label' => 'Send test invite', 'url' => array('/admin/send-invite-test')
+        ));
+
+        $items[] = array('label' => 'Administrate', 'url' => array('/admin'), 'items' => $items_sub);
+
+    }
+
     $items[] = array('label' => 'Messages', 'url' => array('/message'), 'active' => Yii::$app->controller->id == 'message');
     $items[] = array('label' => 'Library', 'url' => array('/library/books'));
     $items[] = array('label' => 'Edit profile', 'url' => array('/auth/edit'));
