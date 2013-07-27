@@ -10,11 +10,25 @@ use app\models\AddBookForm;
 class LibraryController extends Controller
 {
 
-    public function actionBooks() {
+    public function actionBooks($id = null) {
 
-        $books = Book::find()
-            ->where(array('status' => 'available'))
-            ->all();
+        switch($id) {
+            case 'bytitle':
+                $books = Book::sortByTitle();
+                break;
+            case 'byauthor':
+                $books = Book::sortByAuthor();
+                break;
+            case 'available':
+                $books = Book::getAvailableBooks();
+                break;
+            case 'taken':
+                $books = Book::getTakenBooks();
+                break;
+            default:
+                $books = Book::getAvailableBooks();
+                break;
+        }
 
         return $this->render('books', array(
             'books' => $books,

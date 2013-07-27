@@ -30,12 +30,15 @@ echo $form->field($model, 'description')->textArea();
 
 ?>
 
+<?php echo Html::label('Tags', null, array('class' => 'control-label')); ?>
+
 <div class="control-group">
+    <div class="controls">
+        <?php echo Html::textInput('tags'); ?>
+    </div>
+</div>
 
-    <?php echo Html::label('Tag', null, array('class' => 'controls')); ?>
-
-    <?php echo Html::dropDownList('tags', 'IT', $tagsList, array('class' => 'controls')); ?>
-
+<div class="control-group">
     <div class="controls">
         <?php echo Html::submitButton('Add book', array('class' => 'btn btn-primary')); ?>
     </div>
