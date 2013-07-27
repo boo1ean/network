@@ -8,7 +8,7 @@
 <?php
     $form = ActiveForm::begin();
     if(isset($message) && is_string($message)) {
-        echo Html::tag('p',$message);
+        echo Html::tag('p', $message);
         echo Html::a('back', '/admin', array('class' => 'btn btn-success'));
     } else {
         echo $form->field($model, 'email')->textInput();

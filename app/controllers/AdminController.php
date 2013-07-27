@@ -27,6 +27,17 @@ class AdminController extends Controller
         Yii::$app->getResponse()->redirect('/admin/send-invite');
     }
 
+    public function actionEditUser() {
+        $adminForm = new AdminForm();
+        $param     = array('model' => $adminForm);
+
+        if ($adminForm->load($_POST)) {
+            $param['message'] = $adminForm->editUser();
+        }
+
+        return $this->render('editUser', $param);
+    }
+
     public function actionSendInvite() {
         $adminForm = new AdminForm();
         $param     = array('model' => $adminForm);

@@ -25,7 +25,7 @@ class User extends ActiveRecord implements Identity
     public function init()
     {
         // Maje gravatar
-        //$this->gravatar = new Gravatar();
+        $this->gravatar = new Gravatar();
 
         parent::init();
     }

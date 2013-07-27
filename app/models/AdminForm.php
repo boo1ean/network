@@ -46,6 +46,18 @@ class AdminForm extends User
     }
 
     /**
+     * Editing data of user
+     * @return mixed
+     */
+    public function editUser() {
+        if ($this->validate()) {
+
+        }
+
+        return false;
+    }
+
+    /**
      * Sending message with invitation token
      * @return mixed
      */
