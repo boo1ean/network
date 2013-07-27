@@ -23,7 +23,7 @@ foreach ($conversations as $conversation) {
 ?>
 
 <ul class="nav nav-tabs nav-stacked">
-    <li><?php echo Html::a($title, 'message/conversation/' . $conversation->id); ?>
+    <li><?php echo Html::a($title, 'message/conversation/' . $conversation->id); ?></li>
 </ul>
 
 <?php } ?>
