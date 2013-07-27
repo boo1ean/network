@@ -39,7 +39,8 @@ return array(
                 '/' => 'site/index',
                 '/auth/registration/<email:[^\s]+?>/<password_hash:[^\s]+>' => 'auth/registration',
                 '/message/conversation/<id:\d+>' => 'message/conversation',
-                '/message/members/<id:\d+>' => 'message/members'
+                '/message/members/<id:\d+>' => 'message/members',
+                '/library/books/<id:\w+>' => 'library/books'
             )
         ),
 
