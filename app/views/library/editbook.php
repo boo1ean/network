@@ -28,9 +28,16 @@ $description = $book->description;
 
 echo $form->field($model, 'author')->textInput(array('value' => $author));
 echo $form->field($model, 'title')->textInput(array('value' => $title));
-echo $form->field($model, 'description')->textInput(array('value' => $description));
 
 ?>
+
+<?php echo Html::label('Description', null, array('class' => 'control-label')); ?>
+
+<div class="control-group">
+    <div class="controls">
+        <?php echo Html::textarea('description', $description); ?>
+    </div>
+</div>
 
 <div class="controls">
     <?php echo Html::submitButton('Save book', array('class' => 'btn btn-primary')); ?>
@@ -40,6 +47,6 @@ echo $form->field($model, 'description')->textInput(array('value' => $descriptio
 
 <?php
 
-ActiveForm::end();
+$form->end();
 
 ?>

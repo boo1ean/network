@@ -11,7 +11,7 @@ class AddBookForm extends Book
 
     public function rules() {
         return array(
-            array('author, title, description', 'required'),
+            array('author, title', 'required'),
         );
     }
 
@@ -39,9 +39,7 @@ class AddBookForm extends Book
 
             $book->author = $this->author;
             $book->title = $this->title;
-            $book->description = $this->description;
-            $book->type = 'paper';
-            $book->status = 'available';
+            $book->description = $_POST['description'];
             $book->save();
             return true;
         }
