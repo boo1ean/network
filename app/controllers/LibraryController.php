@@ -77,11 +77,8 @@ class LibraryController extends Controller
 
     public function actionDeletebook($id = null) {
 
-        $booktakings = Booktaking::findByBookId($id);
-
-        foreach ($booktakings as $booktaking) {
-            $booktaking->delete();
-        }
+        $booktaking = Booktaking::findByBookId($id);
+        $booktaking->delete();
 
         $book = Book::find($id);
         $book->delete();

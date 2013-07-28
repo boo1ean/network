@@ -14,7 +14,7 @@ class Booktaking extends ActiveRecord
     public static function findByBookId($book_id) {
         return static::find()
             ->where(array('book_id' => $book_id))
-            ->all();
+            ->one();
     }
 
 }
