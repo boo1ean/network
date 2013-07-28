@@ -15,15 +15,18 @@ use yii\web\AssetBundle;
  */
 class AppAsset extends AssetBundle
 {
-	public $basePath = '@webroot';
-	public $baseUrl = '@web';
-	public $css = array(
-		'css/site.css',
-	);
-	public $js = array(
-	);
-	public $depends = array(
-		'yii\web\YiiAsset',
-		'yii\bootstrap\ResponsiveAsset',
-	);
+    public $basePath = '@webroot';
+    public $baseUrl = '@web';
+    public $css = array(
+        'css/site.css',
+        'js/fancybox/source/jquery.fancybox.css',
+    );
+    public $js = array(
+        'js/fancybox/source/jquery.fancybox.js',
+        'js/site.js'
+    );
+    public $depends = array(
+        'yii\web\YiiAsset',
+        'yii\bootstrap\ResponsiveAsset',
+    );
 }

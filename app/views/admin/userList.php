@@ -5,7 +5,7 @@
 ?>
 
     <h1>Users list</h1>
-
+<div id="fancy_frame_user" style="display:none;"></div>
 <div class="container-group">
     <div class="row-item">
         <span class="avatar head"> <?php echo Html::tag('p', 'Avatar'); ?>    </span>
@@ -22,7 +22,7 @@
             <span class="text">   <?php echo $user->last_name;?>          </span>
             <span class="text" style="width:auto;">
             <?php
-                echo Html::submitButton('Edit',          array('id' => $user->id, 'class' => 'btn btn-success'));
+                echo Html::submitButton('Edit',          array('id' => $user->id, 'class' => 'btn btn-success', 'onclick' => 'editUser(id)'));
                 echo Html::submitButton('Delete',        array('id' => $user->id, 'class' => 'btn btn-danger'));
                 echo Html::submitButton('Send on email', array('id' => $user->id, 'class' => 'btn btn-info'));
             ?>
