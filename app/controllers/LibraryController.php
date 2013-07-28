@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Booktaking;
 use app\models\EditBookForm;
 use yii;
 use yii\web\Controller;
@@ -81,6 +82,30 @@ class LibraryController extends Controller
         $book->delete();
 
         return Yii::$app->getResponse()->redirect('@web/library/books');
+    }
+
+    public function actionTakebook($id = null) {
+
+        $book = Book::find($id);
+
+        $book_take = new Booktaking;
+
+        $book_take->book_id = $id;
+        $book_take->user_id = Yii::$app->getUser()->getIdentity()->id;
+        $book_take->taken = date('Y-m-d');
+
+        $tomorrow  = mktime(0, 0, 0, date("m"), date("d")+1, date("Y"));
+
+        $book_take->returned = date('Y-m-d', $tomorrow);
+
+        $book_take->save();
+
+        $book->status = 'taken';
+
+        $book->save();
+
+        return Yii::$app->getResponse()->redirect('@web/library/books');
+
     }
 
 }

@@ -24,12 +24,27 @@ foreach ($books as $book) {
         <hr>
 
         <li><p><?php echo $book->author; ?></p>
-            <p class='lead'><?php echo $book->title; ?></p>
+
+            <p class='lead'><?php echo $book->title; ?>
+                <?php if($book->status == 'available') { ?>
+                    <span class='label label-success'><?php echo $book->status; ?></span>
+                <?php } else { ?>
+                    <span class='label label-important'><?php echo $book->status; ?></span>
+                <?php } ?>
+            </p>
 
         <blockquote>
            <p><?php echo $book->description; ?></p>
         </blockquote>
     </ul>
+
+    <?php if($book->status == 'available') { ?>
+
+        <ul class="nav nav-pills">
+            <li><?php echo Html::a('Take book', array('library/takebook/' . $book->id )); ?></li>
+        </ul>
+
+    <?php } ?>
 
     <ul class="nav nav-pills">
         <li><?php echo Html::a('Edit', array('library/editbook/' . $book->id )); ?></li>
