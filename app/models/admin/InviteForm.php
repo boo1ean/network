@@ -1,17 +1,11 @@
 <?php
-
-namespace app\models;
+namespace app\models\admin;
 
 use Yii;
 use yii\base\Model;
-use yii\helpers\Html;
 use app\models\User;
 
-/**
- * Class AdminForm for administrative goals
- * @package app\models
- */
-class AdminForm extends User
+class InviteForm extends User
 {
 
     /**
@@ -46,18 +40,6 @@ class AdminForm extends User
     }
 
     /**
-     * Editing data of user
-     * @return mixed
-     */
-    public function editUser() {
-        if ($this->validate()) {
-
-        }
-
-        return false;
-    }
-
-    /**
      * Sending message with invitation token
      * @return mixed
      */
@@ -78,7 +60,7 @@ class AdminForm extends User
             $mail->setBody('
                 Congratulations! You are invited into the corporate network of "binary-studio".<br/>
                 For confirming registration follow '.
-                Html::a('this link', $urlManager->createAbsoluteUrl('/auth/registration/'.$this->email.'/'.$query->password)).'
+            Html::a('this link', $urlManager->createAbsoluteUrl('/auth/registration/'.$this->email.'/'.$query->password)).'
             ', 'text/html', 'utf-8');
             $sent = $mail->send();
 
@@ -103,9 +85,10 @@ class AdminForm extends User
 
             $urlManager = Yii::$app->getComponent('urlManager');
             return 'For easy registering new user following '.
-                Html::a('this link', $urlManager->createAbsoluteUrl('/auth/registration/'.$this->email.'/'.$query->password));
+            Html::a('this link', $urlManager->createAbsoluteUrl('/auth/registration/'.$this->email.'/'.$query->password));
         }
 
         return false;
     }
+
 }

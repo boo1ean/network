@@ -12,6 +12,7 @@ $this->beginPage();
 
 //$guest = Yii::$app->getUser()->getIsGuest();
 $authManager = Yii::$app->getComponent('authManager');
+$controller_id = Yii::$app->controller->id;
 $user = Yii::$app->getUser()->getIdentity();
 
 
@@ -25,15 +26,15 @@ if ($user === null) {
 
     if ($authManager->checkAccess($user->id, 'admin')) {
         $items_sub = array(
-            array('label' => 'Edit users',       'url' => array('/admin/edit-user')),
+            array('label' => 'Users',            'url' => array('/admin/user')),
             array('label' => 'Send invite',      'url' => array('/admin/send-invite')),
             array('label' => 'Send test invite', 'url' => array('/admin/send-invite-test'))
         );
 
-        $items[] = array('label' => 'Administrate', 'url' => array('/admin'), 'items' => $items_sub);
+        $items[] = array('label' => 'Administrate', 'url' => array('/admin'), 'items' => $items_sub, 'active' => 'admin' == $controller_id);
     }
 
-    $items[] = array('label' => 'Messages',     'url' => array('/message'), 'active' => Yii::$app->controller->id == 'message');
+    $items[] = array('label' => 'Messages',     'url' => array('/message'), 'active' => 'message' == $controller_id);
     $items[] = array('label' => 'Library',      'url' => array('/library/books'));
     $items[] = array('label' => 'Edit profile', 'url' => array('/auth/edit'));
     $items[] = array('label' => 'Logout',       'url' => array('/auth/logout'));

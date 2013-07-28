@@ -1,7 +1,9 @@
 <?php
 namespace app\controllers;
 
-use app\models\AdminForm;
+use app\models\admin\InviteForm;
+use app\models\admin\MainForm;
+use app\models\admin\UserForm;
 use Yii;
 use yii\web\Controller;
 
@@ -11,7 +13,7 @@ class AdminController extends Controller
     public function beforeAction($action) {
 
         $authManager = Yii::$app->getComponent('authManager');
-        $user = Yii::$app->getUser()->getIdentity();
+        $user        = Yii::$app->getUser()->getIdentity();
 
         // Check user on access
         if ($user === null || !$authManager->checkAccess($user->id, 'admin')) {
@@ -22,28 +24,19 @@ class AdminController extends Controller
         return parent::beforeAction($action);
     }
 
-    public function actionIndex() {
-        // todo: open some administrate page
-        Yii::$app->getResponse()->redirect('/admin/send-invite');
-    }
+    public function actionMain() {
+        $mainForm = new MainForm();
+        $param      = array('model' => $mainForm);
 
-    public function actionEditUser() {
-        $adminForm = new AdminForm();
-        $param     = array('model' => $adminForm);
-
-        if ($adminForm->load($_POST)) {
-            $param['message'] = $adminForm->editUser();
-        }
-
-        return $this->render('editUser', $param);
+        return $this->render('main', $param);
     }
 
     public function actionSendInvite() {
-        $adminForm = new AdminForm();
-        $param     = array('model' => $adminForm);
+        $inviteForm = new InviteForm();
+        $param      = array('model' => $inviteForm);
 
-        if ($adminForm->load($_POST)) {
-            $param['message'] = $adminForm->sendInvite();
+        if ($inviteForm->load($_POST)) {
+            $param['message'] = $inviteForm->sendInvite();
         }
 
         return $this->render('sendInvite', $param);
@@ -53,13 +46,35 @@ class AdminController extends Controller
      * This is temporary function for simplify application testing
      */
     public function actionSendInviteTest() {
-        $adminForm = new AdminForm();
-        $param     = array('model' => $adminForm);
+        $inviteForm = new InviteForm();
+        $param      = array('model' => $inviteForm);
 
-        if ($adminForm->load($_POST)) {
-            $param['message'] = $adminForm->sendInviteTest();
+        if ($inviteForm->load($_POST)) {
+            $param['message'] = $inviteForm->sendInviteTest();
         }
 
         return $this->render('sendInvite', $param);
+    }
+
+    public function actionUserEdit() {
+        $userForm = new UserForm();
+        $param    = array('model' => $userForm);
+
+        if ($userForm->load($_POST)) {
+            $param['message'] = $userForm->editUser();
+        }
+
+        return $this->render('userEdit', $param);
+    }
+
+    public function actionUserList() {
+        $userForm  = new UserForm();
+        $param     = array('model' => $userForm);
+
+        if ($userForm->load($_POST)) {
+            $param['message'] = $userForm->editUser();
+        }
+
+        return $this->render('userList', $param);
     }
 }

@@ -7,7 +7,7 @@ return array(
 
     'modules' => array(
         'debug' => array(
-            'class' => 'yii\debug\Module',
+            'class'   => 'yii\debug\Module',
             'enabled' => YII_DEBUG && YII_ENV === 'dev',
         ),
     ),
@@ -18,14 +18,14 @@ return array(
         ),
 
         'user' => array(
-            'class' => 'yii\web\User',
+            'class'         => 'yii\web\User',
             'identityClass' => 'app\models\User'
         ),
 
         'log' => array(
             'targets' => array(
                 array(
-                    'class' => 'yii\log\FileTarget',
+                    'class'  => 'yii\log\FileTarget',
                     'levels' => array('error', 'warning')
                 )
             )
@@ -33,14 +33,16 @@ return array(
 
         'urlManager' => array(
             'enablePrettyUrl' => true,
-            'baseUrl' => '/',
+            'baseUrl'         => '/',
 
             'rules' => array(
-                '/' => 'site/index',
+                '/'                                                         => 'site/index',
+                '/admin'                                                    => 'admin/main',
+                '/admin/user'                                               => 'admin/user-list',
                 '/auth/registration/<email:[^\s]+?>/<password_hash:[^\s]+>' => 'auth/registration',
-                '/message/conversation/<id:\d+>' => 'message/conversation',
-                '/message/members/<id:\d+>' => 'message/members',
-                '/library/books/<id:\w+>' => 'library/books'
+                '/message/conversation/<id:\d+>'                            => 'message/conversation',
+                '/message/members/<id:\d+>'                                 => 'message/members',
+                '/library/books/<id:\w+>'                                   => 'library/books'
             )
         ),
 
