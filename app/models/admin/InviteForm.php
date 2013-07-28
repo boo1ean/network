@@ -1,9 +1,10 @@
 <?php
 namespace app\models\admin;
 
+use app\models\User;
 use Yii;
 use yii\base\Model;
-use app\models\User;
+use yii\helpers\Html;
 
 class InviteForm extends User
 {
