@@ -29,6 +29,8 @@
         </div>
     <?php endforeach;?>
 </div>
-<div class="pagination-centered">
-    <?php echo LinkPager::widget(array('pagination' => $pagination)); ?>
-</div>
+<?php if(!is_null($pagination)):?>
+    <div class="pagination-centered">
+        <?php echo LinkPager::widget(array('pagination' => $pagination)); ?>
+    </div>
+<?php endif;?>

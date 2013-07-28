@@ -44,10 +44,16 @@ class UserForm extends User
             ->offset($this->offset)
             ->all();
 
-        $pagination = new Pagination(array(
-            'pageSize'   => $this->limit,
-            'totalCount' => $query_count->count()
-        ));
+        $count_total = $query_count->count();
+
+        if($this->limit < $count_total) {
+            $pagination = new Pagination(array(
+                'pageSize'   => $this->limit,
+                'totalCount' => $query_count->count()
+            ));
+        } else {
+            $pagination = null;
+        }
 
         return array(
             'pagination' => $pagination,
