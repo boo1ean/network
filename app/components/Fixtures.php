@@ -47,17 +47,21 @@ class Fixtures extends Component
         $fakeConversation->title = $this->faker->word . 'Conversation';
         $fakeConversation->save(); 
         
-        /*Generate number of fake user*/
-        $allUsers = User::find()
-                ->all();
-        $numFakeUser = rand(0, count($allUsers)-1);
-        /*----------------------------*/
+        $idArr = [];
+        for($i = 0; $i < 2; $i++) {
+            /*Generate number of fake user*/
+            $allUsers = User::find()
+                    ->all();
+            $numFakeUser = rand(0, count($allUsers)-1);
+            /*----------------------------*/
         
-        $userToSubscribe = User::find()
-                ->where(array('id' => $allUsers[$numFakeUser]->id))
-                ->one();
-                
-        $fakeConversation->addSubscribed($userToSubscribe);
+            $userToSubscribe = User::find()
+                    ->where(array('id' => $allUsers[$numFakeUser]->id))
+                    ->one();
+            $idArr[$i] = $userToSubscribe->id;
+        }
+        
+        $fakeConversation->addSubscribed($idArr);
     }
 
     /**
@@ -75,21 +79,34 @@ class Fixtures extends Component
      */
     public function generateMessage() {  
         $fakeMessage = new Message;
+        $fakeConversation = new Conversation;
         
-        /*Generate number of fake user*/
-        $allUsers = User::find()->all();
-        $numFakeUser = rand(0, count($allUsers)-1);
-        /*----------------------------*/
-        
-        $fakeMessage->user_id = $allUsers[$numFakeUser]->id;
-                
         /*Generate number of fake conversation*/
         $allConversations = Conversation::find()->all();
         $numFakeConversation = rand(0, count($allConversations)-1);
         /*----------------------------*/
         
-        $fakeMessage->conversation_id = $allConversations[$numFakeUser]->id;
+        $fakeMessage->conversation_id = $allConversations[$numFakeConversation]->id;
+        $fakeConversation->id = $fakeMessage->conversation_id;
              
+        /*Generate number of fake user, whos is participant in conversation.*/
+        $allUsers = User::find()
+                    ->all();
+        $numFakeUser = 0;
+        $idFakeUser = 0;
+        for(;;) {
+            $numFakeUser = rand(0, count($allUsers)-1);
+            
+            $idFakeUser = $allUsers[$numFakeUser]->id;
+            $boo = $fakeConversation->isConversationMember($idFakeUser);
+            if($boo) {
+                break;
+            }
+        }
+        /*----------------------------*/
+        
+        $fakeMessage->user_id = $idFakeUser;
+        
         $fakeMessage->body = $this->faker->text;
         $fakeMessage->save();
     }
