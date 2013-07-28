@@ -83,9 +83,9 @@ class AdminController extends Controller
         }
 
         $param = array(
-            'count_total' => $users_data['count_total'],
-            'model'       => $userForm,
-            'users'       => $users
+            'model'      => $userForm,
+            'pagination' => $users_data['pagination'],
+            'users'      => $users
         );
 
         return $this->render('userList', $param);

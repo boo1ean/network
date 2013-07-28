@@ -1,5 +1,4 @@
 <?php
-    use yii\widgets\ActiveForm;
     use yii\helpers\Html;
     use yii\widgets\LinkPager;
 ?>
@@ -29,4 +28,7 @@
             </span>
         </div>
     <?php endforeach;?>
+</div>
+<div class="pagination-centered">
+    <?php echo LinkPager::widget(array('pagination' => $pagination)); ?>
 </div>

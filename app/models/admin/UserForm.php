@@ -4,6 +4,7 @@ namespace app\models\admin;
 
 use Yii;
 use yii\base\Model;
+use yii\data\Pagination;
 use app\models\User;
 
 class UserForm extends User
@@ -35,20 +36,22 @@ class UserForm extends User
      * @return array
      */
     public function userList() {
-        $current = Yii::$app->getUser()->getIdentity()->getId();
-        $users = $this->find()
-            ->where('id <> '.$current)
-            ->limit($this->limit)
+        $current     = Yii::$app->getUser()->getIdentity()->getId();
+        $query       = $this->find()->where('id <> '.$current);
+        $query_count = clone $query;
+
+        $users = $query->limit($this->limit)
             ->offset($this->offset)
             ->all();
 
-        $count_total = $this->find()
-            ->where('id <> '.$current)
-            ->count();
+        $pagination = new Pagination(array(
+            'pageSize'   => $this->limit,
+            'totalCount' => $query_count->count()
+        ));
 
         return array(
-            'count_total' => $count_total,
-            'users'       => $users
+            'pagination' => $pagination,
+            'users'      => $users
         );
     }
 }
