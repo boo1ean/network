@@ -3,18 +3,18 @@
 use yii\helpers\Html;
 ?>
 
-<h1>Available books</h1>
+<h1>Library</h1>
+
+<ul class="nav nav-pills">
+    <li><?php echo Html::a('New paper book', 'library/addbook'); ?></li>
+    <li><?php echo Html::a('New ebook', '#'); ?></li>
+    <li><?php echo Html::a('Show available books', 'library/books/available'); ?></li>
+    <li><?php echo Html::a('Show taken books', 'library/books/taken'); ?></li>
+    <li><?php echo Html::a('Sort books by title', 'library/books/bytitle'); ?></li>
+    <li><?php echo Html::a('Sort books by author', 'library/books/byauthor'); ?></li>
+</ul>
 
 <?php
-
-echo Html::a('New paper book', 'library/addbook').'<br/>';
-echo Html::a('New ebook', '#').'<br/><br/>';
-
-echo Html::a('Show available books', 'library/books/available').'<br/>';
-echo Html::a('Show taken books', 'library/books/taken').'<br/><br/>';
-
-echo Html::a('Sort books by title', 'library/books/bytitle').'<br/>';
-echo Html::a('Sort books by author', 'library/books/byauthor').'<br/><br/>';
 
 foreach ($books as $book) {
 
@@ -29,6 +29,11 @@ foreach ($books as $book) {
         <blockquote>
            <p><?php echo $book->description; ?></p>
         </blockquote>
+    </ul>
+
+    <ul class="nav nav-pills">
+        <li><?php echo Html::a('Edit', array('library/editbook/' . $book->id )); ?></li>
+        <li><?php echo Html::a('Delete', array('library/deletebook/' . $book->id)); ?></li>
     </ul>
 
 <?php
