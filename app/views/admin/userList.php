@@ -1,13 +1,32 @@
 <?php
     use yii\widgets\ActiveForm;
     use yii\helpers\Html;
+    use yii\widgets\LinkPager;
 ?>
 
     <h1>Users list</h1>
 
-<?php
-$form = ActiveForm::begin();
-echo Html::tag('p', 'Coming soon');
-?>
-
-<?php ActiveForm::end(); ?>
+<div class="container-group">
+    <div class="row-item">
+        <span class="avatar head"> <?php echo Html::tag('p', 'Avatar'); ?>    </span>
+        <span class="email head">  <?php echo Html::tag('p', 'E-mail');?>     </span>
+        <span class="text head">   <?php echo Html::tag('p', 'First name');?> </span>
+        <span class="text head">   <?php echo Html::tag('p', 'Last name');?>  </span>
+        <span class="text head">   <?php echo Html::tag('p', 'Actions');?>  </span>
+    </div>
+    <?php foreach($users as $user):?>
+        <div class="row-item">
+            <span class="avatar"> <?php echo Html::img($user->avatar); ?> </span>
+            <span class="email">  <?php echo $user->email;?>              </span>
+            <span class="text">   <?php echo $user->first_name;?>         </span>
+            <span class="text">   <?php echo $user->last_name;?>          </span>
+            <span class="text" style="width:auto;">
+            <?php
+                echo Html::submitButton('Edit',          array('id' => $user->id, 'class' => 'btn btn-success'));
+                echo Html::submitButton('Delete',        array('id' => $user->id, 'class' => 'btn btn-danger'));
+                echo Html::submitButton('Send on email', array('id' => $user->id, 'class' => 'btn btn-info'));
+            ?>
+            </span>
+        </div>
+    <?php endforeach;?>
+</div>

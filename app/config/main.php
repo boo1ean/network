@@ -39,6 +39,7 @@ return array(
                 '/'                                                         => 'site/index',
                 '/admin'                                                    => 'admin/main',
                 '/admin/user'                                               => 'admin/user-list',
+                '/admin/user-list/<id:\d+>'                                 => 'admin/user-list',
                 '/auth/registration/<email:[^\s]+?>/<password_hash:[^\s]+>' => 'auth/registration',
                 '/message/conversation/<id:\d+>'                            => 'message/conversation',
                 '/message/members/<id:\d+>'                                 => 'message/members',

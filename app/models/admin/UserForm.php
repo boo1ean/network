@@ -8,6 +8,15 @@ use app\models\User;
 
 class UserForm extends User
 {
+    /**
+     * @var integer limit users on the one page
+     */
+    public $limit = 10;
+
+    /**
+     * @var integer what is the recording start
+     */
+    public $offset = 0;
 
     /**
      * Editing data of user
@@ -26,10 +35,20 @@ class UserForm extends User
      * @return array
      */
     public function userList() {
-        if ($this->validate()) {
+        $current = Yii::$app->getUser()->getIdentity()->getId();
+        $users = $this->find()
+            ->where('id <> '.$current)
+            ->limit($this->limit)
+            ->offset($this->offset)
+            ->all();
 
-        }
+        $count_total = $this->find()
+            ->where('id <> '.$current)
+            ->count();
 
-        return array();
+        return array(
+            'count_total' => $count_total,
+            'users'       => $users
+        );
     }
 }

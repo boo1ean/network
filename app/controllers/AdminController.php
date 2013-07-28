@@ -1,6 +1,7 @@
 <?php
 namespace app\controllers;
 
+use \emberlabs\GravatarLib\Gravatar;
 use app\models\admin\InviteForm;
 use app\models\admin\MainForm;
 use app\models\admin\UserForm;
@@ -61,19 +62,31 @@ class AdminController extends Controller
         $param    = array('model' => $userForm);
 
         if ($userForm->load($_POST)) {
-            $param['message'] = $userForm->editUser();
+            $param['message'] = $userForm->userEdit();
         }
 
         return $this->render('userEdit', $param);
     }
 
-    public function actionUserList() {
-        $userForm  = new UserForm();
-        $param     = array('model' => $userForm);
+    public function actionUserList($page = 0) {
 
-        if ($userForm->load($_POST)) {
-            $param['message'] = $userForm->editUser();
+        $gravatar = new Gravatar();
+        $userForm = new UserForm();
+        $userForm->offset = $page;
+
+        $users_data = $userForm->userList();
+        $users      = array();
+
+        foreach($users_data['users'] as $key => $user) {
+            $users[$key]['avatar'] = $gravatar->buildGravatarURL($user['email']);
+            $users[$key] = $user;
         }
+
+        $param = array(
+            'count_total' => $users_data['count_total'],
+            'model'       => $userForm,
+            'users'       => $users
+        );
 
         return $this->render('userList', $param);
     }
