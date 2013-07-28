@@ -9,6 +9,9 @@ use app\models\Book;
 class AddBookForm extends Book
 {
 
+    const TYPE_PAPER = 0;
+    const TYPE_EBOOK = 1;
+
     public function rules() {
         return array(
             array('author, title', 'required'),
@@ -23,7 +26,7 @@ class AddBookForm extends Book
             $book->author = $this->author;
             $book->title = $this->title;
             $book->description = $this->description;
-            $book->type = 'paper';
+            $book->type = self::TYPE_PAPER;
             $book->status = 'available';
             $book->save();
             return true;

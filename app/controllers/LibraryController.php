@@ -77,8 +77,13 @@ class LibraryController extends Controller
 
     public function actionDeletebook($id = null) {
 
-        $book = Book::find($id);
+        $booktakings = Booktaking::findByBookId($id);
 
+        foreach ($booktakings as $booktaking) {
+            $booktaking->delete();
+        }
+
+        $book = Book::find($id);
         $book->delete();
 
         return Yii::$app->getResponse()->redirect('@web/library/books');
