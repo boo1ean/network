@@ -82,6 +82,7 @@ class AdminController extends Controller
         $userForm->user = $userForm->userEdit();
 
         if($userForm->is_first) {
+            $this->layout = 'block';
             $param = array('model'  => $userForm);
             return $this->render('userEdit', $param);
         } else {
