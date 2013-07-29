@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use app\models\Tag;
+use app\models\Book;
 ?>
 
 <h1>Library</h1>
@@ -43,6 +44,20 @@ foreach ($books as $book) {
         <blockquote>
            <p><?php echo $book->description; ?></p>
         </blockquote>
+
+    <?php
+        $books = Book::find($book->id);
+        $tags = $books->tags;
+
+        foreach ($tags as $tag) {
+    ?>
+        <span class='label label-info'>
+            <?php echo $tag->title; ?>
+        </span>
+    <?php
+        }
+    ?>
+
     </ul>
 
     <?php if($book->status == 'available') { ?>
