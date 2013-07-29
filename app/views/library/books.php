@@ -60,6 +60,8 @@ foreach ($books as $book) {
 
     </ul>
 
+    <br/>
+
     <?php if($book->status == 'available') { ?>
 
         <ul class="nav nav-pills">
