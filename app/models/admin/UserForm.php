@@ -10,6 +10,16 @@ use app\models\User;
 class UserForm extends User
 {
     /**
+     * @var integer user ID to be edited
+     */
+    public $id_edit;
+
+    /**
+     * @var boolean is this first loading of data or is this data form edit
+     */
+    public $is_first;
+
+    /**
      * @var integer limit users on the one page
      */
     public $limit = 10;
@@ -20,15 +30,45 @@ class UserForm extends User
     public $offset = 0;
 
     /**
+     * @var string repeat_password for change password
+     */
+    public $repeat_password;
+
+    /**
+     * @var
+     */
+    public $user;
+
+    /**
+     * @return validation rules array
+     */
+    public function rules() {
+        return array(
+            array('email', 'required'),
+            array('email', 'email'),
+            array('repeat_password', 'compare', 'compareAttribute'=>'password')
+        );
+    }
+
+    /**
      * Editing data of user
      * @return mixed
      */
     public function userEdit() {
-        if ($this->validate()) {
+        if($this->is_first) {
+            return User::find($this->id_edit);
+        } elseif ($this->validate()) {
+            $user = User::find($this->id_edit);
 
+            $user->email      = $this->email;
+            $user->first_name = $this->first_name;
+            $user->last_name  = $this->last_name;
+            $user->password   = $this->hashPassword($this->password);
+            $user->save();
+            return $user;
+        } else {
+            return $this->errors;
         }
-
-        return false;
     }
 
     /**

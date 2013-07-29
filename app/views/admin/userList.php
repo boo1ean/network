@@ -14,14 +14,14 @@
         <span class="text head">   <?php echo Html::tag('p', 'Actions');?>  </span>
     </div>
     <?php foreach($users as $user):?>
-        <div class="row-item">
-            <span class="avatar"> <?php echo Html::img($user->avatar); ?> </span>
-            <span class="email">  <?php echo $user->email;?>              </span>
-            <span class="text">   <?php echo $user->first_name;?>         </span>
-            <span class="text">   <?php echo $user->last_name;?>          </span>
-            <span class="text" style="width:auto;">
+        <div class="row-item" >
+            <span class="avatar" id="<?php echo $user->id?>_avatar">     <?php echo Html::img($user->avatar); ?> </span>
+            <span class="email"  id="<?php echo $user->id?>_email">      <?php echo $user->email;?>              </span>
+            <span class="text"   id="<?php echo $user->id?>_first_name"> <?php echo $user->first_name;?>         </span>
+            <span class="text"   id="<?php echo $user->id?>_last_name">  <?php echo $user->last_name;?>          </span>
+            <span class="text" style="width: auto;">
             <?php
-                echo Html::submitButton('Edit',          array('id' => $user->id, 'class' => 'btn btn-success', 'onclick' => 'editUser(id)'));
+                echo Html::submitButton('Edit',          array('id' => $user->id, 'class' => 'btn btn-success', 'onclick' => 'return editUser(id, 1);'));
                 echo Html::submitButton('Delete',        array('id' => $user->id, 'class' => 'btn btn-danger'));
                 echo Html::submitButton('Send on email', array('id' => $user->id, 'class' => 'btn btn-info'));
             ?>

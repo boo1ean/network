@@ -1,6 +1,7 @@
 <?php
 namespace app\controllers;
 
+use app\models\User;
 use \emberlabs\GravatarLib\Gravatar;
 use app\models\admin\InviteForm;
 use app\models\admin\MainForm;
@@ -58,14 +59,40 @@ class AdminController extends Controller
     }
 
     public function actionUserEdit() {
-        $userForm = new UserForm();
-        $param    = array('model' => $userForm);
 
-        if ($userForm->load($_POST)) {
-            $param['message'] = $userForm->userEdit();
+        if(!isset($_POST['id_edit']) || !isset($_POST['is_first'])){
+            Yii::$app->getResponse()->redirect('@web');
+            return false;
         }
 
-        return $this->render('userEdit', $param);
+        $userForm = new UserForm();
+
+        $userForm->id_edit  = $_POST['id_edit'];
+        $userForm->is_first = $_POST['is_first'];
+
+        if (!$userForm->is_first) {
+            $userForm->user            = new User();
+            $userForm->email           = $_POST['email'];
+            $userForm->first_name      = $_POST['first_name'];
+            $userForm->last_name       = $_POST['last_name'];
+            $userForm->password        = $_POST['password'];
+            $userForm->repeat_password = $_POST['password'];
+        }
+
+        $userForm->user = $userForm->userEdit();
+
+        if($userForm->is_first) {
+            $param = array('model'  => $userForm);
+            return $this->render('userEdit', $param);
+        } else {
+            $status = count($userForm->errors) > 0 ? 'error' : 'ok';
+            $result = array(
+                'status' => $status,
+                'errors' => $userForm->errors,
+                'user'   => $userForm->toArray()
+            );
+            echo json_encode($result);
+        }
     }
 
     public function actionUserList($page = 0) {
