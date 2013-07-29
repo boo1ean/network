@@ -43,7 +43,10 @@ return array(
                 '/auth/registration/<email:[^\s]+?>/<password_hash:[^\s]+>' => 'auth/registration',
                 '/message/conversation/<id:\d+>'                            => 'message/conversation',
                 '/message/members/<id:\d+>'                                 => 'message/members',
-                '/library/books/<id:\w+>'                                   => 'library/books'
+                '/library/books/<id:\w+>'                                   => 'library/books',
+                '/library/editbook/<id:\d+>'                                => 'library/editbook',
+                '/library/deletebook/<id:\d+>'                              => 'library/deletebook',
+                '/library/takebook/<id:\d+>'                                => 'library/takebook'
             )
         ),
 

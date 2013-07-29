@@ -43,6 +43,11 @@ class AuthController extends Controller
      * @return view
      */
     public function actionEdit() {
+        if (Yii::$app->getUser()->getIsGuest()) {
+            Yii::$app->getResponse()->redirect('@web');
+            return false;
+        }
+
         $editProfileForm = new EditProfileForm();
 
         if ($editProfileForm->load($_POST) && $editProfileForm->saveProfile()) {
