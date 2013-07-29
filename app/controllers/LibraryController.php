@@ -7,12 +7,18 @@ use app\models\EditBookForm;
 use yii;
 use yii\web\Controller;
 use app\models\Book;
+use app\models\Tag;
 use app\models\AddBookForm;
 
 class LibraryController extends Controller
 {
 
     public function actionBooks($id = null) {
+
+        if (Yii::$app->getUser()->getIsGuest()) {
+            Yii::$app->getResponse()->redirect('@web');
+            return false;
+        }
 
         switch($id) {
             case 'bytitle':
@@ -28,7 +34,13 @@ class LibraryController extends Controller
                 $books = Book::getTakenBooks();
                 break;
             default:
-                $books = Book::getAvailableBooks();
+                if (isset($id)) {
+                    $tags = Tag::find($id);
+                    $books = $tags->books;
+                } else {
+                    $books = Book::getAvailableBooks();
+                }
+
                 break;
         }
 
@@ -39,7 +51,14 @@ class LibraryController extends Controller
 
     public function actionAddbook() {
 
+        if (Yii::$app->getUser()->getIsGuest()) {
+            Yii::$app->getResponse()->redirect('@web');
+            return false;
+        }
+
         $bookForm = new AddBookForm();
+
+        $bookForm->scenario = 'add';
 
         if ($bookForm->load($_POST) && $bookForm->addBook()) {
             return $this->render('addbook', array(
@@ -53,9 +72,16 @@ class LibraryController extends Controller
 
     public function actionEditbook($id = null) {
 
+        if (Yii::$app->getUser()->getIsGuest()) {
+            Yii::$app->getResponse()->redirect('@web');
+            return false;
+        }
+
         $book = Book::find($id);
 
         $bookForm = new AddBookForm;
+
+        $bookForm->scenario = 'edit';
 
         if ($bookForm->load($_POST) && $bookForm->saveBook($id)) {
 
@@ -77,8 +103,16 @@ class LibraryController extends Controller
 
     public function actionDeletebook($id = null) {
 
+        if (Yii::$app->getUser()->getIsGuest()) {
+            Yii::$app->getResponse()->redirect('@web');
+            return false;
+        }
+
         $booktaking = Booktaking::findByBookId($id);
-        $booktaking->delete();
+
+        if ($booktaking) {
+            $booktaking->delete();
+        }
 
         $book = Book::find($id);
         $book->delete();
@@ -87,6 +121,11 @@ class LibraryController extends Controller
     }
 
     public function actionTakebook($id = null) {
+
+        if (Yii::$app->getUser()->getIsGuest()) {
+            Yii::$app->getResponse()->redirect('@web');
+            return false;
+        }
 
         $book = Book::find($id);
 
@@ -107,7 +146,6 @@ class LibraryController extends Controller
         $book->save();
 
         return Yii::$app->getResponse()->redirect('@web/library/books');
-
     }
 
 }

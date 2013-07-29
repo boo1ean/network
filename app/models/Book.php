@@ -35,12 +35,6 @@ class Book extends ActiveRecord
             ->one();
     }
 
-    public static function findByTag($tag) {
-        return static::find()
-            ->where(array('tags' => $tag))
-            ->all();
-    }
-
     public static function getAvailableBooks() {
         return static::find()
             ->where(array('status' => 'available'))
@@ -63,6 +57,11 @@ class Book extends ActiveRecord
         return static::find()
             ->where(array('type' => 'ebook'))
             ->all();
+    }
+
+    public function getTags() {
+        return $this->hasMany('Tag', array('id' => 'tag_id'))
+            ->viaTable('book_tags', array('book_id' => 'id'));
     }
 
 }

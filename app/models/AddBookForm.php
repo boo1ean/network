@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use app\models\Book;
+use app\models\Tag;
 
 class AddBookForm extends Book
 {
@@ -15,6 +16,13 @@ class AddBookForm extends Book
     public function rules() {
         return array(
             array('author, title', 'required'),
+        );
+    }
+
+    public function scenarios() {
+        return array(
+            'add' => array('author', 'title', 'description'),
+            'edit' => array('author', 'title')
         );
     }
 
@@ -29,6 +37,20 @@ class AddBookForm extends Book
             $book->type = self::TYPE_PAPER;
             $book->status = 'available';
             $book->save();
+
+            $tags_array = $_POST['tags'];
+
+            if ($tags_array !== '') {
+                $tags = explode(', ', $tags_array);
+
+                foreach($tags as $tag_title) {
+                    $tag = new Tag;
+                    $tag->title = $tag_title;
+                    $tag->save();
+                    $book->link('tags', $tag);
+                }
+            }
+
             return true;
         }
 

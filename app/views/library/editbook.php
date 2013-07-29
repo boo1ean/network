@@ -39,6 +39,14 @@ echo $form->field($model, 'title')->textInput(array('value' => $title));
     </div>
 </div>
 
+<?php echo Html::label('Tags', null, array('class' => 'control-label')); ?>
+
+<div class="control-group">
+    <div class="controls">
+        <?php echo Html::textInput('tags', null, array('placeholder' => 'Enter few tags with delimiters')); ?>
+    </div>
+</div>
+
 <div class="controls">
     <?php echo Html::submitButton('Save book', array('class' => 'btn btn-primary')); ?>
 </div>

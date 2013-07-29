@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use app\models\Tag;
 ?>
 
 <h1>Library</h1>
@@ -15,6 +16,12 @@ use yii\helpers\Html;
 </ul>
 
 <?php
+
+$tags = Tag::getTags();
+
+foreach ($tags as $tag) {
+    echo Html::a($tag->title, array('library/books/'.$tag->id), array('class' => 'label label-info')).' ';
+}
 
 foreach ($books as $book) {
 
