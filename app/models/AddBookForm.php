@@ -44,10 +44,15 @@ class AddBookForm extends Book
                 $tags = explode(', ', $tags_array);
 
                 foreach($tags as $tag_title) {
-                    $tag = new Tag;
-                    $tag->title = $tag_title;
-                    $tag->save();
-                    $book->link('tags', $tag);
+                    if (!Tag::findByTitle($tag_title)) {
+                        $tag = new Tag;
+                        $tag->title = $tag_title;
+                        $tag->save();
+                        $book->link('tags', $tag);
+                    } else {
+                        $tag = Tag::findByTitle($tag_title);
+                        $book->link('tags', $tag);
+                    }
                 }
             }
 
