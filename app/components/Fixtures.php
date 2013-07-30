@@ -20,13 +20,14 @@ class Fixtures extends Component
     /**
      * Generates single user
      */
-    public function generateUser() {
+    public function generateUser($user_type = User::TYPE_USER) {
         $fakeUser = new User;
 
-        $fakeUser->email      = $this->faker->email;
-        $fakeUser->password   = '123';
+        $fakeUser->email      = $user_type == User::TYPE_USER ? $this->faker->email : 'admin@gmail.com';
+        $fakeUser->password   = $user_type == User::TYPE_USER ? '123'               : 'admin';
         $fakeUser->first_name = $this->faker->firstName;
         $fakeUser->last_name  = $this->faker->lastName;
+        $fakeUser->type       = $user_type;
         $fakeUser->save();
     }
 
@@ -38,6 +39,14 @@ class Fixtures extends Component
         for( $i = 0; $i < $number; $i++) {
             $this->generateUser();
         }
+
+        $count_admins = User::find()->where(array('type' => User::TYPE_ADMIN))->count();
+        if(0 == $count_admins) {
+            $this->generateUser(User::TYPE_ADMIN);
+            return true;
+        }
+
+        return false;
     }
         
      /**

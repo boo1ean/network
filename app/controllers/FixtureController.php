@@ -55,8 +55,8 @@ class FixtureController extends Controller
      * @param $usersCount
      */
     public function actionUsers($usersCount = self::USERS_COUNT) {
-        $this->fixture->generateUsers($usersCount);
-        echo 'Generated ' . $usersCount . " users \n" ;
+        $is_admin = $this->fixture->generateUsers($usersCount);
+        echo 'Generated ' . $usersCount . ' users ' . ($is_admin ? 'and 1 admin' : '') . PHP_EOL;
     }
 
     /**
@@ -65,7 +65,7 @@ class FixtureController extends Controller
      */
     public function actionConversations($conversationsCount = self::CONVERSATIONS_COUNT) {
         $this->fixture->generateConversations($conversationsCount);
-        echo 'Generated ' . $conversationsCount . " conversations \n";
+        echo 'Generated ' . $conversationsCount . ' conversations'.PHP_EOL;
     }
 
     /**
@@ -74,7 +74,7 @@ class FixtureController extends Controller
      */
     public function actionMessages($messagesCount = self::MESSAGES_COUNT) {
         $this->fixture->generateMessages($messagesCount);
-        echo 'Generated ' . $messagesCount . " messages \n";
+        echo 'Generated ' . $messagesCount . ' messages'.PHP_EOL;
     }
 
     /**
@@ -83,6 +83,6 @@ class FixtureController extends Controller
      */
     public function actionBooks($booksCount = self::BOOKS_COUNT) {
         $this->fixture->generateBooks($booksCount);
-        echo 'Generated ' . $booksCount . " books \n";
+        echo 'Generated ' . $booksCount . ' books'.PHP_EOL;
     }
 }
