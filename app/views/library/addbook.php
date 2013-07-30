@@ -5,9 +5,12 @@ use yii\widgets\ActiveForm;
 
 ?>
 
-<h1>Add paper book</h1>
+<h1>Add book</h1>
 
-<br/>
+<ul class="nav nav-pills">
+    <li><?php echo Html::a('Paper book', 'library/addbook/paper'); ?></li>
+    <li><?php echo Html::a('E-book', 'library/addbook/ebook'); ?></li>
+</ul>
 
 <?php
 
@@ -26,6 +29,16 @@ echo $form->field($model, 'description')->textArea(array('placeholder' => 'Enter
         <?php echo Html::textInput('tags', null, array('placeholder' => 'Enter few tags with delimiters')); ?>
     </div>
 </div>
+
+<?php if ($type == 'ebook') { echo Html::label('Upload ebook', null, array('class' => 'control-label')); ?>
+
+<div class="control-group">
+    <div class="controls">
+        <?php echo Html::fileInput('ebook', null); ?>
+    </div>
+</div>
+
+<?php } ?>
 
 <div class="control-group">
     <div class="controls">

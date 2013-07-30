@@ -55,7 +55,7 @@ class LibraryController extends Controller
         ));
     }
 
-    public function actionAddbook() {
+    public function actionAddbook($param = null) {
 
         if (Yii::$app->getUser()->getIsGuest()) {
             Yii::$app->getResponse()->redirect('@web');
@@ -69,7 +69,10 @@ class LibraryController extends Controller
         if ($bookForm->load($_POST) && $bookForm->addBook()) {
             Yii::$app->getResponse()->redirect('@web/library/books');
         } else {
-            return $this->render('addbook', array('model' => $bookForm));
+            return $this->render('addbook', array(
+                'model' => $bookForm,
+                'type'  => $param
+            ));
         }
     }
 
