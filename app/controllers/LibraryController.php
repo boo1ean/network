@@ -61,10 +61,7 @@ class LibraryController extends Controller
         $bookForm->scenario = 'add';
 
         if ($bookForm->load($_POST) && $bookForm->addBook()) {
-            return $this->render('addbook', array(
-                'model'   => $bookForm,
-                'message' => 'Well done! You successfully added new book.'
-            ));
+            Yii::$app->getResponse()->redirect('@web/library/books');
         } else {
             return $this->render('addbook', array('model' => $bookForm));
         }

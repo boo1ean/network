@@ -15,7 +15,7 @@ class AddBookForm extends Book
 
     public function rules() {
         return array(
-            array('author, title', 'required'),
+            array('author, title, description', 'required'),
         );
     }
 
