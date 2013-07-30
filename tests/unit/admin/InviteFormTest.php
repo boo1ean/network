@@ -26,16 +26,16 @@ class InviteFormTest extends \Codeception\TestCase\Test
         $faker = \Faker\Factory::create();
 
         // Create adminForm instance
-        $this->inviteForm = new InviteForm();
-        $this->inviteForm->email = $faker->email;
+        $this->inviteForm           = new InviteForm();
+        $this->inviteForm->email    = $faker->email;
         $this->inviteForm->password = User::hashPassword($faker->word);
 
         // Create user instance
         $this->user = new User();
-        $this->user->email = $this->inviteForm->email;
-        $this->user->password = $this->inviteForm->password;
+        $this->user->email      = $this->inviteForm->email;
+        $this->user->password   = $this->inviteForm->password;
         $this->user->first_name = $faker->firstname;
-        $this->user->last_name = $faker->lastname;
+        $this->user->last_name  = $faker->lastname;
 
         // for urlManager component
         $_SERVER['HTTP_HOST'] = $faker->domainName;
