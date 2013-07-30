@@ -71,15 +71,16 @@ class AdminController extends Controller
         $userForm->is_first = $_POST['is_first'];
 
         if (!$userForm->is_first) {
-            $userForm->user            = new User();
             $userForm->email           = $_POST['email'];
             $userForm->first_name      = $_POST['first_name'];
             $userForm->last_name       = $_POST['last_name'];
             $userForm->password        = $_POST['password'];
-            $userForm->repeat_password = $_POST['password'];
+            $userForm->repeat_password = $_POST['repeat_password'];
+        } else {
+            $userForm->scenario = 'isFirst';
         }
 
-        $userForm->user = $userForm->userEdit();
+        $userForm->userEdit();
 
         if($userForm->is_first) {
             $this->layout = 'block';

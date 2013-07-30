@@ -35,18 +35,23 @@ class UserForm extends User
     public $repeat_password;
 
     /**
-     * @var
-     */
-    public $user;
-
-    /**
      * @return validation rules array
      */
     public function rules() {
         return array(
-            array('email', 'required'),
+            array('email, id_edit, is_first', 'required'),
             array('email', 'email'),
-            array('repeat_password', 'compare', 'compareAttribute'=>'password')
+            array('password', 'compare', 'compareAttribute'=>'repeat_password')
+        );
+    }
+
+    /**
+     * @return scenarios array
+     */
+    public function scenarios() {
+        return array(
+            'default' => array('email', 'id_edit', 'is_first', 'password'),
+            'isFirst' => array('id_edit', 'is_first')
         );
     }
 
@@ -55,19 +60,25 @@ class UserForm extends User
      * @return mixed
      */
     public function userEdit() {
-        if($this->is_first) {
-            return User::find($this->id_edit);
-        } elseif ($this->validate()) {
-            $user = User::find($this->id_edit);
+        if ($this->validate()) {
+            if($this->is_first) {
+                $user = User::find($this->id_edit);
+                $this->email      = $user->email;
+                $this->first_name = $user->first_name;
+                $this->last_name  = $user->last_name;
+                return true;
+            } else {
+                $user = User::find($this->id_edit);
 
-            $user->email      = $this->email;
-            $user->first_name = $this->first_name;
-            $user->last_name  = $this->last_name;
-            $user->password   = $this->hashPassword($this->password);
-            $user->save();
-            return $user;
+                $user->email      = $this->email;
+                $user->first_name = $this->first_name;
+                $user->last_name  = $this->last_name;
+                $user->password   = $this->password;
+                $user->save();
+                return true;
+            }
         } else {
-            return $this->errors;
+            return false;
         }
     }
 
