@@ -24,9 +24,10 @@ class Fixtures extends Component
         $fakeUser = new User;
 
         $fakeUser->email      = $user_type == User::TYPE_USER ? $this->faker->email : 'admin@gmail.com';
-        $fakeUser->password   = $user_type == User::TYPE_USER ? '123'               : 'admin';
         $fakeUser->first_name = $this->faker->firstName;
+        $fakeUser->is_active  = 1;
         $fakeUser->last_name  = $this->faker->lastName;
+        $fakeUser->password   = $user_type == User::TYPE_USER ? '123' : 'admin';
         $fakeUser->type       = $user_type;
         $fakeUser->save();
     }
