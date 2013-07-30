@@ -56,6 +56,7 @@ class UserFormTest extends \Codeception\TestCase\Test
             $user = new User();
             $user->email      = $faker->email;
             $user->first_name = $faker->firstname;
+            $user->is_active  = 1;
             $user->last_name  = $faker->lastname;
             $user->password   = $faker->word;
             $user->save();
@@ -74,6 +75,32 @@ class UserFormTest extends \Codeception\TestCase\Test
         $this->post['last_name']       = $faker->lastname;
         $this->post['password']        = $faker->word;
         $this->post['repeat_password'] = $this->post['password'];
+    }
+
+    public function testUserBlock() {
+        $this->userForm->scenario = 'block';
+        $user_edit = $this->users[self::USER_ID];
+
+        // when calling without post data
+        $this->assertFalse($this->userForm->userBlock());
+
+        $this->userForm->is_block = 1;
+
+        // when calling without id user for edit
+        $this->assertFalse($this->userForm->userBlock());
+
+        $this->userForm->id_edit = $user_edit->id;
+
+        // block user
+        $this->assertTrue($this->userForm->userBlock());
+        $user_edit = User::find($user_edit->id);
+        $this->assertEquals($user_edit->is_active, 0);
+
+        // unblock user
+        $this->userForm->is_block = 0;
+        $this->assertTrue($this->userForm->userBlock());
+        $user_edit = User::findIdentity($user_edit->id);
+        $this->assertEquals($user_edit->is_active, 1);
     }
 
     public function testUserEdit() {
