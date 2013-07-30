@@ -80,7 +80,7 @@ class AuthController extends Controller
             ));
         }
 
-        $registrationForm->email = $email;
+        $registrationForm->email         = $email;
         $registrationForm->password_hash = $password_hash;
 
         if (!$isPost) {

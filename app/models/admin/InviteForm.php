@@ -46,7 +46,7 @@ class InviteForm extends User
      */
     public function sendInvite() {
         if ($this->validate()) {
-            // add new user with sent email (in future with field active = 0)
+            // add new user with sent email
             $this->password = User::hashPassword(time().'-'.$this->email);
             $this->save();
 

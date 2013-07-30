@@ -63,8 +63,9 @@ class RegistrationForm extends User
             $user = User::findByEmail($this->email);
 
             $user->first_name = $this->first_name;
-            $user->last_name = $this->last_name;
-            $user->password = $this->hashPassword($this->password);
+            $user->is_active  = 1;
+            $user->last_name  = $this->last_name;
+            $user->password   = $this->hashPassword($this->password);
             $user->save();
             return true;
         }

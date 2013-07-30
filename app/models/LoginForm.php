@@ -40,6 +40,7 @@ class LoginForm extends Model
         return array(
             array('email, password', 'required'),
             array('email', 'email'),
+            array('email', 'isBlock'),
             array('email', 'validateEmail'),
             array('password', 'validatePassword')
             //array('captcha', 'captcha', 'captchaAction' => 'auth/captcha'),
@@ -53,6 +54,16 @@ class LoginForm extends Model
         return array(
             'default' => array('email', 'password')
         );
+    }
+
+    /**
+     * is this user blocked
+     */
+    public function isBlock() {
+        $user = User::findByEmail($this->email);
+        if (0 == $user->is_active) {
+            $this->addError('email', 'Your account was been blocked by admin');
+        }
     }
 
     /**

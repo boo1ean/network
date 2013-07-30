@@ -94,7 +94,7 @@ class UserForm extends User
                 $user->email      = $this->email;
                 $user->first_name = $this->first_name;
                 $user->last_name  = $this->last_name;
-                $user->password   = $this->password;
+                $user->password   = User::hashPassword($this->password);
                 $user->save();
                 return true;
             }
