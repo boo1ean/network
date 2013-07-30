@@ -22,6 +22,7 @@ class AppAsset extends AssetBundle
         'js/fancybox/source/jquery.fancybox.css',
     );
     public $js = array(
+        'js/admin/user.js',
         'js/fancybox/source/jquery.fancybox.js',
         'js/site.js'
     );
