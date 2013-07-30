@@ -6,6 +6,8 @@ use yii;
 use app\models\User;
 use \app\models\Conversation;
 use \app\models\Message;
+use \app\models\Book;
+use \app\models\Tag;
 
 class Fixtures extends Component
 {
@@ -118,6 +120,39 @@ class Fixtures extends Component
     public function generateMessages($number) {
         for( $i = 0; $i < $number; $i++) {
             $this->generateMessage();
+        }
+    }
+
+    /**
+     * Generates book with few tags
+     */
+    public function generateBook() {
+        $fakeBook = new Book;
+
+        $fakeBook->author      = $this->faker->name;
+        $fakeBook->title       = $this->faker->firstName;
+        $fakeBook->description = $this->faker->text;
+        $fakeBook->type        = 1;
+        $fakeBook->status      = 'available';
+        $fakeBook->save();
+
+        $tags_count = rand(2, 5);
+
+        for($i = 0; $i < $tags_count; $i++) {
+            $fakeTag = new Tag;
+            $fakeTag->title = $this->faker->company;
+            $fakeTag->save();
+            $fakeBook->link('tags', $fakeTag);
+        }
+    }
+
+    /**
+     * Generates books with tags
+     * @param integer $number number of books to generate
+     */
+    public function generateBooks($number) {
+        for($i = 0; $i < $number; $i++) {
+            $this->generateBook();
         }
     }
 }

@@ -19,6 +19,7 @@ class FixtureController extends Controller
     const USERS_COUNT = 10;
     const CONVERSATIONS_COUNT = 20;
     const MESSAGES_COUNT = 50;
+    const BOOKS_COUNT = 20;
 
     /**
      * @var object fixtures
@@ -41,10 +42,12 @@ class FixtureController extends Controller
     /**
      * Creates users, conversations and members
      */
-    public function actionAll($usersCount = self::USERS_COUNT, $conversationsCount = self::CONVERSATIONS_COUNT, $messagesCount = self::MESSAGES_COUNT) {
+    public function actionAll($usersCount = self::USERS_COUNT, $conversationsCount = self::CONVERSATIONS_COUNT,
+                              $messagesCount = self::MESSAGES_COUNT, $booksCount = self::BOOKS_COUNT) {
         $this->actionUsers($usersCount);
         $this->actionConversations($conversationsCount);
         $this->actionMessages($messagesCount);
+        $this->actionBooks($booksCount);
     }
 
     /**
@@ -72,5 +75,14 @@ class FixtureController extends Controller
     public function actionMessages($messagesCount = self::MESSAGES_COUNT) {
         $this->fixture->generateMessages($messagesCount);
         echo 'Generated ' . $messagesCount . " messages \n";
+    }
+
+    /**
+     * Create books
+     * @param $booksCount
+     */
+    public function actionBooks($booksCount = self::BOOKS_COUNT) {
+        $this->fixture->generateBooks($booksCount);
+        echo 'Generated ' . $booksCount . " books \n";
     }
 }
