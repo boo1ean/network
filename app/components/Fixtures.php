@@ -47,7 +47,7 @@ class Fixtures extends Component
         $fakeConversation->title = $this->faker->word . 'Conversation';
         $fakeConversation->save(); 
         
-        $idArr = [];
+        $idArr = array();
         for($i = 0; $i < 2; $i++) {
             /*Generate number of fake user*/
             $allUsers = User::find()

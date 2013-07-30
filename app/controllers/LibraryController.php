@@ -115,6 +115,13 @@ class LibraryController extends Controller
         }
 
         $book = Book::find($id);
+
+        $tags = $book->tags;
+
+        foreach ($tags as $tag) {
+            $book->unlink('tags', $tag);
+        }
+
         $book->delete();
 
         return Yii::$app->getResponse()->redirect('@web/library/books');
