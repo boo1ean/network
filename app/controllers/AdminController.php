@@ -58,6 +58,22 @@ class AdminController extends Controller
         return $this->render('sendInvite', $param);
     }
 
+    public function actionUserBlock() {
+
+        if(!isset($_POST['id_edit']) || !isset($_POST['is_block'])){
+            Yii::$app->getResponse()->redirect('@web');
+            return false;
+        }
+
+        $userForm = new UserForm();
+
+        $userForm->id_edit  = $_POST['id_edit'];
+        $userForm->is_block = $_POST['is_block'];
+        $userForm->scenario = 'block';
+
+        $userForm->userBlock();
+    }
+
     public function actionUserEdit() {
 
         if(!isset($_POST['id_edit']) || !isset($_POST['is_first'])){

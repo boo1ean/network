@@ -15,6 +15,11 @@ class UserForm extends User
     public $id_edit;
 
     /**
+     * @var boolean block or unblock user
+     */
+    public $is_block;
+
+    /**
      * @var boolean is this first loading of data or is this data form edit
      */
     public $is_first;
@@ -39,7 +44,7 @@ class UserForm extends User
      */
     public function rules() {
         return array(
-            array('email, id_edit, is_first', 'required'),
+            array('email, id_edit, is_block, is_first', 'required'),
             array('email', 'email'),
             array('password', 'compare', 'compareAttribute'=>'repeat_password')
         );
@@ -50,9 +55,25 @@ class UserForm extends User
      */
     public function scenarios() {
         return array(
+            'block'   => array('id_edit', 'is_block'),
             'default' => array('email', 'id_edit', 'is_first', 'password'),
             'isFirst' => array('id_edit', 'is_first')
         );
+    }
+
+    /**
+     * Block or unblock the user
+     * @return mixed
+     */
+    public function userBlock() {
+        if ($this->validate()) {
+            $user = User::find($this->id_edit);
+            $user->is_active = $this->is_block ? 0 : 1;
+            $user->save();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

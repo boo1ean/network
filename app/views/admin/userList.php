@@ -21,9 +21,24 @@
             <span class="text"   id="<?php echo $user->id?>_last_name">  <?php echo $user->last_name;?>          </span>
             <span class="text" style="width: auto;">
             <?php
-                echo Html::submitButton('Edit',          array('id' => $user->id, 'class' => 'btn btn-success', 'onclick' => 'return editUser(id, 1);'));
-                echo Html::submitButton('Delete',        array('id' => $user->id, 'class' => 'btn btn-danger'));
-                echo Html::submitButton('Send on email', array('id' => $user->id, 'class' => 'btn btn-info'));
+                echo Html::submitButton('Edit', array(
+                    'class'   => 'btn btn-success',
+                    'data-id' => $user->id,
+                    'id'      => 'user-edit',
+                    'onclick' => 'return userEdit(this, 1);'
+                ));
+                echo Html::submitButton($user->is_active ? 'Block account' : 'Unblock account', array(
+                    'class'   => $user->is_active ? 'btn btn-warning' : 'btn btn-info',
+                    'data-id' => $user->id,
+                    'id'      => 'user-block',
+                    'onclick' => 'return userBlock(this);'
+                ));
+                echo Html::submitButton('Delete', array(
+                    'class'   => 'btn btn-danger',
+                    'data-id' => $user->id,
+                    'id'      => 'user-delete',
+                    'onclick' => 'return userDelete(this);'
+                ));
             ?>
             </span>
         </div>

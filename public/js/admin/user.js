@@ -1,3 +1,34 @@
+function userBlock(obj) {
+    obj = $(obj);
+    var id         = obj.attr('data-id');
+    var is_block   = obj.hasClass('btn-warning') ? 1 : 0;
+    var first_name = $('#'+id+'_first_name').text().toString().trim();
+    var last_name  = $('#'+id+'_last_name').text().toString().trim();
+    if(confirm('Do you really wanna '+(is_block ? 'block' : 'unblock')+' this user: "'+first_name+' '+last_name+'"')) {
+        $.ajax({
+            url:  'user-block',
+            type: 'POST',
+            data: {
+                id_edit:  id,
+                is_block: is_block
+            },
+            success: function(response, textStatus) {
+
+                if(is_block){
+                    obj.removeClass('btn-warning')
+                       .addClass('btn-info')
+                       .html('Unblock account');
+                } else {
+                    obj.removeClass('btn-info')
+                       .addClass('btn-warning')
+                       .html('Block account');
+                }
+            }
+        });
+    }
+    return false;
+}
+
 function userEdit(obj, is_first) {
     var id   = obj.getAttribute('data-id');
     var data = is_first ? {} : JQuerySelectorFind(['input'], 'edit_user');
