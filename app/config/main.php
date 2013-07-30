@@ -47,6 +47,7 @@ return array(
                 '/library/editbook/<id:\d+>'                                => 'library/editbook',
                 '/library/deletebook/<id:\d+>'                              => 'library/deletebook',
                 '/library/takebook/<id:\d+>'                                => 'library/takebook',
+                '/library/untakebook/<id:\d+>'                              => 'library/untakebook',
                 '/library/books/<id:\d+>'                                   => 'library/books/'
             )
         ),

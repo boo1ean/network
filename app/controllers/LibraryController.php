@@ -13,6 +13,9 @@ use app\models\AddBookForm;
 class LibraryController extends Controller
 {
 
+    const TYPE_TAKEN = 1;
+    const TYPE_UNTAKEN = 2;
+
     public function actionBooks($id = null) {
 
         if (Yii::$app->getUser()->getIsGuest()) {
@@ -105,9 +108,9 @@ class LibraryController extends Controller
             return false;
         }
 
-        $booktaking = Booktaking::findByBookId($id);
+        $booktakings = Booktaking::findByBookId($id);
 
-        if ($booktaking) {
+        foreach ($booktakings as $booktaking) {
             $booktaking->delete();
         }
 
@@ -134,19 +137,34 @@ class LibraryController extends Controller
         $book = Book::find($id);
 
         $book_take = new Booktaking;
-
         $book_take->book_id = $id;
         $book_take->user_id = Yii::$app->getUser()->getIdentity()->id;
         $book_take->taken = date('Y-m-d');
-
         $tomorrow  = mktime(0, 0, 0, date("m"), date("d")+1, date("Y"));
-
         $book_take->returned = date('Y-m-d', $tomorrow);
-
         $book_take->save();
 
         $book->status = 'taken';
+        $book->save();
 
+        return Yii::$app->getResponse()->redirect('@web/library/books');
+    }
+
+    public function actionUntakebook($id = null) {
+
+        if (Yii::$app->getUser()->getIsGuest()) {
+            Yii::$app->getResponse()->redirect('@web');
+            return false;
+        }
+
+        $book = Book::find($id);
+
+        $book_take = Booktaking::findByBookIdAndStatus($id, self::TYPE_TAKEN);
+        $book_take->returned = date('Y-m-d');
+        $book_take->status = self::TYPE_UNTAKEN;
+        $book_take->save();
+
+        $book->status = 'available';
         $book->save();
 
         return Yii::$app->getResponse()->redirect('@web/library/books');
