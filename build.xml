@@ -1,12 +1,6 @@
 <project name="binary-network" default="zip">
     <property environment="env" />
-    <target name="composer" description= "Update project dependencies through composer">
-        <exec dir="${basedir}" executable="./composer.phar" failonerror="true">
-            <arg line="update" />
-        </exec>
-    </target>
-
-    <target name="test" description= "Runs Codeception tests" depends="composer">
+    <target name="test" description= "Runs Codeception tests">
         <exec dir="${basedir}" executable="./codecept" failonerror="true">
             <arg line="run" />
         </exec>
