@@ -47,8 +47,11 @@ class LibraryController extends Controller
                 break;
         }
 
+        $all_tags = Tag::getTags();
+
         return $this->render('books', array(
-            'books' => $books
+            'books' => $books,
+            'all_tags' => $all_tags
         ));
     }
 

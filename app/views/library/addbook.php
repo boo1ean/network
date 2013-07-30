@@ -11,17 +11,6 @@ use yii\widgets\ActiveForm;
 
 <?php
 
-if(isset($message)) {
-    echo Html::tag('div class="alert alert-success"', $message);
-    echo Html::tag('/div');
-}
-
-$tagsList = array(
-    'IT',
-    'design',
-    'Yii Framework'
-);
-
 $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));
 
 echo $form->field($model, 'author')->textInput(array('placeholder' => 'Enter author'));

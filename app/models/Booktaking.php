@@ -23,4 +23,12 @@ class Booktaking extends ActiveRecord
             ->one();
     }
 
+    public function getUser() {
+        return $this->hasOne('User', array('id' => 'user_id'));
+    }
+
+    public function getBook() {
+        return $this->hasOne('Book', array('id' => 'book_id'));
+    }
+
 }

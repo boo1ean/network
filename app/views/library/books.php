@@ -1,8 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use app\models\Tag;
 use app\models\Book;
+use app\models\Booktaking;
 ?>
 
 <h1>Library</h1>
@@ -17,9 +17,7 @@ use app\models\Book;
 
 <?php
 
-$tags = Tag::getTags();
-
-foreach ($tags as $tag) {
+foreach ($all_tags as $tag) {
     echo Html::a($tag->title, array('library/books/'.$tag->id), array('class' => 'label label-info')).' ';
 }
 
@@ -45,10 +43,10 @@ foreach ($books as $book) {
         </blockquote>
 
     <?php
-        $books = Book::find($book->id);
-        $tags = $books->tags;
+        $book_current = Book::find($book->id);
+        $tags_by_book = $book_current->tags;
 
-        foreach ($tags as $tag) {
+        foreach ($tags_by_book as $tag) {
     ?>
         <span class='label label-info'>
             <?php echo $tag->title; ?>
@@ -67,13 +65,21 @@ foreach ($books as $book) {
             <li><?php echo Html::a('Take book', array('library/takebook/' . $book->id )); ?></li>
         </ul>
 
-    <?php } else { ?>
+    <?php } else {
+
+        //check if current user took this book to paint "Untake" button or not
+        $taken = 1;
+        $book_take = Booktaking::findByBookIdAndStatus($book->id, $taken);
+
+        if(Yii::$app->getUser()->getId() == $book_take->user_id) {
+
+    ?>
 
         <ul class="nav nav-pills">
             <li><?php echo Html::a('Untake book', array('library/untakebook/' . $book->id )); ?></li>
         </ul>
 
-    <?php } ?>
+    <?php } } ?>
 
     <ul class="nav nav-pills">
         <li><?php echo Html::a('Edit', array('library/editbook/' . $book->id )); ?></li>
