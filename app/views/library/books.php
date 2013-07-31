@@ -41,23 +41,18 @@ foreach ($books as $book) {
         <blockquote>
            <p><?php echo $book->description; ?></p>
         </blockquote>
+    </ul>
 
     <?php
         $book_current = Book::find($book->id);
         $tags_by_book = $book_current->tags;
 
         foreach ($tags_by_book as $tag) {
-    ?>
-        <span class='label label-info'>
-            <?php echo $tag->title; ?>
-        </span>
-    <?php
+            echo Html::a($tag->title, array('library/books/'.$tag->title), array('class' => 'label label-info')).' ';
         }
     ?>
 
-    </ul>
-
-    <br/>
+    <br/><br/>
 
     <?php if($book->status == 'available') { ?>
 
