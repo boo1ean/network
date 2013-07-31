@@ -13,17 +13,17 @@ use app\models\AddBookForm;
 class LibraryController extends Controller
 {
 
-    const TYPE_TAKEN = 1;
-    const TYPE_UNTAKEN = 2;
+    const STATUS_TAKEN = 1;
+    const STATUS_UNTAKEN = 2;
 
-    public function actionBooks($id = null) {
+    public function actionBooks($param = null) {
 
         if (Yii::$app->getUser()->getIsGuest()) {
             Yii::$app->getResponse()->redirect('@web');
             return false;
         }
 
-        switch($id) {
+        switch($param) {
             case 'bytitle':
                 $books = Book::sortByTitle();
                 break;
@@ -37,8 +37,8 @@ class LibraryController extends Controller
                 $books = Book::getTakenBooks();
                 break;
             default:
-                if (isset($id)) {
-                    $tags = Tag::find($id);
+                if (isset($param)) {
+                    $tags = Tag::findByTitle($param);
                     $books = $tags->books;
                 } else {
                     $books = Book::getAvailableBooks();
@@ -165,9 +165,9 @@ class LibraryController extends Controller
 
         $book = Book::find($id);
 
-        $book_take = Booktaking::findByBookIdAndStatus($id, self::TYPE_TAKEN);
+        $book_take = Booktaking::findByBookIdAndStatus($id, self::STATUS_TAKEN);
         $book_take->returned = date('Y-m-d');
-        $book_take->status = self::TYPE_UNTAKEN;
+        $book_take->status = self::STATUS_UNTAKEN;
         $book_take->save();
 
         $book->status = 'available';

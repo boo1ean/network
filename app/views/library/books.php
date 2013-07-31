@@ -18,7 +18,7 @@ use app\models\Booktaking;
 <?php
 
 foreach ($all_tags as $tag) {
-    echo Html::a($tag->title, array('library/books/'.$tag->id), array('class' => 'label label-info')).' ';
+    echo Html::a($tag->title, array('library/books/'.$tag->title), array('class' => 'label label-info')).' ';
 }
 
 foreach ($books as $book) {
