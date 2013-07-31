@@ -44,3 +44,10 @@ function JQuerySelectorFind(teg, id_form) {
     }
     return data;
 }
+
+//tags input
+$(document).ready(
+    function(){
+        $('#tags').tagsInput();
+    }
+);

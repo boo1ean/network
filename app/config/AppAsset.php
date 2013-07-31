@@ -19,12 +19,15 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = array(
         'css/site.css',
+        'css/jquery.tagsinput.css',
         'js/fancybox/source/jquery.fancybox.css',
     );
     public $js = array(
         'js/admin/user.js',
         'js/fancybox/source/jquery.fancybox.js',
-        'js/site.js'
+        'js/site.js',
+        'js/jquery-2.0.3.min.js',
+        'js/jquery.tagsinput.js'
     );
     public $depends = array(
         'yii\web\YiiAsset',

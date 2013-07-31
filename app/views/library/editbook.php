@@ -39,6 +39,26 @@ echo $form->field($model, 'title')->textInput(array('value' => $title));
     </div>
 </div>
 
+<?php echo Html::label('Tags', null, array('class' => 'control-label')); ?>
+
+<?php
+    $books = Book::find($book->id);
+    $tags_by_book = $books->tags;
+
+    $all_tags = '';
+
+    foreach($tags_by_book as $tag)  {
+        $all_tags = $all_tags.$tag->title;
+        $all_tags = $all_tags.',';
+    }
+?>
+
+<div class="control-group">
+    <div class="controls">
+        <?php echo Html::textInput('tags', $all_tags, array('id' => 'tags')); ?>
+    </div>
+</div>
+
 <div class="controls">
     <?php echo Html::submitButton('Save book', array('class' => 'btn btn-primary')); ?>
 </div>

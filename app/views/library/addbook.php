@@ -26,7 +26,7 @@ echo $form->field($model, 'description')->textArea(array('placeholder' => 'Enter
 
 <div class="control-group">
     <div class="controls">
-        <?php echo Html::textInput('tags', null, array('placeholder' => 'Enter few tags with delimiters')); ?>
+        <?php echo Html::textInput('tags', null, array('id' => 'tags')); ?>
     </div>
 </div>
 
