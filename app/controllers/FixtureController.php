@@ -19,7 +19,7 @@ class FixtureController extends Controller
     const USERS_COUNT = 10;
     const CONVERSATIONS_COUNT = 20;
     const MESSAGES_COUNT = 50;
-    const BOOKS_COUNT = 20;
+    const BOOKS_COUNT = 10;
 
     /**
      * @var object fixtures

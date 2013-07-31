@@ -150,9 +150,15 @@ class Fixtures extends Component
 
         for($i = 0; $i < $tags_count; $i++) {
             $fakeTag = new Tag;
-            $fakeTag->title = $this->faker->company;
-            $fakeTag->save();
-            $fakeBook->link('tags', $fakeTag);
+            $fakeTag->title = $this->faker->dayOfWeek;
+
+            if (!Tag::findByTitle($fakeTag->title)) {
+                $fakeTag->save();
+                $fakeBook->link('tags', $fakeTag);
+            } else {
+                $tag = Tag::findByTitle($fakeTag->title);
+                $fakeBook->link('tags', $tag);
+            }
         }
     }
 
