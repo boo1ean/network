@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\models\Event;
 
 ?>
 
@@ -69,7 +68,7 @@ echo $form->field($model, 'description')->textInput(array('placeholder' => 'Ente
 
 <div class="control-group">
     <div class="controls">
-        <?php echo Html::submitButton('Add book', array('class' => 'btn btn-primary')); ?>
+        <?php echo Html::submitButton('Add event', array('class' => 'btn btn-primary')); ?>
     </div>
 </div>
 

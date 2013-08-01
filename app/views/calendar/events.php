@@ -18,6 +18,17 @@ foreach ($events as $event) {
     echo $event->title;
     echo 'Begin: '.$event->start_date.' '.$event->start_time.'<br/>';
     echo 'End: '.$event->end_date.' '.$event->end_time.'<br/>';
+?>
+
+<br/>
+
+<ul class="nav nav-pills">
+    <li><?php echo Html::a('Edit', array('calendar/editevent/' . $event->id )); ?></li>
+    <li><?php echo Html::a('Delete', array('calendar/editevent/' . $event->id)); ?></li>
+</ul>
+
+<?php
+
 }
 
 ?>
