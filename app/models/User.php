@@ -27,6 +27,11 @@ class User extends ActiveRecord implements Identity
             ->one();
     }
 
+    public static function getAll() {
+        return static::find()
+            ->all();
+    }
+
     public function getId() {
          return $this->id;
     }

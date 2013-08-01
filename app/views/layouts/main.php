@@ -36,6 +36,7 @@ if ($user === null) {
 
     $items[] = array('label' => 'Messages',     'url' => array('/message'), 'active' => 'message' == $controller_id);
     $items[] = array('label' => 'Library',      'url' => array('/library/books'));
+    $items[] = array('label' => 'Calendar',     'url' => array('/calendar/events'));
     $items[] = array('label' => 'Edit profile', 'url' => array('/auth/edit'));
     $items[] = array('label' => 'Logout',       'url' => array('/auth/logout'));
 }
