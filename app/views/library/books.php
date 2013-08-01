@@ -8,7 +8,14 @@ use app\models\Booktaking;
 <h1>Library</h1>
 
 <ul class="nav nav-pills">
-    <li><?php echo Html::a('New book', 'library/addbook'); ?></li>
+
+    <li>
+        <?php if (Yii::$app->getUser()->getIdentity()->type == 0) {
+            //only admin can add books
+            echo Html::a('New book', 'library/addbook');
+        } ?>
+    </li>
+
     <li><?php echo Html::a('Show available books', 'library/books/available'); ?></li>
     <li><?php echo Html::a('Show taken books', 'library/books/taken'); ?></li>
     <li><?php echo Html::a('Sort books by title', 'library/books/bytitle'); ?></li>
@@ -74,7 +81,12 @@ foreach ($books as $book) {
             <li><?php echo Html::a('Untake book', array('library/untakebook/' . $book->id )); ?></li>
         </ul>
 
-    <?php } } ?>
+    <?php } }
+
+    //only admin can edit and delete book
+    if (Yii::$app->getUser()->getIdentity()->type == 0) {
+
+    ?>
 
     <ul class="nav nav-pills">
         <li><?php echo Html::a('Edit', array('library/editbook/' . $book->id )); ?></li>
@@ -82,7 +94,6 @@ foreach ($books as $book) {
     </ul>
 
 <?php
-
+    }
 }
-
 ?>
