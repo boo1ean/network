@@ -64,6 +64,19 @@ return array(
             'smtpEncryption'    => 'tls'
         ),
 
+        'storageProviders' => array(
+            'class'     => 'app\components\Storage',
+            'storageProvider' => 'app\components\storageProviders\LocalStorageProvider',
+            'params' => array(
+                'directory' => dirname(dirname(__DIR__)) . '/uploaded/',
+            ),
+/*            'storageProvider' => 'app\components\storageProviders\CloudStorageProvider',
+            'params' => array(
+                'dropbox_username' => '123',
+                'dropbox_password' => '123',
+            ),*/
+        ),
+
         'queue' => array(
             'class'     => 'app\components\Queue',
             'servers'   => array(),         // array('127.0.0.1' => 12345, '127.0.0.2' => 12346)
