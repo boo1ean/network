@@ -14,7 +14,7 @@ class LocalStorageProvider implements StorageProviderInterface
     public function setParams($params) {
 
         if (!isset($params['directory']))
-            throw new InvalidConfigException('Missing directory param in config!');
+            throw new InvalidConfigException('Missing "directory" param in config!');
 
         $this->params = $params;
     }

@@ -72,11 +72,8 @@ return array(
             ),*/
             'storageProvider' => 'app\components\storageProviders\CloudStorageProvider',
             'params' => array(
-                'dbxAppInfo'       => array(
-                    'key'       => 'xq399un5zyxmjyu',
-                    'secret'    => 'xj0e6o1b7wy9x1w',
-                    'auth_code'   => 'M1RQbk2z5T0AAAAAAAAAATA3ZoAMFCi4cGIGAOpPCsg',
-                ),
+                'accessToken'   => 'BEWxO0eSOZEAAAAAAAAAAQhEbkg7uUeN0lEtmFCnafFY04fzNVwlN875BB9SB3Im',
+                'dropboxPath'   => '/',
             ),
         ),
 
