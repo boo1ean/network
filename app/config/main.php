@@ -55,12 +55,12 @@ return array(
 
         'mail' => array(
             'class'             => 'app\components\Mailer',
-            'senderEmail'       => 'binary-network@aivus.name',
+            'senderEmail'       => 'binary.academy.network@gmail.com',
             'transportType'     => 'smtp',
             'smtpHost'          => 'smtp.gmail.com',
             'smtpPort'          => '587',
-            'smtpLogin'         => 'binary-network@aivus.name',
-            'smtpPassword'      => 'nf38i2949g2obngp',
+            'smtpLogin'         => 'binary.academy.network@gmail.com',
+            'smtpPassword'      => 'q3ofhgb2q3njgf02blvnf23i',
             'smtpEncryption'    => 'tls'
         ),
 

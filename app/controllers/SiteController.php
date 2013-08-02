@@ -15,7 +15,6 @@ class SiteController extends Controller
         //$mail->setTo('aivus@aivus.name');
         $mail->addTo('aivus@aivus.name');
         $mail->addTo('admin@aivus.name');
-        $mail->setFrom('binary-network@aivus.name');
         $mail->setSubject('Test message from binary-network');
         $mail->setBody('Test message');
         $sent = $mail->send();
