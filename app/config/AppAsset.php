@@ -24,6 +24,7 @@ class AppAsset extends AssetBundle
     );
     public $js = array(
         'js/admin/user.js',
+        'js/library/books.js',
         'js/fancybox/source/jquery.fancybox.js',
         'js/site.js',
         'js/jquery-2.0.3.min.js',

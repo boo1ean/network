@@ -168,6 +168,12 @@ button {
    min-width: 75%;
 }
 
+/*------------------------*/
+
 .main-container {
     padding-top: 60px;
+}
+
+.cursorOnNoLink {
+    cursor: pointer;
 }

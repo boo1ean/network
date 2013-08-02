@@ -49,5 +49,7 @@ function JQuerySelectorFind(teg, id_form) {
 $(document).ready(
     function(){
         $('#tags').tagsInput();
+
+        $('.ebook').hide();
     }
 );

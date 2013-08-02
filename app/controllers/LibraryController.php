@@ -16,35 +16,36 @@ class LibraryController extends Controller
     const STATUS_TAKEN = 1;
     const STATUS_UNTAKEN = 2;
 
-    public function actionBooks($param = null) {
+    public function actionBooks() {
 
         if (Yii::$app->getUser()->getIsGuest()) {
             Yii::$app->getResponse()->redirect('@web');
             return false;
         }
 
-        switch($param) {
-            case 'bytitle':
-                $books = Book::sortByTitle();
-                break;
-            case 'byauthor':
-                $books = Book::sortByAuthor();
-                break;
-            case 'available':
-                $books = Book::getAvailableBooks();
-                break;
-            case 'taken':
-                $books = Book::getTakenBooks();
-                break;
-            default:
-                if (isset($param)) {
-                    $tags = Tag::findByTitle($param);
-                    $books = $tags->books;
-                } else {
-                    $books = Book::getAvailableBooks();
-                }
+        if (isset($_POST['id'])) {
 
-                break;
+            switch($_POST['id']) {
+                case 'bytitle':
+                    $books = Book::sortByTitle();
+                    break;
+                case 'byauthor':
+                    $books = Book::sortByAuthor();
+                    break;
+                case 'available':
+                    $books = Book::getAvailableBooks();
+                    break;
+                case 'taken':
+                    $books = Book::getTakenBooks();
+                    break;
+                default:
+                    $tags = Tag::findByTitle($_POST['id']);
+                    $books = $tags->books;
+                    break;
+            }
+
+        } else {
+            $books = Book::getAvailableBooks();
         }
 
         $all_tags = Tag::getTags();
@@ -55,7 +56,7 @@ class LibraryController extends Controller
         ));
     }
 
-    public function actionAddbook($param = null) {
+    public function actionAddbook() {
 
         if (Yii::$app->getUser()->getIsGuest()) {
             Yii::$app->getResponse()->redirect('@web');
@@ -71,7 +72,6 @@ class LibraryController extends Controller
         } else {
             return $this->render('addbook', array(
                 'model' => $bookForm,
-                'type'  => $param
             ));
         }
     }
@@ -107,20 +107,20 @@ class LibraryController extends Controller
 
     }
 
-    public function actionDeletebook($id = null) {
+    public function actionDeletebook() {
 
         if (Yii::$app->getUser()->getIsGuest()) {
             Yii::$app->getResponse()->redirect('@web');
             return false;
         }
 
-        $booktakings = Booktaking::findByBookId($id);
+        $booktakings = Booktaking::findByBookId($_POST['id']);
 
         foreach ($booktakings as $booktaking) {
             $booktaking->delete();
         }
 
-        $book = Book::find($id);
+        $book = Book::find($_POST['id']);
 
         $tags = $book->tags;
 
@@ -133,17 +133,17 @@ class LibraryController extends Controller
         return Yii::$app->getResponse()->redirect('@web/library/books');
     }
 
-    public function actionTakebook($id = null) {
+    public function actionTakebook() {
 
         if (Yii::$app->getUser()->getIsGuest()) {
             Yii::$app->getResponse()->redirect('@web');
             return false;
         }
 
-        $book = Book::find($id);
+        $book = Book::find($_POST['id']);
 
         $book_take = new Booktaking;
-        $book_take->book_id = $id;
+        $book_take->book_id = $_POST['id'];
         $book_take->user_id = Yii::$app->getUser()->getIdentity()->id;
         $book_take->taken = date('Y-m-d');
         $tomorrow  = mktime(0, 0, 0, date("m"), date("d")+1, date("Y"));
@@ -156,16 +156,16 @@ class LibraryController extends Controller
         return Yii::$app->getResponse()->redirect('@web/library/books');
     }
 
-    public function actionUntakebook($id = null) {
+    public function actionUntakebook() {
 
         if (Yii::$app->getUser()->getIsGuest()) {
             Yii::$app->getResponse()->redirect('@web');
             return false;
         }
 
-        $book = Book::find($id);
+        $book = Book::find($_POST['id']);
 
-        $book_take = Booktaking::findByBookIdAndStatus($id, self::STATUS_TAKEN);
+        $book_take = Booktaking::findByBookIdAndStatus($_POST['id'], self::STATUS_TAKEN);
         $book_take->returned = date('Y-m-d');
         $book_take->status = self::STATUS_UNTAKEN;
         $book_take->save();

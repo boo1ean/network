@@ -8,8 +8,8 @@ use yii\widgets\ActiveForm;
 <h1>Add book</h1>
 
 <ul class="nav nav-pills">
-    <li><?php echo Html::a('Paper book', 'library/addbook/paper'); ?></li>
-    <li><?php echo Html::a('E-book', 'library/addbook/ebook'); ?></li>
+    <li><?php echo Html::a('Paper book', null, array('onclick' => 'return showPaperBook()')); ?></li>
+    <li><?php echo Html::a('E-book', null, array('onclick' => 'return showEbookUpload()')); ?></li>
 </ul>
 
 <?php
@@ -30,15 +30,15 @@ echo $form->field($model, 'description')->textArea(array('placeholder' => 'Enter
     </div>
 </div>
 
-<?php if ($type == 'ebook') { echo Html::label('Upload ebook', null, array('class' => 'control-label')); ?>
+<div class="ebook">
+    <?php echo Html::label('Upload ebook', null, array('class' => 'control-label')); ?>
 
-<div class="control-group">
-    <div class="controls">
-        <?php echo Html::fileInput('ebook', null); ?>
+    <div class="control-group">
+        <div class="controls">
+            <?php echo Html::fileInput('ebook', null); ?>
+        </div>
     </div>
 </div>
-
-<?php } ?>
 
 <div class="control-group">
     <div class="controls">
