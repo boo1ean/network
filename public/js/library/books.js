@@ -8,8 +8,12 @@ function sortBooks(obj) {
         data: {
             id: id
         },
+        beforeSend: function() {
+            $('body').addClass('mycontainer');
+        },
         success: function(html) {
             $('body').html(html);
+            $('body').removeClass('mycontainer');
         }
     });
 }
@@ -24,8 +28,12 @@ function takeBook(obj) {
         data: {
             id:  id
         },
+        beforeSend: function() {
+            $('body').addClass('mycontainer');
+        },
         success: function(html) {
             $('body').html(html);
+            $('body').removeClass('mycontainer');
         }
     });
 }
@@ -40,8 +48,12 @@ function untakeBook(obj) {
         data: {
             id:  id
         },
+        beforeSend: function() {
+            $('body').addClass('mycontainer');
+        },
         success: function(html) {
             $('body').html(html);
+            $('body').removeClass('mycontainer');
         }
     });
 }
@@ -57,8 +69,12 @@ function deleteBook(obj) {
             data: {
                 id:  id
             },
+            beforeSend: function() {
+                $('body').addClass('mycontainer');
+            },
             success: function(html) {
                 $('body').html(html);
+                $('body').removeClass('mycontainer');
             }
         });
     }

@@ -177,3 +177,15 @@ button {
 .cursorOnNoLink {
     cursor: pointer;
 }
+
+.mycontainer {
+    background-color: #eeeeee;
+    background-image: url('../js/287.gif');
+    background-position: center center;
+    background-repeat: no-repeat;
+    opacity: 1;
+}
+
+.mycontainer * {
+    opacity: .8;
+}
