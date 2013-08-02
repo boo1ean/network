@@ -64,17 +64,20 @@ return array(
             'smtpEncryption'    => 'tls'
         ),
 
-        'storageProviders' => array(
+        'storage' => array(
             'class'     => 'app\components\Storage',
-            'storageProvider' => 'app\components\storageProviders\LocalStorageProvider',
+/*            'storageProvider' => 'app\components\storageProviders\LocalStorageProvider',
             'params' => array(
                 'directory' => dirname(dirname(__DIR__)) . '/uploaded/',
-            ),
-/*            'storageProvider' => 'app\components\storageProviders\CloudStorageProvider',
-            'params' => array(
-                'dropbox_username' => '123',
-                'dropbox_password' => '123',
             ),*/
+            'storageProvider' => 'app\components\storageProviders\CloudStorageProvider',
+            'params' => array(
+                'dbxAppInfo'       => array(
+                    'key'       => 'xq399un5zyxmjyu',
+                    'secret'    => 'xj0e6o1b7wy9x1w',
+                    'auth_code'   => 'M1RQbk2z5T0AAAAAAAAAATA3ZoAMFCi4cGIGAOpPCsg',
+                ),
+            ),
         ),
 
         'queue' => array(

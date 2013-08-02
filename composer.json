@@ -2,6 +2,7 @@
     "minimum-stability": "dev",
     "require": {
         "codeception/codeception": "dev-pageobjects",
+        "dropbox/dropbox-sdk":     "dev-master",
         "emberlabs/gravatarlib":   "dev-master",
         "fzaninotto/faker":        "1.2.*@dev",
         "php":                     ">=5.3.0",
