@@ -5,9 +5,9 @@ use yii\widgets\ActiveForm;
 
 ?>
 
-<h1>Add event</h1>
+    <h1>Add event</h1>
 
-<br/>
+    <br/>
 
 <?php
 
@@ -15,10 +15,12 @@ $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')
 
 echo $form->field($model, 'title')->textInput(array(
     'placeholder' => 'Enter event title',
+    'value' => $event->title
 ));
 
 echo $form->field($model, 'description')->textInput(array(
     'placeholder' => 'Enter event description',
+    'value' => $event->description
 ));
 
 ?>
@@ -27,7 +29,7 @@ echo $form->field($model, 'description')->textInput(array(
 
     <div class="control-group">
         <div class="controls">
-            <?php echo Html::activeInput('date', $model, 'start_date') ?>
+            <?php echo Html::activeInput('date', $model, 'start_date', array('value' => $event->start_date)) ?>
         </div>
     </div>
 
@@ -35,7 +37,7 @@ echo $form->field($model, 'description')->textInput(array(
 
     <div class="control-group">
         <div class="controls">
-            <?php echo Html::activeInput('time', $model, 'start_time') ?>
+            <?php echo Html::activeInput('time', $model, 'start_time', array('value' => $event->start_time)) ?>
         </div>
     </div>
 
@@ -43,7 +45,7 @@ echo $form->field($model, 'description')->textInput(array(
 
     <div class="control-group">
         <div class="controls">
-            <?php echo Html::activeInput('date', $model, 'end_date') ?>
+            <?php echo Html::activeInput('date', $model, 'end_date', array('value' => $event->end_date)) ?>
         </div>
     </div>
 
@@ -51,16 +53,16 @@ echo $form->field($model, 'description')->textInput(array(
 
     <div class="control-group">
         <div class="controls">
-            <?php echo Html::activeInput('time', $model, 'end_time') ?>
+            <?php echo Html::activeInput('time', $model, 'end_time', array('value' => $event->end_time)) ?>
         </div>
     </div>
 
 <?php
-    $array_of_users = array();
+$array_of_users = array();
 
-    foreach($users as $user) {
-        $array_of_users[] = $user->first_name.' '.$user->last_name;
-    }
+foreach($users as $user) {
+    $array_of_users[] = $user->first_name.' '.$user->last_name;
+}
 ?>
 
 <?php echo Html::label('Invite friends', null, array('class' => 'control-label')); ?>
@@ -71,10 +73,10 @@ echo $form->field($model, 'description')->textInput(array(
         </div>
     </div>
 
-<div class="control-group">
-    <div class="controls">
-        <?php echo Html::submitButton('Add event', array('class' => 'btn btn-primary')); ?>
+    <div class="control-group">
+        <div class="controls">
+            <?php echo Html::submitButton('Edit event', array('class' => 'btn btn-primary')); ?>
+        </div>
     </div>
-</div>
 
 <?php ActiveForm::end(); ?>

@@ -44,6 +44,7 @@ return array(
                 '/message/conversation/<id:\d+>'                            => 'message/conversation',
                 '/message/members/<id:\d+>'                                 => 'message/members',
                 '/library/editbook/<id:\d+>'                                => 'library/editbook',
+                '/calendar/editevent/<id:\d+>'                              => 'calendar/editevent',
             )
         ),
 

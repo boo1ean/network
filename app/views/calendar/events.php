@@ -15,16 +15,20 @@ use yii\helpers\Html;
 foreach ($events as $event) {
     echo '<hr>';
 
-    echo $event->title;
-    echo 'Begin: '.$event->start_date.' '.$event->start_time.'<br/>';
-    echo 'End: '.$event->end_date.' '.$event->end_time.'<br/>';
+    echo $event->title.'<br/>';
+    echo $event->description.'<br/>';
+    echo 'Begin Date: '.$event->start_date.' '.$event->start_time.'<br/>';
+    echo 'End Date: '.$event->end_date.' '.$event->end_time.'<br/>';
 ?>
 
 <br/>
 
 <ul class="nav nav-pills">
     <li><?php echo Html::a('Edit', array('calendar/editevent/' . $event->id )); ?></li>
-    <li><?php echo Html::a('Delete', array('calendar/editevent/' . $event->id)); ?></li>
+    <li><?php echo Html::a('Delete', null, array(
+            'event-id' => $event->id,
+            'class' => 'cursorOnNoLink',
+            'onclick' => 'return deleteEvent(this);')); ?></li>
 </ul>
 
 <?php
