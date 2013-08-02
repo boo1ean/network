@@ -4,7 +4,7 @@ namespace app\components;
 use yii;
 use yii\base\Component;
 use yii\web\UploadedFile;
-use yii\helpers\FileHelperBase;
+use app\components\storageProviders\StorageProviderInterface;
 
 class Storage extends Component
 {
@@ -19,7 +19,7 @@ class Storage extends Component
     public $params;
 
     /**
-     * @var object provider
+     * @var StorageProviderInterface
      */
     private $provider;
 
@@ -30,9 +30,10 @@ class Storage extends Component
         $this->provider->setParams($this->params);
     }
 
+    // TODO: check MIME-type
     /**
      * Save path via storageProvider
-     * @param $localPath Path to the save file
+     * @param $localPath UploadedFile for saving
      * @return mixed string|bool
      */
     public function save($localPath) {
