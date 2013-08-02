@@ -61,7 +61,7 @@ class LoginForm extends Model
      */
     public function isBlock() {
         $user = User::findByEmail($this->email);
-        if (0 == $user->is_active) {
+        if ($user && 0 == $user->is_active) {
             $this->addError('email', 'Your account was been blocked by admin');
         }
     }
