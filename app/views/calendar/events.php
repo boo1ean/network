@@ -36,3 +36,5 @@ foreach ($events as $event) {
 }
 
 ?>
+
+<div id="calendar"></div>
