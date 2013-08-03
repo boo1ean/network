@@ -1,42 +1,64 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: Sophie
- * Date: 18.07.13
- * Time: 0:07
- * To change this template use File | Settings | File Templates.
- */
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-echo '<h1>' . $conversationTitle . '</h1><br>';
-echo '<ul class="inline">';
-foreach ($conversationMembers as $member) {
-    echo '<li>';
-    echo html::a($member->first_name . ' ' . $member->last_name, '#', array('class' => 'btn btn-small disabled')) ;
-    echo '</li>';
-}
-echo '<li>'. Html::a('Add user +', 'message/members/' . $conversationId, array('class' => 'btn btn-small btn-primary')).'</li></ul>';
-echo '<br><table id="TableOfMessages">';
-foreach ($messages as $message) {
-    if($message->user->first_name || $message->user->last_name) {
-        echo '<tr><td id="NamesOfUsersInTableOfMessages">' . html::a($message->user->first_name . ' ' . $message->user->last_name, '#', array('class' => 'btn btn-small disabled')).'</td>';
-        echo '<td class="MessageCell"><p class="message left">' . $message->body . '</p></td></tr>';
+$userName = array();
+?>
+<h1><?php echo $conversationTitle ?> </h1><br>
+<ul class="inline">
+    <?php
+        foreach ($conversationMembers as $member) {
+            if(isset($member->first_name) || isset($member->last_name)) {
+                $userName[$member->id] = $member->first_name . ' ' . $member->last_name;
+            } else {
+                $userName[$member->id] = $member->email;
+            }
+
+    ?>
+    <li>
+        <?php echo html::a($userName[$member->id], '#', array('class' => 'btn btn-small disabled')); ?>
+    </li>
+    <?php } ?>
+    <li>
+        <?php Html::a('Add user +', 'message/members/' . $conversationId, array('class' => 'btn btn-small btn-primary')); ?>
+    </li>
+</ul>
+<br><table id="TableOfMessages">
+    <?php foreach ($messages as $message) {
+    if($message->user->first_name || $message->user->last_name) { ?>
+        <tr>
+            <td id="NamesOfUsersInTableOfMessages">
+                <?php echo html::a($userName[$message->user->id], '#', array('class' => 'btn btn-small disabled'));?>
+            </td>
+            <td class="MessageCell">
+                <p class="message left">
+                    <?php echo $message->body; ?>
+                </p>
+            </td>
+        </tr>
+    <?php
     }
 }
-echo '<tr><td></td><td>';
-$form = ActiveForm::begin(array('options' => array('class' => 'form-inline')));
-echo Html::textarea('body', '', array(
-    'placeholder' => 'Write your message here',
-    'autofocus'   => 'true',
-    'rows' => '2',
-    'maxlength' => '100',
-    'id' => 'MessageForm'));
-echo Html::submitButton('Send', array(
-                               'class' => 'btn btn-info',
-                               'id' => 'MessageSend'));
-ActiveForm::end();
-echo '</td></tr></table>';
-?>
+    ?>
+        <tr>
+            <td></td>
+            <td>
+                <?php
+                $form = ActiveForm::begin(array('options' => array('class' => 'form-inline')));
+                echo Html::textarea('body', '', array(
+                    'placeholder' => 'Write your message here',
+                    'autofocus'   => 'true',
+                    'rows' => '2',
+                    'maxlength' => '100',
+                    'id' => 'MessageForm'));
+                echo Html::submitButton('Send', array(
+                                               'class' => 'btn btn-info',
+                                               'id' => 'MessageSend'));
+                ActiveForm::end();
+                ?>
+            </td>
+        </tr>
+</table>
 
 
 
