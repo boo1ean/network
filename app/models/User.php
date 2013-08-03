@@ -125,5 +125,18 @@ class User extends ActiveRecord implements Identity
             ->where('id <> '. $this->id)
             ->all();
     }
+
+    /**
+     * If first_name and last_name set, return first_name and last_name
+     * else return email
+     * @return mixed|string
+     */
+    public function getUserName() {
+        if(isset($this->first_name) && isset($this->last_name)) {
+            return $this->first_name . ' ' . $this->last_name;
+        } else {
+            return $this->email;
+        }
+    }
 }
 
