@@ -144,6 +144,16 @@ button {
     padding: 5px 10px 5px 10px;
     width: 15%;
 }
+.error {
+    color: #b94a48 !important;
+    border-color: #ee5f5b !important;
+}
+.error:focus{
+    border-color: #e9322d !important;
+    -webkit-box-shadow: 0 0 6px #f8b9b7 !important;
+    -moz-box-shadow: 0 0 6px #f8b9b7 !important;
+    box-shadow: 0 0 6px #f8b9b7 !important;
+}
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 #TableOfMessages {

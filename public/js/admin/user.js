@@ -88,17 +88,20 @@ $(function(){
         var id          = obj.attr('data-id');
         var data        = obj.parents('form').serialize();
         data['id_edit'] = id;
-
+        var errors = new messages();
         $.ajax({
             url:  '/admin/user-save',
             type: 'POST',
             data: data,
+            beforeSend: function(){
+                errors.hideErrors(obj.parents('form'));
+            },
             success: function(response, textStatus) {
                 var result = $.parseJSON(response);
 
                 if('error' == result['status']) {
                     for(var i in result['errors']){
-                        showErrors(i, result['errors'][i])
+                        errors.showErrors(i, result['errors'][i])
                     }
                 } else {
                     for(var i in result['user']) {
