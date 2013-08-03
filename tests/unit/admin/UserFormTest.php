@@ -103,6 +103,21 @@ class UserFormTest extends \Codeception\TestCase\Test
         $this->assertEquals($user_edit->is_active, 1);
     }
 
+    public function testUserDelete() {
+        $this->userForm->scenario = 'only_id';
+        $user_edit = $this->users[self::USER_ID];
+
+        // when calling without post data
+        $this->assertFalse($this->userForm->userDelete());
+
+        $this->userForm->id_edit = $user_edit->id;
+
+        // delete user
+        $this->assertTrue($this->userForm->userDelete());
+        $user_edit = User::find($user_edit->id);
+        $this->assertNull($user_edit);
+    }
+
     public function testUserEdit() {
         $user_edit = $this->users[self::USER_ID];
 
