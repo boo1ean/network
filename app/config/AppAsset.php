@@ -19,7 +19,9 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = array(
         'css/site.css',
-        'css/jquery.tagsinput.css'
+        'css/jquery.tagsinput.css',
+        'css/fullcalendar.css',
+        'css/fullcalendar.print.css'
     );
     public $js = array(
         'js/admin/user.js',
@@ -28,7 +30,11 @@ class AppAsset extends AssetBundle
         'js/calendar/events.js',
         'js/site.js',
         'js/jquery-2.0.3.min.js',
-        'js/jquery.tagsinput.js'
+        'js/jquery.tagsinput.js',
+        'js/calendar/jquery-ui-1.10.2.custom.min.js',
+        'js/calendar/fullcalendar.min.js',
+        'js/calendar/show-calendar.js'
+        
     );
     public $depends = array(
         'yii\web\YiiAsset',
