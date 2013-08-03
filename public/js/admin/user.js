@@ -9,7 +9,7 @@ $(function(){
         var is_block   = obj.hasClass('btn-warning') ? 1 : 0;
         var first_name = $('#'+id+'_first_name').text().toString().trim();
         var last_name  = $('#'+id+'_last_name').text().toString().trim();
-        if(confirm('Do you really wanna '+(is_block ? 'block' : 'unblock')+' this user: "'+first_name+' '+last_name+'"')) {
+        if(confirm('Do you really wanna '+(is_block ? 'block' : 'unblock')+' this user: "'+first_name+' '+last_name+'"?')) {
             $.ajax({
                 url:  '/admin/user-block',
                 type: 'POST',
@@ -27,6 +27,36 @@ $(function(){
                         obj.removeClass('btn-info')
                            .addClass('btn-warning')
                            .html('Block account');
+                    }
+                }
+            });
+        }
+    });
+
+    /**
+     * Delete user
+     */
+    $('button[name="user-delete"]').click(function (event) {
+        var obj        = $(this);
+        var id         = obj.attr('data-id');
+        var first_name = $('#'+id+'_first_name').text().toString().trim();
+        var last_name  = $('#'+id+'_last_name').text().toString().trim();
+        if(confirm('Do you really wanna delete forever this user: "'+first_name+' '+last_name+'"?')) {
+            $.ajax({
+                url:  '/admin/user-delete',
+                type: 'POST',
+                data: {
+                    id_edit: id
+                },
+                success: function(response, textStatus) {
+                    if('ok' == response) {
+                        var row = obj.parent().parent();
+                        row.hide('blind');
+                        setTimeout(function(){
+                            row.remove();
+                        },1000)
+                    } else {
+                        alert('Sorry, we have some problems with deleting this user. Reload this page and try again');
                     }
                 }
             });

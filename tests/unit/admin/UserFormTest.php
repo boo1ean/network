@@ -107,7 +107,7 @@ class UserFormTest extends \Codeception\TestCase\Test
         $user_edit = $this->users[self::USER_ID];
 
         // when calling without post data
-        $this->userForm->scenario = 'load';
+        $this->userForm->scenario = 'only_id';
         $this->assertFalse($this->userForm->userEdit());
 
         // when user edit form was opening

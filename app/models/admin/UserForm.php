@@ -52,7 +52,7 @@ class UserForm extends User
         return array(
             'block'   => array('id_edit', 'is_block'),
             'default' => array('email', 'id_edit', 'password'),
-            'load'    => array('id_edit')
+            'only_id' => array('id_edit')
         );
     }
 
@@ -72,8 +72,21 @@ class UserForm extends User
     }
 
     /**
+     * Delete user
+     * @return boolean
+     */
+    public function userDelete() {
+        if ($this->validate()) {
+            User::find($this->id_edit)->delete();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Load data for edit user
-     * @return mixed
+     * @return boolean
      */
     public function userEdit() {
         if ($this->validate()) {
@@ -120,7 +133,7 @@ class UserForm extends User
 
     /**
      * Save data of user
-     * @return mixed
+     * @return boolean
      */
     public function userSave() {
         if ($this->validate()) {

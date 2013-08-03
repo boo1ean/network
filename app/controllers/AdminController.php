@@ -73,6 +73,21 @@ class AdminController extends Controller
         $userForm->userBlock();
     }
 
+    public function actionUserDelete() {
+
+        if(!isset($_POST['id_edit'])){
+            Yii::$app->getResponse()->redirect('@web');
+            return false;
+        }
+
+        $userForm = new UserForm();
+
+        $userForm->id_edit  = $_POST['id_edit'];
+        $userForm->scenario = 'only_id';
+
+        return $userForm->userDelete() ? 'ok' : 'error';
+    }
+
     public function actionUserEdit() {
 
         if(!isset($_POST['id_edit'])){
@@ -83,7 +98,7 @@ class AdminController extends Controller
         $userForm = new UserForm();
 
         $userForm->id_edit  = $_POST['id_edit'];
-        $userForm->scenario = 'load';
+        $userForm->scenario = 'only_id';
 
         $userForm->userEdit();
 
