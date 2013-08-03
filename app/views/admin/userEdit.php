@@ -18,7 +18,7 @@ use yii\helpers\Html;
     echo Html::button('Confirm', array(
         'class'   => 'btn btn-success',
         'data-id' => $model->id_edit,
-        'onclick' => 'return userEdit(this, 0);'
+        'name'    => 'user-save'
     ));
 ?>
 <?php ActiveForm::end(); ?>

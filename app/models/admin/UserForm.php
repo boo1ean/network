@@ -20,11 +20,6 @@ class UserForm extends User
     public $is_block;
 
     /**
-     * @var boolean is this first loading of data or is this data form edit
-     */
-    public $is_first;
-
-    /**
      * @var integer limit users on the one page
      */
     public $limit = 10;
@@ -44,9 +39,9 @@ class UserForm extends User
      */
     public function rules() {
         return array(
-            array('email, id_edit, is_block, is_first', 'required'),
+            array('email, id_edit, is_block', 'required'),
             array('email', 'email'),
-            array('password', 'compare', 'compareAttribute'=>'repeat_password')
+            array('password', 'compare', 'compareAttribute' => 'repeat_password')
         );
     }
 
@@ -56,8 +51,8 @@ class UserForm extends User
     public function scenarios() {
         return array(
             'block'   => array('id_edit', 'is_block'),
-            'default' => array('email', 'id_edit', 'is_first', 'password'),
-            'isFirst' => array('id_edit', 'is_first')
+            'default' => array('email', 'id_edit', 'password'),
+            'load'    => array('id_edit')
         );
     }
 
@@ -77,27 +72,17 @@ class UserForm extends User
     }
 
     /**
-     * Editing data of user
+     * Load data for edit user
      * @return mixed
      */
     public function userEdit() {
         if ($this->validate()) {
-            if($this->is_first) {
-                $user = User::find($this->id_edit);
-                $this->email      = $user->email;
-                $this->first_name = $user->first_name;
-                $this->last_name  = $user->last_name;
-                return true;
-            } else {
-                $user = User::find($this->id_edit);
+            $user             = User::find($this->id_edit);
 
-                $user->email      = $this->email;
-                $user->first_name = $this->first_name;
-                $user->last_name  = $this->last_name;
-                $user->password   = User::hashPassword($this->password);
-                $user->save();
-                return true;
-            }
+            $this->email      = $user->email;
+            $this->first_name = $user->first_name;
+            $this->last_name  = $user->last_name;
+            return true;
         } else {
             return false;
         }
@@ -131,5 +116,24 @@ class UserForm extends User
             'pagination' => $pagination,
             'users'      => $users
         );
+    }
+
+    /**
+     * Save data of user
+     * @return mixed
+     */
+    public function userSave() {
+        if ($this->validate()) {
+            $user             = User::find($this->id_edit);
+
+            $user->email      = $this->email;
+            $user->first_name = $this->first_name;
+            $user->last_name  = $this->last_name;
+            $user->password   = User::hashPassword($this->password);
+            $user->save();
+            return true;
+        } else {
+            return false;
+        }
     }
 }

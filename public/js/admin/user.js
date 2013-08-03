@@ -1,64 +1,72 @@
-function userBlock(obj) {
-    obj = $(obj);
-    var id         = obj.attr('data-id');
-    var is_block   = obj.hasClass('btn-warning') ? 1 : 0;
-    var first_name = $('#'+id+'_first_name').text().toString().trim();
-    var last_name  = $('#'+id+'_last_name').text().toString().trim();
-    if(confirm('Do you really wanna '+(is_block ? 'block' : 'unblock')+' this user: "'+first_name+' '+last_name+'"')) {
+$(function(){
+
+    /**
+     * Block/unblock user
+     */
+    $('button[name="user-block"]').click(function (event) {
+        var obj        = $(this);
+        var id         = obj.attr('data-id');
+        var is_block   = obj.hasClass('btn-warning') ? 1 : 0;
+        var first_name = $('#'+id+'_first_name').text().toString().trim();
+        var last_name  = $('#'+id+'_last_name').text().toString().trim();
+        if(confirm('Do you really wanna '+(is_block ? 'block' : 'unblock')+' this user: "'+first_name+' '+last_name+'"')) {
+            $.ajax({
+                url:  '/admin/user-block',
+                type: 'POST',
+                data: {
+                    id_edit:  id,
+                    is_block: is_block
+                },
+                success: function(response, textStatus) {
+
+                    if(is_block){
+                        obj.removeClass('btn-warning')
+                           .addClass('btn-info')
+                           .html('Unblock account');
+                    } else {
+                        obj.removeClass('btn-info')
+                           .addClass('btn-warning')
+                           .html('Block account');
+                    }
+                }
+            });
+        }
+    });
+
+    /**
+     * load data for edit user
+     */
+    $('button[name="user-edit"]').click(function (event) {
         $.ajax({
-            url:  'user-block',
+            url:  '/admin/user-edit',
             type: 'POST',
             data: {
-                id_edit:  id,
-                is_block: is_block
+              id_edit: $(this).attr('data-id')
             },
-            success: function(response, textStatus) {
 
-                if(is_block){
-                    obj.removeClass('btn-warning')
-                       .addClass('btn-info')
-                       .html('Unblock account');
-                } else {
-                    obj.removeClass('btn-info')
-                       .addClass('btn-warning')
-                       .html('Block account');
-                }
+            success: function(response, textStatus) {
+                $('#user-modal').html(response);
             }
         });
-    }
-    return false;
-}
+    });
 
-function userEdit(obj, is_first) {
-    var id   = obj.getAttribute('data-id');
-    var data = is_first ? {} : JQuerySelectorFind(['input'], 'edit_user');
+    /**
+     * save data of user
+     */
+    $('body').on('click','button[name="user-save"]', function (event) {
+        var obj         = $(this);
+        var id          = obj.attr('data-id');
+        var data        = obj.parents('form').serialize();
+        data['id_edit'] = id;
 
-    data['id_edit']  = id;
-    data['is_first'] = is_first;
-
-    $.fancybox.showLoading();
-    $.ajax({
-        url:  'user-edit',
-        type: 'POST',
-        data: data,
-        success: function(response, textStatus) {
-            $.fancybox.hideLoading();
-            if(is_first) {
-                $('#fancy_frame_user').html(response);
-                $.fancybox({
-                    autoSize: true,
-                    helpers: {
-                        overlay: {
-                            closeClick: false
-                        }
-                    },
-                    href :  '#fancy_frame_user',
-                    margin: 60,
-                    title:  '<h2>Edit user data</h2>'
-                });
-            } else {
+        $.ajax({
+            url:  '/admin/user-save',
+            type: 'POST',
+            data: data,
+            success: function(response, textStatus) {
                 var result = $.parseJSON(response);
-                if(matchStr(result['status'], 'error')) {
+
+                if('error' == result['status']) {
                     for(var i in result['errors']){
                         showErrors(i, result['errors'][i])
                     }
@@ -66,10 +74,11 @@ function userEdit(obj, is_first) {
                     for(var i in result['user']) {
                         $('#'+id+'_'+i).html(result['user'][i]);
                     }
-                    $.fancybox.close();
+                    $('#user-modal').slideUp();
+                    $('div.modal-backdrop').remove();
                 }
             }
-        }
+        });
+        return false;
     });
-    return false;
-}
+});

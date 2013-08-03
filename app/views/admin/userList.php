@@ -4,7 +4,7 @@
 ?>
 
     <h1>Users list</h1>
-<div id="fancy_frame_user" style="display:none;"></div>
+<div id="user-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
 <div class="container-group">
     <div class="row-item">
         <span class="avatar head"> <?php echo Html::tag('p', 'Avatar'); ?>    </span>
@@ -21,23 +21,23 @@
             <span class="text"   id="<?php echo $user->id?>_last_name">  <?php echo $user->last_name;?>          </span>
             <span class="text" style="width: auto;">
             <?php
-                echo Html::submitButton('Edit', array(
-                    'class'   => 'btn btn-success',
-                    'data-id' => $user->id,
-                    'id'      => 'user-edit',
-                    'onclick' => 'return userEdit(this, 1);'
+
+                echo Html::button('Edit', array(
+                    'class'       => 'btn btn-success',
+                    'data-id'     => $user->id,
+                    'data-target' => '#user-modal',
+                    'data-toggle' => 'modal',
+                    'name'        => 'user-edit'
                 ));
                 echo Html::submitButton($user->is_active ? 'Block account' : 'Unblock account', array(
                     'class'   => $user->is_active ? 'btn btn-warning' : 'btn btn-info',
                     'data-id' => $user->id,
-                    'id'      => 'user-block',
-                    'onclick' => 'return userBlock(this);'
+                    'name'    => 'user-block'
                 ));
                 echo Html::submitButton('Delete', array(
                     'class'   => 'btn btn-danger',
                     'data-id' => $user->id,
-                    'id'      => 'user-delete',
-                    'onclick' => 'return userDelete(this);'
+                    'name'    => 'user-delete'
                 ));
             ?>
             </span>
