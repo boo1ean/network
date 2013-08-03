@@ -139,4 +139,37 @@ class UserFormTest extends \Codeception\TestCase\Test
         $this->assertNotNull($result['pagination']);
         $this->assertEquals(count($result['users']), 1);
     }
+
+    public function testUserSave() {
+        $user_edit = $this->users[self::USER_ID];
+
+        // when calling without post data
+        $this->assertFalse($this->userForm->userSave());
+
+        // prepare for submit dat
+        $this->userForm->email           = $this->post['email'];
+        $this->userForm->first_name      = $this->post['first_name'];
+        $this->userForm->id_edit         = $user_edit->id;
+        $this->userForm->last_name       = $this->post['last_name'];
+        $this->userForm->password        = $this->post['password'];
+        $this->userForm->repeat_password = $this->post['repeat_password'];
+
+        // invalid email
+        $this->userForm->email = 'invalid email';
+        $this->assertFalse($this->userForm->userSave());
+        $this->userForm->email = $this->post['email'];
+
+        // invalid repeat password
+        $this->userForm->repeat_password = 'invalid repeat password';
+        $this->assertFalse($this->userForm->userSave());
+        $this->userForm->repeat_password = $this->post['repeat_password'];
+
+        // valid data
+        $this->assertTrue($this->userForm->userSave());
+
+        $this->assertEquals($this->post['email'],      $this->userForm->email);
+        $this->assertEquals($this->post['first_name'], $this->userForm->first_name);
+        $this->assertEquals($this->post['last_name'],  $this->userForm->last_name);
+        $this->assertEquals($this->post['password'],   $this->userForm->password);
+    }
 }
