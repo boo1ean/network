@@ -47,6 +47,12 @@ class QueueWorker extends Component
      * Start worker loop
      */
     public function start() {
-        while($this->worker->work());
+        while($this->worker->work()) {
+            if (GEARMAN_SUCCESS != $this->worker->returnCode()) {
+                echo '\nWorker failed: ' . $this->worker->error() . '\n';
+            }
+
+            ob_flush();
+        }
     }
 }
