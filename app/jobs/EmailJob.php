@@ -65,8 +65,7 @@ class EmailJob implements JobInterface
      * @param $dataArray
      * @return bool If $dataArray is valid, return true. If $dataArray is invalid, return false
      */
-    protected function checkCorrectData($dataArray)
-    {
+    protected function checkCorrectData($dataArray) {
         return isset($dataArray['to'], $dataArray['subject'], $dataArray['body']);
     }
 
