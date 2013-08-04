@@ -4,7 +4,21 @@ namespace app\jobs;
 use app\components\Mailer;
 use yii\base\InvalidParamException;
 
-class EmailJob implements JobInterface {
+class EmailJob implements JobInterface
+{
+
+    /**
+     * @var string Job name
+     */
+    private static $jobName = 'email';
+
+    /**
+     * Return processing job name
+     * @return string
+     */
+    public static function getJobName() {
+        return static::$jobName;
+    }
 
     /**
      * Process Email job

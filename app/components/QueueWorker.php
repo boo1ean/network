@@ -29,7 +29,6 @@ class QueueWorker extends Component
      * Registration all job classes
      */
     public function register() {
-        /** @var $file JobInterface */
         foreach (FileHelper::findFiles($this->jobClassPath) as $file) {
             $fileName = pathinfo($file, PATHINFO_FILENAME);
             $className = $this->jobNamespace . $fileName;
@@ -38,8 +37,9 @@ class QueueWorker extends Component
             if (!class_exists($className))
                 continue;
 
+            /** @var $class JobInterface */
             $class = new $className;
-            $this->worker->addFunction('email', array($class, 'process'));
+            $this->worker->addFunction($class::getJobName(), array($class, 'process'));
         }
     }
 

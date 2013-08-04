@@ -17,7 +17,7 @@ class TestController extends Controller
             'to'    =>  'aivus@aivus.name',
             'subject'   =>  'Super subject',
             'body'      =>  'Message body',
-        ));
+        ), true);
     }
 
     public function actionMailerSyncQueue() {
