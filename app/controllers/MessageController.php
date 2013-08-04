@@ -6,6 +6,7 @@ use yii;
 use yii\web\Controller;
 use app\models\Conversation;
 use app\models\Message;
+use app\models\User;
 
 class MessageController extends Controller
 {
@@ -104,7 +105,11 @@ class MessageController extends Controller
                 $conversation->link('users', $owner);
             }
 
-            $conversation = $conversation->addSubscribed($_POST['members']);
+            foreach($_POST['members'] as $key => $value) {
+                $user = User::find($value);
+                $conversation = $conversation->addSubscribed($user);
+            }
+
             $conversation->title = isset($_POST['title']) ? $_POST['title'] : null;
             $conversation->save();
             return Yii::$app->getResponse()->redirect('message/conversation/' . $conversation->id);
