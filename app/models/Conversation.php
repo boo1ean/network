@@ -52,6 +52,8 @@ class Conversation extends ActiveRecord
      * @param $user User
      */
     public function addSubscribed($user) {
+        // Refresh is needed here because without it conversation continues to be private despite the number of users
+        $this->refresh();
         $conversation = $this;
 
         // Check if user exists and isn't conversation member

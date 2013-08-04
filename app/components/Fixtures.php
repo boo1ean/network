@@ -52,31 +52,30 @@ class Fixtures extends Component
     }
         
      /**
-     * Generates comversation
+     * Generates conversation
      */
     public function generateConversation() {  
-        $fakeConversation = new Conversation;
-        
-        $fakeConversation->title = $this->faker->word . 'Conversation';
-        $fakeConversation->save(); 
-        
-        $idArr = array();
-        for($i = 0; $i < 2; $i++) {
-            /*Generate number of fake user*/
-            $allUsers = User::find()
-                    ->all();
-            $numFakeUser = rand(0, count($allUsers)-1);
-            /*----------------------------*/
-        
-            $userToSubscribe = User::find()
-                    ->where(array('id' => $allUsers[$numFakeUser]->id))
-                    ->one();
-            $idArr[$i] = $userToSubscribe->id;
 
-            $fakeConversation->addSubscribed($userToSubscribe);
+        $allUsers = User::find()->all();
+        $usersCount = count($allUsers);
+        if($usersCount <= 2) {
+            throw new InvalidCallException('Not enough users to generate conversations!');
         }
-        
+        // Create conversation
+        $fakeConversation = new Conversation;
 
+        $fakeConversation->title = $this->faker->word . 'Conversation';
+        $fakeConversation->save();
+
+        // Random number of conversation members
+        $maxRand = min($usersCount - 1, 5);
+        $conversationsUsersCount = rand(2, $maxRand);
+
+        // Shuffle allUsers array to get random users
+        shuffle($allUsers);
+        for ($i = 0; $i < $conversationsUsersCount; $i++) {
+            $fakeConversation->addSubscribed($allUsers[$i]);
+        }
     }
 
     /**

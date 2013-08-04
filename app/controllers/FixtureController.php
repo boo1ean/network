@@ -65,8 +65,12 @@ class FixtureController extends Controller
      * @param $conversationsCount
      */
     public function actionConversations($conversationsCount = self::CONVERSATIONS_COUNT) {
-        $this->fixture->generateConversations($conversationsCount);
-        echo 'Generated ' . $conversationsCount . ' conversations'.PHP_EOL;
+        try {
+            $this->fixture->generateConversations($conversationsCount);
+            echo 'Generated ' . $conversationsCount . ' conversations'.PHP_EOL;
+        } catch (InvalidCallException $e) {
+            echo $e->getMessage();
+        }
     }
 
     /**
@@ -77,7 +81,7 @@ class FixtureController extends Controller
         try {
             $this->fixture->generateMessages($messagesCount);
             echo 'Generated ' . $messagesCount . ' messages'.PHP_EOL;
-        } catch(InvalidCallException $e) {
+        } catch (InvalidCallException $e) {
             echo $e->getMessage();
         }
     }
