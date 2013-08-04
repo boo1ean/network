@@ -53,7 +53,7 @@ $(document).ready(function() {
             }
             /*
             $.ajax({
-                url:  'deleteevent',
+                url:  'dropevent',
                 type: 'POST',
                 data: {
                     id:  id

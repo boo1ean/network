@@ -21,9 +21,11 @@ echo $form->field($model, 'description')->textInput(array(
     'placeholder' => 'Enter event description',
 ));
 
+Html:
+
 ?>
 
-<?php echo Html::label('Start date', null, array('class' => 'control-label')); ?>
+<?php echo Html::activeLabel($model, 'start_date', array('class' => 'control-label')); ?>
 
     <div class="control-group">
         <div class="controls">
@@ -31,7 +33,7 @@ echo $form->field($model, 'description')->textInput(array(
         </div>
     </div>
 
-<?php echo Html::label('Start time', null, array('class' => 'control-label')); ?>
+<?php echo Html::activeLabel($model, 'start_time', array('class' => 'control-label')); ?>
 
     <div class="control-group">
         <div class="controls">
@@ -39,7 +41,7 @@ echo $form->field($model, 'description')->textInput(array(
         </div>
     </div>
 
-<?php echo Html::label('End date', null, array('class' => 'control-label')); ?>
+<?php echo Html::activeLabel($model, 'end_date', array('class' => 'control-label')); ?>
 
     <div class="control-group">
         <div class="controls">
@@ -47,7 +49,7 @@ echo $form->field($model, 'description')->textInput(array(
         </div>
     </div>
 
-<?php echo Html::label('End time', null, array('class' => 'control-label')); ?>
+<?php echo Html::activeLabel($model, 'end_time', array('class' => 'control-label')); ?>
 
     <div class="control-group">
         <div class="controls">
