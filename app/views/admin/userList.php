@@ -4,7 +4,7 @@
 ?>
 
     <h1>Users list</h1>
-<div id="user-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+<div id="user-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <div class="container-group">
     <div class="row-item">
         <span class="avatar head"> <?php echo Html::tag('p', 'Avatar'); ?>    </span>

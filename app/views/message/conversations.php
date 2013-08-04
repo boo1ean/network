@@ -10,20 +10,28 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 ?>
 
-<h1>Conversations</h1>
+<h1>Conversations
+    <?php
+    // Link for new conversation creation
+    echo Html::tag(
+        'button',
+        '+ New conversation',
+        array(
+            'class'       => 'btn btn-success',
+            'data-target' => '#conversation-create-modal',
+            'data-toggle' => 'modal',
+            'id'          => 'conversation-create'
+        )
+    );
+    ?>
+</h1>
+<div id="conversation-create-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 
-<?php
-// Link for new conversation creation
-echo Html::a('New conversation', array('message/members'));
-
-// Print list of conversations
-foreach ($conversations as $conversation) {
-    $title = $conversation->title == NULL ? 'conversation #' . $conversation->id : $conversation->title;
-
+<?php // Print list of conversations
+    foreach ($conversations as $conversation):
+        $title = $conversation->title == NULL ? 'conversation #' . $conversation->id : $conversation->title;
 ?>
-
-<ul class="nav nav-tabs nav-stacked">
-    <li><?php echo Html::a($title, array('message/conversation/' . $conversation->id)); ?></li>
-</ul>
-
-<?php } ?>
+    <ul class="nav nav-tabs nav-stacked" id="conversation-list">
+        <li><?php echo Html::a($title, array('message/conversation/' . $conversation->id)); ?></li>
+    </ul>
+<?php endforeach; ?>

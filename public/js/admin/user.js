@@ -107,8 +107,7 @@ $(function(){
                     for(var i in result['user']) {
                         $('#'+id+'_'+i).html(result['user'][i]);
                     }
-                    $('#user-modal').slideUp();
-                    $('div.modal-backdrop').remove();
+                    $.modal('hide');
                 }
             }
         });
