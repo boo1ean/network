@@ -15,11 +15,13 @@ use yii\widgets\ActiveForm;
             <lable class="control-label">Add new member:</lable>
             <div class="controls">
                 <input type="text" id="new-member-list" class="typeahead">
+                <span class="help-inline" style="display: none;"></span>
             </div>
         </div>
         <br/>
         <ul class="inline" id="member-list"></ul>
     </div>
+
     <div class="modal-footer">
         <?php
         echo Html::button('Create', array(

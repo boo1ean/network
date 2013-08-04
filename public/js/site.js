@@ -125,10 +125,8 @@ $(document).ready(
          */
         $('body').on('click','button#conversation-save', function (event) {
             var obj    = $(this);
-            console.log(obj);
             var data   = obj.parents('form').serialize();
             var errors = new messages();
-            console.log(data);
             $.ajax({
                 url:  '/message/conversation-create',
                 type: 'POST',
