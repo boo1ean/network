@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\widgets\Menu;
 use yii\widgets\Breadcrumbs;
+use app\widgets\UserBox;
 
 /**
  * @var $this \yii\base\View
@@ -37,8 +38,6 @@ if ($user === null) {
     $items[] = array('label' => 'Messages',     'url' => array('/message'), 'active' => 'message' == $controller_id);
     $items[] = array('label' => 'Library',      'url' => array('/library/books'));
     $items[] = array('label' => 'Calendar',     'url' => array('/calendar/calendar'));
-    $items[] = array('label' => 'Edit profile', 'url' => array('/auth/edit'));
-    $items[] = array('label' => 'Logout',       'url' => array('/auth/logout'));
 }
 
 ?>
@@ -61,6 +60,10 @@ if ($user === null) {
                         <?php echo Menu::widget(array(
                             'options' => array('class' => 'nav'),
                             'items' => $items,
+                        )); ?>
+                        <?php echo UserBox::widget(array(
+                            'avatar'    =>  $user->avatar,
+                            'username'  =>  $user->userName,
                         )); ?>
                     </div>
                 </div>

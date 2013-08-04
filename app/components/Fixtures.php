@@ -2,6 +2,7 @@
 namespace app\components;
 
 use yii\base\Component;
+use yii\base\InvalidCallException;
 use yii;
 use app\models\User;
 use \app\models\Conversation;
@@ -51,29 +52,30 @@ class Fixtures extends Component
     }
         
      /**
-     * Generates comversation
+     * Generates conversation
      */
     public function generateConversation() {  
-        $fakeConversation = new Conversation;
-        
-        $fakeConversation->title = $this->faker->word . 'Conversation';
-        $fakeConversation->save(); 
-        
-        $idArr = array();
-        for($i = 0; $i < 2; $i++) {
-            /*Generate number of fake user*/
-            $allUsers = User::find()
-                    ->all();
-            $numFakeUser = rand(0, count($allUsers)-1);
-            /*----------------------------*/
-        
-            $userToSubscribe = User::find()
-                    ->where(array('id' => $allUsers[$numFakeUser]->id))
-                    ->one();
-            $idArr[$i] = $userToSubscribe->id;
+
+        $allUsers = User::find()->all();
+        $usersCount = count($allUsers);
+        if($usersCount <= 2) {
+            throw new InvalidCallException('Not enough users to generate conversations!');
         }
-        
-        $fakeConversation->addSubscribed($idArr);
+        // Create conversation
+        $fakeConversation = new Conversation;
+
+        $fakeConversation->title = $this->faker->word . 'Conversation';
+        $fakeConversation->save();
+
+        // Random number of conversation members
+        $maxRand = min($usersCount - 1, 5);
+        $conversationsUsersCount = rand(2, $maxRand);
+
+        // Shuffle allUsers array to get random users
+        shuffle($allUsers);
+        for ($i = 0; $i < $conversationsUsersCount; $i++) {
+            $fakeConversation->addSubscribed($allUsers[$i]);
+        }
     }
 
     /**
@@ -89,37 +91,43 @@ class Fixtures extends Component
     /**
      * Generates message
      */
-    public function generateMessage() {  
+    public function generateMessage() {
+
         $fakeMessage = new Message;
         $fakeConversation = new Conversation;
-        
-        /*Generate number of fake conversation*/
-        $allConversations = Conversation::find()->all();
-        $numFakeConversation = rand(0, count($allConversations)-1);
-        /*----------------------------*/
-        
-        $fakeMessage->conversation_id = $allConversations[$numFakeConversation]->id;
-        $fakeConversation->id = $fakeMessage->conversation_id;
-             
-        /*Generate number of fake user, whos is participant in conversation.*/
-        $allUsers = User::find()
-                    ->all();
-        $numFakeUser = 0;
-        $idFakeUser = 0;
-        for(;;) {
-            $numFakeUser = rand(0, count($allUsers)-1);
-            
-            $idFakeUser = $allUsers[$numFakeUser]->id;
-            $boo = $fakeConversation->isConversationMember($idFakeUser);
-            if($boo) {
-                break;
-            }
+
+        // Get conversations count
+        $conversationsCount = Conversation::find()->count();
+        if ($conversationsCount <= 0) {
+            throw new InvalidCallException('There are no conversations!');
         }
-        /*----------------------------*/
-        
-        $fakeMessage->user_id = $idFakeUser;
-        
+        // Generate random offset
+        $randConversationOffset = rand(0, $conversationsCount - 1);
+
+        // Get conversation with random offset
+        $fakeConversation = Conversation::find()
+            ->limit(1)
+            ->offset($randConversationOffset)
+            ->one();
+
+        // Fake message belongs to fake conversation
+        $fakeMessage->conversation_id = $fakeConversation->id;
+
+        // Get random user from conversation members
+        $fakeConversationUsersCount = count($fakeConversation->users);
+        if ($fakeConversationUsersCount <= 0) {
+            throw new InvalidCallException('There are no members of conversation!');
+        }
+        $fakeUserNumber = rand(0, $fakeConversationUsersCount - 1);
+        $fakeUser = $fakeConversation->users[$fakeUserNumber];
+
+        // Set message user
+        $fakeMessage->user_id = $fakeUser->id;
+
+        // Set message body
         $fakeMessage->body = $this->faker->text;
+
+        // Save message
         $fakeMessage->save();
     }
     

@@ -6,6 +6,7 @@ use yii;
 use yii\web\Controller;
 use app\models\Conversation;
 use app\models\Message;
+use app\models\User;
 
 class MessageController extends Controller
 {
@@ -95,18 +96,31 @@ class MessageController extends Controller
 
         $this->layout = 'block';
         $conversation = new Conversation();
-        if(Yii::$app->getRequest()->getIsPost() && isset($_POST['members'])) {
+        if(Yii::$app->getRequest()->getIsPost()) {
+          if(isset($_POST['members']) && count($_POST['members'] > 0)) {
             $conversation = new Conversation();
+            $owner        =  Yii::$app->getUser()->getIdentity();
             $conversation->save();
             $conversation->refresh();
-            $owner =  Yii::$app->getUser()->getIdentity();
             $conversation->link('users', $owner);
 
-            $conversation = $conversation->addSubscribed(array_keys($_POST['members']));
+            foreach($_POST['members'] as $key => $value) {
+                $user         = User::find($key);
+                $conversation = $conversation->addSubscribed($user);
+            }
+
             $conversation->title = isset($_POST['Conversation']['title']) ? $_POST['Conversation']['title'] : null;
+
             $conversation->save();
             echo json_encode(array('redirect' => 'message/conversation/' . $conversation->id));
             return;
+          } else {
+              $result = array(
+                  'status' => 'error',
+                  'errors' => array('new-member-list' => 'Conversation must have 1 or more members')
+              );
+              return json_encode($result);
+          }
         }
 
         $param = array(
@@ -152,7 +166,7 @@ class MessageController extends Controller
         }
 
         $conversation = Conversation::find($_POST['id_conversation']);
-        $conversation = $conversation->addSubscribed(array('id' => $_POST['id_user']));
+        $conversation = $conversation->addSubscribed(User::find($_POST['id_user']));
         $conversation->save();
         if ($conversation->id != $_POST['id_conversation']) {
             echo Yii::$app->getUrlManager()->createAbsoluteUrl('/message/conversation/'.$conversation->id);

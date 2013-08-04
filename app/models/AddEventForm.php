@@ -8,9 +8,16 @@ use app\models\Event;
 
 class AddEventForm extends Event
 {
+    const TYPE_BIRTHDAY = 0;
+    const TYPE_CORPEVENT = 1;
+    const TYPE_HOLIDAY = 2;
+    const TYPE_DAYOFF = 3;
+
     public function rules() {
         return array(
-            array('start_date, start_time, end_date, end_time, type', 'required'),
+            array('title, description, start_date, start_time, end_date, end_time, type', 'required'),
+            array('end_date', 'validateDates'),
+            array('end_time', 'validateTimes')
         );
     }
 
@@ -18,6 +25,18 @@ class AddEventForm extends Event
         return array(
             'default' => array('title', 'description', 'start_date', 'start_time', 'end_date', 'end_time'),
         );
+    }
+
+    public function validateDates() {
+        if ($this->end_date < $this->start_date) {
+            $this->addError('end_date', 'End date can\'t be earlier than start date');
+        }
+    }
+
+    public function validateTimes() {
+        if ($this->end_date == $this->start_date && $this->end_time < $this->start_time) {
+            $this->addError('end_time', 'End time can\'t be earlier than start time');
+        }
     }
 
     public function addEvent() {
