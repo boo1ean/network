@@ -77,8 +77,6 @@ class QueueWorker extends Component
             if (GEARMAN_SUCCESS != $this->worker->returnCode()) {
                 echo '\nWorker failed: ' . $this->worker->error() . '\n';
             }
-
-            ob_flush();
         }
     }
 }
