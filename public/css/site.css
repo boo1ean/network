@@ -199,6 +199,11 @@ button {
 .mycontainer * {
     opacity: .8;
 }
+
+.myevents {
+    display: none;
+}
+
 /*-------------------------Styles for messaging--------------------*/
 .messageContainer {
     display: table;

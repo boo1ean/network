@@ -10,6 +10,29 @@ use app\models\AddEventForm;
 
 class CalendarController extends Controller
 {
+    function actionCalendar() {
+        if (Yii::$app->getUser()->getIsGuest()) {
+            Yii::$app->getResponse()->redirect('@web');
+            return false;
+        }
+
+        $events = Event::sortByStartDate();
+
+        foreach ($events as $event) {
+            $events_array[] = array(
+                'title' => $event->title,
+                'start' => $event->start_date.' '.$event->start_time,
+                'end'   => $event->end_date.' '.$event->end_time,
+            );
+        }
+
+        $events_json = json_encode($events_array);
+
+        return $this->render('calendar', array(
+            'events_json' => $events_json
+        ));
+    }
+
     function actionEvents() {
         if (Yii::$app->getUser()->getIsGuest()) {
             Yii::$app->getResponse()->redirect('@web');
@@ -66,6 +89,17 @@ class CalendarController extends Controller
                 'users' => $users
             ));
         }
+    }
+
+    function actionEventsjson() {
+        if (Yii::$app->getUser()->getIsGuest()) {
+            Yii::$app->getResponse()->redirect('@web');
+            return false;
+        }
+
+        return $this->render('eventsjson', array(
+            'events' => $_POST['events_json']
+        ));
     }
 
     function actionDeleteevent() {
