@@ -8,7 +8,7 @@ use yii\console\Controller;
 class WorkerController extends Controller
 {
 
-    public $default_action = 'start';
+    public $defaultAction = 'start';
 
     public function actionStart() {
         /** @var QueueWorker $worker */
