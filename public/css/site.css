@@ -173,9 +173,9 @@ button {
 }
 
 #MessageForm {
-   margin-left: 3em;
+   margin-left: 60px;
    resize: none;
-   min-width: 75%;
+   width: 540px;
 }
 
 /*------------------------*/
@@ -201,21 +201,24 @@ button {
 }
 /*-------------------------Styles for messaging--------------------*/
 .messageContainer {
-    display: block;
-    margin: 5px;
-    padding: 10px;
-    width: 100%;
+    display: table;
+    margin: 15px 5px;
+    width: 700px;
 }
 .messageUser {
-    display: inline-block;
-    width: 150px;
-    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    width: 55px;
 }
 .messageBody {
-    display: inline-block;
+    display: table-cell;
+    vertical-align: middle;
 }
 .messageBody .popover {
-    display:block;
-    position:relative;
-    max-width:100%;
+    display: block;
+    position: relative;
+    max-width: 645px;
+}
+.messageBody .popover-title {
+    padding: 3px;
 }
