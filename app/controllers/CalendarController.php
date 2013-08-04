@@ -27,11 +27,16 @@ class CalendarController extends Controller
             );
         }
 
-        $events_json = json_encode($events_array);
+        if (isset($events_array)) {
+            $events_json = json_encode($events_array);
+        } else {
+            $events_json = '';
+        }
 
         return $this->render('calendar', array(
             'events_json' => $events_json
         ));
+
     }
 
     function actionEvents() {
