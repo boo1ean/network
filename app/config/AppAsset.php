@@ -24,16 +24,17 @@ class AppAsset extends AssetBundle
         'css/fullcalendar.print.css'
     );
     public $js = array(
-        'js/admin/user.js',
+        'js/jquery-2.0.3.min.js',
+
         'js/bootstrap.min.js',
         'js/library/books.js',
         'js/calendar/events.js',
-        'js/site.js',
-        'js/jquery-2.0.3.min.js',
         'js/jquery.tagsinput.js',
         'js/calendar/jquery-ui-1.10.2.custom.min.js',
         'js/calendar/fullcalendar.min.js',
-        'js/calendar/show-calendar.js'
+        'js/calendar/show-calendar.js',
+        'js/admin/user.js',
+        'js/site.js'
         
     );
     public $depends = array(

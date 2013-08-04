@@ -88,34 +88,47 @@ class MessageController extends Controller
         }
     }
 
-    public function actionMembers($id = NULL){
-        if (!$this->checkAccess($id)) {
+    public function actionMemberNotSubscribeList(){
+
+        $request = Yii::$app->getComponent('request');
+        if (!$request->getIsAjax() ||
+            !isset($_POST['id_conversation']) ||
+            !$this->checkAccess($_POST['id_conversation'])) {
             return Yii::$app->getResponse()->redirect('message');
         }
 
-        $conversation = Conversation::find($id);
-        if(Yii::$app->getRequest()->getIsPost() && isset($_POST['members'])) {
-            // if it is new conversation, create it
-            if (!isset($conversation->id)) {
-                $conversation = new Conversation();
-                $conversation->save();
-                $conversation->refresh();
-                $owner =  Yii::$app->getUser()->getIdentity();
-                $conversation->link('users', $owner);
-            }
+        $conversation = Conversation::find($_POST['id_conversation']);
 
-            $conversation = $conversation->addSubscribed($_POST['members']);
-            $conversation->title = isset($_POST['title']) ? $_POST['title'] : null;
-            $conversation->save();
-            return Yii::$app->getResponse()->redirect('message/conversation/' . $conversation->id);
+        $users = array();
+        foreach($conversation->unsubscribedUsers as $user) {
+            $users[] = array(
+                'id'   => $user->id,
+                'name' => $user->first_name.' '.$user->last_name
+            );
         }
 
-        return $this->render('members', array(
-            'conversationId'      => isset($conversation->id) ? $conversation->id : null,
-            'conversationTitle'   => isset($conversation->title) ? $conversation->title : null,
-            'conversationMembers' => isset($conversation->users) ? $conversation->users : null,
-            'unsubscribedUsers'   => isset($conversation->unsubscribedUsers) ? $conversation->unsubscribedUsers : Yii::$app->getUser()->getIdentity()->otherUsers,
-        ));
+        return json_encode($users);
 
+    }
+
+    public function actionMemberSave(){
+
+        $request = Yii::$app->getComponent('request');
+        if (!$request->getIsAjax() ||
+            !isset($_POST['id_user']) ||
+            !isset($_POST['id_conversation']) ||
+            !$this->checkAccess($_POST['id_conversation'])) {
+            echo 'error';
+            return Yii::$app->getResponse()->redirect('message');
+        }
+
+        $conversation = Conversation::find($_POST['id_conversation']);
+        $conversation = $conversation->addSubscribed(array('id' => $_POST['id_user']));
+        $conversation->save();
+        if ($conversation->id != $_POST['id_conversation']) {
+            echo Yii::$app->getUrlManager()->createAbsoluteUrl('/message/conversation/'.$conversation->id);
+        } else {
+            echo 'ok';
+        }
     }
 }

@@ -3,17 +3,14 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 ?>
-
+<p>Add new member: <input type="text" id="not-member-list" data-id="<?php echo $conversationId?>" class="typeahead"></p>
 <h1><?php echo $conversationTitle ?> </h1>
-<ul class="inline">
+<ul class="inline" id="member-list">
     <?php foreach ($conversationMembers as $member):?>
         <li>
             <?php echo html::a($member->userName, '#', array('class' => 'btn btn-small disabled')); ?>
         </li>
     <?php endforeach; ?>
-    <li>
-        <?php echo Html::a('Add user +', 'message/members/' . $conversationId, array('class' => 'btn btn-small btn-primary')); ?>
-    </li>
 </ul>
 <!-- Print all messages in conversation -->
 <?php foreach ($messages as $message): ?>

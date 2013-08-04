@@ -42,7 +42,6 @@ return array(
                 '/admin/user-list/<id:\d+>'                                 => 'admin/user-list',
                 '/auth/registration/<email:[^\s]+?>/<password_hash:[^\s]+>' => 'auth/registration',
                 '/message/conversation/<id:\d+>'                            => 'message/conversation',
-                '/message/members/<id:\d+>'                                 => 'message/members',
                 '/library/editbook/<id:\d+>'                                => 'library/editbook',
                 '/calendar/editevent/<id:\d+>'                              => 'calendar/editevent',
             )
