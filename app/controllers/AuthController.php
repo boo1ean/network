@@ -50,16 +50,19 @@ class AuthController extends Controller
 
         $editProfileForm = new EditProfileForm();
 
-        if ($editProfileForm->load($_POST) && $editProfileForm->saveProfile()) {
+        if(!empty($_POST)) {
+            $editProfileForm->load($_POST);
+            $editProfileForm->notification = isset($_POST['notification']);
+        }
+
+        if (!empty($_POST) && $editProfileForm->saveProfile()) {
             return $this->render('edit', array(
                 'model'   => $editProfileForm,
-                'avatar'  => Yii::$app->getUser()->getIdentity()->avatar,
                 'message' => 'Well done! You successfully update your profile.'
             ));
         } else {
             return $this->render('edit', array(
-                'model' => $editProfileForm,
-                'avatar'  => Yii::$app->getUser()->getIdentity()->avatar,
+                'model'  => $editProfileForm
             ));
         }
     }

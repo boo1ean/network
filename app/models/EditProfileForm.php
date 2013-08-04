@@ -12,6 +12,11 @@ use yii\base\Model;
 class EditProfileForm extends User
 {
     /**
+     * @var boolean notification sending notification on the email or not
+     */
+    public $notification;
+
+    /**
      * @var string Password_hash
      */
     public $password_hash;
@@ -20,6 +25,14 @@ class EditProfileForm extends User
      * @var string Repeat_password
      */
     public $repeat_password;
+
+    function init(){
+        $user = Yii::$app->getUser()->getIdentity();
+        $this->email        = $user->email;
+        $this->first_name   = $user->first_name;
+        $this->last_name    = $user->last_name;
+        $this->notification = 'yes' == $user->searchSetting('sendNotifications');
+    }
 
     /**
      * @return validation rules array
@@ -66,11 +79,11 @@ class EditProfileForm extends User
                 $user = User::findByEmail($old_email);
             }
 
-            if(isset($_POST['send_notifications'])) {
-                $user->addSetting('sendNotifications','yes');
+            if($this->notification) {
+                $user->addSetting('sendNotifications', 'yes');
             }
             else {
-                $user->addSetting('sendNotifications','no');
+                $user->addSetting('sendNotifications', 'no');
             }
 
             if($this->password != "")   {
