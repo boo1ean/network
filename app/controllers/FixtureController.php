@@ -10,6 +10,7 @@
 namespace app\controllers;
 
 use yii\base\Exception;
+use yii\base\InvalidCallException;
 use yii\console\Controller;
 use app\components\Fixtures;
 
@@ -73,8 +74,12 @@ class FixtureController extends Controller
      * @param $messagesCount
      */
     public function actionMessages($messagesCount = self::MESSAGES_COUNT) {
-        $this->fixture->generateMessages($messagesCount);
-        echo 'Generated ' . $messagesCount . ' messages'.PHP_EOL;
+        try {
+            $this->fixture->generateMessages($messagesCount);
+            echo 'Generated ' . $messagesCount . ' messages'.PHP_EOL;
+        } catch(InvalidCallException $e) {
+            echo $e->getMessage();
+        }
     }
 
     /**
