@@ -59,7 +59,7 @@ class CalendarController extends Controller
         $users = User::getAll();
 
         if ($eventForm->load($_POST) && $eventForm->addEvent()) {
-            Yii::$app->getResponse()->redirect('@web/calendar/events');
+            Yii::$app->getResponse()->redirect('@web/calendar/calendar');
         } else {
             return $this->render('addevent', array(
                 'model' => $eventForm,
