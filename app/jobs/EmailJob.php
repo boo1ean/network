@@ -14,7 +14,7 @@ class EmailJob implements JobInterface {
      * @throws \yii\base\InvalidParamException
      */
     public function process(\GearmanJob $job, $context = null) {
-        $data = json_decode($job->workload());
+        $data = unserialize($job->workload());
 
         if(!$this->checkCorrectData($data))
             throw new InvalidParamException('Missed required parameter in EmailJob!');

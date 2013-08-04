@@ -53,6 +53,9 @@ class Queue extends Component
      * @return bool status whether job was successfully pushed to the queue
      */
     public function enqueue($task, $data, $background = null) {
+
+        // Code $data to string
+        $data = serialize($data);
         if (($background === null && !$this->sync) || $background === true) {
             $this->gearmanClient->doBackground($task, $data);
         } else {
