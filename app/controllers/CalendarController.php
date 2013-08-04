@@ -20,9 +20,10 @@ class CalendarController extends Controller
 
         foreach ($events as $event) {
             $events_array[] = array(
-                'title' => $event->title,
-                'start' => $event->start_date.' '.$event->start_time,
-                'end'   => $event->end_date.' '.$event->end_time,
+                'title'  => $event->title,
+                'start'  => $event->start_date.' '.$event->start_time,
+                'end'    => $event->end_date.' '.$event->end_time,
+                'allDay' => false,
             );
         }
 

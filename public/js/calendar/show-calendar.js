@@ -21,7 +21,13 @@ $(document).ready(function() {
         },
         editable: true,
         firstDay: 1,
-        events: events_js_obj
+        eventSources: [
+            {
+                events: events_js_obj,
+                borderColor: 'darkblue',
+                textColor: 'red'
+            }
+        ]
     });
 
 });
