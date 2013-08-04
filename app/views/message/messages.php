@@ -17,16 +17,30 @@ use yii\widgets\ActiveForm;
 </ul>
 <br><table id="TableOfMessages">
     <?php foreach ($messages as $message): ?>
-        <tr>
+        <!--<tr>
             <td id="NamesOfUsersInTableOfMessages">
-                <?php echo html::a($message->user->userName, '#', array('class' => 'btn btn-small disabled'));?>
+                <?php /*echo html::a($message->user->userName, '#', array('class' => 'btn btn-small disabled'));*/?>
             </td>
             <td class="MessageCell">
                 <p class="message left">
-                    <?php echo $message->body; ?>
+                    <?php /*echo $message->body; */?>
                 </p>
             </td>
-        </tr>
+        </tr>-->
+        <div class="messageContainer">
+            <div class = "messageUser">
+                <?php echo html::a($message->user->userName, '#', array('class' => 'btn btn-small disabled'));?>
+            </div>
+            <div class = "messageBody">
+                <div class="popover right in">
+                    <div class="arrow"></div>
+                    <!--<h3 class="popover-title"></h3>-->
+                    <div class="popover-content">
+                        <?php echo $message->body; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
     <?php endforeach; ?>
         <tr>
             <td></td>

@@ -199,3 +199,23 @@ button {
 .mycontainer * {
     opacity: .8;
 }
+/*-------------------------Styles for messaging--------------------*/
+.messageContainer {
+    display: block;
+    margin: 5px;
+    padding: 10px;
+    width: 100%;
+}
+.messageUser {
+    display: inline-block;
+    width: 150px;
+    text-align: center;
+}
+.messageBody {
+    display: inline-block;
+}
+.messageBody .popover {
+    display:block;
+    position:relative;
+    max-width:100%;
+}
