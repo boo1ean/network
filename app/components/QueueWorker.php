@@ -33,6 +33,11 @@ class QueueWorker extends Component
         foreach (FileHelper::findFiles($this->jobClassPath) as $file) {
             $fileName = pathinfo($file, PATHINFO_FILENAME);
             $className = $this->jobNamespace . $fileName;
+
+            // If class doesn't exists, continue
+            if (!class_exists($className))
+                continue;
+
             $class = new $className;
             $this->worker->addFunction('email', array($class, 'process'));
         }
