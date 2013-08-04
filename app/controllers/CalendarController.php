@@ -91,17 +91,6 @@ class CalendarController extends Controller
         }
     }
 
-    function actionEventsjson() {
-        if (Yii::$app->getUser()->getIsGuest()) {
-            Yii::$app->getResponse()->redirect('@web');
-            return false;
-        }
-
-        return $this->render('eventsjson', array(
-            'events' => $_POST['events_json']
-        ));
-    }
-
     function actionDeleteevent() {
         if (Yii::$app->getUser()->getIsGuest()) {
             Yii::$app->getResponse()->redirect('@web');
