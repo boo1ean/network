@@ -83,6 +83,14 @@ return array(
             'servers'   => array(),         // array('127.0.0.1' => 12345, '127.0.0.2' => 12346)
             'sync'      => true,
         ),
+
+        'queueWorker' => array(
+            'class'     => 'app\components\QueueWorker',
+            'jobClassPath'   => dirname(__DIR__) . '/jobs',
+            'jobNamespace'   => 'app\jobs\\',
+        ),
+
+
     ),
 
     'params' => $params
