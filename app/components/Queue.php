@@ -30,6 +30,7 @@ class Queue extends Component
      */
     public function init() {
 
+        // Check gearman installation
         if (!function_exists('gearman_version')) {
             throw new InvalidConfigException("Could not found Gearman php extension.");
         }
@@ -37,7 +38,7 @@ class Queue extends Component
         $this->gearmanClient = new \GearmanClient();
 
         if (empty($this->servers)) {
-            $this->gearmanClient->addServer();
+            throw new InvalidConfigException("Could not found server IP in config");
         } else {
             foreach ($this->servers as $server=>$port) {
                 $this->gearmanClient->addServer($server, $port);
@@ -53,6 +54,9 @@ class Queue extends Component
      * @return bool status whether job was successfully pushed to the queue
      */
     public function enqueue($task, $data, $background = null) {
+
+        // Code $data to string
+        $data = serialize($data);
         if (($background === null && !$this->sync) || $background === true) {
             $this->gearmanClient->doBackground($task, $data);
         } else {

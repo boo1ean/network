@@ -79,9 +79,18 @@ return array(
 
         'queue' => array(
             'class'     => 'app\components\Queue',
-            'servers'   => array(),         // array('127.0.0.1' => 12345, '127.0.0.2' => 12346)
+            'servers'   => array('127.0.0.1' => 4730),         // array('127.0.0.1' => 12345, '127.0.0.2' => 12346)
             'sync'      => true,
         ),
+
+        'queueWorker' => array(
+            'class'         => 'app\components\QueueWorker',
+            'servers'       => array('127.0.0.1' => 4730),         // array('127.0.0.1' => 12345, '127.0.0.2' => 12346)
+            'jobClassPath'  => dirname(__DIR__) . '/jobs',
+            'jobNamespace'  => 'app\jobs\\',
+        ),
+
+
     ),
 
     'params' => $params
