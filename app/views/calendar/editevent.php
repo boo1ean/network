@@ -25,7 +25,7 @@ echo $form->field($model, 'description')->textInput(array(
 
 ?>
 
-<?php echo Html::label('Start date', null, array('class' => 'control-label')); ?>
+<?php echo Html::activeLabel($model, 'start_date', array('class' => 'control-label')); ?>
 
     <div class="control-group">
         <div class="controls">
@@ -33,7 +33,7 @@ echo $form->field($model, 'description')->textInput(array(
         </div>
     </div>
 
-<?php echo Html::label('Start time', null, array('class' => 'control-label')); ?>
+<?php echo Html::activeLabel($model, 'start_time', array('class' => 'control-label')); ?>
 
     <div class="control-group">
         <div class="controls">
@@ -41,7 +41,7 @@ echo $form->field($model, 'description')->textInput(array(
         </div>
     </div>
 
-<?php echo Html::label('End date', null, array('class' => 'control-label')); ?>
+<?php echo Html::activeLabel($model, 'end_date', array('class' => 'control-label')); ?>
 
     <div class="control-group">
         <div class="controls">
@@ -49,11 +49,19 @@ echo $form->field($model, 'description')->textInput(array(
         </div>
     </div>
 
-<?php echo Html::label('End time', null, array('class' => 'control-label')); ?>
+<?php echo Html::activeLabel($model, 'end_time', array('class' => 'control-label')); ?>
 
     <div class="control-group">
         <div class="controls">
             <?php echo Html::activeInput('time', $model, 'end_time', array('value' => $event->end_time)) ?>
+        </div>
+    </div>
+
+<?php echo Html::activeLabel($model, 'type', array('class' => 'control-label')); ?>
+
+    <div class="control-group">
+        <div class="controls">
+            <?php echo Html::dropDownList('type', $event->type, array('birthday', 'corp. event', 'holiday', 'day-off')) ?>
         </div>
     </div>
 

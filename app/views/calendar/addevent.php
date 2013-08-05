@@ -21,8 +21,6 @@ echo $form->field($model, 'description')->textInput(array(
     'placeholder' => 'Enter event description',
 ));
 
-Html:
-
 ?>
 
 <?php echo Html::activeLabel($model, 'start_date', array('class' => 'control-label')); ?>
@@ -57,11 +55,19 @@ Html:
         </div>
     </div>
 
+<?php echo Html::activeLabel($model, 'type', array('class' => 'control-label')); ?>
+
+    <div class="control-group">
+        <div class="controls">
+            <?php echo Html::dropDownList('type', null, array('birthday', 'corp. event', 'holiday', 'day-off')) ?>
+        </div>
+    </div>
+
 <?php
     $array_of_users = array();
 
     foreach($users as $user) {
-        $array_of_users[] = $user->first_name.' '.$user->last_name;
+        $array_of_users[$user->email] = $user->first_name.' '.$user->last_name;
     }
 ?>
 

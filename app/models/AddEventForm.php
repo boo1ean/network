@@ -44,13 +44,44 @@ class AddEventForm extends Event
 
             $event = new Event;
 
+            $event->title = $this->title;
+            $event->description = $this->description;
             $event->start_date = $this->start_date;
             $event->start_time = $this->start_time;
             $event->end_date = $this->end_date;
             $event->end_time = $this->end_time;
-            //$event->type = self::TYPE_PAPER;
-            $event->title = $this->title;
-            $event->description = $this->description;
+
+            switch($_POST['type']) {
+                case '0':
+                    $event->type = self::TYPE_BIRTHDAY;
+                    break;
+                case '1':
+                    $event->type = self::TYPE_CORPEVENT;
+                    break;
+                case '2':
+                    $event->type = self::TYPE_HOLIDAY;
+                    break;
+                case '3':
+                    $event->type = self::TYPE_DAYOFF;
+                    break;
+                default:
+                    break;
+            }
+
+            /*
+            if (isset($_POST['invitations'])) {
+                $friends = $_POST['invitations'];
+            }
+            */
+
+
+            //foreach($friends as $friend) {
+                //$friend_data = explode(' ', $friends);
+                //$friend_email = $friend_data[3];
+                //$invited_user = User::findByEmail($friend_email);
+                //$event->link('users', $invited_user);
+            //}
+
             $event->user_id = Yii::$app->getUser()->getId();
             $event->save();
             return true;
@@ -64,13 +95,30 @@ class AddEventForm extends Event
 
             $event = Event::find($id);
 
+            $event->title = $this->title;
+            $event->description = $this->description;
             $event->start_date = $this->start_date;
             $event->start_time = $this->start_time;
             $event->end_date = $this->end_date;
             $event->end_time = $this->end_time;
-            //$event->type = self::TYPE_PAPER;
-            $event->title = $this->title;
-            $event->description = $this->description;
+
+            switch($_POST['type']) {
+                case '0':
+                    $event->type = self::TYPE_BIRTHDAY;
+                    break;
+                case '1':
+                    $event->type = self::TYPE_CORPEVENT;
+                    break;
+                case '2':
+                    $event->type = self::TYPE_HOLIDAY;
+                    break;
+                case '3':
+                    $event->type = self::TYPE_DAYOFF;
+                    break;
+                default:
+                    break;
+            }
+
             $event->user_id = Yii::$app->getUser()->getId();
             $event->save();
             return true;
