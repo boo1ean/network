@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use app\models\Book;
 use app\models\Booktaking;
+use app\models\User;
 ?>
 
 <h1>Library</h1>
@@ -65,9 +66,20 @@ foreach ($books as $book) {
                 <?php if($book->status == 'available') { ?>
                     <span class='label label-success'><?php echo $book->status; ?></span>
                 <?php } else { ?>
-                    <span class='label label-important'><?php echo $book->status; ?></span>
+                    <span class='label label-important'><?php echo $book->status; ?></span></p>
+
+                <small>
+                    Taken by
+                    <?php
+                        $booktake = Booktaking::findByBookIdAndStatus($book->id, 1);
+                        echo User::getUserNameById($booktake->user_id).' '.$booktake->taken.
+                            '. Will be returned '.$booktake->returned.'.';
+                    ?>
+                </small>
+
+                <br/><br/>
+
                 <?php } ?>
-            </p>
 
         <blockquote>
            <p><?php echo $book->description; ?></p>
@@ -102,7 +114,7 @@ foreach ($books as $book) {
 
     <?php } else {
 
-        //check if current user took this book to paint "Untake" button or not
+        //check if current user took this book to paint "Untake" button or not. Admin also can Untake books
         $taken = 1;
         $book_take = Booktaking::findByBookIdAndStatus($book->id, $taken);
 
