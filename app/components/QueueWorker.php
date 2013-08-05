@@ -60,8 +60,9 @@ class QueueWorker extends Component
             $className = $this->jobNamespace . $fileName;
 
             // If class doesn't exists, continue
-            if (!class_exists($className))
+            if (!class_exists($className)) {
                 continue;
+            }
 
             /** @var $class JobInterface */
             $class = new $className;
