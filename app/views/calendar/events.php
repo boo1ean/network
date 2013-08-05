@@ -1,25 +1,59 @@
 <?php
 
 use yii\helpers\Html;
-
+use app\models\User;
 ?>
 
 <h1>Events</h1>
 
-<ul class="nav nav-pills">
-    <li><?php echo Html::a('Add event', 'calendar/addevent'); ?></li>
-</ul>
+<br/>
+<?php echo Html::a('Add event', 'calendar/addevent', array('class' => 'btn btn-primary')); ?>
 
 <?php
-
-foreach ($events as $event) {
-    echo '<hr>';
-
-    echo $event->title.'<br/>';
-    echo $event->description.'<br/>';
-    echo 'Begin Date: '.$event->start_date.' '.$event->start_time.'<br/>';
-    echo 'End Date: '.$event->end_date.' '.$event->end_time.'<br/>';
+    foreach ($events as $event) {
 ?>
+
+<hr>
+
+<p class='lead'>
+    <?php echo $event->title; ?><br/>
+</p>
+
+<blockquote>
+    <p><?php echo $event->description; ?></p>
+</blockquote>
+
+<p class="text-info">
+    Begins: <?php echo $event->start_date.' '.$event->start_time; ?><br/>
+    Ends:   <?php echo $event->end_date.' '.$event->end_time; ?><br/>
+</p>
+
+<?php
+    switch($event->type) {
+        case '0':
+            $type = 'birthday';
+            break;
+        case '1':
+            $type = 'corp. event';
+            break;
+        case '2':
+            $type = 'holiday';
+            break;
+        case '3':
+            $type = 'day-off';
+            break;
+        default:
+            break;
+    }
+?>
+
+<p class="text-success">
+    Type: <?php echo $type; ?><br/>
+</p>
+
+<small>
+    Organized by: <?php echo User::getUserNameById($event->user_id); ?><br/>
+</small>
 
 <br/>
 

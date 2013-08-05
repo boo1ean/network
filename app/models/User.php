@@ -138,5 +138,15 @@ class User extends ActiveRecord implements Identity
             return $this->email;
         }
     }
+
+    public static function getUserNameById($id) {
+        $user = User::find($id);
+
+        if(isset($user->first_name) && isset($user->last_name)) {
+            return $user->first_name . ' ' . $user->last_name;
+        } else {
+            return $user->email;
+        }
+    }
 }
 
