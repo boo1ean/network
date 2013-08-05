@@ -61,10 +61,13 @@ if ($user === null) {
                             'options' => array('class' => 'nav'),
                             'items' => $items,
                         )); ?>
-                        <?php echo UserBox::widget(array(
-                            'avatar'    =>  $user->avatar,
-                            'username'  =>  $user->userName,
-                        )); ?>
+                        <?php if($user != null) {
+                                  echo UserBox::widget(array(
+                                  'avatar'    =>  $user->avatar,
+                                  'username'  =>  $user->userName,
+                                  ));    
+                              }
+                        ?>
                     </div>
                 </div>
             </div>
