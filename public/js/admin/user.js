@@ -9,7 +9,7 @@ $(function(){
         var is_block   = obj.hasClass('btn-warning') ? 1 : 0;
         var first_name = $('#'+id+'_first_name').text().toString().trim();
         var last_name  = $('#'+id+'_last_name').text().toString().trim();
-        if(confirm('Do you really wanna '+(is_block ? 'block' : 'unblock')+' this user: "'+first_name+' '+last_name+'"?')) {
+        if (confirm('Do you really wanna ' + (is_block ? 'block' : 'unblock') + ' this user: "' + first_name + ' ' + last_name + '"?')) {
             $.ajax({
                 url:  '/admin/user-block',
                 type: 'POST',
@@ -19,7 +19,7 @@ $(function(){
                 },
                 success: function(response, textStatus) {
 
-                    if(is_block){
+                    if (is_block){
                         obj.removeClass('btn-warning')
                            .addClass('btn-info')
                            .html('Unblock account');
@@ -41,7 +41,7 @@ $(function(){
         var id         = obj.attr('data-id');
         var first_name = $('#'+id+'_first_name').text().toString().trim();
         var last_name  = $('#'+id+'_last_name').text().toString().trim();
-        if(confirm('Do you really wanna delete forever this user: "'+first_name+' '+last_name+'"?')) {
+        if (confirm('Do you really wanna delete forever this user: "' + first_name + ' ' + last_name + '"?')) {
             $.ajax({
                 url:  '/admin/user-delete',
                 type: 'POST',
@@ -49,10 +49,10 @@ $(function(){
                     id_edit: id
                 },
                 success: function(response, textStatus) {
-                    if('ok' == response) {
+                    if ('ok' == response) {
                         var row = obj.parent().parent();
                         row.hide('blind');
-                        setTimeout(function(){
+                        setTimeout(function() {
                             row.remove();
                         },1000)
                     } else {
@@ -93,21 +93,21 @@ $(function(){
             url:  '/admin/user-save',
             type: 'POST',
             data: data,
-            beforeSend: function(){
+            beforeSend: function() {
                 errors.hideErrors(obj.parents('form'));
             },
             success: function(response, textStatus) {
                 var result = $.parseJSON(response);
 
-                if('error' == result['status']) {
-                    for(var i in result['errors']){
+                if ('error' == result['status']) {
+                    for (var i in result['errors']) {
                         errors.showErrors(i, result['errors'][i])
                     }
                 } else {
-                    for(var i in result['user']) {
+                    for (var i in result['user']) {
                         $('#'+id+'_'+i).html(result['user'][i]);
                     }
-                    $.modal('hide');
+                    $('#user-modal').modal('hide');
                 }
             }
         });

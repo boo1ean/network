@@ -75,9 +75,10 @@ class AuthController extends Controller
      */
     public function actionRegistration($email = '', $password_hash = '') {
         $registrationForm = new RegistrationForm();
+
         $isPost = $registrationForm->load($_POST);
 
-        if(!$isPost && (empty($email) || empty($password_hash))) {
+        if (!$isPost && (empty($email) || empty($password_hash))) {
             return $this->render('registration', array(
                 'message' => 'Sorry guy, registration only on invitation.'
             ));
@@ -96,11 +97,10 @@ class AuthController extends Controller
             return Yii::$app->getResponse()->redirect('@web');
         } else {
             $registrationForm->validate();
-            if (isset($registrationForm->errors['password_hash']) ||
-                isset($registrationForm->errors['email'])) {
-                    return $this->render('registration', array(
-                        'message' => 'Nice try guy, but you can\'t be registered without invitation.'
-                    ));
+            if (isset($registrationForm->errors['password_hash']) || isset($registrationForm->errors['email'])) {
+                return $this->render('registration', array(
+                    'message' => 'Nice try guy, but you can\'t be registered without invitation.'
+                ));
             } else {
                 return $this->render('registration', array('model' => $registrationForm));
             }

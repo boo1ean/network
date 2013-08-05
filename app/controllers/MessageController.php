@@ -89,17 +89,19 @@ class MessageController extends Controller
         }
     }
 
-    public function actionConversationCreate(){
+    public function actionConversationCreate() {
         if (!Yii::$app->getRequest()->getIsAjax()) {
             return Yii::$app->getResponse()->redirect('message');
         }
 
         $this->layout = 'block';
         $conversation = new Conversation();
+
         if(Yii::$app->getRequest()->getIsPost()) {
           if(isset($_POST['members']) && count($_POST['members'] > 0)) {
-            $conversation = new Conversation();
-            $owner        =  Yii::$app->getUser()->getIdentity();
+
+            $owner =  Yii::$app->getUser()->getIdentity();
+
             $conversation->save();
             $conversation->refresh();
             $conversation->link('users', $owner);
@@ -110,10 +112,9 @@ class MessageController extends Controller
             }
 
             $conversation->title = isset($_POST['Conversation']['title']) ? $_POST['Conversation']['title'] : null;
-
             $conversation->save();
-            echo json_encode(array('redirect' => 'message/conversation/' . $conversation->id));
-            return;
+
+            return json_encode(array('redirect' => 'message/conversation/' . $conversation->id));
           } else {
               $result = array(
                   'status' => 'error',
@@ -121,17 +122,17 @@ class MessageController extends Controller
               );
               return json_encode($result);
           }
+        } else {
+            $param = array(
+                'model' => $conversation
+            );
+
+            return $this->render('conversationCreate', $param);
         }
-
-        $param = array(
-            'model' => $conversation
-        );
-
-        return $this->render('conversationCreate', $param);
 
     }
 
-    public function actionMemberNotSubscribeList(){
+    public function actionMemberNotSubscribeList() {
 
         if (!Yii::$app->getRequest()->getIsAjax()) {
             return Yii::$app->getResponse()->redirect('message');
@@ -142,9 +143,9 @@ class MessageController extends Controller
         }
 
         $conversation = isset($_POST['id_conversation']) ? Conversation::find($_POST['id_conversation']) : new Conversation();
+        $users        = array();
 
-        $users = array();
-        foreach($conversation->unsubscribedUsers as $user) {
+        foreach ($conversation->unsubscribedUsers as $user) {
             $users[] = array(
                 'id'   => $user->id,
                 'name' => $user->first_name.' '.$user->last_name
@@ -152,10 +153,9 @@ class MessageController extends Controller
         }
 
         return json_encode($users);
-
     }
 
-    public function actionMemberSave(){
+    public function actionMemberSave() {
 
         if (!Yii::$app->getRequest()->getIsAjax() ||
             !isset($_POST['id_user']) ||
@@ -168,6 +168,7 @@ class MessageController extends Controller
         $conversation = Conversation::find($_POST['id_conversation']);
         $conversation = $conversation->addSubscribed(User::find($_POST['id_user']));
         $conversation->save();
+
         if ($conversation->id != $_POST['id_conversation']) {
             echo Yii::$app->getUrlManager()->createAbsoluteUrl('/message/conversation/'.$conversation->id);
         } else {

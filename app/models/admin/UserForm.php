@@ -116,7 +116,7 @@ class UserForm extends User
 
         $count_total = $query_count->count();
 
-        if($this->limit < $count_total) {
+        if ($this->limit < $count_total) {
             $pagination = new Pagination(array(
                 'pageSize'   => $this->limit,
                 'totalCount' => $query_count->count()
@@ -137,13 +137,14 @@ class UserForm extends User
      */
     public function userSave() {
         if ($this->validate()) {
-            $user             = User::find($this->id_edit);
+            $user = User::find($this->id_edit);
 
             $user->email      = $this->email;
             $user->first_name = $this->first_name;
             $user->last_name  = $this->last_name;
             $user->password   = User::hashPassword($this->password);
             $user->save();
+
             return true;
         } else {
             return false;

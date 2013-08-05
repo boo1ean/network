@@ -27,7 +27,7 @@ class AdminController extends Controller
 
     public function actionMain() {
         $mainForm = new MainForm();
-        $param      = array('model' => $mainForm);
+        $param    = array('model' => $mainForm);
 
         return $this->render('main', $param);
     }
@@ -59,7 +59,7 @@ class AdminController extends Controller
 
     public function actionUserBlock() {
 
-        if(!isset($_POST['id_edit']) || !isset($_POST['is_block'])){
+        if (!isset($_POST['id_edit']) || !isset($_POST['is_block'])) {
             Yii::$app->getResponse()->redirect('@web');
             return false;
         }
@@ -75,7 +75,7 @@ class AdminController extends Controller
 
     public function actionUserDelete() {
 
-        if(!isset($_POST['id_edit'])){
+        if (!isset($_POST['id_edit'])) {
             Yii::$app->getResponse()->redirect('@web');
             return false;
         }
@@ -90,13 +90,12 @@ class AdminController extends Controller
 
     public function actionUserEdit() {
 
-        if(!isset($_POST['id_edit'])){
+        if (!isset($_POST['id_edit'])) {
             Yii::$app->getResponse()->redirect('@web');
             return false;
         }
 
-        $userForm = new UserForm();
-
+        $userForm           = new UserForm();
         $userForm->id_edit  = $_POST['id_edit'];
         $userForm->scenario = 'only_id';
 
@@ -110,14 +109,14 @@ class AdminController extends Controller
     public function actionUserList($page = 0) {
 
         $userForm = new UserForm();
+
         $userForm->offset = $page;
+        $users_data       = $userForm->userList();
+        $users            = array();
 
-        $users_data = $userForm->userList();
-        $users      = array();
-
-        foreach($users_data['users'] as $key => $user) {
+        foreach ($users_data['users'] as $key => $user) {
             $users[$key]['avatar'] = $user->getAvatar();
-            $users[$key] = $user;
+            $users[$key]           = $user;
         }
 
         $param = array(
@@ -131,7 +130,7 @@ class AdminController extends Controller
 
     public function actionUserSave() {
 
-        if(!isset($_POST['id_edit'])){
+        if (!isset($_POST['id_edit'])) {
             Yii::$app->getResponse()->redirect('@web');
             return false;
         }

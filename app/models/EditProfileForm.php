@@ -26,8 +26,9 @@ class EditProfileForm extends User
      */
     public $repeat_password;
 
-    function init(){
+    function init() {
         $user = Yii::$app->getUser()->getIdentity();
+
         $this->email        = $user->email;
         $this->first_name   = $user->first_name;
         $this->last_name    = $user->last_name;
@@ -76,7 +77,7 @@ class EditProfileForm extends User
 
             if(!$user) {
                 $old_email = Yii::$app->getUser()->getIdentity()->email;
-                $user = User::findByEmail($old_email);
+                $user      = User::findByEmail($old_email);
             }
 
             if($this->notification) {
@@ -86,14 +87,15 @@ class EditProfileForm extends User
                 $user->addSetting('sendNotifications', 'no');
             }
 
-            if($this->password != "")   {
+            if($this->password !== '')   {
                 $user->password = $this->hashPassword($this->password);
             }
 
-            $user->email = $this->email;
+            $user->email      = $this->email;
             $user->first_name = $this->first_name;
-            $user->last_name = $this->last_name;
+            $user->last_name  = $this->last_name;
             $user->save();
+
             return true;
         }
 
