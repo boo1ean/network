@@ -68,20 +68,6 @@ class AddEventForm extends Event
                     break;
             }
 
-            /*
-            if (isset($_POST['invitations'])) {
-                $friends = $_POST['invitations'];
-            }
-            */
-
-
-            //foreach($friends as $friend) {
-                //$friend_data = explode(' ', $friends);
-                //$friend_email = $friend_data[3];
-                //$invited_user = User::findByEmail($friend_email);
-                //$event->link('users', $invited_user);
-            //}
-
             $event->user_id = Yii::$app->getUser()->getId();
             $event->save();
             return true;
