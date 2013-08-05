@@ -106,7 +106,7 @@ foreach ($books as $book) {
         $taken = 1;
         $book_take = Booktaking::findByBookIdAndStatus($book->id, $taken);
 
-        if(Yii::$app->getUser()->getId() == $book_take->user_id) {
+        if(Yii::$app->getUser()->getId() == $book_take->user_id || Yii::$app->getUser()->getIdentity()->type == 0) {
 
     ?>
 
