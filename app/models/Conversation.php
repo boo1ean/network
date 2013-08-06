@@ -126,4 +126,29 @@ class Conversation extends ActiveRecord
         $this->db->createCommand($query)
             ->execute();
     }
+
+    /**
+     * @return int time of last message
+     */
+    public function getLastMessageTime() {
+        return $this->hasMany('Message', array('conversation_id' => 'id'))
+            ->max('datetime');
+    }
+
+    /**
+     * Returns if conversation was read by specified user
+     * @param integer $userId
+     * @return bool true if unread, else false
+     */
+    public function isUnread($userId) {
+        $exist =  $this->createQuery()
+            ->select('user_conversations.*')
+            ->from('user_conversations')
+            ->where('conversation_id = ' . $this->id)
+            ->andWhere('user_id = ' . $userId)
+            ->andWhere('unread = 1')
+            ->exists();
+
+        return $exist;
+    }
 }
