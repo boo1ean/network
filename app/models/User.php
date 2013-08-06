@@ -104,27 +104,25 @@ class User extends ActiveRecord implements Identity
 
     /**
      * Return all user conversation
-     * Conversations sort by unread field - unread conversations in the beginning, read - next after unread
+     * Conversations sort by unread and datetime of last message
+     * First are unread conversation, next - read
+     * Unread and read conversations in turn are sorted by datetime inside groups
      * @return \yii\db\ActiveRelation object with user conversations
      */
     public function getConversations() {
 
-        // Get conversations ids sorted by unread field
-        $query = 'SELECT `conversation_id` FROM `user_conversations` WHERE `user_id`= ' . $this->id . ' order by `unread` desc';
-        $conversationByUnread = $this->db->createCommand($query)
-            ->queryAll(PDO::FETCH_COLUMN );
+        $query = Conversation::createQuery();
+        $result = $query->select('conversations.*')
+            ->from('users')
+            ->join('inner join', 'user_conversations', 'user_conversations.user_id = users.id')
+            ->join('inner join', 'conversations', 'user_conversations.conversation_id = conversations.id')
+            ->join('inner join', 'messages', 'messages.conversation_id = conversations.id')
+            ->where('user_conversations.user_id = ' . $this->id)
+            ->groupBy('conversations.id')
+            ->orderBy('unread desc, max(messages.datetime) desc')
+            ->all();
 
-        // Convert got conversation ids to string
-        $strConversationByUnread = implode(',', $conversationByUnread);
-
-        // Create an expression for conversation sort
-        $expression = new Expression('FIELD (id,' . $strConversationByUnread . ')');
-
-        // Get conversations using expression for needed conversations order (unread - first, read - next)
-        return $this->hasMany('Conversation', array('id' => 'conversation_id'))
-            ->viaTable('user_conversations', array('user_id' => 'id'))
-            ->orderBy(array($expression))
-            ->limit(count($conversationByUnread));
+        return $result;
     }
 
     public function beforeSave($insert) {
