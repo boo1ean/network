@@ -39,7 +39,7 @@ class UserForm extends User
      */
     public function rules() {
         return array(
-            array('email, id_edit, is_block', 'required'),
+            array('email, first_name, last_name, id_edit, is_block', 'required'),
             array('email', 'email'),
             array('password', 'compare', 'compareAttribute' => 'repeat_password')
         );
@@ -51,7 +51,7 @@ class UserForm extends User
     public function scenarios() {
         return array(
             'block'   => array('id_edit', 'is_block'),
-            'default' => array('email', 'id_edit', 'password'),
+            'default' => array('email', 'first_name', 'id_edit', 'last_name', 'password'),
             'only_id' => array('id_edit')
         );
     }

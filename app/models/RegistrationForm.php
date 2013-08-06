@@ -26,7 +26,7 @@ class RegistrationForm extends User
      */
     public function rules() {
         return array(
-            array('email, password, repeat_password', 'required'),
+            array('email, first_name, last_name, password, repeat_password', 'required'),
             array('email', 'email'),
             array('email', 'validateEmail'),
             array('password_hash', 'validatePasswordHash'),
