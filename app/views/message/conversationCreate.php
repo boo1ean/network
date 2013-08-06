@@ -8,7 +8,7 @@ use yii\widgets\ActiveForm;
     <h3>Create conversation </h3>
 </div>
 <?php $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));?>
-    <div class="modal-body">
+    <div class="modal-form" >
 
         <?php echo $form->field($model, 'title')->textInput(array('value'=> $model->title)); ?>
         <div class="control-group">
