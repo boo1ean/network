@@ -28,12 +28,12 @@ $(document).ready(
         /**
          * create typeahead list of the don't subscribed users
          */
-        if ($('#not-member-list').length > 0) {
+        if ($('#not-member-list').length) {
             var members_list = new members('not-member-list');
             members_list.domObj.typeahead({
                 items:  10,
                 source: function() {
-                    if (0 == members_list.member_source.length) {
+                    if (!members_list.member_source.length) {
                         $.post(
                             '/message/member-not-subscribe-list',
                             {id_conversation: members_list.domObj.attr('data-id')}
@@ -53,7 +53,7 @@ $(document).ready(
                 },
                 updater: function(item_current) {
                     $.each(members_list.member_full, function (i, item) {
-                        if(item['name'] == item_current) {
+                        if(item && item['name'] == item_current) {
                             $.post(
                                 '/message/member-save',
                                 {id_conversation: members_list.domObj.attr('data-id'), id_user: item['id']}
@@ -91,9 +91,9 @@ $(document).ready(
                 var members_list = new members('new-member-list');
 
                 members_list.domObj.typeahead({
-                    items:  10,
+                    items:  5,
                     source: function() {
-                        if(0 == members_list.member_source.length){
+                        if(!members_list.member_source.length){
                             $.post('/message/member-not-subscribe-list')
                                 .done(function(response) {
                                     var data = $.parseJSON(response);
@@ -109,7 +109,8 @@ $(document).ready(
                     },
                     updater: function(item_current) {
                         $.each(members_list.member_full, function (i, item) {
-                            if(item['name'] == item_current) {
+
+                            if(item && item['name'] == item_current) {
                                 members_list.member_source.splice(i, 1);
                                 members_list.member_full.splice(i, 1);
 
