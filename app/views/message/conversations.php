@@ -47,8 +47,6 @@ use yii\widgets\ActiveForm;
             echo Html::beginTag('div', array('class' => 'conversation_info'));
             // Title of conversation
             echo Html::tag('span', $title, array('class' => 'conversation_title'));
-            // Time of last message
-            //echo Html::tag('span', ' ( ' . $conversation->lastMessageTime . ' )');
             // Users of conversation
             echo Html::beginTag('div', array('class' => 'conversation_users'));
             //echo Html::tag('b', $members);

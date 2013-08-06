@@ -51,6 +51,7 @@ class MessageController extends Controller
             $row['id'] = $conversation->id;
             $row['title'] = $conversation->title;
             $row['private'] = $conversation->isPrivate();
+            $row['users'] = array();
             foreach ($conversation->users as $user) {
                 if (Yii::$app->getUser()->getIdentity()->id == $user->id) {
                     continue;
