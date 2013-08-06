@@ -116,7 +116,7 @@ class User extends ActiveRecord implements Identity
             ->from('users')
             ->join('inner join', 'user_conversations', 'user_conversations.user_id = users.id')
             ->join('inner join', 'conversations', 'user_conversations.conversation_id = conversations.id')
-            ->join('inner join', 'messages', 'messages.conversation_id = conversations.id')
+            ->join('left join', 'messages', 'messages.conversation_id = conversations.id')
             ->where('user_conversations.user_id = ' . $this->id)
             ->groupBy('conversations.id')
             ->orderBy('unread desc, max(messages.datetime) desc')
