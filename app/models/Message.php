@@ -66,7 +66,7 @@ class Message extends ActiveRecord
      */
     public function beforeSave($insert) {
 
-        $query = 'UPDATE `user_conversations` SET `unread` = 1 WHERE (`conversation_id` = ' . $this->conversation_id . ' AND NOT(`user_id` = ' . $this->user_id . '))';
+        $query = 'UPDATE `user_conversations` SET `unread` = 1 WHERE `conversation_id` = ' . $this->conversation_id . ' AND `user_id` <> ' . $this->user_id;
         $this->db->createCommand($query)
             ->execute();
 
