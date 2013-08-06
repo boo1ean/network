@@ -80,6 +80,8 @@ class MessageController extends Controller
             $message->save();
             return Yii::$app->getResponse()->redirect('message/conversation/' . $id);
         } else {
+            // Mark conversation as read
+            $conversation->markAsRead(Yii::$app->getUser()->getIdentity()->id);
             return $this->render('messages', array(
                 'conversationId'        => $conversation->id,
                 'conversationTitle'     => $conversation->title,

@@ -115,4 +115,15 @@ class Conversation extends ActiveRecord
         }
         return $newConversation;
     }
+
+    /**
+     * Set conversation as read for specified user
+     * @param integer $userId
+     */
+    public function markAsRead($userId) {
+
+        $query = 'UPDATE `user_conversations` SET `unread` = 0 WHERE `conversation_id` = ' . $this->id . ' AND `user_id` = ' . $userId;
+        $this->db->createCommand($query)
+            ->execute();
+    }
 }
