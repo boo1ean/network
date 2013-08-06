@@ -59,4 +59,18 @@ class Message extends ActiveRecord
         return $this->hasOne('user', array('id' => 'user_id'));
     }
 
+    /**
+     * Set conversation unread for all users except message author
+     * @param bool $insert
+     * @return bool
+     */
+    public function beforeSave($insert) {
+
+        $query = 'UPDATE `user_conversations` SET `unread` = 1 WHERE (`conversation_id` = ' . $this->conversation_id . ' AND NOT(`user_id` = ' . $this->user_id . '))';
+        $this->db->createCommand($query)
+            ->execute();
+
+        return parent::beforeSave($insert);
+    }
+
 }
