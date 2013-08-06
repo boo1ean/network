@@ -73,4 +73,15 @@ class Message extends ActiveRecord
         return parent::beforeSave($insert);
     }
 
+    /**
+     * @param integer $id of conversation
+     * @return Message last message in specified conversation
+     */
+    public static function getLastInConversation($id) {
+        return static::find()
+            ->where('conversation_id = ' . $id)
+            ->orderBy('datetime desc')
+            ->one();
+    }
+
 }
