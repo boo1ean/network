@@ -3,8 +3,11 @@
 namespace app\models;
 use \emberlabs\GravatarLib\Gravatar;
 use \yii\db\ActiveRecord;
+use yii\db\ActiveRelation;
+use yii\db\mssql\PDO;
 use \yii\web\Identity;
 use \yii\helpers\Security;
+use yii\db\Expression;
 
 
 class User extends ActiveRecord implements Identity
@@ -100,11 +103,28 @@ class User extends ActiveRecord implements Identity
     }
 
     /**
+     * Return all user conversation
+     * Conversations sort by unread field - unread conversations in the beginning, read - next after unread
      * @return \yii\db\ActiveRelation object with user conversations
      */
     public function getConversations() {
+
+        // Get conversations ids sorted by unread field
+        $query = 'SELECT `conversation_id` FROM `user_conversations` WHERE `user_id`= ' . $this->id . ' order by `unread` desc';
+        $conversationByUnread = $this->db->createCommand($query)
+            ->queryAll(PDO::FETCH_COLUMN );
+
+        // Convert got conversation ids to string
+        $strConversationByUnread = implode(',', $conversationByUnread);
+
+        // Create an expression for conversation sort
+        $expression = new Expression('FIELD (id,' . $strConversationByUnread . ')');
+
+        // Get conversations using expression for needed conversations order (unread - first, read - next)
         return $this->hasMany('Conversation', array('id' => 'conversation_id'))
-            ->viaTable('user_conversations', array('user_id' => 'id'));
+            ->viaTable('user_conversations', array('user_id' => 'id'))
+            ->orderBy(array($expression))
+            ->limit(count($conversationByUnread));
     }
 
     public function beforeSave($insert) {
