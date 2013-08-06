@@ -1,6 +1,8 @@
 <?php
 namespace app\models\admin;
 
+use app\components\Queue;
+use app\jobs\EmailJob;
 use app\models\User;
 use Yii;
 use yii\base\Model;
@@ -54,19 +56,20 @@ class InviteForm extends User
             $query = $this->findByEmail($this->email);
 
             // sending email
-            $mail = Yii::$app->getComponent('mail');
-            $mail->addTo($this->email);
-            $mail->setSubject('Test message');
-            $mail->setBody('
-                Congratulations! You are invited into the corporate network of "binary-studio".<br/>
-                For confirming registration follow '.
-                Html::a(
-                    'this link',
-                    Yii::$app->getUrlManager()->createAbsoluteUrl('/auth/registration/'.$this->email.'/'.$query->password)),
+            /** @var Queue $queue */
+            $queue = Yii::$app->getComponent('queue');
+            $emailData = array(
+                'to'        => $this->email,
+                'subject'   =>  'Invite',
+                'body'      => 'Congratulations! You are invited into the corporate network of "binary-studio".<br/>
+                    For confirming registration follow '.
+                    Html::a(
+                        'this link',
+                        Yii::$app->getUrlManager()->createAbsoluteUrl('/auth/registration/'.$this->email.'/'.$query->password)),
                     'text/html',
                     'utf-8'
-                );
-            $mail->send();
+            );
+            $queue->enqueue(EmailJob::getJobName(), $emailData);
 
             return 'Email successfully sent';
         }
