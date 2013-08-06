@@ -99,6 +99,7 @@ class User extends ActiveRecord implements Identity
     {
         // Make gravatar
         $gravatar = new Gravatar();
+        $gravatar->setDefaultImage('wavatar');
         return $gravatar->buildGravatarURL($this->email);
     }
 
