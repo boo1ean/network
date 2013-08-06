@@ -29,9 +29,57 @@ use yii\widgets\ActiveForm;
 
 <?php // Print list of conversations
     foreach ($conversations as $conversation):
-        $title = $conversation->title == NULL ? 'conversation #' . $conversation->id : $conversation->title;
+        $title = $conversation['title'] == NULL ? 'conversation #' . $conversation['id'] : $conversation['title'];
 ?>
-    <ul class="nav nav-tabs nav-stacked" id="conversation-list">
-        <li><?php echo Html::a($title, array('message/conversation/' . $conversation->id)); ?></li>
+    <ul class="nav nav-stacked" id="conversation-list">
+        <li>
+            <?php
+            // Class for link to conversation depends on read state of conversation
+            $aClass = 'conversation';
+            if($conversation['unread']) {
+                $aClass .= ' unread';
+            }
+            // Begin to make link for conversation
+            echo Html::beginTag('a', array(
+                'href' => 'message/conversation/' . $conversation['id'],
+                'class' => $aClass
+            ));
+            echo Html::beginTag('div', array('class' => 'conversation_info'));
+            // Title of conversation
+            echo Html::tag('span', $title, array('class' => 'conversation_title'));
+            // Time of last message
+            //echo Html::tag('span', ' ( ' . $conversation->lastMessageTime . ' )');
+            // Users of conversation
+            echo Html::beginTag('div', array('class' => 'conversation_users'));
+            //echo Html::tag('b', $members);
+            foreach ($conversation['users'] as $user) {
+                // User avatar
+                echo Html::img($user->avatar, array(
+                    'width' => '20',
+                    'height' => '20',
+                    'class' => 'img-rounded'
+                ));
+                // User name
+                echo ' ' . $user->userName;
+                echo Html::tag('br');
+            }
+            echo Html::endTag('div');
+            echo Html::endTag('div');
+            // Last message in conversation
+            if(isset($conversation['lastMessage'])) {
+                echo Html::beginTag('div', array('class' => 'conversation_message'));
+
+                echo Html::img($conversation['lastMessageAvatar'], array(
+                    'width' => '50',
+                    'height' => '50',
+                    'class' => 'img-rounded left'
+                ));
+                echo Html::tag('b', $conversation['lastMessageUser'] . ' ( ' . $conversation['lastMessage']->datetime . ' )');
+                echo Html::tag('p', $conversation['lastMessage']->body);
+                echo Html::endTag('div');
+            }
+            echo Html::endTag('a');
+            ?>
+        </li>
     </ul>
 <?php endforeach; ?>

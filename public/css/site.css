@@ -208,7 +208,51 @@ button {
     display: none;
 }
 
-/*-------------------------Styles for messaging--------------------*/
+/*-------------------------Styles for conversation list--------------------*/
+#conversation-list {
+    margin: 0;
+}
+#conversation-list a{
+    color: #3A87AD;
+    padding: 15px;
+    margin: 5px;
+    background-color: #fafafa;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+#conversation-list a:hover {
+    background-color: #eee;
+}
+#conversation-list .unread{
+    background-color: #D9EDF7;
+    border-color: #BCE8F1;
+}
+.conversation {
+    display: table-row;
+    width: 700px;
+}
+.conversation_info {
+    display: table-cell;
+    width: 250px;
+}
+.conversation_message {
+    display: table-cell;
+    vertical-align: middle;
+    width: 450px;
+    color: #777;
+}
+.conversation_message p{
+    text-align: justify;
+}
+.conversation_title {
+    font-weight: bold;
+    font-size: 20px;
+}
+.left {
+    float: left;
+    margin-right: 15px;
+}
+/*-----------------------------------Styles for messages-------------------------*/
 .messageContainer {
     display: table;
     margin: 15px 5px;

@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use ___PHPSTORM_HELPERS\object;
 use yii;
 use yii\web\Controller;
 use app\models\Conversation;
@@ -44,8 +45,30 @@ class MessageController extends Controller
     public function actionIndex() {
         // Get all users conversations
         $conversations = Yii::$app->getUser()->getIdentity()->conversations;
+        $viewParams = array();
+        foreach($conversations as $conversation) {
+            $row = array();
+            $row['id'] = $conversation->id;
+            $row['title'] = $conversation->title;
+            $row['private'] = $conversation->isPrivate();
+            foreach ($conversation->users as $user) {
+                if (Yii::$app->getUser()->getIdentity()->id == $user->id) {
+                    continue;
+                }
+                $row['users'][] = $user;
+            }
+            $row['unread'] = $conversation->isUnread(Yii::$app->getUser()->getIdentity()->id);
+            $message = Message::getLastInConversation($conversation->id);
+            if ($message != null) {
+                $row['lastMessage'] = $message;
+                $lastMessageUser = $message->user;
+                $row['lastMessageUser'] = $lastMessageUser->userName;
+                $row['lastMessageAvatar'] = $lastMessageUser->avatar;
+            }
+            $viewParams[] = $row;
+        }
         return $this->render('conversations', array(
-            'conversations' => $conversations,
+            'conversations' => $viewParams,
         ));
     }
 
