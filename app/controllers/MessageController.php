@@ -172,6 +172,11 @@ class MessageController extends Controller
         $users        = array();
 
         foreach ($conversation->unsubscribedUsers as $user) {
+
+            if($user->id == Yii::$app->getUser()->getIdentity()->id) {
+                continue;
+            }
+
             $users[] = array(
                 'id'   => $user->id,
                 'name' => $user->first_name.' '.$user->last_name
