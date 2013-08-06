@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\CalendarSettingsForm;
 use yii;
 use yii\web\Controller;
 use app\models\Event;
@@ -33,8 +34,13 @@ class CalendarController extends Controller
             $events_json = '';
         }
 
+        $id = Yii::$app->getUser()->getIdentity()->getId();
+        $user = User::find($id);
+        $gcal = $user->searchSetting('gcal_feed');
+
         return $this->render('calendar', array(
-            'events_json' => $events_json
+            'events_json' => $events_json,
+            'gcal' => $gcal
         ));
 
     }
@@ -114,5 +120,29 @@ class CalendarController extends Controller
         $event->delete();
 
         return Yii::$app->getResponse()->redirect('@web/calendar/events');
+    }
+
+    function actionSettings() {
+        if (Yii::$app->getUser()->getIsGuest()) {
+            Yii::$app->getResponse()->redirect('@web');
+            return false;
+        }
+
+        $id = Yii::$app->getUser()->getIdentity()->getId();
+        $user = User::find($id);
+        $gcal = $user->searchSetting('gcal_feed');
+
+        $calendarSettingsForm = new CalendarSettingsForm();
+
+        if (isset($_POST['feed']) && $calendarSettingsForm->saveSettings()) {
+            return $this->render('settings', array(
+                'message' => 'Settings have been saved',
+                'gcal' => $_POST['feed']
+            ));
+        } else {
+            return $this->render('settings', array(
+                'gcal' => $gcal
+            ));
+        }
     }
 }

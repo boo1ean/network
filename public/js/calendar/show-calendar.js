@@ -2,13 +2,15 @@ $(document).ready(function() {
 
     $('#calendar').html('');
 
-    var eee = $('.myevents').text();
+    var events_json = $('.myevents').text();
 
-    if (eee !== '') {
-        var events_js_obj = JSON.parse(eee);
+    if (events_json !== '') {
+        var events_js_obj = JSON.parse(events_json);
     } else {
         var events_js_obj = '';
     }
+
+    var gcal_url = $('.gcal').text();
 
     /*
     var date = new Date();
@@ -30,6 +32,11 @@ $(document).ready(function() {
                 events: events_js_obj,
                 borderColor: 'darkblue',
                 textColor: 'red'
+            },
+            {
+                url: gcal_url,
+                className: 'gcal-event',
+                currentTimezone: 'Europe/Kiev'
             }
         ],
         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {

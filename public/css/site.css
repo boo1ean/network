@@ -204,6 +204,10 @@ button {
     display: none;
 }
 
+.gcal {
+    display: none;
+}
+
 /*-------------------------Styles for messaging--------------------*/
 .messageContainer {
     display: table;
