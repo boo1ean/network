@@ -11,18 +11,6 @@ class Book extends ActiveRecord
         return 'books';
     }
 
-    public static function sortByAuthor() {
-        return static::find()
-            ->orderBy('author')
-            ->all();
-    }
-
-    public static function sortByTitle() {
-        return static::find()
-            ->orderBy('title')
-            ->all();
-    }
-
     public static function findByAuthor($author) {
         return static::find()
             ->where(array('author' => $author))
@@ -35,15 +23,16 @@ class Book extends ActiveRecord
             ->one();
     }
 
-    public static function getAvailableBooks() {
+    public static function getBooksByParams($status, $param) {
         return static::find()
-            ->where(array('status' => 'available'))
+            ->where(array('status' => $status))
+            ->orderBy($param)
             ->all();
     }
 
-    public static function getTakenBooks() {
+    public static function getAllBooks($param) {
         return static::find()
-            ->where(array('status' => 'taken'))
+            ->orderBy($param)
             ->all();
     }
 

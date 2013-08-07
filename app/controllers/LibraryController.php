@@ -23,37 +23,40 @@ class LibraryController extends Controller
             return false;
         }
 
-        if (isset($_POST['id'])) {
-
-            switch($_POST['id']) {
-                case 'bytitle':
-                    $books = Book::sortByTitle();
-                    break;
-                case 'byauthor':
-                    $books = Book::sortByAuthor();
-                    break;
-                case 'available':
-                    $books = Book::getAvailableBooks();
-                    break;
-                case 'taken':
-                    $books = Book::getTakenBooks();
-                    break;
-                default:
-                    $tags = Tag::findByTitle($_POST['id']);
-                    $books = $tags->books;
-                    break;
-            }
-
+        if (isset($_POST['id_status']) && isset($_POST['id_param']) && $_POST['id_status'] != 'all') {
+            $books = Book::getBooksByParams($_POST['id_status'], $_POST['id_param']);
+        } else if (isset($_POST['id_status']) && isset($_POST['id_param']) && $_POST['id_status'] == 'all') {
+            $books = Book::getAllBooks($_POST['id_param']);
         } else {
-            $books = Book::getAvailableBooks();
+            $books = Book::getAllBooks(null);
+        }
+
+        if(isset($_POST['sel_tags'])) {
+            $selected_tags = $_POST['sel_tags'];
+            $books = array();
+
+            foreach($selected_tags as $tag) {
+                $tag_curr = Tag::findByTitle($tag);
+                $books_by_tag = $tag_curr->books;
+                $books = array_merge($books, $books_by_tag);
+            }
         }
 
         $all_tags = Tag::getTags();
 
-        return $this->render('books', array(
-            'books' => $books,
-            'all_tags' => $all_tags
-        ));
+        if (isset($_POST['partial']) && $_POST['partial'] == 'yes') {
+            $this->layout = 'block';
+
+            return $this->renderPartial('bookslist', array(
+                'books' => $books,
+                'all_tags' => $all_tags
+            ));
+        } else {
+            return $this->render('books', array(
+                'books' => $books,
+                'all_tags' => $all_tags
+            ));
+        }
     }
 
     public function actionAddbook() {
