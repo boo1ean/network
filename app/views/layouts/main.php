@@ -63,9 +63,9 @@ if ($user === null) {
                         )); ?>
                         <?php if($user != null) {
                                   echo UserBox::widget(array(
-                                  'avatar'          => $user->avatar,
-                                  'username'        => $user->userName,
-                                  'notifications'   => $user->notifications,
+                                  'avatar'              => $user->avatar,
+                                  'username'            => $user->userName,
+                                  'notificationsCount'  => $user->notificationsCount,
                                   ));    
                               }
                         ?>

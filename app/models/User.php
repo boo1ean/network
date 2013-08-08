@@ -145,6 +145,18 @@ class User extends ActiveRecord implements Identity
         return $result;
     }
 
+    /**
+     * @return int count of unread notifications
+     */
+    public function getNotificationsCount() {
+        return Conversation::createQuery()
+            ->select('*')
+            ->from('user_conversations')
+            ->where('user_conversations.user_id = ' . $this->id)
+            ->andWhere('user_conversations.unread = 1')
+            ->count();
+    }
+
     public function beforeSave($insert) {
         if ($this->isNewRecord) {
             $this->password = static::hashPassword($this->password);

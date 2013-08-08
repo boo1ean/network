@@ -26,7 +26,7 @@ class UserBox extends Widget
     /**
      * @var array of unread notifications
      */
-    public $notifications;
+    public $notificationsCount;
 
     public function init() {
         if ($this->avatar == null) {
@@ -39,9 +39,8 @@ class UserBox extends Widget
 
     public function run() {
         // If notifications count > 0, link blinks
-        $notificationsCount = count($this->notifications);
         $blinkClass = '';
-        if ($notificationsCount > 0) {
+        if ($this->notificationsCount > 0) {
             $blinkClass .= 'flashing';
         }
         // Container for userbox
@@ -56,7 +55,7 @@ class UserBox extends Widget
             'id'    => 'userBoxNotifications',
             'title' => 'Unread notifications'
         ));
-        $html .= $notificationsCount;
+        $html .= $this->notificationsCount;
         $html .= Html::beginTag('i', array('class' => 'icon-comment'));
         $html .= Html::endTag('i');
         $html .= Html::endTag('a');
