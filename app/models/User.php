@@ -126,6 +126,25 @@ class User extends ActiveRecord implements Identity
         return $result;
     }
 
+    /**
+     * Get unread notifications
+     */
+    public function getNotifications() {
+        $query = Conversation::createQuery();
+        $result = $query->select('conversations.*')
+            ->from('users')
+            ->join('inner join', 'user_conversations', 'user_conversations.user_id = users.id')
+            ->join('inner join', 'conversations', 'user_conversations.conversation_id = conversations.id')
+            ->join('left join', 'messages', 'messages.conversation_id = conversations.id')
+            ->where('user_conversations.user_id = ' . $this->id)
+            ->andWhere('user_conversations.unread = 1')
+            ->groupBy('conversations.id')
+            ->orderBy('max(messages.datetime) desc')
+            ->all();
+
+        return $result;
+    }
+
     public function beforeSave($insert) {
         if ($this->isNewRecord) {
             $this->password = static::hashPassword($this->password);
