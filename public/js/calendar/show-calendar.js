@@ -12,58 +12,42 @@ $(document).ready(function() {
 
     var gcal_url = $('.gcal').text();
 
-    /*
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
-    */
-
     $('#calendar').fullCalendar({
         header: {
             left: 'prev,next today',
             center: 'title',
             right: 'month,basicWeek,basicDay'
         },
+        dayClick: function() {
+            alert('a day has been clicked!');
+        },
+        eventClick: function(event, element) {
+            event.title = 'CLICKED!';
+            $('#calendar').fullCalendar('updateEvent', event);
+        },
         editable: true,
         firstDay: 1,
         eventSources: [
             {
                 events: events_js_obj,
-                borderColor: 'darkblue',
-                textColor: 'red'
+                borderColor: 'red'
             },
             {
                 url: gcal_url,
                 className: 'gcal-event',
-                currentTimezone: 'Europe/Kiev'
+                currentTimezone: 'Europe/Kiev',
+                editable: true,
+                borderColor: 'green'
             }
         ],
         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
-            alert(
-                event.title + " was moved " +
-                    dayDelta + " days and " +
-                    minuteDelta + " minutes."
-            );
-
-            //var start_date = event.start.split(' ');
-            alert(event.start);
-
-            if (allDay) {
-                alert("Event is now all-day");
-            }else{
-                alert("Event has a time-of-day");
-            }
-
-            if (!confirm("Are you sure about this change?")) {
-                revertFunc();
-            }
-            /*
             $.ajax({
                 url:  'dropevent',
                 type: 'POST',
                 data: {
-                    id:  id
+                    title: event.title,
+                    start: event.start,
+                    end: event.end
                 },
                 beforeSend: function() {
                     $('body').addClass('mycontainer');
@@ -73,7 +57,6 @@ $(document).ready(function() {
                     $('body').removeClass('mycontainer');
                 }
             });
-            */
         }
     });
 

@@ -11,12 +11,7 @@ use app\models\AddEventForm;
 
 class CalendarController extends Controller
 {
-    function actionCalendar() {
-        if (Yii::$app->getUser()->getIsGuest()) {
-            Yii::$app->getResponse()->redirect('@web');
-            return false;
-        }
-
+    static function calendarData() {
         $events = Event::sortByStartDate();
 
         foreach ($events as $event) {
@@ -34,6 +29,17 @@ class CalendarController extends Controller
             $events_json = '';
         }
 
+        return $events_json;
+    }
+
+    function actionCalendar() {
+        if (Yii::$app->getUser()->getIsGuest()) {
+            Yii::$app->getResponse()->redirect('@web');
+            return false;
+        }
+
+        $events_json = self::calendarData();
+
         $id = Yii::$app->getUser()->getIdentity()->getId();
         $user = User::find($id);
         $gcal = $user->searchSetting('gcal_feed');
@@ -42,7 +48,35 @@ class CalendarController extends Controller
             'events_json' => $events_json,
             'gcal' => $gcal
         ));
+    }
 
+    function actionDropevent() {
+        if (Yii::$app->getUser()->getIsGuest()) {
+            Yii::$app->getResponse()->redirect('@web');
+            return false;
+        }
+
+        $start_date = date("Y-m-d", strtotime($_POST['start']));
+        $end_date = date("Y-m-d", strtotime($_POST['end']));
+
+        $events = Event::findByTitle($_POST['title']);
+
+        if ($events) {
+            $events->start_date = $start_date;
+            $events->end_date = $end_date;
+            $events->save();
+        }
+
+        $events_json = self::calendarData();
+
+        $id = Yii::$app->getUser()->getIdentity()->getId();
+        $user = User::find($id);
+        $gcal = $user->searchSetting('gcal_feed');
+
+        return $this->render('calendar', array(
+            'events_json' => $events_json,
+            'gcal' => $gcal
+        ));
     }
 
     function actionEvents() {

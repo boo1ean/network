@@ -20,7 +20,7 @@ class Event extends ActiveRecord
     public static function findByTitle($title) {
         return static::find()
             ->where(array('title' => $title))
-            ->all();
+            ->one();
     }
 
     public function getUsers() {
