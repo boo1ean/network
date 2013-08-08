@@ -35,43 +35,34 @@ class UserBox extends Widget
         if ($this->username == null) {
             throw new InvalidParamException('Username was not found!');
         }
-        if ($this->notifications == null) {
-            throw new InvalidParamException('Notifications were not found!');
-        }
     }
 
     public function run() {
-
+        // If notifications count > 0, link blinks
         $notificationsCount = count($this->notifications);
         $blinkClass = '';
         if ($notificationsCount > 0) {
             $blinkClass .= 'flashing';
         }
         // Container for userbox
-        $html = Html::beginTag('ul', array(
+        $html = Html::beginTag('div', array(
             'id'    => 'userBox',
             'class' => 'nav pull-right',
         ));
 
         // Notifications
-        $html .= Html::beginTag('li', array('class' => 'dropdown', 'id' => 'notifications'));
-
-        $html .= Html::beginTag('a', array('class' => $blinkClass));
+        $html .= Html::beginTag('a', array(
+            'class' => $blinkClass,
+            'id'    => 'userBoxNotifications',
+            'title' => 'Unread notifications'
+        ));
         $html .= $notificationsCount;
-        $html .= Html::beginTag('i', array('class' => 'icon-envelope'));
+        $html .= Html::beginTag('i', array('class' => 'icon-comment'));
         $html .= Html::endTag('i');
         $html .= Html::endTag('a');
-        /*$html .= Html::beginTag('ul', array(
-            'class' => 'dropdown',
-        ));
-        $html .= Html::tag('li', 'aaaa');
-        $html .= Html::tag('li', 'aaaa');
-        $html .= Html::endTag('ul');*/
-        $html .= Html::endTag('li');
 
         // User info
-        $html .= Html::beginTag('li');
-        $html .= Html::beginTag('a', array('id' => 'userBoxName'));
+        $html .= Html::beginTag('span');
         // Add user avatar
         $html .= Html::img($this->avatar, array(
             'class' => 'img-rounded',
@@ -81,21 +72,29 @@ class UserBox extends Widget
         ));
         // Add username
         $html .= $this->username;
-        $html .= Html::endTag('a');
+        $html .= Html::endTag('span');
 
         // Link to edit profile
-        $html .= Html::beginTag('a', array('href' => '/auth/edit'));
-        $html .= Html::beginTag('i', array('class' => 'icon-pencil'));
+        $html .= Html::beginTag('a', array(
+            'href'  => '/auth/edit',
+            'id'    => 'userBoxEdit',
+            'title' => 'Edit profile'
+        ));
+        $html .= Html::beginTag('i', array('class' => 'icon-user'));
         $html .= Html::endTag('i');
         $html .= Html::endTag('a');
 
         // Link to logout
-        $html .= Html::beginTag('a', array('href' => '/auth/logout'));
+        $html .= Html::beginTag('a', array(
+            'href' => '/auth/logout',
+            'id'    => 'userBoxLogout',
+            'title' => 'Logout'
+        ));
         $html .= Html::beginTag('i', array('class' => 'icon-share-alt'));
         $html .= Html::endTag('i');
         $html .= Html::endTag('a');
-        $html .= Html::endTag('li');
-        $html .= Html::endTag('ul');
+
+        $html .= Html::endTag('div');
 
         echo $html;
     }

@@ -276,9 +276,19 @@ button {
     padding: 3px;
 }
 /*------------------------UserBox------------------------------*/
+#userBox {
+    padding: 10px 15px 10px;
+}
+#userBox span {
+    color: #777;
+    cursor: default;
+}
+#userBox span:hover {
+    color: #333;
+}
 #userBox i{
-    margin-right: 3px;
-    margin-left: 3px;
+    margin-right: 2px;
+    margin-left: 2px;
     opacity:0.4;
     filter:alpha(opacity=40);
 }
@@ -286,22 +296,13 @@ button {
     opacity:1;
     filter:alpha(opacity=100);
 }
-#userBox ul li:hover a{
-    color: #333;
-}
 #userBoxAvatar {
     margin-right: 5px;
+    margin-left: 5px;
 }
-#userBox ul{
-    margin-left: -100px;
-    width: 300px;
-}
-#notifications {
+#userBox a {
     display: inline-block;
-}
-#userBox li a {
-    display: inline-block;
-    padding: 10px 5px;
+    padding: 0 5px;
     cursor: pointer;
 }
 .flashing {

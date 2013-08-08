@@ -24,6 +24,10 @@ var members = function(id) {
 //tags input
 $(document).ready(
     function() {
+        // Tooltips for userBox
+        $('#userBox a').tooltip({
+            'placement': 'bottom'
+        });
 
         /**
          * create typeahead list of the don't subscribed users
