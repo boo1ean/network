@@ -49,12 +49,8 @@ $(document).ready(function() {
                     start: event.start,
                     end: event.end
                 },
-                beforeSend: function() {
-                    $('body').addClass('mycontainer');
-                },
                 success: function(html) {
                     $('body').html(html);
-                    $('body').removeClass('mycontainer');
                 }
             });
         }
