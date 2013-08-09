@@ -38,11 +38,6 @@ class UserBox extends Widget
     }
 
     public function run() {
-        // If notifications count > 0, link blinks
-        $blinkClass = '';
-        if ($this->notificationsCount > 0) {
-            $blinkClass .= 'flashing';
-        }
         // Container for userbox
         $html = Html::beginTag('div', array(
             'id'    => 'userBox',
@@ -50,15 +45,17 @@ class UserBox extends Widget
         ));
 
         // Notifications
-        $html .= Html::beginTag('a', array(
-            'class' => $blinkClass,
-            'id'    => 'userBoxNotifications',
-            'title' => 'Unread notifications'
-        ));
-        $html .= $this->notificationsCount;
-        $html .= Html::beginTag('i', array('class' => 'icon-comment'));
-        $html .= Html::endTag('i');
-        $html .= Html::endTag('a');
+        if ($this->notificationsCount > 0) {
+            $html .= Html::beginTag('a', array(
+                'class' => 'flashing',
+                'id'    => 'userBoxNotifications',
+                'title' => 'Unread notifications'
+            ));
+            $html .= $this->notificationsCount;
+            $html .= Html::beginTag('i', array('class' => 'icon-comment'));
+            $html .= Html::endTag('i');
+            $html .= Html::endTag('a');
+        }
 
         // User info
         $html .= Html::beginTag('span');
