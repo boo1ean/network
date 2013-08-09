@@ -26,12 +26,11 @@ use yii\widgets\ActiveForm;
     ?>
 </h1>
 <div id="conversation-create-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
-
+<ul class="nav nav-stacked" id="conversation-list">
 <?php // Print list of conversations
     foreach ($conversations as $conversation):
         $title = $conversation['title'] == NULL ? 'conversation #' . $conversation['id'] : $conversation['title'];
 ?>
-    <ul class="nav nav-stacked" id="conversation-list">
         <li>
             <?php
             // Class for link to conversation depends on read state of conversation
@@ -79,5 +78,5 @@ use yii\widgets\ActiveForm;
             echo Html::endTag('a');
             ?>
         </li>
-    </ul>
 <?php endforeach; ?>
+</ul>
