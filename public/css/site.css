@@ -212,7 +212,7 @@ button {
 #conversation-list {
     margin: 0;
 }
-#conversation-list a{
+#conversation-list a {
     color: #3A87AD;
     padding: 15px;
     margin: 5px;
@@ -286,13 +286,13 @@ button {
 #userBox span:hover {
     color: #333;
 }
-#userBox i{
+i{
     margin-right: 2px;
     margin-left: 2px;
     opacity:0.4;
     filter:alpha(opacity=40);
 }
-#userBox i:hover, #userBox a:hover i{
+i:hover,  a:hover i{
     opacity:1;
     filter:alpha(opacity=100);
 }
@@ -327,4 +327,29 @@ button {
     0% {opacity: 1;}
     50% {opacity: 0;}
     100% {opacity: 1;}
+}
+/*------------------------Notifications-----------------------------*/
+#notification-list {
+    margin: 0;
+    width: 700px;
+}
+#notification-list a {
+    color: #777;
+    padding: 10px;
+    margin: 5px;
+    background-color: #fafafa;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+#notification-list a:hover {
+    background-color: #eee;
+    color: #333;
+}
+#notification-list span {
+    font-weight: bold;
+    font-size: 17px;
+}
+#notification-list p{
+    margin: 0;
+    font-size: 12px;
 }
