@@ -49,7 +49,8 @@ class UserBox extends Widget
             $html .= Html::beginTag('a', array(
                 'class' => 'flashing',
                 'id'    => 'userBoxNotifications',
-                'title' => 'Unread notifications'
+                'title' => 'Unread notifications',
+                'href'  => '/notification'
             ));
             $html .= $this->notificationsCount;
             $html .= Html::beginTag('i', array('class' => 'icon-comment'));
