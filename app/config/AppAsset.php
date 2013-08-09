@@ -18,14 +18,17 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = array(
+        'css/toastr.css',
         'css/site.css',
         'css/jquery.tagsinput.css',
         'css/fullcalendar.css',
-        'css/fullcalendar.print.css'
+        'css/fullcalendar.print.css',
+
+
     );
     public $js = array(
         'js/jquery-2.0.3.min.js',
-
+        'js/toastr.js',
         'js/bootstrap.min.js',
         'js/library/books.js',
         'js/calendar/events.js',
@@ -35,8 +38,9 @@ class AppAsset extends AssetBundle
         'js/calendar/gcal.js',
         'js/calendar/show-calendar.js',
         'js/admin/user.js',
+
         'js/site.js'
-        
+
     );
     public $depends = array(
         'yii\web\YiiAsset',

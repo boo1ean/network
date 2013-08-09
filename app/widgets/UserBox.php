@@ -50,7 +50,7 @@ class UserBox extends Widget
                 'class' => 'flashing',
                 'id'    => 'userBoxNotifications',
                 'title' => 'Unread notifications',
-                'href'  => '/notification'
+               // 'href'  => '/notification'
             ));
             $html .= $this->notificationsCount;
             $html .= Html::beginTag('i', array('class' => 'icon-comment'));

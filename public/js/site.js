@@ -29,6 +29,13 @@ $(document).ready(
             'placement': 'bottom'
         });
 
+        // Toastr for notifications
+        $('#userBoxNotifications').click(function(){
+
+            toastr['info']("Are you the six fingered man?");
+
+        });
+
         /**
          * create typeahead list of the don't subscribed users
          */
