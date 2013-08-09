@@ -22,8 +22,16 @@ $(document).ready(function() {
             alert('a day has been clicked!');
         },
         eventClick: function(event, element) {
-            event.title = 'CLICKED!';
-            $('#calendar').fullCalendar('updateEvent', event);
+            $.ajax({
+                url:  'editevent',
+                type: 'GET',
+                data: {
+                    title: event.title
+                },
+                success: function(html) {
+                    $('body').html(html);
+                }
+            });
         },
         editable: true,
         firstDay: 1,

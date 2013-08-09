@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 
 ?>
 
-    <h1>Add event</h1>
+    <h1>Edit event</h1>
 
     <br/>
 

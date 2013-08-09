@@ -113,7 +113,7 @@ class CalendarController extends Controller
         }
     }
 
-    function actionEditevent($id) {
+    function actionEditevent($id = null) {
         if (Yii::$app->getUser()->getIsGuest()) {
             Yii::$app->getResponse()->redirect('@web');
             return false;
@@ -124,10 +124,15 @@ class CalendarController extends Controller
 
         $users = User::getAll();
 
-        $event = Event::find($id);
+        if ($id !== null) {
+            $event = Event::find($id);
+        } else {
+            $event = Event::findByTitle($_GET['title']);
+            $id = $event->id;
+        }
 
         if ($eventForm->load($_POST) && $eventForm->editEvent($id)) {
-            Yii::$app->getResponse()->redirect('@web/calendar/events');
+            Yii::$app->getResponse()->redirect('@web/calendar/calendar');
         } else {
             return $this->render('editevent', array(
                 'model' => $eventForm,
