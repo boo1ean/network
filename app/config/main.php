@@ -44,7 +44,6 @@ return array(
                 '/message/conversation/<id:\d+>'                            => 'message/conversation',
                 '/library/editbook/<id:\d+>'                                => 'library/editbook',
                 '/calendar/editevent/<id:\d+>'                              => 'calendar/editevent',
-                '/notification'                                             => 'notification/index'
             )
         ),
 

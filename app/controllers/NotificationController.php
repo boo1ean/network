@@ -17,32 +17,68 @@ class NotificationController extends Controller
         return true;
     }
 
+    /**
+     * Render all user notifications in static page
+     * @return string
+     */
     public function actionIndex(){
+
+        $viewParameters = $this->getNotifications();
+        return $this->render('all', array(
+            'notifications' => $viewParameters,
+        ));
+    }
+
+    /**
+     * Return json object contains notification for ajax request
+     * Redirect for not ajax
+     * @return bool|string
+     */
+    public function actionJson() {
+        if (Yii::$app->getRequest()->getIsAjax()) {
+            return json_encode($this->getNotifications(5));
+        } else {
+            Yii::$app->getResponse()->redirect('/');
+            return false;
+        }
+    }
+
+    /**
+     * Return specified count of notifications
+     * If count is not set, return all
+     * @param null $count of notifications to return
+     * @return array notifications' data (icon, link, title, description)
+     */
+    public function getNotifications($count = null) {
         /**
          * @var User $user current user
          */
         $user = Yii::$app->getUser()->getIdentity();
-        $viewParameters = array();
+        $result = array();
         // Get all user's notifications
         $notifications = $user->notifications;
-        foreach ($notifications as $notification) {
+        // Number of notifications to return
+        $notificationsCount = 0;
+        if ($count == null) {
+            $notificationsCount = count($notifications);
+        } else {
+            $notificationsCount = min(count($notifications), $count);
+        }
+        for ($i = 0; $i < $notificationsCount; $i++) {
             // Current notification data
             $row = array();
             // Get type of notification
-            $class = get_class($notification);
+            $class = get_class($notifications[$i]);
             switch ($class) {
                 case 'app\models\Conversation':
                     $row['icon'] = 'icon-envelope';
-                    $row['link'] = '/message/conversation/' . $notification->id;
-                    $row['title'] = $notification->title;
-                    $row['description'] = 'Last message was sent on ' . $notification->lastMessageTime;
+                    $row['link'] = '/message/conversation/' . $notifications[$i]->id;
+                    $row['title'] = $notifications[$i]->title;
+                    $row['description'] = 'Last message was sent on ' . $notifications[$i]->lastMessageTime;
                     break;
             }
-            $viewParameters[] = $row;
+            $result[] = $row;
         }
-        //var_dump($viewParameters); die();
-        return $this->render('all', array(
-            'notifications' => $viewParameters,
-        ));
+        return $result;
     }
 }

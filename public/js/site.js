@@ -29,11 +29,31 @@ $(document).ready(
             'placement': 'bottom'
         });
 
-        // Toastr for notifications
+        // Toastr for notifications, on toasrt click redirect to event
         $('#userBoxNotifications').click(function(){
-
-            toastr['info']("Are you the six fingered man?");
-
+            // Show newest toast at bottom (top is default)
+            toastr.options.newestOnTop = false;
+            var ajaxData = {
+                url: "/notification/json",
+                type: 'get',
+                dataType : 'json',
+                success: function(data) {
+                    // Links to notifications
+                    for (var i = 0; i < data.length; i++) {
+                        var link = data[i].link;
+                        toastr.options.onclick = function() {
+                            $(location).attr('href', link);
+                        };
+                        toastr['info'](data[i].description, data[i].title);
+                    }
+                    // Link to all notifications
+                    toastr.options.onclick = function() {
+                        $(location).attr('href', '/notification');
+                    };
+                    toastr['success']("<h4>All notifications here</h4>");
+                }
+            };
+            $.ajax(ajaxData);
         });
 
         /**
