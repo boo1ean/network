@@ -88,48 +88,11 @@ button {
 
 /*--------------------------------------------------General styles----------------------------------------------------*/
 .avatar {
-    display: inline-block;
-    height: 50px;
-    width: 50px;
-}
-.avatar img {
     border-radius: 7px;
+    height: 30px;
+    width: 30px
 }
 
-.container-group {
-    background-color: #fafafa;
-    border: 1px solid #d4d4d4;
-    border-radius: 5px;
-    padding: 15px;
-    width: 95%;
-
-    -webkit-box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
-    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
-}
-
-.email {
-    border-left: 1px solid #d4d4d4;
-    display: inline-block;
-    padding: 5px 10px 5px 20px;
-    width: 30%;
-}
-
-.head{
-    text-align: center;
-}
-.row-item {
-    border-bottom: 1px solid #d4d4d4;
-    margin-top: 5px;
-    padding-bottom: 5px;
-}
-
-.text {
-    border-left: 1px solid #d4d4d4;
-    display: inline-block;
-    padding: 5px 10px 5px 10px;
-    width: 15%;
-}
 .error {
     color: #b94a48 !important;
     border-color: #ee5f5b !important;

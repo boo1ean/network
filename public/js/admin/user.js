@@ -19,14 +19,16 @@ $(function(){
                 },
                 success: function(response, textStatus) {
 
-                    if (is_block){
+                    if (is_block) {
                         obj.removeClass('btn-warning')
                            .addClass('btn-info')
                            .html('Unblock account');
+                        obj.parent().parent().addClass('danger');
                     } else {
                         obj.removeClass('btn-info')
                            .addClass('btn-warning')
                            .html('Block account');
+                        obj.parent().parent().removeClass('danger');
                     }
                 }
             });
@@ -73,9 +75,8 @@ $(function(){
             data: {
               id_edit: $(this).attr('data-id')
             },
-
             success: function(response, textStatus) {
-                $('#user-modal').html(response);
+                $('#user-modal').html(response).modal('show');
             }
         });
     });
