@@ -58,7 +58,7 @@ if ($user === null) {
                 <div class="navbar-inner">
                     <div class="container">
                         <?php echo Menu::widget(array(
-                            'options' => array('class' => 'nav'),
+                            'options' => array('class' => 'nav navbar-nav'),
                             'items' => $items,
                         )); ?>
                         <?php if($user != null) {
