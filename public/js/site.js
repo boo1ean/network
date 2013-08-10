@@ -24,6 +24,48 @@ var members = function(id) {
 //tags input
 $(document).ready(
     function() {
+
+        /**
+         * Open form to recover  password
+         */
+        $('#forgot-open').click(function (event) {
+            $.get('/auth/forgot')
+             .done(function(response, textStatus) {
+                $('#forgot-modal').html(response).modal('show');
+            });
+        });
+
+        /**
+         * sent settings on the email
+         */
+        $('body').on('click','#forgot-save', function (event) {
+            var obj    = $(this);
+            var data   = obj.parents('form').serialize();
+            var errors = new messages();
+            $.ajax({
+                url:  '/auth/forgot-save',
+                type: 'POST',
+                data: data,
+                beforeSend: function() {
+                    errors.hideErrors(obj.parents('form'));
+                },
+                success: function(response, textStatus) {
+                    var result = $.parseJSON(response);
+
+                    if ('error' == result['status']) {
+                        for (var i in result['errors']) {
+                            errors.showErrors(i, result['errors'][i])
+                        }
+                    } else {
+                        $('#forgot-modal').modal('hide');
+                        toastr['success']('<h4>'+result['message']+'</h4>');
+                    }
+
+                }
+            });
+            return false
+        });
+
         // Tooltips for userBox
         $('#userBox a').tooltip({
             'placement': 'bottom'

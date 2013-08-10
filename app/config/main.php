@@ -32,6 +32,7 @@ return array(
                 '/admin'                                                    => 'admin/main',
                 '/admin/user'                                               => 'admin/user-list',
                 '/admin/user-list/<id:\d+>'                                 => 'admin/user-list',
+                '/auth/recover/<email:[^\s]+?>/<password_hash:[^\s]+>'      => 'auth/recover',
                 '/auth/registration/<email:[^\s]+?>/<password_hash:[^\s]+>' => 'auth/registration',
                 '/message/conversation/<id:\d+>'                            => 'message/conversation',
                 '/library/editbook/<id:\d+>'                                => 'library/editbook',
