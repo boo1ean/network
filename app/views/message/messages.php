@@ -3,15 +3,18 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 ?>
-<p>Add new member: <input type="text" id="not-member-list" data-id="<?php echo $conversationId?>" class="typeahead"></p>
 <h1><?php echo $conversationTitle ?> </h1>
-<ul class="inline" id="member-list">
+<div class="row">
+    <div class="col-lg-2">
+        Add new member: <input type="text" id="not-member-list" data-id="<?php echo $conversationId?>" class="form-control">
+    </div>
+</div>
+<div id="member-list">
     <?php foreach ($conversationMembers as $member):?>
-        <li>
-            <?php echo html::a($member->userName, '#', array('class' => 'btn btn-small disabled')); ?>
-        </li>
+        <?php echo html::tag('label', $member->userName, array('class' => 'label label-success')); ?>
     <?php endforeach; ?>
-</ul>
+</div>
+
 <!-- Print all messages in conversation -->
 <?php foreach ($messages as $message): ?>
     <div class = "messageContainer">
@@ -19,7 +22,7 @@ use yii\widgets\ActiveForm;
             <span class = "avatar">  <?php echo Html::img($message->user->avatar); ?> </span>
         </div>
         <div class = "messageBody">
-            <div class = "popover right in">
+            <div class = "popover right in" style="z-index: 0;">
                 <div class = "arrow"></div>
                 <h5 class="popover-title"><?php echo $message->user->userName; ?></h5>
                 <div class = "popover-content">
