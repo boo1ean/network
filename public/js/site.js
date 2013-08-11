@@ -1,17 +1,17 @@
 var messages = function() {
     this.hideErrors = function(obj) {
-        obj.find('span').removeClass('error').hide('blind').empty();
-        obj.find('input').removeClass('error');
+        obj.find('div').removeClass('has-error');
+        obj.find('p.help-block').hide('blind').empty();
     };
 
     this.showErrors = function(id, error) {
-        var obj = $('#' + id);
+        var obj = $('#' + id).parent();
 
-        if (!obj.hasClass('error')) {
-            obj.addClass('error');
+        if (!obj.hasClass('has-error')) {
+            obj.addClass('has-error');
         }
 
-        obj.parent().find('span').addClass('error').attr('style', 'display:none').html(error).show('blind');
+        obj.find('p.help-block').attr('style', 'display:none').html(error).show('blind');
     };
 }
 
