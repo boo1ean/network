@@ -40,7 +40,7 @@ class EditProfileForm extends User
      */
     public function rules() {
         return array(
-            array('email', 'required'),
+            array('email, first_name, last_name', 'required'),
             array('email', 'email'),
             array('password_hash', 'validatePasswordHash'),
             array('repeat_password', 'compare', 'compareAttribute'=>'password')
