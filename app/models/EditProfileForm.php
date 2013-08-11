@@ -43,7 +43,7 @@ class EditProfileForm extends User
             array('email, first_name, last_name', 'required'),
             array('email', 'email'),
             array('password_hash', 'validatePasswordHash'),
-            array('repeat_password', 'compare', 'compareAttribute'=>'password')
+            array('password', 'compare', 'compareAttribute' => 'repeat_password')
         );
     }
 
