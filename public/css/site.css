@@ -105,18 +105,6 @@ button {
 }
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-#TableOfMessages {
-    table-layout: fixed;
-    width: 55em;
-}
-
-#NamesOfUsersInTableOfMessages {
-    text-align: center;
-    vertical-align: middle;
-    width: 8em;
-
-}
-
 #MessageSend {
    margin-left: 1.5em;
 }
