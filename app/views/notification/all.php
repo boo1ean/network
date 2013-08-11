@@ -7,7 +7,7 @@ use yii\helpers\Html;
     <li class = "notification">
         <?php
         echo Html::beginTag('a', array('href'  => $notification['link']));
-        echo Html::tag('i', '', array('class' => $notification['icon']));
+        echo Html::tag('span', '', array('class' => $notification['icon']));
         echo Html::tag('span', $notification['title']);
         echo Html::tag('p', $notification['description']);
         echo Html::endTag('a');

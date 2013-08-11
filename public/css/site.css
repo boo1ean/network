@@ -235,21 +235,11 @@ button {
 #userBox span:hover {
     color: #333;
 }
-i{
-    margin-right: 2px;
-    margin-left: 2px;
-    opacity:0.4;
-    filter:alpha(opacity=40);
-}
-i:hover,  a:hover i{
-    opacity:1;
-    filter:alpha(opacity=100);
-}
 #userBoxAvatar {
     margin-right: 5px;
     margin-left: 5px;
 }
-#userBox a {
+#userBox a,#userBox a>span {
     display: inline-block;
     padding: 0 5px;
     cursor: pointer;
@@ -301,4 +291,7 @@ i:hover,  a:hover i{
 #notification-list p{
     margin: 0;
     font-size: 12px;
+}
+.notification >a> .glyphicon {
+    margin: 5px;
 }

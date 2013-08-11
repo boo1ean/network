@@ -71,7 +71,7 @@ class NotificationController extends Controller
             $class = get_class($notifications[$i]);
             switch ($class) {
                 case 'app\models\Conversation':
-                    $row['icon'] = 'icon-envelope';
+                    $row['icon'] = 'glyphicon glyphicon-envelope';
                     $row['link'] = '/message/conversation/' . $notifications[$i]->id;
                     $row['title'] = $notifications[$i]->title;
                     $row['description'] = 'Last message was sent on ' . $notifications[$i]->lastMessageTime;

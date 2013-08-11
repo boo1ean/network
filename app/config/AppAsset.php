@@ -20,6 +20,7 @@ class AppAsset extends AssetBundle
     public $css = array(
         'css/toastr.css',
         'css/site.css',
+        'css/bootstrap-glyphicons.css',
         'css/jquery.tagsinput.css',
         'css/fullcalendar.css',
         'css/fullcalendar.print.css',

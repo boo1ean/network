@@ -46,6 +46,7 @@ class UserBox extends Widget
 
         // Notifications
         if ($this->notificationsCount > 0) {
+            $html .= Html::beginTag('span');
             $html .= Html::beginTag('a', array(
                 'class' => 'flashing',
                 'id'    => 'userBoxNotifications',
@@ -53,9 +54,10 @@ class UserBox extends Widget
                // 'href'  => '/notification'
             ));
             $html .= $this->notificationsCount;
-            $html .= Html::beginTag('i', array('class' => 'icon-comment'));
-            $html .= Html::endTag('i');
+            $html .= Html::beginTag('span', array('class' => 'glyphicon glyphicon-comment'));
+            $html .= Html::endTag('span');
             $html .= Html::endTag('a');
+            $html .= Html::endTag('span');
         }
 
         // User info
@@ -77,8 +79,8 @@ class UserBox extends Widget
             'id'    => 'userBoxEdit',
             'title' => 'Edit profile'
         ));
-        $html .= Html::beginTag('i', array('class' => 'icon-user'));
-        $html .= Html::endTag('i');
+        $html .= Html::beginTag('span', array('class' => 'glyphicon glyphicon-user'));
+        $html .= Html::endTag('span');
         $html .= Html::endTag('a');
 
         // Link to logout
@@ -87,8 +89,8 @@ class UserBox extends Widget
             'id'    => 'userBoxLogout',
             'title' => 'Logout'
         ));
-        $html .= Html::beginTag('i', array('class' => 'icon-share-alt'));
-        $html .= Html::endTag('i');
+        $html .= Html::beginTag('span', array('class' => 'glyphicon glyphicon-share-alt'));
+        $html .= Html::endTag('span');
         $html .= Html::endTag('a');
 
         $html .= Html::endTag('div');
