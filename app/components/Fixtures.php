@@ -74,6 +74,10 @@ class Fixtures extends Component
         // Shuffle allUsers array to get random users
         shuffle($allUsers);
         for ($i = 0; $i < $conversationsUsersCount; $i++) {
+            if (0 == $i) {
+                $fakeConversation->creator = $allUsers[$i]->id;
+                $fakeConversation->save();
+            }
             $fakeConversation->addSubscribed($allUsers[$i]);
         }
     }
