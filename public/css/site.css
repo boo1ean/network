@@ -109,18 +109,6 @@ button {
 }
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-#MessageSend {
-   margin-left: 1.5em;
-}
-
-#MessageForm {
-   margin-left: 60px;
-   resize: none;
-   width: 540px;
-}
-
-/*------------------------*/
-
 .main-container {
     padding-top: 60px;
 }

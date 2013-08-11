@@ -35,7 +35,8 @@ class MessageController extends Controller
 
     protected function sendMessageHandler($event) {
         $email = Yii::$app->getUser()->getIdentity()->email;
-        $mail = Yii::$app->getComponent('mail');
+        $mail  = Yii::$app->getComponent('mail');
+
         $mail->setTo($email);
         $mail->setSubject('Private message');
         $mail->setBody($this->messageText);
@@ -46,26 +47,31 @@ class MessageController extends Controller
         // Get all users conversations
         $conversations = Yii::$app->getUser()->getIdentity()->conversations;
         $viewParams = array();
+
         foreach($conversations as $conversation) {
             $row = array();
-            $row['id'] = $conversation->id;
-            $row['title'] = $conversation->title;
+
+            $row['id']      = $conversation->id;
+            $row['title']   = $conversation->title;
             $row['private'] = $conversation->isPrivate();
-            $row['users'] = array();
+            $row['users']   = array();
+
             foreach ($conversation->users as $user) {
-                if (Yii::$app->getUser()->getIdentity()->id == $user->id) {
-                    continue;
+                if (Yii::$app->getUser()->getIdentity()->id != $user->id) {
+                    $row['users'][] = $user;
                 }
-                $row['users'][] = $user;
             }
+
             $row['unread'] = $conversation->isUnread(Yii::$app->getUser()->getIdentity()->id);
             $message = Message::getLastInConversation($conversation->id);
+
             if ($message != null) {
-                $row['lastMessage'] = $message;
-                $lastMessageUser = $message->user;
-                $row['lastMessageUser'] = $lastMessageUser->userName;
+                $row['lastMessage']       = $message;
+                $lastMessageUser          = $message->user;
+                $row['lastMessageUser']   = $lastMessageUser->userName;
                 $row['lastMessageAvatar'] = $lastMessageUser->avatar;
             }
+
             $viewParams[] = $row;
         }
         return $this->render('conversations', array(
@@ -80,6 +86,7 @@ class MessageController extends Controller
         }
 
         $conversation = Conversation::find($id);
+
         if (empty($conversation) ||
             !($conversation->isConversationMember(Yii::$app->getUser()->getIdentity()->id))) {
             return false;
@@ -98,19 +105,22 @@ class MessageController extends Controller
 
         if (Yii::$app->getRequest()->getIsPost() && isset($_POST['body'])) {
             $message = new Message();
+
             $message->conversation_id = $conversation->id;
-            $message->user_id = Yii::$app->getUser()->getIdentity()->id;
-            $message->body = $_POST['body'];
+            $message->user_id         = Yii::$app->getUser()->getIdentity()->id;
+            $message->body            = $_POST['body'];
+
             $message->save();
             return Yii::$app->getResponse()->redirect('message/conversation/' . $id);
         } else {
             // Mark conversation as read
             $conversation->markAsRead(Yii::$app->getUser()->getIdentity()->id);
             return $this->render('messages', array(
-                'conversationId'        => $conversation->id,
-                'conversationTitle'     => $conversation->title,
-                'conversationMembers'   => $conversation->users,
-                'messages'              => $conversation->messages,
+                'conversationCreator' => $conversation->getCreator(),
+                'conversationId'      => $conversation->id,
+                'conversationMembers' => $conversation->users,
+                'conversationTitle'   => $conversation->title,
+                'messages'            => $conversation->messages,
             ));
         }
     }
@@ -128,6 +138,7 @@ class MessageController extends Controller
 
             $owner =  Yii::$app->getUser()->getIdentity();
 
+            $conversation->creator = $owner->id;
             $conversation->save();
             $conversation->refresh();
             $conversation->link('users', $owner);

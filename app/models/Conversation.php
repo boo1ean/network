@@ -14,40 +14,6 @@ use \yii\db\ActiveRecord;
 class Conversation extends ActiveRecord
 {
     /**
-     * @return string name of table in DB
-     */
-    public static function tableName() {
-        return 'conversations';
-    }
-
-    /**
-     * @return \yii\db\ActiveRelation object contains conversation messages
-     */
-    public function getMessages() {
-        return $this->hasMany('Message', array('conversation_id' => 'id'));
-    }
-
-    /**
-     * @return \yii\db\ActiveRelation object contains conversation users
-     */
-    public function getUsers() {
-        return $this->hasMany('User', array('id' => 'user_id'))
-            ->viaTable('user_conversations', array('conversation_id' => 'id'));
-    }
-
-    /**
-     * @return array of users don't participate in conversation
-     */
-    public function getUnsubscribedUsers() {
-        $id = array();
-        foreach($this->users as $user)
-            $id[] = $user->id;
-        return User::find()
-            ->where(array('not in', 'id', $id))
-            ->all();
-    }
-
-    /**
      * Add subscribed user to conversation
      * @param $user User
      */
@@ -77,6 +43,65 @@ class Conversation extends ActiveRecord
     }
 
     /**
+     * Creates a copy of conversation with its members
+     * @return Conversation new conversation
+     */
+    public function copyToMultiChat() {
+        $newConversation = new Conversation(array(
+            'title'     => $this->title,
+            'private'   => 0,
+        ));
+        $newConversation->save();
+        $newConversation->refresh();
+        foreach($this->users as $user) {
+            $newConversation->link('users', $user);
+        }
+        return $newConversation;
+    }
+
+    /**
+     * @return object /app/models/User
+     */
+    public function getCreator() {
+        return $this->hasOne('User', array('id' => 'creator'))->one();
+    }
+
+    /**
+     * @return int time of last message
+     */
+    public function getLastMessageTime() {
+        return $this->hasMany('Message', array('conversation_id' => 'id'))
+            ->max('datetime');
+    }
+
+    /**
+     * @return \yii\db\ActiveRelation object contains conversation messages
+     */
+    public function getMessages() {
+        return $this->hasMany('Message', array('conversation_id' => 'id'));
+    }
+
+    /**
+     * @return array of users don't participate in conversation
+     */
+    public function getUnsubscribedUsers() {
+        $id = array();
+        foreach($this->users as $user)
+            $id[] = $user->id;
+        return User::find()
+            ->where(array('not in', 'id', $id))
+            ->all();
+    }
+
+    /**
+     * @return \yii\db\ActiveRelation object contains conversation users
+     */
+    public function getUsers() {
+        return $this->hasMany('User', array('id' => 'user_id'))
+            ->viaTable('user_conversations', array('conversation_id' => 'id'));
+    }
+
+    /**
      * @param $user_id
      * @return bool true if user is a member of conversation, false - if not
      */
@@ -100,42 +125,6 @@ class Conversation extends ActiveRecord
     }
 
     /**
-     * Creates a copy of conversation with its members
-     * @return Conversation new conversation
-     */
-    public function copyToMultiChat() {
-        $newConversation = new Conversation(array(
-            'title'     => $this->title,
-            'private'   => 0,
-        ));
-        $newConversation->save();
-        $newConversation->refresh();
-        foreach($this->users as $user) {
-            $newConversation->link('users', $user);
-        }
-        return $newConversation;
-    }
-
-    /**
-     * Set conversation as read for specified user
-     * @param integer $userId
-     */
-    public function markAsRead($userId) {
-
-        $query = 'UPDATE `user_conversations` SET `unread` = 0 WHERE `conversation_id` = ' . $this->id . ' AND `user_id` = ' . $userId;
-        $this->db->createCommand($query)
-            ->execute();
-    }
-
-    /**
-     * @return int time of last message
-     */
-    public function getLastMessageTime() {
-        return $this->hasMany('Message', array('conversation_id' => 'id'))
-            ->max('datetime');
-    }
-
-    /**
      * Returns if conversation was read by specified user
      * @param integer $userId
      * @return bool true if unread, else false
@@ -150,5 +139,23 @@ class Conversation extends ActiveRecord
             ->exists();
 
         return $exist;
+    }
+
+    /**
+     * Set conversation as read for specified user
+     * @param integer $userId
+     */
+    public function markAsRead($userId) {
+
+        $query = 'UPDATE `user_conversations` SET `unread` = 0 WHERE `conversation_id` = ' . $this->id . ' AND `user_id` = ' . $userId;
+        $this->db->createCommand($query)
+            ->execute();
+    }
+
+    /**
+     * @return string name of table in DB
+     */
+    public static function tableName() {
+        return 'conversations';
     }
 }
