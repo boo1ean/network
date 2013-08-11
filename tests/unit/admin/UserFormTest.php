@@ -67,7 +67,7 @@ class UserFormTest extends \Codeception\TestCase\Test
         // generate userForm settings
         $this->userForm         = new UserForm();
         $this->userForm->limit  = self::USER_TEST_COUNT + $this->user_current_count;
-        $this->userForm->offset = 0;
+        $this->userForm->offset = 1;
 
         // generate valid post data
         $this->post['email']           = $faker->email;
@@ -146,9 +146,9 @@ class UserFormTest extends \Codeception\TestCase\Test
         $this->assertEquals(count($result['users']), $this->userForm->limit - 1);
 
         // pagination working good
-        // (deduct 2 cause of 1 user was logged in and 1 to be sure about pagination realy needed)
+        // (deduct 2 cause of 1 user was logged in and 1 to be sure about pagination really needed)
         $this->userForm->limit  -= 2;
-        $this->userForm->offset  = $this->userForm->limit;
+        $this->userForm->offset  = 2;
 
         $result = $this->userForm->userList();
         $this->assertNotNull($result['pagination']);
