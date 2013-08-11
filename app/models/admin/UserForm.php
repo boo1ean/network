@@ -27,7 +27,7 @@ class UserForm extends User
     /**
      * @var integer what is the recording start
      */
-    public $offset = 0;
+    public $offset = 1;
 
     /**
      * @var string repeat_password for change password
@@ -111,7 +111,8 @@ class UserForm extends User
         $query_count = clone $query;
 
         $users = $query->limit($this->limit)
-            ->offset($this->offset)
+            ->offset(($this->offset - 1) * $this->limit)
+            ->orderBy('email')
             ->all();
 
         $count_total = $query_count->count();
