@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
 <?php foreach ($messages as $message): ?>
     <div class = "messageContainer">
         <div class = "messageUser">
-            <span class = "avatar">  <?php echo Html::img($message->user->avatar); ?> </span>
+            <span>  <?php echo Html::img($message->user->avatar, array('class' => 'avatar')); ?> </span>
         </div>
         <div class = "messageBody">
             <div class = "popover right in" style="z-index: 0;">

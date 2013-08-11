@@ -89,6 +89,10 @@ button {
 /*--------------------------------------------------General styles----------------------------------------------------*/
 .avatar {
     border-radius: 7px;
+    height: 50px;
+    width: 50px
+}
+.small {
     height: 30px;
     width: 30px
 }

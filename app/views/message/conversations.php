@@ -17,15 +17,13 @@ use yii\widgets\ActiveForm;
         'button',
         '+ New conversation',
         array(
-            'class'       => 'btn btn-success',
-            'data-target' => '#conversation-create-modal',
-            'data-toggle' => 'modal',
-            'id'          => 'conversation-create'
+            'class' => 'btn btn-success',
+            'id'    => 'conversation-create'
         )
     );
     ?>
 </h1>
-<div id="conversation-create-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div id="conversation-create-modal" class="modal fade"></div>
 <ul class="nav nav-stacked" id="conversation-list">
 <?php // Print list of conversations
     foreach ($conversations as $conversation):

@@ -188,13 +188,12 @@ $(document).ready(
                                 members_list.member_source.splice(i, 1);
                                 members_list.member_full.splice(i, 1);
 
-                                var html = '<li style="display: none;">' +
+                                var html = '<label class="label label-success" style="display: none;">' +
                                 '<input name="members[' + item['id'] + ']" type="checkbox" style="display: none;" checked="checked" />' +
-                                '<a href="#" class="btn btn-small disabled">' +
-                                    item_current +
-                                '</li>';
+                                 item_current +
+                                '</label>';
 
-                                $('#member-list').append(html).find('li[style="display: none;"]').show('blind');
+                                $('#member-list').append(html).find('label[style="display: none;"]').show('blind');
                             }
                         });
                     }

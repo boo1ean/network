@@ -16,7 +16,7 @@
     <?php foreach($users as $user):?>
         <tr <?php echo $user->is_active ? '' : 'class="danger"' ?> >
             <td id="<?php echo $user->id?>_avatar" class="text-center">
-                <?php echo Html::img($user->avatar, array('class' => 'avatar')); ?>
+                <?php echo Html::img($user->avatar, array('class' => 'avatar small')); ?>
             </td>
             <td id="<?php echo $user->id?>_email">      <?php echo $user->email;?>              </td>
             <td id="<?php echo $user->id?>_first_name"> <?php echo $user->first_name;?>         </td>
