@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 
 ?>
 
-<h1>Add event</h1>
+<h1 class="text-center">Add event</h1>
 
 <br/>
 
@@ -33,10 +33,8 @@ use yii\widgets\ActiveForm;
     <div class="col-lg-3">
         <?php echo $form->field($model, 'start_date')->input('date'); ?>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-lg-3">
+    <div class="col-lg-2 col-lg-push-1">
         <?php echo $form->field($model, 'start_time')->input('time'); ?>
     </div>
 </div>
@@ -45,10 +43,8 @@ use yii\widgets\ActiveForm;
     <div class="col-lg-3">
         <?php echo $form->field($model, 'end_date')->input('date'); ?>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-lg-3">
+    <div class="col-lg-2 col-lg-push-1">
         <?php echo $form->field($model, 'end_time')->input('time'); ?>
     </div>
 </div>

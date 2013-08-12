@@ -18,18 +18,18 @@ use yii\widgets\ActiveForm;
     $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));
 ?>
 
-<?php echo Html::label('Import GCal feed', null, array('class' => 'control-label')); ?>
-
-    <div class="control-group">
-        <div class="controls">
-            <?php echo Html::textInput('feed', $gcal, array('placeholder' => 'Enter your GCal feed')) ?>
-        </div>
+<div class="row">
+    <div class="col-lg-6">
+        <?php echo Html::label('Import GCal feed', null, array('class' => 'control-label')); ?>
+        <?php echo Html::textInput('feed', $gcal, array(
+            'placeholder' => 'Enter your GCal feed',
+            'class' => 'form-control'
+        )) ?>
     </div>
+</div>
 
-    <div class="control-group">
-        <div class="controls">
-            <?php echo Html::submitButton('Save settings', array('class' => 'btn btn-primary')); ?>
-        </div>
-    </div>
+    <br/>
+
+    <?php echo Html::submitButton('Save settings', array('class' => 'btn btn-primary')); ?>
 
 <?php ActiveForm::end(); ?>
