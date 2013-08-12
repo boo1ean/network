@@ -58,11 +58,20 @@ use app\models\User;
 <br/>
 
 <ul class="nav nav-pills">
-    <li><?php echo Html::a('Edit', array('calendar/editevent/' . $event->id )); ?></li>
-    <li><?php echo Html::a('Delete', null, array(
+    <li><?php echo Html::a('Edit', null, array(
+            'name' => 'event-edit',
             'event-id' => $event->id,
             'class' => 'cursorOnNoLink',
-            'onclick' => 'return deleteEvent(this);')); ?></li>
+            'data-target' => '#myModal',
+            'data-toggle' => 'modal'
+        )); ?>
+    </li>
+    <li><?php echo Html::a('Delete', null, array(
+            'name' => 'event-delete',
+            'event-id' => $event->id,
+            'class' => 'cursorOnNoLink'
+        )); ?>
+    </li>
 </ul>
 
 <?php
@@ -70,3 +79,7 @@ use app\models\User;
 }
 
 ?>
+
+<div class="modal hide fade" id="myModal">
+
+</div>

@@ -21,3 +21,7 @@ use yii\helpers\Html;
 <div class="gcal"><?php echo $gcal; ?></div>
 
 <div id="calendar"></div>
+
+<div class="modal fade" id="myModal">
+
+</div>

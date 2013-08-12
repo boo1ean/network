@@ -23,15 +23,17 @@ $(document).ready(function() {
         },
         eventClick: function(event, element) {
             $.ajax({
-                url:  'editevent',
-                type: 'GET',
+                url:  'edit-event',
+                type: 'POST',
                 data: {
                     title: event.title
                 },
-                success: function(html) {
-                    $('body').html(html);
+                success: function(response) {
+                    $('#myModal').html(response);
                 }
             });
+
+            $('#myModal').modal();
         },
         editable: true,
         firstDay: 1,

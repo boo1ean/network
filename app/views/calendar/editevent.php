@@ -5,22 +5,28 @@ use yii\widgets\ActiveForm;
 
 ?>
 
-    <h1>Edit event</h1>
+<h1 class="text-center">Edit event</h1>
 
-    <br/>
+<br/>
 
 <?php
 
 $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));
 
+if (isset($event_id)) {
+    echo HTML::hiddenInput('id_event', $event_id);
+}
+
 echo $form->field($model, 'title')->textInput(array(
     'placeholder' => 'Enter event title',
-    'value' => $event->title
+    'value' => $event->title,
+    'id' => 'title'
 ));
 
 echo $form->field($model, 'description')->textInput(array(
     'placeholder' => 'Enter event description',
-    'value' => $event->description
+    'value' => $event->description,
+    'id' => 'description'
 ));
 
 ?>
@@ -29,7 +35,10 @@ echo $form->field($model, 'description')->textInput(array(
 
     <div class="control-group">
         <div class="controls">
-            <?php echo Html::activeInput('date', $model, 'start_date', array('value' => $event->start_date)) ?>
+            <?php echo Html::activeInput('date', $model, 'start_date', array(
+                'value' => $event->start_date,
+                'id' => 'start_date'
+            )) ?>
         </div>
     </div>
 
@@ -37,7 +46,10 @@ echo $form->field($model, 'description')->textInput(array(
 
     <div class="control-group">
         <div class="controls">
-            <?php echo Html::activeInput('time', $model, 'start_time', array('value' => $event->start_time)) ?>
+            <?php echo Html::activeInput('time', $model, 'start_time', array(
+                'value' => $event->start_time,
+                'id' => 'start_time'
+            )) ?>
         </div>
     </div>
 
@@ -45,7 +57,10 @@ echo $form->field($model, 'description')->textInput(array(
 
     <div class="control-group">
         <div class="controls">
-            <?php echo Html::activeInput('date', $model, 'end_date', array('value' => $event->end_date)) ?>
+            <?php echo Html::activeInput('date', $model, 'end_date', array(
+                'value' => $event->end_date,
+                'id' => 'end_date'
+            )) ?>
         </div>
     </div>
 
@@ -53,7 +68,10 @@ echo $form->field($model, 'description')->textInput(array(
 
     <div class="control-group">
         <div class="controls">
-            <?php echo Html::activeInput('time', $model, 'end_time', array('value' => $event->end_time)) ?>
+            <?php echo Html::activeInput('time', $model, 'end_time', array(
+                'value' => $event->end_time,
+                'id' => 'end_time'
+            )) ?>
         </div>
     </div>
 
@@ -83,7 +101,11 @@ foreach($users as $user) {
 
     <div class="control-group">
         <div class="controls">
-            <?php echo Html::submitButton('Edit event', array('class' => 'btn btn-primary')); ?>
+            <?php echo Html::button('Confirm', array(
+                'class' => 'btn btn-primary',
+                'name' => 'event-save',
+                'event_id' => $event->id
+            )); ?>
         </div>
     </div>
 

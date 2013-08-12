@@ -113,7 +113,7 @@ class CalendarController extends Controller
         }
     }
 
-    function actionEditevent($id = null) {
+    function actionEditEvent() {
         if (Yii::$app->getUser()->getIsGuest()) {
             Yii::$app->getResponse()->redirect('@web');
             return false;
@@ -124,22 +124,45 @@ class CalendarController extends Controller
 
         $users = User::getAll();
 
-        if ($id !== null) {
-            $event = Event::find($id);
-        } else {
-            $event = Event::findByTitle($_GET['title']);
+        if (isset($_POST['event_id'])) {
+            //event edit from events list
+            $event = Event::find($_POST['event_id']);
+            $id = $_POST['event_id'];
+        } else if (isset($_POST['title'])) {
+            //event edit from calendar
+            $event = Event::findByTitle($_POST['title']);
             $id = $event->id;
         }
 
-        if ($eventForm->load($_POST) && $eventForm->editEvent($id)) {
-            Yii::$app->getResponse()->redirect('@web/calendar/calendar');
-        } else {
-            return $this->render('editevent', array(
-                'model' => $eventForm,
-                'event' => $event,
-                'users' => $users
-            ));
+        $this->layout = 'block';
+
+        return $this->render('editevent', array(
+            'model' => $eventForm,
+            'event' => $event,
+            'users' => $users,
+            'event_id' => $id
+        ));
+    }
+
+    function actionSaveEvent() {
+        if (!isset($_POST['id_event'])) {
+            Yii::$app->getResponse()->redirect('@web');
+            return false;
         }
+
+        $eventForm = new AddEventForm();
+        $eventForm->scenario = 'default';
+        $eventForm->load($_POST);
+        $eventForm->editEvent($_POST['id_event']);
+
+        $status = count($eventForm->errors) > 0 ? 'error' : 'ok';
+
+        $result = array(
+            'status' => $status,
+            'errors' => $eventForm->errors,
+            'user'   => $eventForm->toArray()
+        );
+        echo json_encode($result);
     }
 
     function actionDeleteevent() {
