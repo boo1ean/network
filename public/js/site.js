@@ -82,11 +82,13 @@ $(document).ready(
                 success: function(data) {
                     // Links to notifications
                     for (var i = 0; i < data.length; i++) {
-                        var link = data[i].link;
-                        toastr.options.onclick = function() {
-                            $(location).attr('href', link);
-                        };
-                        toastr['info'](data[i].description, data[i].title);
+                        (function(){
+                            const link = data[i].link;
+                            toastr.options.onclick = function() {
+                                $(location).attr('href', link);
+                            };
+                            toastr['info'](data[i].description, data[i].title);
+                        })();
                     }
                     // Link to all notifications
                     toastr.options.onclick = function() {
