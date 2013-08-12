@@ -10,58 +10,72 @@ use yii\widgets\ActiveForm;
 <br/>
 
 <?php
-
-$form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));
-
-echo $form->field($model, 'title')->textInput(array(
-    'placeholder' => 'Enter event title',
-));
-
-echo $form->field($model, 'description')->textInput(array(
-    'placeholder' => 'Enter event description',
-));
-
+    $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));
 ?>
 
-<?php echo Html::activeLabel($model, 'start_date', array('class' => 'control-label')); ?>
-
-    <div class="control-group">
-        <div class="controls">
-            <?php echo Html::activeInput('date', $model, 'start_date') ?>
-        </div>
+<div class="row">
+    <div class="col-lg-4">
+        <?php echo Html::activeLabel($model, 'title', array('class' => 'control-label')); ?>
+        <?php echo Html::activeInput('string', $model, 'title', array(
+            'class' => 'form-control',
+            'placeholder' => 'Enter event title'
+        )) ?>
     </div>
+</div>
 
-<?php echo Html::activeLabel($model, 'start_time', array('class' => 'control-label')); ?>
-
-    <div class="control-group">
-        <div class="controls">
-            <?php echo Html::activeInput('time', $model, 'start_time') ?>
-        </div>
+<div class="row">
+    <div class="col-lg-4">
+        <?php echo Html::activeLabel($model, 'description', array('class' => 'control-label')); ?>
+        <?php echo Html::activeInput('string', $model, 'description', array(
+            'class' => 'form-control',
+            'placeholder' => 'Enter event description',
+        )) ?>
     </div>
+</div>
 
-<?php echo Html::activeLabel($model, 'end_date', array('class' => 'control-label')); ?>
-
-    <div class="control-group">
-        <div class="controls">
-            <?php echo Html::activeInput('date', $model, 'end_date') ?>
-        </div>
+<div class="row">
+    <div class="col-lg-4">
+        <?php echo Html::activeLabel($model, 'start_date', array('class' => 'control-label')); ?>
+        <?php echo Html::activeInput('date', $model, 'start_date', array(
+           'class' => 'form-control'
+        )) ?>
     </div>
+</div>
 
-<?php echo Html::activeLabel($model, 'end_time', array('class' => 'control-label')); ?>
-
-    <div class="control-group">
-        <div class="controls">
-            <?php echo Html::activeInput('time', $model, 'end_time') ?>
-        </div>
+<div class="row">
+    <div class="col-lg-4">
+        <?php echo Html::activeLabel($model, 'start_time', array('class' => 'control-label')); ?>
+        <?php echo Html::activeInput('time', $model, 'start_time', array(
+            'class' => 'form-control'
+        )) ?>
     </div>
+</div>
 
-<?php echo Html::activeLabel($model, 'type', array('class' => 'control-label')); ?>
-
-    <div class="control-group">
-        <div class="controls">
-            <?php echo Html::dropDownList('type', null, array('birthday', 'corp. event', 'holiday', 'day-off')) ?>
-        </div>
+<div class="row">
+    <div class="col-lg-4">
+        <?php echo Html::activeLabel($model, 'end_date', array('class' => 'control-label')); ?>
+        <?php echo Html::activeInput('date', $model, 'end_date', array(
+            'class' => 'form-control'
+        )) ?>
     </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-4">
+        <?php echo Html::activeLabel($model, 'end_time', array('class' => 'control-label')); ?>
+        <?php echo Html::activeInput('time', $model, 'end_time', array(
+            'class' => 'form-control'
+        )) ?>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-4">
+        <?php echo Html::activeLabel($model, 'type', array('class' => 'control-label')); ?>
+        <?php echo Html::dropDownList('type', null, array('birthday', 'corp. event', 'holiday', 'day-off'),
+            array('class' => 'form-control')) ?>
+    </div>
+</div>
 
 <?php
     $array_of_users = array();
@@ -71,18 +85,18 @@ echo $form->field($model, 'description')->textInput(array(
     }
 ?>
 
-<?php echo Html::label('Invite friends', null, array('class' => 'control-label')); ?>
-
-    <div class="control-group">
-        <div class="controls">
-            <?php echo Html::dropDownList('invitations', null, $array_of_users, array('multiple' => 'multiple')); ?>
-        </div>
-    </div>
-
-<div class="control-group">
-    <div class="controls">
-        <?php echo Html::submitButton('Add event', array('class' => 'btn btn-primary')); ?>
+<div class="row">
+    <div class="col-lg-4">
+        <?php echo Html::label('Invite friends', null, array('class' => 'control-label')); ?>
+        <?php echo Html::dropDownList('invitations', null, $array_of_users, array(
+            'multiple' => 'multiple',
+            'class' => 'form-control'
+        )); ?>
     </div>
 </div>
+
+<br/>
+
+<?php echo Html::submitButton('Add event', array('class' => 'btn btn-primary')); ?>
 
 <?php ActiveForm::end(); ?>
