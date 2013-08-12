@@ -5,108 +5,115 @@ use yii\widgets\ActiveForm;
 
 ?>
 
-<h1 class="text-center">Edit event</h1>
+<div class="modal-dialog">
 
-<br/>
+    <div class="modal-content">
 
-<?php
-
-$form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));
-
-if (isset($event_id)) {
-    echo HTML::hiddenInput('id_event', $event_id);
-}
-
-echo $form->field($model, 'title')->textInput(array(
-    'placeholder' => 'Enter event title',
-    'value' => $event->title,
-    'id' => 'title'
-));
-
-echo $form->field($model, 'description')->textInput(array(
-    'placeholder' => 'Enter event description',
-    'value' => $event->description,
-    'id' => 'description'
-));
-
-?>
-
-<?php echo Html::activeLabel($model, 'start_date', array('class' => 'control-label')); ?>
-
-    <div class="control-group">
-        <div class="controls">
-            <?php echo Html::activeInput('date', $model, 'start_date', array(
-                'value' => $event->start_date,
-                'id' => 'start_date'
-            )) ?>
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Edit event</h4>
         </div>
-    </div>
 
-<?php echo Html::activeLabel($model, 'start_time', array('class' => 'control-label')); ?>
+        <?php
 
-    <div class="control-group">
-        <div class="controls">
-            <?php echo Html::activeInput('time', $model, 'start_time', array(
-                'value' => $event->start_time,
-                'id' => 'start_time'
-            )) ?>
-        </div>
-    </div>
+        $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));
 
-<?php echo Html::activeLabel($model, 'end_date', array('class' => 'control-label')); ?>
+        if (isset($event_id)) {
+            echo Html::hiddenInput('id_event', $event_id);
+        }
 
-    <div class="control-group">
-        <div class="controls">
-            <?php echo Html::activeInput('date', $model, 'end_date', array(
-                'value' => $event->end_date,
-                'id' => 'end_date'
-            )) ?>
-        </div>
-    </div>
+        ?>
 
-<?php echo Html::activeLabel($model, 'end_time', array('class' => 'control-label')); ?>
+        <div class="modal-body">
 
-    <div class="control-group">
-        <div class="controls">
-            <?php echo Html::activeInput('time', $model, 'end_time', array(
-                'value' => $event->end_time,
-                'id' => 'end_time'
-            )) ?>
-        </div>
-    </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <?php echo $form->field($model, 'title')->textInput(array(
+                        'placeholder' => 'Enter event title',
+                        'value' => $event->title,
+                        'id' => 'title'
+                    )); ?>
+                </div>
+            </div>
 
-<?php echo Html::activeLabel($model, 'type', array('class' => 'control-label')); ?>
+            <div class="row">
+                <div class="col-lg-6">
+                    <?php echo $form->field($model, 'description')->textInput(array(
+                        'placeholder' => 'Enter event description',
+                        'value' => $event->description,
+                    )); ?>
+                </div>
+            </div>
 
-    <div class="control-group">
-        <div class="controls">
-            <?php echo Html::dropDownList('type', $event->type, array('birthday', 'corp. event', 'holiday', 'day-off')) ?>
-        </div>
-    </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <?php echo $form->field($model, 'start_date')->input('date', array(
+                        'value' => $event->start_date
+                    )); ?>
+                </div>
 
-<?php
-$array_of_users = array();
+                <div class="col-lg-3 col-lg-push-1">
+                    <?php echo $form->field($model, 'start_time')->input('time', array(
+                        'value' => $event->start_time
+                    )); ?>
+                </div>
+            </div>
 
-foreach($users as $user) {
-    $array_of_users[] = $user->first_name.' '.$user->last_name;
-}
-?>
+            <div class="row">
+                <div class="col-lg-4">
+                    <?php echo $form->field($model, 'end_date')->input('date', array(
+                        'value' => $event->end_date
+                    )); ?>
+                </div>
 
-<?php echo Html::label('Invite friends', null, array('class' => 'control-label')); ?>
+                <div class="col-lg-3 col-lg-push-1">
+                    <?php echo $form->field($model, 'end_time')->input('time', array(
+                        'value' => $event->end_time
+                    )); ?>
+                </div>
+            </div>
 
-    <div class="control-group">
-        <div class="controls">
-            <?php echo Html::dropDownList('invitations', null, $array_of_users, array('multiple' => 'multiple')); ?>
-        </div>
-    </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <?php echo Html::activeLabel($model, 'type', array('class' => 'control-label')); ?>
+                    <?php echo Html::dropDownList('type', $event->type, array('birthday', 'corp. event', 'holiday', 'day-off'),
+                        array('class' => 'form-control')); ?>
+                </div>
+            </div>
 
-    <div class="control-group">
-        <div class="controls">
+            <?php
+                $array_of_users = array();
+
+                foreach($users as $user) {
+                    $array_of_users[] = $user->first_name.' '.$user->last_name;
+                }
+            ?>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <?php echo Html::label('Invite friends', null, array('class' => 'control-label')); ?>
+                    <?php echo Html::dropDownList('invitations', null, $array_of_users, array(
+                        'multiple' => 'multiple',
+                        'class' => 'form-control'
+                    )); ?>
+                </div>
+            </div>
+
+        </div><!--body-->
+
+        <div class="modal-footer">
+
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
             <?php echo Html::button('Confirm', array(
                 'class' => 'btn btn-primary',
                 'name' => 'event-save',
                 'event_id' => $event->id
             )); ?>
-        </div>
-    </div>
 
-<?php ActiveForm::end(); ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
+
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

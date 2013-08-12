@@ -80,6 +80,6 @@ use app\models\User;
 
 ?>
 
-<div class="modal hide fade" id="myModal">
+<div class="modal fade" id="myModal">
 
 </div>
