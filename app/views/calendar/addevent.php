@@ -15,63 +15,47 @@ use yii\widgets\ActiveForm;
 
 <div class="row">
     <div class="col-lg-4">
-        <?php echo Html::activeLabel($model, 'title', array('class' => 'control-label')); ?>
-        <?php echo Html::activeInput('string', $model, 'title', array(
-            'class' => 'form-control',
-            'placeholder' => 'Enter event title'
-        )) ?>
+        <?php echo $form->field($model, 'title')->textInput(array(
+            'placeholder' => 'Enter event title',
+        )); ?>
     </div>
 </div>
 
 <div class="row">
     <div class="col-lg-4">
-        <?php echo Html::activeLabel($model, 'description', array('class' => 'control-label')); ?>
-        <?php echo Html::activeInput('string', $model, 'description', array(
-            'class' => 'form-control',
+        <?php echo $form->field($model, 'description')->textInput(array(
             'placeholder' => 'Enter event description',
-        )) ?>
+        )); ?>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-3">
+        <?php echo $form->field($model, 'start_date')->input('date'); ?>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-3">
+        <?php echo $form->field($model, 'start_time')->input('time'); ?>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-3">
+        <?php echo $form->field($model, 'end_date')->input('date'); ?>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-3">
+        <?php echo $form->field($model, 'end_time')->input('time'); ?>
     </div>
 </div>
 
 <div class="row">
     <div class="col-lg-4">
-        <?php echo Html::activeLabel($model, 'start_date', array('class' => 'control-label')); ?>
-        <?php echo Html::activeInput('date', $model, 'start_date', array(
-           'class' => 'form-control'
-        )) ?>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-4">
-        <?php echo Html::activeLabel($model, 'start_time', array('class' => 'control-label')); ?>
-        <?php echo Html::activeInput('time', $model, 'start_time', array(
-            'class' => 'form-control'
-        )) ?>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-4">
-        <?php echo Html::activeLabel($model, 'end_date', array('class' => 'control-label')); ?>
-        <?php echo Html::activeInput('date', $model, 'end_date', array(
-            'class' => 'form-control'
-        )) ?>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-4">
-        <?php echo Html::activeLabel($model, 'end_time', array('class' => 'control-label')); ?>
-        <?php echo Html::activeInput('time', $model, 'end_time', array(
-            'class' => 'form-control'
-        )) ?>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-4">
-        <?php echo Html::activeLabel($model, 'type', array('class' => 'control-label')); ?>
+        <?php echo Html::label('Type'); ?>
         <?php echo Html::dropDownList('type', null, array('birthday', 'corp. event', 'holiday', 'day-off'),
             array('class' => 'form-control')) ?>
     </div>
@@ -85,9 +69,11 @@ use yii\widgets\ActiveForm;
     }
 ?>
 
+<br/>
+
 <div class="row">
     <div class="col-lg-4">
-        <?php echo Html::label('Invite friends', null, array('class' => 'control-label')); ?>
+        <?php echo Html::label('Invite friends'); ?>
         <?php echo Html::dropDownList('invitations', null, $array_of_users, array(
             'multiple' => 'multiple',
             'class' => 'form-control'
