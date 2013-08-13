@@ -36,7 +36,6 @@ return array(
                 '/auth/registration/<email:[^\s]+?>/<password_hash:[^\s]+>' => 'auth/registration',
                 '/message/conversation/<id:\d+>'                            => 'message/conversation',
                 '/library/editbook/<id:\d+>'                                => 'library/editbook',
-                '/calendar/editevent/<id:\d+>'                              => 'calendar/editevent',
             )
         ),
 
