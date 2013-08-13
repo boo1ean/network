@@ -9,9 +9,15 @@ use yii\widgets\ActiveForm;
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h3>Create conversation </h3>
         </div>
-        <?php $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));?>
+        <?php $form = ActiveForm::begin();?>
             <div class="modal-body" >
-                <?php echo $form->field($model, 'title')->textInput(array('value'=> $model->title)); ?>
+                <?php echo $form->field($model, 'title')->textInput(array('value'=> $model->title, 'class' => 'form-control')); ?>
+                Message:
+                <?php echo Html::textarea('message', '', array(
+                    'class'       => 'form-control',
+                    'rows'        => '4',
+                    'style'       => 'resize: none'
+                )); ?>
                 <div class="row">
                     <div class="col-lg-6">
                         Add new member: <input type="text" id="new-member-list" class="form-control">
