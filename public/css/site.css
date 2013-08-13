@@ -137,6 +137,18 @@ button {
     display: none;
 }
 
+h4.tag p a:hover {
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+}
+
+h4.tag a:hover {
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+}
+
 /*-------------------------Styles for conversation list--------------------*/
 #conversation-list {
     margin: 0;

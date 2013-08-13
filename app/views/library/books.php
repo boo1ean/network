@@ -42,6 +42,8 @@ use app\models\User;
 
 </ul>
 
+<br/>
+
 <ul class="nav nav-pills">
 
     <li><?php echo Html::a('Sort books by title', null, array(
@@ -59,22 +61,29 @@ use app\models\User;
     </li>
 </ul>
 
+<br/>
+
+<h4 class="tag">
+
 <p>
 
 <?php
 
 foreach ($all_tags as $tag) {
+
     echo Html::a($tag->title, null, array(
-            'id' => $tag->title,
-            'onclick' => 'return showByTags(this)',
-            'class' => 'cursorOnNoLink',
-            'class' => 'label label-info'
-        )).' ';
+        'id' => $tag->title,
+        'onclick' => 'return showByTags(this)',
+        'class' => 'label label-info',
+    )).' ';
+
 }
 
 ?>
 
 </p>
+
+</h4>
 
 <div class="bookslist">
 
@@ -93,7 +102,7 @@ foreach ($books as $book) {
                 <?php if($book->status == 'available') { ?>
                     <span class='label label-success'><?php echo $book->status; ?></span>
                 <?php } else { ?>
-                    <span class='label label-important'><?php echo $book->status; ?></span></p>
+                    <span class='label label-danger'><?php echo $book->status; ?></span></p>
 
                 <small>
                     Taken by
@@ -113,6 +122,8 @@ foreach ($books as $book) {
         </blockquote>
     </ul>
 
+    <h4 class="tag">
+
     <?php
         $book_current = Book::find($book->id);
         $tags_by_book = $book_current->tags;
@@ -121,13 +132,14 @@ foreach ($books as $book) {
             echo Html::a($tag->title, null, array(
                     'id' => $tag->title,
                     'onclick' => 'return showByTags(this)',
-                    'class' => 'cursorOnNoLink',
                     'class' => 'label label-info'
                 )).' ';
         }
     ?>
 
-    <br/><br/>
+    </h4>
+
+    <br/>
 
     <?php if($book->status == 'available') { ?>
 

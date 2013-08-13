@@ -166,3 +166,9 @@ function showEbookUpload() {
 function showPaperBook() {
     $('.ebook').hide();
 }
+
+$(document).ready(function() {
+    $('#tags').tagsInput();
+
+    $('.ebook').hide();
+});

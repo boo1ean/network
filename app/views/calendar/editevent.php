@@ -41,6 +41,7 @@ use yii\widgets\ActiveForm;
                     <?php echo $form->field($model, 'description')->textInput(array(
                         'placeholder' => 'Enter event description',
                         'value' => $event->description,
+                        'id' => 'description'
                     )); ?>
                 </div>
             </div>
@@ -48,13 +49,15 @@ use yii\widgets\ActiveForm;
             <div class="row">
                 <div class="col-lg-4">
                     <?php echo $form->field($model, 'start_date')->input('date', array(
-                        'value' => $event->start_date
+                        'value' => $event->start_date,
+                        'id' => 'start_date'
                     )); ?>
                 </div>
 
                 <div class="col-lg-3 col-lg-push-1">
                     <?php echo $form->field($model, 'start_time')->input('time', array(
-                        'value' => $event->start_time
+                        'value' => $event->start_time,
+                        'id' => 'start_time'
                     )); ?>
                 </div>
             </div>
@@ -62,13 +65,15 @@ use yii\widgets\ActiveForm;
             <div class="row">
                 <div class="col-lg-4">
                     <?php echo $form->field($model, 'end_date')->input('date', array(
-                        'value' => $event->end_date
+                        'value' => $event->end_date,
+                        'id' => 'end_date'
                     )); ?>
                 </div>
 
                 <div class="col-lg-3 col-lg-push-1">
                     <?php echo $form->field($model, 'end_time')->input('time', array(
-                        'value' => $event->end_time
+                        'value' => $event->end_time,
+                        'id' => 'end_time'
                     )); ?>
                 </div>
             </div>

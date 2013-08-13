@@ -21,7 +21,6 @@ var members = function(id) {
     this.domObj        = $('#' + id);
 }
 
-//tags input
 $(document).ready(
     function() {
 
@@ -233,9 +232,5 @@ $(document).ready(
             });
             return false;
         });
-
-        $('#tags').tagsInput();
-
-        $('.ebook').hide();
     }
 );

@@ -17,6 +17,7 @@ use yii\widgets\ActiveForm;
     <div class="col-lg-4">
         <?php echo $form->field($model, 'title')->textInput(array(
             'placeholder' => 'Enter event title',
+            'id' => 'title'
         )); ?>
     </div>
 </div>
@@ -25,27 +26,36 @@ use yii\widgets\ActiveForm;
     <div class="col-lg-4">
         <?php echo $form->field($model, 'description')->textInput(array(
             'placeholder' => 'Enter event description',
+            'id' => 'description'
         )); ?>
     </div>
 </div>
 
 <div class="row">
     <div class="col-lg-3">
-        <?php echo $form->field($model, 'start_date')->input('date'); ?>
+        <?php echo $form->field($model, 'start_date')->input('date', array(
+            'id' => 'start_date'
+        )); ?>
     </div>
 
     <div class="col-lg-2 col-lg-push-1">
-        <?php echo $form->field($model, 'start_time')->input('time'); ?>
+        <?php echo $form->field($model, 'start_time')->input('time', array(
+            'id' => 'start_time'
+        )); ?>
     </div>
 </div>
 
 <div class="row">
     <div class="col-lg-3">
-        <?php echo $form->field($model, 'end_date')->input('date'); ?>
+        <?php echo $form->field($model, 'end_date')->input('date', array(
+            'id' => 'end_date'
+        )); ?>
     </div>
 
     <div class="col-lg-2 col-lg-push-1">
-        <?php echo $form->field($model, 'end_time')->input('time'); ?>
+        <?php echo $form->field($model, 'end_time')->input('time', array(
+            'id' => 'end_time'
+        )); ?>
     </div>
 </div>
 

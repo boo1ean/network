@@ -20,7 +20,7 @@ use yii\widgets\ActiveForm;
 
 <div class="row">
     <div class="col-lg-6">
-        <?php echo Html::label('Import GCal feed', null, array('class' => 'control-label')); ?>
+        <?php echo Html::label('Import Google Calendar feed', null, array('class' => 'control-label')); ?>
         <?php echo Html::textInput('feed', $gcal, array(
             'placeholder' => 'Enter your GCal feed',
             'class' => 'form-control'

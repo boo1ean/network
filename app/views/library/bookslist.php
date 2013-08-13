@@ -21,7 +21,7 @@ foreach ($books as $book) {
                 <?php if($book->status == 'available') { ?>
                     <span class='label label-success'><?php echo $book->status; ?></span>
                 <?php } else { ?>
-                <span class='label label-important'><?php echo $book->status; ?></span></p>
+                <span class='label label-danger'><?php echo $book->status; ?></span></p>
 
             <small>
                 Taken by
@@ -41,6 +41,8 @@ foreach ($books as $book) {
             </blockquote>
     </ul>
 
+    <h4 class="tag">
+
     <?php
     $book_current = Book::find($book->id);
     $tags_by_book = $book_current->tags;
@@ -55,7 +57,9 @@ foreach ($books as $book) {
     }
     ?>
 
-    <br/><br/>
+    </h4>
+
+    <br/>
 
     <?php if($book->status == 'available') { ?>
 
