@@ -138,7 +138,10 @@ class CalendarController extends Controller
             $id = $_POST['event_id'];
         } else if (isset($_POST['title'])) {
             //event edit from calendar
-            $event = Event::findByTitle($_POST['title']);
+            date_default_timezone_set('Europe/Kiev');
+            $date_start = date("Y-m-d", strtotime($_POST['start']));
+            $date_end = date("Y-m-d", strtotime($_POST['end']));
+            $event = Event::findByTitleAndDate($_POST['title'], $date_start, $date_end);
             $id = $event->id;
         }
 

@@ -23,6 +23,15 @@ class Event extends ActiveRecord
             ->one();
     }
 
+    public static function findByTitleAndDate($title, $start_date, $end_date) {
+        return static::find()
+            ->where(array('title' => $title,
+                          'start_date' => $start_date,
+                          'end_date' => $end_date
+            ))
+            ->one();
+    }
+
     public function getUsers() {
         return $this->hasMany('User', array('id' => 'user_id'))
             ->viaTable('user_events', array('event_id' => 'id'));

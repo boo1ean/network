@@ -36,7 +36,9 @@ $(document).ready(function() {
                 url:  'edit-event',
                 type: 'POST',
                 data: {
-                    title: event.title
+                    title: event.title,
+                    start: event.start,
+                    end: event.end
                 },
                 success: function(response) {
                     $('#myModal').html(response);
