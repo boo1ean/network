@@ -42,7 +42,7 @@ use yii\widgets\ActiveForm;
         <?php $form = ActiveForm::begin(array('options' => array('class' => 'form-inline')));?>
         <div class="row">
             <div class="col-1">
-                <?php echo Html::img($message->user->avatar, array('class' => 'avatar'));?>
+                <?php echo Html::img(Yii::$app->getUser()->getIdentity()->avatar, array('class' => 'avatar'));?>
             </div>
             <div class="col-11">
                 <?php echo Html::textarea('body', '', array(
