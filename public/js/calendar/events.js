@@ -7,9 +7,6 @@ $(function(){
         $.ajax({
             url:  'addevent',
             type: 'POST',
-            /*data: {
-                event_id:  id
-            },*/
             success: function(html) {
                 $('#myModal').html(html);
             }
@@ -69,7 +66,23 @@ $(function(){
     });
 
     /*
-     * Delete event click
+     * Delete event click from modal window
+     */
+    $('body').on('click','button[name="event-delete"]', function (event) {
+        $.ajax({
+            url:  'deleteevent',
+            type: 'POST',
+            data: {
+                id:  $(this).attr('event-id')
+            },
+            success: function(html) {
+                window.location.replace('calendar');
+            }
+        });
+    });
+
+    /*
+     * Delete event click from event list
      */
     $('a[name="event-delete"]').click(function (event) {
         if(confirm('Do you really wanna delete this event ?')) {
