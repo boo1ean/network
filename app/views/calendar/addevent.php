@@ -38,16 +38,24 @@ use yii\widgets\ActiveForm;
                 </div>
             </div>
 
+            <?php
+            if (!isset($date_add)) {
+                $date_add = null;
+            }
+            ?>
+
             <div class="row">
                 <div class="col-lg-4">
                     <?php echo $form->field($model, 'start_date')->input('date', array(
-                        'id' => 'start_date'
+                        'id' => 'start_date',
+                        'value' => $date_add
                     )); ?>
                 </div>
 
                 <div class="col-lg-3 col-lg-push-1">
                     <?php echo $form->field($model, 'start_time')->input('time', array(
-                        'id' => 'start_time'
+                        'id' => 'start_time',
+                        'value' => '12:00:00'
                     )); ?>
                 </div>
             </div>
@@ -55,13 +63,15 @@ use yii\widgets\ActiveForm;
             <div class="row">
                 <div class="col-lg-4">
                     <?php echo $form->field($model, 'end_date')->input('date', array(
-                        'id' => 'end_date'
+                        'id' => 'end_date',
+                        'value' => $date_add
                     )); ?>
                 </div>
 
                 <div class="col-lg-3 col-lg-push-1">
                     <?php echo $form->field($model, 'end_time')->input('time', array(
-                        'id' => 'end_time'
+                        'id' => 'end_time',
+                        'value' => '15:00:00'
                     )); ?>
                 </div>
             </div>

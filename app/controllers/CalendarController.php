@@ -98,6 +98,11 @@ class CalendarController extends Controller
             return false;
         }
 
+        if (isset($_POST['date'])) {
+            date_default_timezone_set('Europe/Kiev');
+            $date_add = date("Y-m-d", strtotime($_POST['date']));
+        }
+
         $eventForm = new AddEventForm();
         $eventForm->scenario = 'default';
 
@@ -106,10 +111,18 @@ class CalendarController extends Controller
         if ($eventForm->load($_POST) && $eventForm->addEvent()) {
             Yii::$app->getResponse()->redirect('@web/calendar/calendar');
         } else {
-            return $this->render('addevent', array(
-                'model' => $eventForm,
-                'users' => $users
-            ));
+            if (!isset($_POST['date'])) {
+                return $this->render('addevent', array(
+                    'model' => $eventForm,
+                    'users' => $users,
+                ));
+            } else {
+                return $this->render('addevent', array(
+                    'model' => $eventForm,
+                    'users' => $users,
+                    'date_add' => $date_add
+                ));
+            }
         }
     }
 

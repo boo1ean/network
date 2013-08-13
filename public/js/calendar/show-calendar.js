@@ -18,8 +18,18 @@ $(document).ready(function() {
             center: 'title',
             right: 'month,basicWeek,basicDay'
         },
-        dayClick: function() {
-            alert('a day has been clicked!');
+        dayClick: function(date) {
+            $.ajax({
+                url:  'addevent',
+                type: 'POST',
+                data: {
+                    date: date
+                },
+                success: function(html) {
+                    $('#myModal').html(html);
+                }
+            });
+            $('#myModal').modal();
         },
         eventClick: function(event, element) {
             $.ajax({
