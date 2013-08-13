@@ -1,6 +1,22 @@
 $(function(){
 
     /*
+     * Add event click
+     */
+    $('a[name="event-add"]').click(function (event) {
+        $.ajax({
+            url:  'addevent',
+            type: 'POST',
+            /*data: {
+                event_id:  id
+            },*/
+            success: function(html) {
+                $('#myModal').html(html);
+            }
+        });
+    });
+
+    /*
      * Edit event click
      */
     $('a[name="event-edit"]').click(function (event) {

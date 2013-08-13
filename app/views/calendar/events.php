@@ -7,7 +7,13 @@ use app\models\User;
 <h1>Events</h1>
 
 <br/>
-<?php echo Html::a('Add event', 'calendar/addevent', array('class' => 'btn btn-primary')); ?>
+
+<?php echo Html::a('Add event', null, array(
+    'class' => 'btn btn-primary',
+    'name' => 'event-add',
+    'data-target' => '#myModal',
+    'data-toggle' => 'modal'
+)); ?>
 
 <?php
     foreach ($events as $event) {

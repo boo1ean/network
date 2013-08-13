@@ -8,7 +8,13 @@ use yii\helpers\Html;
 
 <br/>
 
-    <?php echo Html::a('Add event', 'calendar/addevent', array('class' => 'btn btn-primary')); ?>
+    <?php echo Html::a('Add event', null, array(
+        'class' => 'btn btn-primary',
+        'name' => 'event-add',
+        'data-target' => '#myModal',
+        'data-toggle' => 'modal'
+    )); ?>
+
     <?php echo Html::a('Events', 'calendar/events', array('class' => 'btn btn-primary')); ?>
     <?php echo Html::a('Settings', 'calendar/settings', array('class' => 'btn btn-primary')); ?>
 
