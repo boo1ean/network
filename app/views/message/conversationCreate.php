@@ -12,12 +12,18 @@ use yii\widgets\ActiveForm;
         <?php $form = ActiveForm::begin();?>
             <div class="modal-body" >
                 <?php echo $form->field($model, 'title')->textInput(array('value'=> $model->title, 'class' => 'form-control')); ?>
-                Message:
-                <?php echo Html::textarea('message', '', array(
-                    'class'       => 'form-control',
-                    'rows'        => '4',
-                    'style'       => 'resize: none'
-                )); ?>
+                <div class="row">
+                    <div class="col-lg-6">
+                        Message:
+                        <?php echo Html::textarea('message', '', array(
+                            'class'       => 'form-control',
+                            'rows'        => '4',
+                            'style'       => 'resize: none',
+                            'id'          => 'message'
+                        )); ?>
+                        <p class="help-block" style="display: none;"></p>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-lg-6">
                         Add new member: <input type="text" id="new-member-list" class="form-control">

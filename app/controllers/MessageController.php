@@ -134,31 +134,47 @@ class MessageController extends Controller
         $conversation = new Conversation();
 
         if(Yii::$app->getRequest()->getIsPost()) {
-          if(isset($_POST['members']) && count($_POST['members'] > 0)) {
+            if(isset($_POST['members']) && count($_POST['members'] > 0)) {
 
-            $owner =  Yii::$app->getUser()->getIdentity();
+                if(isset($_POST['message']) && $_POST['message'] != null) {
 
-            $conversation->creator = $owner->id;
-            $conversation->save();
-            $conversation->refresh();
-            $conversation->link('users', $owner);
+                    $owner =  Yii::$app->getUser()->getIdentity();
 
-            foreach($_POST['members'] as $key => $value) {
-                $user         = User::find($key);
-                $conversation = $conversation->addSubscribed($user);
+                    $conversation->creator = $owner->id;
+                    $conversation->save();
+                    $conversation->refresh();
+                    $conversation->link('users', $owner);
+
+                    // Add message to conversation
+                    $message = new Message();
+                    $message->user_id = $owner->id;
+                    $message->conversation_id = $conversation->id;
+                    $message->body = $_POST['message'];
+                    $message->save();
+
+                    foreach($_POST['members'] as $key => $value) {
+                    $user         = User::find($key);
+                    $conversation = $conversation->addSubscribed($user);
+                    }
+
+                    $conversation->title = isset($_POST['Conversation']['title']) ? $_POST['Conversation']['title'] : null;
+                    $conversation->save();
+
+                    return json_encode(array('redirect' => 'message/conversation/' . $conversation->id));
+                } else {
+                    $result = array(
+                        'status' => 'error',
+                        'errors' => array('message' => 'Conversation must have first message')
+                    );
+                    return json_encode($result);
+                }
+            } else {
+                $result = array(
+                    'status' => 'error',
+                    'errors' => array('new-member-list' => 'Conversation must have 1 or more members')
+                );
+                return json_encode($result);
             }
-
-            $conversation->title = isset($_POST['Conversation']['title']) ? $_POST['Conversation']['title'] : null;
-            $conversation->save();
-
-            return json_encode(array('redirect' => 'message/conversation/' . $conversation->id));
-          } else {
-              $result = array(
-                  'status' => 'error',
-                  'errors' => array('new-member-list' => 'Conversation must have 1 or more members')
-              );
-              return json_encode($result);
-          }
         } else {
             $param = array(
                 'model' => $conversation
@@ -166,7 +182,6 @@ class MessageController extends Controller
 
             return $this->render('conversationCreate', $param);
         }
-
     }
 
     public function actionMemberNotSubscribeList() {
