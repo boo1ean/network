@@ -6,10 +6,10 @@ use Yii;
 use yii\base\Model;
 use app\models\Book;
 use app\models\Tag;
+use yii\web\UploadedFile;
 
 class AddBookForm extends Book
 {
-
     const TYPE_PAPER = 0;
     const TYPE_EBOOK = 1;
 
@@ -34,7 +34,18 @@ class AddBookForm extends Book
             $book->author = $this->author;
             $book->title = $this->title;
             $book->description = $this->description;
-            $book->type = self::TYPE_PAPER;
+
+            if (isset($_FILES['ebook'])) {
+                $book_file = UploadedFile::getInstanceByName('ebook');
+                $storage = Yii::$app->getComponent('storage');
+                $link = $storage->save($book_file);
+
+                $book->type = self::TYPE_EBOOK;
+                $book->link = $link;
+            } else {
+                $book->type = self::TYPE_PAPER;
+            }
+
             $book->status = 'available';
             $book->save();
 

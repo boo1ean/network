@@ -65,7 +65,7 @@ return array(
             'storageProvider' => 'app\components\storageProviders\CloudStorageProvider',
             'params' => array(
                 'accessToken'   => 'BEWxO0eSOZEAAAAAAAAAAQhEbkg7uUeN0lEtmFCnafFY04fzNVwlN875BB9SB3Im',
-                'dropboxPath'   => '/',
+                'dropboxPath'   => '/'
             ),
         ),
 

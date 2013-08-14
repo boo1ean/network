@@ -12,7 +12,6 @@ use app\models\AddBookForm;
 
 class LibraryController extends Controller
 {
-
     const STATUS_TAKEN = 1;
     const STATUS_UNTAKEN = 2;
 

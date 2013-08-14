@@ -18,7 +18,10 @@ use yii\widgets\ActiveForm;
 
 <?php
 
-$form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));
+$form = ActiveForm::begin(array('options' => array(
+    'class' => 'form-horizontal',
+    'enctype' => 'multipart/form-data'
+)));
 
 ?>
 

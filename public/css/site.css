@@ -149,6 +149,14 @@ h4.tag a:hover {
     color: white;
 }
 
+.label-success a {
+    color: white;
+}
+
+.label-success a:hover {
+    color: gold;
+}
+
 /*-------------------------Styles for conversation list--------------------*/
 #conversation-list {
     margin: 0;

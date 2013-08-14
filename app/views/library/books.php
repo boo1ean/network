@@ -99,7 +99,7 @@ foreach ($books as $book) {
         <li><p><?php echo $book->author; ?></p>
 
             <p class='lead'><?php echo $book->title; ?>
-                <?php if($book->status == 'available') { ?>
+                <?php if ($book->status == 'available') { ?>
                     <span class='label label-success'><?php echo $book->status; ?></span>
                 <?php } else { ?>
                     <span class='label label-danger'><?php echo $book->status; ?></span></p>
@@ -120,6 +120,11 @@ foreach ($books as $book) {
         <blockquote>
            <p><?php echo $book->description; ?></p>
         </blockquote>
+
+        <?php if ($book->type == 1) { ?>
+            <span class='label label-success'><?php echo Html::a('Download Ebook', $book->link, array(
+                    'target' => '_blank')); ?></span>
+        <?php } ?>
     </ul>
 
     <h4 class="tag">
