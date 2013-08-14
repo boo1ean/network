@@ -96,7 +96,6 @@ function showByTags(obj) {
     });
 }
 
-
 function takeBook(obj) {
     obj = $(obj);
     var id = obj.attr('id');

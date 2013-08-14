@@ -37,6 +37,15 @@ class LibraryController extends Controller
             foreach($selected_tags as $tag) {
                 $tag_curr = Tag::findByTitle($tag);
                 $books_by_tag = $tag_curr->books;
+
+                foreach($books as $book_all) {
+                    foreach($books_by_tag as $key => $book_by_tag) {
+                        if($book_by_tag->title == $book_all->title && $book_by_tag->author == $book_all->author) {
+                            unset($books_by_tag[$key]);
+                        }
+                    }
+                }
+
                 $books = array_merge($books, $books_by_tag);
             }
         }
