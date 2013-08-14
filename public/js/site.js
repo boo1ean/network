@@ -74,6 +74,10 @@ $(document).ready(
         $('#userBoxNotifications').click(function(){
             // Show newest toast at bottom (top is default)
             toastr.options.newestOnTop = false;
+            // Delete all previous toasts
+            // Made in such way because toastr.clear() removes all toasts include new (which will be added in ajax success event)
+            $('#toast-container').remove();
+            // Data for request
             var ajaxData = {
                 url: "/notification/json",
                 type: 'get',
