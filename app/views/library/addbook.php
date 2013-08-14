@@ -9,10 +9,16 @@ use yii\widgets\ActiveForm;
 
 <br/>
 
-<ul class="nav nav-pills">
-    <li><?php echo Html::a('Paper book', null, array('onclick' => 'return showPaperBook()')); ?></li>
-    <li><?php echo Html::a('E-book', null, array('onclick' => 'return showEbookUpload()')); ?></li>
-</ul>
+    <ul class="nav nav-pills">
+        <li><?php echo Html::a('Paper book', null, array(
+                'onclick' => 'return showPaperBook()',
+                'class' => 'cursorOnNoLink'
+            )); ?></li>
+        <li><?php echo Html::a('E-book', null, array(
+                'onclick' => 'return showEbookUpload()',
+                'class' => 'cursorOnNoLink'
+            )); ?></li>
+    </ul>
 
 <br/>
 

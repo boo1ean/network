@@ -35,7 +35,7 @@ class AddBookForm extends Book
             $book->title = $this->title;
             $book->description = $this->description;
 
-            if (isset($_FILES['ebook'])) {
+            if ($_FILES['ebook']['name'] !== '' && !empty($_FILES['ebook']['tmp_name'])) {
                 $book_file = UploadedFile::getInstanceByName('ebook');
                 $storage = Yii::$app->getComponent('storage');
                 $link = $storage->save($book_file);
@@ -81,6 +81,16 @@ class AddBookForm extends Book
             $book->author = $this->author;
             $book->title = $this->title;
             $book->description = $_POST['description'];
+
+            if ($book->link == null && $_FILES['ebook']['name'] !== '' && !empty($_FILES['ebook']['tmp_name'])) {
+                $book_file = UploadedFile::getInstanceByName('ebook');
+                $storage = Yii::$app->getComponent('storage');
+                $link = $storage->save($book_file);
+
+                $book->type = self::TYPE_EBOOK;
+                $book->link = $link;
+            }
+
             $book->save();
 
             //massive of new tags

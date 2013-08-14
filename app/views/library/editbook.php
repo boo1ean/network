@@ -13,6 +13,19 @@ use app\models\Book;
 
 <br/>
 
+    <ul class="nav nav-pills">
+        <li><?php echo Html::a('Paper book', null, array(
+                'onclick' => 'return showPaperBook()',
+                'class' => 'cursorOnNoLink'
+            )); ?></li>
+        <li><?php echo Html::a('E-book', null, array(
+                'onclick' => 'return showEbookUpload()',
+                'class' => 'cursorOnNoLink'
+            )); ?></li>
+    </ul>
+
+<br/>
+
 <?php
 
     if(isset($message)) {
@@ -20,7 +33,10 @@ use app\models\Book;
         echo Html::tag('/div');
     }
 
-    $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));
+    $form = ActiveForm::begin(array('options' => array(
+        'class' => 'form-horizontal',
+        'enctype' => 'multipart/form-data'
+    )));
 
     $author = $book->author;
     $title = $book->title;
@@ -68,7 +84,23 @@ use app\models\Book;
 
     <?php echo Html::textInput('tags', $all_tags, array('id' => 'tags')); ?>
 
-<br/>
+    <br/>
+
+    <?php if ($book->type == 1) { ?>
+        <div class="ebook">
+            <span class='label label-success'><?php echo Html::a('Download Ebook', $book->link, array(
+                    'target' => '_blank')); ?></span>
+        </div>
+    <?php } else { ?>
+
+        <div class="ebook">
+            <?php echo Html::label('Upload ebook', null, array('class' => 'control-label')); ?>
+            <?php echo Html::fileInput('ebook', null); ?>
+        </div>
+
+    <?php } ?>
+
+    <br/>
 
 <?php echo Html::submitButton('Save book', array('class' => 'btn btn-primary')); ?>
 
