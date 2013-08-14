@@ -1,7 +1,7 @@
 $(function(){
 
     /*
-     * Add event click
+     * Add event link click from calendar and events pages
      */
     $('a[name="event-add"]').click(function (event) {
         $.ajax({
@@ -14,7 +14,7 @@ $(function(){
     });
 
     /*
-     * Edit event click
+     * Edit event link click from calendar and events pages
      */
     $('a[name="event-edit"]').click(function (event) {
         var obj         = $(this);
@@ -33,13 +33,13 @@ $(function(){
     });
 
     /*
-     * Save event click
+     * Save event button click after add or edit event
+     * name="event-add"
+     * name="event-edit"
      */
-    $('body').on('click','button[name="event-save"]', function (event) {
+    $('body').on('click','button[name^="event"]', function (event) {
         var obj         = $(this);
-        var id          = obj.attr('event_id');
         var data        = obj.parents('form').serialize();
-        data['event_id'] = id;
         var errors = new messages();
 
         $.ajax({
@@ -66,7 +66,7 @@ $(function(){
     });
 
     /*
-     * Delete event click from modal window
+     * Delete event button click from modal window
      */
     $('body').on('click','button[name="event-delete"]', function (event) {
         $.ajax({
@@ -82,7 +82,7 @@ $(function(){
     });
 
     /*
-     * Delete event click from event list
+     * Delete event link click from event list
      */
     $('a[name="event-delete"]').click(function (event) {
         if(confirm('Do you really wanna delete this event ?')) {

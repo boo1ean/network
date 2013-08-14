@@ -110,15 +110,13 @@ class CalendarController extends Controller
 
         $users = User::getAll();
 
-        if ($eventForm->load($_POST) && $eventForm->addEvent()) {
-            Yii::$app->getResponse()->redirect('@web/calendar/calendar');
-        } else {
-            return $this->render('addevent', array(
-                'model' => $eventForm,
-                'users' => $users,
-                'date_add' => $date_add
-            ));
-        }
+        $this->layout = 'block';
+
+        return $this->render('addevent', array(
+            'model' => $eventForm,
+            'users' => $users,
+            'date_add' => $date_add
+        ));
     }
 
     function actionEditEvent() {
@@ -156,7 +154,7 @@ class CalendarController extends Controller
     }
 
     function actionSaveEvent() {
-        if (!isset($_POST['id_event'])) {
+        if (Yii::$app->getUser()->getIsGuest()) {
             Yii::$app->getResponse()->redirect('@web');
             return false;
         }
@@ -164,7 +162,12 @@ class CalendarController extends Controller
         $eventForm = new AddEventForm();
         $eventForm->scenario = 'default';
         $eventForm->load($_POST);
-        $eventForm->editEvent($_POST['id_event']);
+
+        if (isset($_POST['param'])) {
+            $eventForm->addEvent();
+        } else {
+            $eventForm->editEvent($_POST['id_event']);
+        }
 
         $status = count($eventForm->errors) > 0 ? 'error' : 'ok';
 

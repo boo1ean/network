@@ -27,6 +27,6 @@ use yii\helpers\Html;
 
 <div id="calendar"></div>
 
-<div class="modal fade" id="myModal">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
 </div>

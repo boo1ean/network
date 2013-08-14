@@ -119,8 +119,7 @@ use yii\widgets\ActiveForm;
 
             <?php echo Html::button('Confirm', array(
                 'class' => 'btn btn-primary',
-                'name' => 'event-save',
-                'event_id' => $event->id
+                'name' => 'event-save'
             )); ?>
 
         </div>

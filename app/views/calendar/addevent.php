@@ -16,6 +16,8 @@ use yii\widgets\ActiveForm;
 
         <?php
             $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));
+
+            echo Html::hiddenInput('param', 'add');
         ?>
 
         <div class="modal-body">
@@ -110,7 +112,10 @@ use yii\widgets\ActiveForm;
 
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 
-            <?php echo Html::submitButton('Add event', array('class' => 'btn btn-primary')); ?>
+            <?php echo Html::button('Add event', array(
+                'class' => 'btn btn-primary',
+                'name' => 'event-add'
+            )); ?>
 
         </div>
 
