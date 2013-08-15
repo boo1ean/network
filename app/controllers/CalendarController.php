@@ -93,6 +93,19 @@ class CalendarController extends Controller
         ));
     }
 
+    function actionEventpage($id) {
+        if (Yii::$app->getUser()->getIsGuest()) {
+            Yii::$app->getResponse()->redirect('@web');
+            return false;
+        }
+
+        $event = Event::find($id);
+
+        return $this->render('eventpage', array(
+            'event' => $event
+        ));
+    }
+
     function actionAddevent() {
         if (Yii::$app->getUser()->getIsGuest()) {
             Yii::$app->getResponse()->redirect('@web');

@@ -21,7 +21,7 @@ $(function(){
         var id          = obj.attr('event-id');
 
         $.ajax({
-            url:  'edit-event',
+            url:  '/calendar/edit-event',
             type: 'POST',
             data: {
                 event_id:  id
@@ -43,7 +43,7 @@ $(function(){
         var errors = new messages();
 
         $.ajax({
-            url:  'save-event',
+            url:  '/calendar/save-event',
             type: 'POST',
             data: data,
             beforeSend: function() {
@@ -58,7 +58,12 @@ $(function(){
                     }
                 } else {
                     $('#myModal').modal('hide');
-                    window.location.replace('calendar');
+
+                    if (window.location.pathname.substring(0,20) == '/calendar/eventpage/') {
+                        window.location.replace(window.location.pathname.substring(20,24));
+                    } else {
+                        window.location.replace('/calendar/calendar');
+                    }
                 }
             }
         });
@@ -70,13 +75,13 @@ $(function(){
      */
     $('body').on('click','button[name="event-delete"]', function (event) {
         $.ajax({
-            url:  'deleteevent',
+            url:  '/calendar/deleteevent',
             type: 'POST',
             data: {
                 id:  $(this).attr('event-id')
             },
             success: function(html) {
-                window.location.replace('calendar');
+                window.location.replace('/calendar/calendar');
             }
         });
     });
@@ -87,7 +92,7 @@ $(function(){
     $('a[name="event-delete"]').click(function (event) {
         if(confirm('Do you really wanna delete this event ?')) {
             $.ajax({
-                url:  'deleteevent',
+                url:  '/calendar/deleteevent',
                 type: 'POST',
                 data: {
                     id:  $(this).attr('event-id')
