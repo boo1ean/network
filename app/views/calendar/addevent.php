@@ -88,8 +88,9 @@ use yii\widgets\ActiveForm;
 
             <?php
                 $array_of_users = array();
+                $other_users = $users->getOtherUsers();
 
-                foreach($users as $user) {
+                foreach($other_users as $user) {
                     $array_of_users[$user->email] = $user->first_name.' '.$user->last_name;
                 }
             ?>
@@ -99,7 +100,7 @@ use yii\widgets\ActiveForm;
             <div class="row">
                 <div class="col-lg-6">
                     <?php echo Html::label('Invite friends'); ?>
-                    <?php echo Html::dropDownList('invitations', null, $array_of_users, array(
+                    <?php echo Html::dropDownList('invitations[]', null, $array_of_users, array(
                         'multiple' => 'multiple',
                         'class' => 'form-control'
                     )); ?>

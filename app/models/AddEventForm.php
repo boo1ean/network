@@ -5,6 +5,8 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use app\models\Event;
+use app\models\User;
+use app\models\Userevent;
 
 class AddEventForm extends Event
 {
@@ -70,6 +72,29 @@ class AddEventForm extends Event
 
             $event->user_id = Yii::$app->getUser()->getId();
             $event->save();
+
+            $event_curr = Event::findByTitleAndDate($this->title, $this->start_date, $this->end_date);
+
+            if (isset($_POST['invitations'])) {
+                $invites = $_POST['invitations'];
+
+                foreach($invites as $invite) {
+                    $user = User::findByEmail($invite);
+
+                    $userevent = new Userevent();
+                    $userevent->event_id = $event_curr->id;
+                    $userevent->user_id = $user->id;
+                    $userevent->unread = 1;
+                    $userevent->save();
+                }
+
+                $userevent = new Userevent();
+                $userevent->event_id = $event_curr->id;
+                $userevent->user_id = Yii::$app->getUser()->getId();
+                $userevent->unread = 1;
+                $userevent->save();
+            }
+
             return true;
         }
 
@@ -107,6 +132,7 @@ class AddEventForm extends Event
 
             $event->user_id = Yii::$app->getUser()->getId();
             $event->save();
+
             return true;
         }
 

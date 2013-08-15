@@ -2,7 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
+use app\models\Userevent;
+use app\models\User;
 ?>
 
 <div class="modal-dialog">
@@ -86,21 +87,25 @@ use yii\widgets\ActiveForm;
                 </div>
             </div>
 
-            <?php
-                $array_of_users = array();
-
-                foreach($users as $user) {
-                    $array_of_users[] = $user->first_name.' '.$user->last_name;
-                }
-            ?>
+            <br/>
 
             <div class="row">
                 <div class="col-lg-6">
-                    <?php echo Html::label('Invite friends', null, array('class' => 'control-label')); ?>
-                    <?php echo Html::dropDownList('invitations', null, $array_of_users, array(
-                        'multiple' => 'multiple',
-                        'class' => 'form-control'
-                    )); ?>
+                    <?php echo Html::label('Invited friends'); ?>
+                    <br/>
+                    <?php
+                        $invites = Userevent::findByEventId($event->id);
+                        $array_invited = array();
+
+                        foreach($invites as $invite) {
+                            $array_invited[] = User::getUserNameById($invite->user_id);
+                        }
+
+                        echo Html::listBox('invites', null, $array_invited, array(
+                            'class' => 'form-control',
+                            'disabled' => 'disabled'
+                        ));
+                    ?>
                 </div>
             </div>
 

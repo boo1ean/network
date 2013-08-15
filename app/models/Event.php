@@ -32,9 +32,7 @@ class Event extends ActiveRecord
             ->one();
     }
 
-    public function getUsers() {
-        return $this->hasMany('User', array('id' => 'user_id'))
-            ->viaTable('user_events', array('event_id' => 'id'));
+    public function getUser() {
+        return $this->hasOne('User', array('id' => 'user_id'));
     }
-
 }

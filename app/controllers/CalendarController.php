@@ -7,6 +7,7 @@ use yii;
 use yii\web\Controller;
 use app\models\Event;
 use app\models\User;
+use app\models\Userevent;
 use app\models\AddEventForm;
 
 class CalendarController extends Controller
@@ -108,7 +109,7 @@ class CalendarController extends Controller
         $eventForm = new AddEventForm();
         $eventForm->scenario = 'default';
 
-        $users = User::getAll();
+        $users = User::find(Yii::$app->getUser()->getId());
 
         $this->layout = 'block';
 
@@ -187,10 +188,10 @@ class CalendarController extends Controller
 
         $event = Event::find($_POST['id']);
 
-        $users = $event->users;
+        $user_events = Userevent::findByEventId($_POST['id']);
 
-        foreach ($users as $user) {
-            $user->unlink('events', $event);
+        foreach($user_events as $ev) {
+            $ev->delete();
         }
 
         $event->delete();
