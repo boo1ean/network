@@ -130,17 +130,31 @@ class User extends ActiveRecord implements Identity
      * Get unread notifications
      */
     public function getNotifications() {
-        $query = Conversation::createQuery();
-        $result = $query->select('conversations.*')
+        // Get all unread conversations
+        $queryConversations = Conversation::createQuery();
+        $conversations = $queryConversations->select('conversations.*')
             ->from('users')
             ->join('inner join', 'user_conversations', 'user_conversations.user_id = users.id')
             ->join('inner join', 'conversations', 'user_conversations.conversation_id = conversations.id')
-            ->join('left join', 'messages', 'messages.conversation_id = conversations.id')
-            ->where('user_conversations.user_id = ' . $this->id)
+            //->join('left join', 'messages', 'messages.conversation_id = conversations.id')
+            ->where('users.id = ' . $this->id)
             ->andWhere('user_conversations.unread = 1')
             ->groupBy('conversations.id')
-            ->orderBy('max(messages.datetime) desc')
+            //->orderBy('max(messages.datetime) desc')
             ->all();
+
+        // Get all unread events
+        $queryEvents = Event::createQuery();
+        $events = $queryEvents->select('events.*')
+            ->from('users')
+            ->join('inner join', 'user_events', 'user_events.user_id = users.id')
+            ->join('inner join', 'events', 'user_events.event_id = events.id')
+            ->where('users.id = ' . $this->id)
+            ->andWhere('user_events.unread = 1')
+            ->groupBy('events.id')
+            ->all();
+
+        $result = array_merge($conversations, $events);
 
         return $result;
     }
@@ -149,12 +163,23 @@ class User extends ActiveRecord implements Identity
      * @return int count of unread notifications
      */
     public function getNotificationsCount() {
-        return Conversation::createQuery()
+        // Unread conversations count
+        $conversationsCount = Conversation::createQuery()
             ->select('*')
             ->from('user_conversations')
             ->where('user_conversations.user_id = ' . $this->id)
             ->andWhere('user_conversations.unread = 1')
             ->count();
+
+        // Unread events count
+        $eventsCount = Event::createQuery()
+            ->select('*')
+            ->from('user_events')
+            ->where('user_events.user_id = ' . $this->id)
+            ->andWhere('user_events.unread = 1')
+            ->count();
+
+        return $conversationsCount + $eventsCount;
     }
 
     public function beforeSave($insert) {
