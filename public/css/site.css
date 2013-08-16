@@ -226,13 +226,21 @@ h4.tag a:hover {
 }
 /*------------------------UserBox------------------------------*/
 #userBox {
-    padding: 10px 15px 10px;
+    display: block;
+    position: fixed;
+    z-index: 2000;
+    top: 0;
+    right: 0;
+    padding: 15px 10px;
 }
-#userBox span {
+#userBox a {
+    text-decoration: none;
+}
+#userBox span, #userBox a {
     color: #777;
     cursor: default;
 }
-#userBox span:hover {
+#userBox span:hover, #userBox a:hover {
     color: #333;
 }
 #userBoxAvatar {

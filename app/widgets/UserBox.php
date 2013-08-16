@@ -41,7 +41,6 @@ class UserBox extends Widget
         // Container for userbox
         $html = Html::beginTag('div', array(
             'id'    => 'userBox',
-            'class' => 'nav pull-right',
         ));
 
         // Notifications

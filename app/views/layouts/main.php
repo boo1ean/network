@@ -61,14 +61,6 @@ if ($user === null) {
                             'options' => array('class' => 'nav navbar-nav'),
                             'items' => $items,
                         )); ?>
-                        <?php if($user != null) {
-                                  echo UserBox::widget(array(
-                                  'avatar'              => $user->avatar,
-                                  'username'            => $user->userName,
-                                  'notificationsCount'  => $user->notificationsCount,
-                                  ));    
-                              }
-                        ?>
                     </div>
                 </div>
             </div>
@@ -79,6 +71,15 @@ if ($user === null) {
             <?php echo Breadcrumbs::widget(array(
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : array(),
             )); ?>
+
+            <?php if(!Yii::$app->getUser()->getIsGuest()) {
+                echo UserBox::widget(array(
+                    'avatar'              => Yii::$app->getUser()->getIdentity()->avatar,
+                    'username'            => Yii::$app->getUser()->getIdentity()->userName,
+                    'notificationsCount'  => Yii::$app->getUser()->getIdentity()->notificationsCount,
+                ));
+            }
+            ?>
 
             <?php echo $content; ?>
         </div>

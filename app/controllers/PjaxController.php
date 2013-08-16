@@ -8,11 +8,9 @@ class PjaxController extends Controller
 {
     public function render($view, $data = array()) {
         if (isset($_SERVER['HTTP_X_PJAX'])) {
-            return $this->renderPartial($view, $data);
+            $this->layout = 'pjax';
         }
-        else {
-            return parent::render($view, $data);
-        }
+        return parent::render($view, $data);
     }
 
 } 
