@@ -112,11 +112,17 @@ class CalendarController extends Controller
             return false;
         }
 
-        if (isset($_POST['date'])) {
-            date_default_timezone_set('Europe/Kiev');
-            $date_add = date("Y-m-d", strtotime($_POST['date']));
+        date_default_timezone_set('Europe/Kiev');
+
+        if (isset($_POST['start']) && isset($_POST['end'])) {
+            $start_date = date("Y-m-d", strtotime($_POST['start']));
+            $end_date = date("Y-m-d", strtotime($_POST['end']));
+        } else if (isset($_POST['date'])) {
+            $start_date = date("Y-m-d", strtotime($_POST['date']));
+            $end_date = date("Y-m-d", strtotime($_POST['date']));
         } else {
-            $date_add = null;
+            $start_date = null;
+            $end_date = null;
         }
 
         $eventForm = new AddEventForm();
@@ -129,7 +135,8 @@ class CalendarController extends Controller
         return $this->render('addevent', array(
             'model' => $eventForm,
             'users' => $users,
-            'date_add' => $date_add
+            'start_date' => $start_date,
+            'end_date' => $end_date
         ));
     }
 

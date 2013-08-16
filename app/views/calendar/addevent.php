@@ -40,17 +40,11 @@ use yii\widgets\ActiveForm;
                 </div>
             </div>
 
-            <?php
-            if (!isset($date_add)) {
-                $date_add = null;
-            }
-            ?>
-
             <div class="row">
                 <div class="col-lg-4">
                     <?php echo $form->field($model, 'start_date')->input('date', array(
                         'id' => 'start_date',
-                        'value' => $date_add
+                        'value' => $start_date
                     )); ?>
                 </div>
 
@@ -66,7 +60,7 @@ use yii\widgets\ActiveForm;
                 <div class="col-lg-4">
                     <?php echo $form->field($model, 'end_date')->input('date', array(
                         'id' => 'end_date',
-                        'value' => $date_add
+                        'value' => $end_date
                     )); ?>
                 </div>
 

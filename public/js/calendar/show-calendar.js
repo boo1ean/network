@@ -48,6 +48,7 @@ $(document).ready(function() {
             $('#myModal').modal();
         },
         editable: true,
+        selectable: true,
         firstDay: 1,
         eventSources: [
             {
@@ -62,6 +63,20 @@ $(document).ready(function() {
                 borderColor: 'green'
             }
         ],
+        select: function(startDate, endDate, allDay, jsEvent, view) {
+            $.ajax({
+                url:  'addevent',
+                type: 'POST',
+                data: {
+                    start: startDate,
+                    end: endDate
+                },
+                success: function(html) {
+                    $('#myModal').html(html);
+                }
+            });
+            $('#myModal').modal();
+        },
         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
             $.ajax({
                 url:  'dropevent',
