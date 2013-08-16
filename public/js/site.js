@@ -66,42 +66,46 @@ $(document).ready(
         });
 
         // Tooltips for userBox
-        $('#userBox a').tooltip({
-            'placement': 'bottom'
-        });
+        $(document).on({
+            mouseenter: function() {
+                $(this).tooltip({'placement': 'bottom'});}
+        },'#userBox a');
+
 
         // Toastr for notifications, on toasrt click redirect to event
-        $('#userBoxNotifications').click(function(){
-            // Show newest toast at bottom (top is default)
-            toastr.options.newestOnTop = false;
-            // Delete all previous toasts
-            // Made in such way because toastr.clear() removes all toasts include new (which will be added in ajax success event)
-            $('#toast-container').remove();
-            // Data for request
-            var ajaxData = {
-                url: "/notification/json",
-                type: 'get',
-                dataType : 'json',
-                success: function(data) {
-                    // Links to notifications
-                    for (var i = 0; i < data.length; i++) {
-                        (function(){
-                            const link = data[i].link;
-                            toastr.options.onclick = function() {
-                                $(location).attr('href', link);
-                            };
-                            toastr['info'](data[i].description, data[i].title);
-                        })();
+        $(document).on({
+            click: function() {
+                // Show newest toast at bottom (top is default)
+                toastr.options.newestOnTop = false;
+                // Delete all previous toasts
+                // Made in such way because toastr.clear() removes all toasts include new (which will be added in ajax success event)
+                $('#toast-container').remove();
+                // Data for request
+                var ajaxData = {
+                    url: "/notification/json",
+                    type: 'get',
+                    dataType : 'json',
+                    success: function(data) {
+                        // Links to notifications
+                        for (var i = 0; i < data.length; i++) {
+                            (function(){
+                                const link = data[i].link;
+                                toastr.options.onclick = function() {
+                                    $(location).attr('href', link);
+                                };
+                                toastr['info'](data[i].description, data[i].title);
+                            })();
+                        }
+                        // Link to all notifications
+                        toastr.options.onclick = function() {
+                            $(location).attr('href', '/notification');
+                        };
+                        toastr['success']("<h4>All notifications here</h4>");
                     }
-                    // Link to all notifications
-                    toastr.options.onclick = function() {
-                        $(location).attr('href', '/notification');
-                    };
-                    toastr['success']("<h4>All notifications here</h4>");
-                }
-            };
-            $.ajax(ajaxData);
-        });
+                };
+                $.ajax(ajaxData);
+            }
+        }, '#userBoxNotifications');
 
         /**
          * create typeahead list of the don't subscribed users
