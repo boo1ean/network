@@ -101,6 +101,9 @@ class CalendarController extends PjaxController
 
         $event = Event::find($id);
 
+        // Mark event as read
+        $event->markAsRead(Yii::$app->getUser()->getIdentity()->id);
+
         return $this->render('eventpage', array(
             'event' => $event
         ));
