@@ -1,5 +1,5 @@
 /*!
- * FullCalendar v1.6.2 Print Stylesheet
+ * FullCalendar v1.6.3 Print Stylesheet
  * Docs & License: http://arshaw.com/fullcalendar/
  * (c) 2013 Adam Shaw
  */
@@ -15,8 +15,8 @@
 -----------------------------------------------------*/
  
 .fc-event {
-	background: #fff !important;
-	color: #000 !important;
+	background: #fff;
+	color: #000;
 	}
 	
 /* for vertical events */

@@ -69,7 +69,7 @@ class LibraryController extends PjaxController
 
     public function actionAddbook() {
 
-        if (Yii::$app->getUser()->getIsGuest()) {
+        if (Yii::$app->getUser()->getIsGuest() || Yii::$app->getUser()->getIdentity()->type == 1) {
             Yii::$app->getResponse()->redirect('@web');
             return false;
         }
@@ -89,7 +89,7 @@ class LibraryController extends PjaxController
 
     public function actionEditbook($id = null) {
 
-        if (Yii::$app->getUser()->getIsGuest()) {
+        if (Yii::$app->getUser()->getIsGuest() || Yii::$app->getUser()->getIdentity()->type == 1) {
             Yii::$app->getResponse()->redirect('@web');
             return false;
         }
@@ -120,7 +120,7 @@ class LibraryController extends PjaxController
 
     public function actionDeletebook() {
 
-        if (Yii::$app->getUser()->getIsGuest()) {
+        if (Yii::$app->getUser()->getIsGuest() || Yii::$app->getUser()->getIdentity()->type == 1) {
             Yii::$app->getResponse()->redirect('@web');
             return false;
         }

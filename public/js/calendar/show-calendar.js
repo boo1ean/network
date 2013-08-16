@@ -53,14 +53,18 @@ $(document).ready(function() {
         eventSources: [
             {
                 events: events_js_obj,
-                borderColor: 'red'
+                borderColor: '#483D8B',
+                backgroundColor: '#483D8B',
+                textColor: 'white'
             },
             {
                 url: gcal_url,
                 className: 'gcal-event',
                 currentTimezone: 'Europe/Kiev',
                 editable: true,
-                borderColor: 'green'
+                borderColor: '#2F4F4F',
+                backgroundColor: '#2F4F4F',
+                textColor: 'white'
             }
         ],
         select: function(startDate, endDate, allDay, jsEvent, view) {

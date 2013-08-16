@@ -34,7 +34,7 @@ class AppAsset extends AssetBundle
         'js/library/books.js',
         'js/calendar/events.js',
         'js/jquery.tagsinput.js',
-        'js/calendar/jquery-ui-1.10.2.custom.min.js',
+        'js/calendar/jquery-ui-1.10.3.custom.min.js',
         'js/calendar/fullcalendar.min.js',
         'js/calendar/gcal.js',
         'js/calendar/show-calendar.js',
