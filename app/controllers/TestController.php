@@ -7,7 +7,7 @@ use app\components\Queue;
 use Yii;
 use yii\web\Controller;
 
-class TestController extends Controller
+class TestController extends PjaxController
 {
 
     public function actionMailerAsyncQueue() {

@@ -5,7 +5,7 @@ namespace app\controllers;
 use app\components\QueueWorker;
 use yii\console\Controller;
 
-class WorkerController extends Controller
+class WorkerController extends PjaxController
 {
 
     public $defaultAction = 'start';

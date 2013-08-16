@@ -14,7 +14,7 @@ use yii\base\InvalidCallException;
 use yii\console\Controller;
 use app\components\Fixtures;
 
-class FixtureController extends Controller
+class FixtureController extends PjaxController
 {
     // Default count of data for generating
     const USERS_COUNT = 10;

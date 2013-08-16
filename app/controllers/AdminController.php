@@ -9,7 +9,7 @@ use Yii;
 use yii\web\Controller;
 
 
-class AdminController extends Controller
+class AdminController extends PjaxController
 {
     public function beforeAction($action) {
 

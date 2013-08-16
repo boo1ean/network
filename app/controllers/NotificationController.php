@@ -6,7 +6,7 @@ use yii\web\Controller;
 use Yii;
 use app\models\User;
 
-class NotificationController extends Controller
+class NotificationController extends PjaxController
 {
     public function beforeAction($action) {
         // Check user on access

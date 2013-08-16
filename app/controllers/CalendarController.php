@@ -10,7 +10,7 @@ use app\models\User;
 use app\models\Userevent;
 use app\models\AddEventForm;
 
-class CalendarController extends Controller
+class CalendarController extends PjaxController
 {
     static function calendarData() {
         $events = Event::sortByStartDate();

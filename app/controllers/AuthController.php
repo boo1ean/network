@@ -10,7 +10,7 @@ use app\models\SettingsForm;
 use Yii;
 use yii\web\Controller;
 
-class AuthController extends Controller
+class AuthController extends PjaxController
 {
     public function actions() {
         return array(

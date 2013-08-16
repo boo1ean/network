@@ -10,7 +10,7 @@ use app\models\Book;
 use app\models\Tag;
 use app\models\AddBookForm;
 
-class LibraryController extends Controller
+class LibraryController extends PjaxController
 {
     const STATUS_TAKEN = 1;
     const STATUS_UNTAKEN = 2;

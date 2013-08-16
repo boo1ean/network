@@ -9,7 +9,7 @@ use app\models\Conversation;
 use app\models\Message;
 use app\models\User;
 
-class MessageController extends Controller
+class MessageController extends PjaxController
 {
     const EVENT_SEND_MESSAGE = "sendMessage";
 

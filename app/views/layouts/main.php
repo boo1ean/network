@@ -75,13 +75,13 @@ if ($user === null) {
             <!-- /.navbar -->
         </div>
 
-        <div class="main-container">
+        <div class="main-container" id="pjax-container">
             <?php echo Breadcrumbs::widget(array(
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : array(),
             )); ?>
 
             <?php echo $content; ?>
-
+        </div>
             <hr>
 
         <div class="footer, text-center">
