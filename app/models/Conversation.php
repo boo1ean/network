@@ -48,8 +48,9 @@ class Conversation extends ActiveRecord
      */
     public function copyToMultiChat() {
         $newConversation = new Conversation(array(
-            'title'     => $this->title,
-            'private'   => 0,
+            'creator' => $this->creator,
+            'private' => 0,
+            'title'   => $this->title
         ));
         $newConversation->save();
         $newConversation->refresh();
