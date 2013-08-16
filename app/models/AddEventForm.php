@@ -91,7 +91,7 @@ class AddEventForm extends Event
                 $userevent = new Userevent();
                 $userevent->event_id = $event_curr->id;
                 $userevent->user_id = Yii::$app->getUser()->getId();
-                $userevent->unread = 1;
+                $userevent->unread = 0;
                 $userevent->save();
             }
 
