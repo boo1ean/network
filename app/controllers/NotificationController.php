@@ -57,13 +57,8 @@ class NotificationController extends PjaxController
         $result = array();
         // Get all user's notifications
         $notifications = $user->notifications;
-        // Number of notifications to return
-        $notificationsCount = 0;
-        if ($count == null) {
-            $notificationsCount = count($notifications);
-        } else {
-            $notificationsCount = min(count($notifications), $count);
-        }
+
+        // Processing all notifications depends on theirs class
         for ($i = 0; $i < count($notifications); $i++) {
             // Current notification data
             $row = array();
@@ -90,6 +85,19 @@ class NotificationController extends PjaxController
             $result[] = $row;
         }
 
-        return $result;
+        // Sort notifications by time desc
+        usort($result, function($a, $b){
+            return ($a['time'] > $b['time']) ? -1 : 1;
+        });
+
+        // Number of notifications to return
+        if ($count == null) {
+            $notificationsCount = count($notifications);
+        } else {
+            $notificationsCount = min(count($notifications), $count);
+        }
+
+        return array_slice($result, 0, $notificationsCount);
     }
+
 }
