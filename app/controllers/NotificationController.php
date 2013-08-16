@@ -64,21 +64,32 @@ class NotificationController extends PjaxController
         } else {
             $notificationsCount = min(count($notifications), $count);
         }
-        for ($i = 0; $i < $notificationsCount; $i++) {
+        for ($i = 0; $i < count($notifications); $i++) {
             // Current notification data
             $row = array();
             // Get type of notification
             $class = get_class($notifications[$i]);
             switch ($class) {
                 case 'app\models\Conversation':
+                    $time = $notifications[$i]->lastMessageTime;
                     $row['icon'] = 'glyphicon glyphicon-envelope';
                     $row['link'] = '/message/conversation/' . $notifications[$i]->id;
                     $row['title'] = $notifications[$i]->title;
-                    $row['description'] = 'Last message was sent on ' . $notifications[$i]->lastMessageTime;
+                    $row['description'] = 'Last message was sent on ' . $time;
+                    $row['time'] = $time;
+                    break;
+                case 'app\models\Event':
+                    $time = $notifications[$i]->create_datetime;
+                    $row['icon'] = 'glyphicon glyphicon-calendar';
+                    $row['link'] = '/calendar/eventpage/' . $notifications[$i]->id;
+                    $row['title'] = $notifications[$i]->title;
+                    $row['description'] = 'Event starts on ' . $notifications[$i]->start_date . ' at ' . $notifications[$i]->start_time;
+                    $row['time'] = $time;
                     break;
             }
             $result[] = $row;
         }
+
         return $result;
     }
 }
