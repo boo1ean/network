@@ -71,6 +71,7 @@ class AddEventForm extends Event
             }
 
             $event->user_id = Yii::$app->getUser()->getId();
+            $event->create_datetime = gmdate('Y-m-d H:i:s', time()+10800);
             $event->save();
 
             $event_curr = Event::findByTitleAndDate($this->title, $this->start_date, $this->end_date);
