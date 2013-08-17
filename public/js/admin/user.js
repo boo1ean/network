@@ -3,83 +3,89 @@ $(function(){
     /**
      * Block/unblock user
      */
-    $('button[name="user-block"]').click(function (event) {
-        var obj        = $(this);
-        var id         = obj.attr('data-id');
-        var is_block   = obj.hasClass('btn-warning') ? 1 : 0;
-        var first_name = $('#'+id+'_first_name').text().toString().trim();
-        var last_name  = $('#'+id+'_last_name').text().toString().trim();
-        if (confirm('Do you really wanna ' + (is_block ? 'block' : 'unblock') + ' this user: "' + first_name + ' ' + last_name + '"?')) {
-            $.ajax({
-                url:  '/admin/user-block',
-                type: 'POST',
-                data: {
-                    id_edit:  id,
-                    is_block: is_block
-                },
-                success: function(response, textStatus) {
+    $(document).on({
+        click: function() {
+            var obj        = $(this);
+            var id         = obj.attr('data-id');
+            var is_block   = obj.hasClass('btn-warning') ? 1 : 0;
+            var first_name = $('#'+id+'_first_name').text().toString().trim();
+            var last_name  = $('#'+id+'_last_name').text().toString().trim();
+            if (confirm('Do you really wanna ' + (is_block ? 'block' : 'unblock') + ' this user: "' + first_name + ' ' + last_name + '"?')) {
+                $.ajax({
+                    url:  '/admin/user-block',
+                    type: 'POST',
+                    data: {
+                        id_edit:  id,
+                        is_block: is_block
+                    },
+                    success: function(response, textStatus) {
 
-                    if (is_block) {
-                        obj.removeClass('btn-warning')
-                           .addClass('btn-info')
-                           .html('Unblock account');
-                        obj.parent().parent().addClass('danger');
-                    } else {
-                        obj.removeClass('btn-info')
-                           .addClass('btn-warning')
-                           .html('Block account');
-                        obj.parent().parent().removeClass('danger');
+                        if (is_block) {
+                            obj.removeClass('btn-warning')
+                               .addClass('btn-info')
+                               .html('Unblock account');
+                            obj.parent().parent().addClass('danger');
+                        } else {
+                            obj.removeClass('btn-info')
+                               .addClass('btn-warning')
+                               .html('Block account');
+                            obj.parent().parent().removeClass('danger');
+                        }
                     }
-                }
-            });
+                });
+            }
         }
-    });
+    }, 'button[name="user-block"]');
 
     /**
      * Delete user
      */
-    $('button[name="user-delete"]').click(function (event) {
-        var obj        = $(this);
-        var id         = obj.attr('data-id');
-        var first_name = $('#'+id+'_first_name').text().toString().trim();
-        var last_name  = $('#'+id+'_last_name').text().toString().trim();
-        if (confirm('Do you really wanna delete forever this user: "' + first_name + ' ' + last_name + '"?')) {
-            $.ajax({
-                url:  '/admin/user-delete',
-                type: 'POST',
-                data: {
-                    id_edit: id
-                },
-                success: function(response, textStatus) {
-                    if ('ok' == response) {
-                        var row = obj.parent().parent();
-                        row.hide('blind');
-                        setTimeout(function() {
-                            row.remove();
-                        },1000)
-                    } else {
-                        alert('Sorry, we have some problems with deleting this user. Reload this page and try again');
+    $(document).on({
+        click: function() {
+            var obj        = $(this);
+            var id         = obj.attr('data-id');
+            var first_name = $('#'+id+'_first_name').text().toString().trim();
+            var last_name  = $('#'+id+'_last_name').text().toString().trim();
+            if (confirm('Do you really wanna delete forever this user: "' + first_name + ' ' + last_name + '"?')) {
+                $.ajax({
+                    url:  '/admin/user-delete',
+                    type: 'POST',
+                    data: {
+                        id_edit: id
+                    },
+                    success: function(response, textStatus) {
+                        if ('ok' == response) {
+                            var row = obj.parent().parent();
+                            row.hide('blind');
+                            setTimeout(function() {
+                                row.remove();
+                            },1000)
+                        } else {
+                            alert('Sorry, we have some problems with deleting this user. Reload this page and try again');
+                        }
                     }
-                }
-            });
+                });
+            }
         }
-    });
+    }, 'button[name="user-delete"]');
 
     /**
      * load data for edit user
      */
-    $('button[name="user-edit"]').click(function (event) {
-        $.ajax({
-            url:  '/admin/user-edit',
-            type: 'POST',
-            data: {
-              id_edit: $(this).attr('data-id')
-            },
-            success: function(response, textStatus) {
-                $('#user-modal').html(response).modal('show');
-            }
-        });
-    });
+    $(document).on({
+        click: function() {
+            $.ajax({
+                url:  '/admin/user-edit',
+                type: 'POST',
+                data: {
+                  id_edit: $(this).attr('data-id')
+                },
+                success: function(response, textStatus) {
+                    $('#user-modal').html(response).modal('show');
+                }
+            });
+        }
+    }, 'button[name="user-edit"]');
 
     /**
      * save data of user

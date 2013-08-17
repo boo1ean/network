@@ -166,50 +166,51 @@ $(document).ready(
         /**
          * load form for create new conversation
          */
-        $('#conversation-create').click(function (event) {
-            $.get('/message/conversation-create')
-             .done(function(response, textStatus) {
-                $('#conversation-create-modal').html(response).modal('show');
+        $(document).on({
+            click: function() {
+                $.get('/message/conversation-create')
+                    .done(function(response, textStatus) {
+                        $('#conversation-create-modal').html(response).modal('show');
 
-                var members_list = new members('new-member-list');
+                        var members_list = new members('new-member-list');
 
-                members_list.domObj.typeahead({
-                    items:  5,
-                    source: function() {
-                        if(!members_list.member_source.length){
-                            $.post('/message/member-not-subscribe-list')
-                                .done(function(response) {
-                                    var data = $.parseJSON(response);
+                        members_list.domObj.typeahead({
+                            items:  5,
+                            source: function() {
+                                if(!members_list.member_source.length){
+                                    $.post('/message/member-not-subscribe-list')
+                                        .done(function(response) {
+                                            var data = $.parseJSON(response);
 
-                                    $.each(data, function (i, item) {
-                                        members_list.member_source.push(item['name']);
-                                    });
+                                            $.each(data, function (i, item) {
+                                                members_list.member_source.push(item['name']);
+                                            });
 
-                                    members_list.member_full = data;
+                                            members_list.member_full = data;
+                                        });
+                                }
+                                this.process(members_list.member_source);
+                            },
+                            updater: function(item_current) {
+                                $.each(members_list.member_full, function (i, item) {
+
+                                    if(item && item['name'] == item_current) {
+                                        members_list.member_source.splice(i, 1);
+                                        members_list.member_full.splice(i, 1);
+
+                                        var html = '<label class="label label-success" style="display: none;">' +
+                                            '<input name="members[' + item['id'] + ']" type="checkbox" style="display: none;" checked="checked" />' +
+                                            item_current +
+                                            '</label>';
+
+                                        $('#member-list').append(html).find('label[style="display: none;"]').show('blind');
+                                    }
                                 });
-                        }
-                        this.process(members_list.member_source);
-                    },
-                    updater: function(item_current) {
-                        $.each(members_list.member_full, function (i, item) {
-
-                            if(item && item['name'] == item_current) {
-                                members_list.member_source.splice(i, 1);
-                                members_list.member_full.splice(i, 1);
-
-                                var html = '<label class="label label-success" style="display: none;">' +
-                                '<input name="members[' + item['id'] + ']" type="checkbox" style="display: none;" checked="checked" />' +
-                                 item_current +
-                                '</label>';
-
-                                $('#member-list').append(html).find('label[style="display: none;"]').show('blind');
                             }
                         });
-                    }
-                });
-            });
-        });
-
+                    });
+                }
+        }, '#conversation-create');
 
         /**
          * create new conversation

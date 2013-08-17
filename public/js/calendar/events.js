@@ -3,34 +3,38 @@ $(function(){
     /*
      * Add event link click from calendar and events pages
      */
-    $('a[name="event-add"]').click(function (event) {
-        $.ajax({
-            url:  'addevent',
-            type: 'POST',
-            success: function(html) {
-                $('#myModal').html(html);
-            }
-        });
-    });
+    $(document).on({
+        click: function() {
+            $.ajax({
+                url:  'addevent',
+                type: 'POST',
+                success: function(html) {
+                    $('#myModal').html(html);
+                }
+            });
+        }
+    }, 'a[name="event-add"]');
 
     /*
      * Edit event link click from calendar and events pages
      */
-    $('a[name="event-edit"]').click(function (event) {
-        var obj         = $(this);
-        var id          = obj.attr('event-id');
+    $(document).on({
+        click: function() {
+            var obj         = $(this);
+            var id          = obj.attr('event-id');
 
-        $.ajax({
-            url:  '/calendar/edit-event',
-            type: 'POST',
-            data: {
-                event_id:  id
-            },
-            success: function(html) {
-                $('#myModal').html(html);
-            }
-        });
-    });
+            $.ajax({
+                url:  '/calendar/edit-event',
+                type: 'POST',
+                data: {
+                    event_id:  id
+                },
+                success: function(html) {
+                    $('#myModal').html(html);
+                }
+            });
+        }
+    }, 'a[name="event-edit"]');
 
     /*
      * Save event button click after add or edit event
@@ -89,23 +93,25 @@ $(function(){
     /*
      * Delete event link click from event list
      */
-    $('a[name="event-delete"]').click(function (event) {
-        if(confirm('Do you really wanna delete this event ?')) {
-            $.ajax({
-                url:  '/calendar/deleteevent',
-                type: 'POST',
-                data: {
-                    id:  $(this).attr('event-id')
-                },
-                beforeSend: function() {
-                    $('body').addClass('mycontainer');
-                },
-                success: function(html) {
-                    $('body').html(html);
-                    $('body').removeClass('mycontainer');
-                }
-            });
+    $(document).on({
+        click: function() {
+            if(confirm('Do you really wanna delete this event ?')) {
+                $.ajax({
+                    url:  '/calendar/deleteevent',
+                    type: 'POST',
+                    data: {
+                        id:  $(this).attr('event-id')
+                    },
+                    beforeSend: function() {
+                        $('body').addClass('mycontainer');
+                    },
+                    success: function(html) {
+                        $('body').html(html);
+                        $('body').removeClass('mycontainer');
+                    }
+                });
+            }
         }
-    });
+    }, 'a[name="event-delete"]');
 
 });
