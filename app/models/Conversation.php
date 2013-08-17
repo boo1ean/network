@@ -64,7 +64,8 @@ class Conversation extends ActiveRecord
      * @return object /app/models/User
      */
     public function getCreator() {
-        return $this->hasOne('User', array('id' => 'creator'))->one();
+        $creator = $this->hasOne('User', array('id' => 'creator'))->one();
+        return $creator ? $creator : new User();
     }
 
     /**
