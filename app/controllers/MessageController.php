@@ -103,26 +103,15 @@ class MessageController extends PjaxController
 
         $conversation = Conversation::find($id);
 
-        if (Yii::$app->getRequest()->getIsPost() && isset($_POST['body'])) {
-            $message = new Message();
-
-            $message->conversation_id = $conversation->id;
-            $message->user_id         = Yii::$app->getUser()->getIdentity()->id;
-            $message->body            = $_POST['body'];
-
-            $message->save();
-            return Yii::$app->getResponse()->redirect('message/conversation/' . $id);
-        } else {
-            // Mark conversation as read
-            $conversation->markAsRead(Yii::$app->getUser()->getIdentity()->id);
-            return $this->render('messages', array(
-                'conversationCreator' => $conversation->getCreator(),
-                'conversationId'      => $conversation->id,
-                'conversationMembers' => $conversation->users,
-                'conversationTitle'   => $conversation->title,
-                'messages'            => $conversation->messages,
-            ));
-        }
+        // Mark conversation as read
+        $conversation->markAsRead(Yii::$app->getUser()->getIdentity()->id);
+        return $this->render('messages', array(
+            'conversationCreator' => $conversation->getCreator(),
+            'conversationId'      => $conversation->id,
+            'conversationMembers' => $conversation->users,
+            'conversationTitle'   => $conversation->title,
+            'messages'            => $conversation->messages,
+        ));
     }
 
     public function actionConversationCreate() {
@@ -231,5 +220,29 @@ class MessageController extends PjaxController
         } else {
             echo 'ok';
         }
+    }
+
+    public function actionMessageSend() {
+        if (!isset($_POST['id']) || !$this->checkAccess($_POST['id'])) {
+            return Yii::$app->getResponse()->redirect('message');
+        }
+
+        $conversation = Conversation::find($_POST['id']);
+        $message      = new Message();
+
+        $message->conversation_id = $conversation->id;
+        $message->user_id         = Yii::$app->getUser()->getIdentity()->id;
+        $message->body            = $_POST['body'];
+
+        $message->save();
+
+        $status = count($message->errors) > 0 ? 'error' : 'ok';
+
+        $result = array(
+            'status'  => $status,
+            'errors'  => $message->errors,
+            'message' => $message->toArray()
+        );
+        return json_encode($result);
     }
 }

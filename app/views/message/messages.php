@@ -38,26 +38,32 @@ use yii\widgets\ActiveForm;
         </div>
     <?php endforeach; ?>
     <!-- Input for new message -->
-    <div class = "messageContainer">
-        <?php $form = ActiveForm::begin(array('options' => array('class' => 'form-inline')));?>
+    <div class = "messageContainer" id="message-container">
+        <?php $form = ActiveForm::begin(array('options' => array('class' => 'form-inline')));
+              $user = Yii::$app->getUser()->getIdentity();?>
         <div class="row">
-            <div class="col-1">
-                <?php echo Html::img(Yii::$app->getUser()->getIdentity()->avatar, array('class' => 'avatar'));?>
+            <div class="col-1" id="avatar-container">
+                <?php echo Html::img($user->avatar, array('class' => 'avatar'));?>
             </div>
             <div class="col-11">
                 <?php echo Html::textarea('body', '', array(
-                    'class'       => 'form-control',
                     'autofocus'   => 'true',
+                    'class'       => 'form-control',
+                    'id'          => 'body',
                     'placeholder' => 'Write your message here',
                     'rows'        => '4',
                     'style'       => 'resize: none'
                 )); ?>
+                <div class="help-block"></div>
             </div>
 
             <div>
                 <?php echo Html::submitButton('Send', array(
-                    'class' => 'btn btn-info',
-                    'style' => 'position: absolute'
+                    'class'      => 'btn btn-info',
+                    'data-id'    => $conversationId,
+                    'data-title' => $user->first_name . ' ' . $user->last_name,
+                    'id'         => 'message-send',
+                    'style'      => 'position: absolute'
                 )); ?>
             </div>
         </div>

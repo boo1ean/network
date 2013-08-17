@@ -27,12 +27,14 @@ $(document).ready(
         /**
          * Open form to recover  password
          */
-        $('#forgot-open').click(function (event) {
-            $.get('/auth/forgot')
-             .done(function(response, textStatus) {
-                $('#forgot-modal').html(response).modal('show');
-            });
-        });
+        $(document).on({
+            click: function (event) {
+                $.get('/auth/forgot')
+                 .done(function(response, textStatus) {
+                    $('#forgot-modal').html(response).modal('show');
+                });
+            }
+        }, '#forgot-open');
 
         /**
          * sent settings on the email
@@ -163,6 +165,44 @@ $(document).ready(
                 }
             });
         }
+
+        /**
+         * send message
+         */
+        $(document).on({
+            click: function(event) {
+                var obj    = $(this);
+                var data   = obj.parents('form').serialize();
+                var errors = new messages();
+
+                data += '&id=' + obj.attr('data-id');
+                $.ajax({
+                    url:  '/message/message-send',
+                    type: 'POST',
+                    data: data,
+                    beforeSend: function() {
+                        errors.hideErrors(obj.parents('form'));
+                    },
+                    success: function(response, textStatus) {
+                        var result = $.parseJSON(response);
+                        console.log(result);
+
+                        if ('error' == result['status']) {
+                            for (var i in result['errors']) {
+                                errors.showErrors(i, result['errors'][i])
+                            }
+                        } else {
+                            var html = '<div class = "messageContainer"><div class = "messageUser">' + $('#avatar-container').html() +
+                                '</div> <div class = "messageBody"> <div class = "popover right in" style="z-index: 0;">' +
+                                '<div class = "arrow"></div> <h5 class="popover-title">' + obj.attr('data-title') + '</h5>' +
+                                '<div class = "popover-content">' + result['message']['body'] + '</div> </div> </div> </div>';
+                            $('#message-container').before(html)
+                        }
+                    }
+                });
+                return false;
+            }
+        }, '#message-send');
 
 
         /**
