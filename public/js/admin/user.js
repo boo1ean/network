@@ -31,6 +31,9 @@ $(function(){
                                .html('Block account');
                             obj.parent().parent().removeClass('danger');
                         }
+                    },
+                    error: function(error) {
+                        alert(error);
                     }
                 });
             }
@@ -63,6 +66,9 @@ $(function(){
                         } else {
                             alert('Sorry, we have some problems with deleting this user. Reload this page and try again');
                         }
+                    },
+                    error: function(error) {
+                        alert(error);
                     }
                 });
             }
@@ -81,7 +87,15 @@ $(function(){
                   id_edit: $(this).attr('data-id')
                 },
                 success: function(response, textStatus) {
-                    $('#user-modal').html(response).modal('show');
+                    var result = $.parseJSON(response);
+                    if('ok' == result['status']) {
+                        $('#user-modal').html(result['html']).modal('show');
+                    } else if ('redirect' == result['status']) {
+                        window.location = result['redirect'];
+                    }
+                },
+                error: function(error) {
+                    alert(error);
                 }
             });
         }
@@ -117,6 +131,9 @@ $(function(){
                         }
                         $('#user-modal').modal('hide');
                     }
+                },
+                error: function(error) {
+                    alert(error);
                 }
             });
             return false;

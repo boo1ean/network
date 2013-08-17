@@ -60,19 +60,34 @@ class ConversationController extends PjaxController
     }
 
     public function actionConversationCreate() {
+        $result = array(
+            'redirect' => Yii::$app->getUrlManager()->createAbsoluteUrl('/conversation/conversation-list'),
+            'status'   => 'ok'
+        );
+
         if (!Yii::$app->getRequest()->getIsAjax()) {
-            return Yii::$app->getResponse()->redirect('conversation-list');
+            $result['status'] = 'redirect';
         }
 
-        $this->layout = 'block';
-        $conversation = new Conversation();
+        if('ok' == $result['status']) {
 
-        if(Yii::$app->getRequest()->getIsPost()) {
-            if(isset($_POST['members']) && count($_POST['members'] > 0)) {
+            $this->layout = 'block';
+            $conversation = new Conversation();
 
-                if(isset($_POST['message']) && $_POST['message'] != null) {
+            if(Yii::$app->getRequest()->getIsPost()) {
 
-                    $owner =  Yii::$app->getUser()->getIdentity();
+                if(!isset($_POST['members']) || count($_POST['members']) == 0) {
+                    $result['status'] = 'error';
+                    $result['errors']['new-member-list'] = 'Conversation must have 1 or more members';
+                }
+
+                if(!isset($_POST['message']) || $_POST['message'] == null) {
+                    $result['status'] = 'error';
+                    $result['errors']['message'] = 'Conversation must have first message';
+                }
+
+                if('ok' == $result['status']) {
+                    $owner = Yii::$app->getUser()->getIdentity();
 
                     $conversation->creator = $owner->id;
                     $conversation->save();
@@ -81,41 +96,30 @@ class ConversationController extends PjaxController
 
                     // Add message to conversation
                     $message = new Message();
-                    $message->user_id = $owner->id;
+                    $message->user_id         = $owner->id;
                     $message->conversation_id = $conversation->id;
-                    $message->body = $_POST['message'];
+                    $message->body            = $_POST['message'];
                     $message->save();
 
                     foreach($_POST['members'] as $key => $value) {
-                    $user         = User::find($key);
-                    $conversation = $conversation->addSubscribed($user);
+                        $user         = User::find($key);
+                        $conversation = $conversation->addSubscribed($user);
                     }
 
                     $conversation->title = isset($_POST['Conversation']['title']) ? $_POST['Conversation']['title'] : null;
                     $conversation->save();
 
-                    return json_encode(array('redirect' => '/conversation/' . $conversation->id));
-                } else {
-                    $result = array(
-                        'status' => 'error',
-                        'errors' => array('message' => 'Conversation must have first message')
-                    );
-                    return json_encode($result);
+                    $result['redirect'] = Yii::$app->getUrlManager()->createAbsoluteUrl('/conversation/' . $conversation->id);
                 }
             } else {
-                $result = array(
-                    'status' => 'error',
-                    'errors' => array('new-member-list' => 'Conversation must have 1 or more members')
+                $param = array(
+                    'model' => $conversation
                 );
-                return json_encode($result);
+                $result['html'] = $this->render('conversationCreate', $param);
             }
-        } else {
-            $param = array(
-                'model' => $conversation
-            );
-
-            return $this->render('conversationCreate', $param);
         }
+
+        return json_encode($result);
     }
 
     public function actionConversationList() {
@@ -187,7 +191,7 @@ class ConversationController extends PjaxController
         }
 
         if (isset($_POST['id_conversation']) && !$this->checkAccess($_POST['id_conversation'])) {
-            return Yii::$app->getResponse()->redirect('conversation-list');
+            return json_encode(array());
         }
 
         $conversation = isset($_POST['id_conversation']) ? Conversation::find($_POST['id_conversation']) : new Conversation();
@@ -241,47 +245,58 @@ class ConversationController extends PjaxController
     }
 
     public function actionMemberSave() {
+        $result = array(
+            'redirect' => Yii::$app->getUrlManager()->createAbsoluteUrl('/conversation/conversation-list'),
+            'status'   => 'ok'
+        );
 
         if (!Yii::$app->getRequest()->getIsAjax() ||
             !isset($_POST['id_user']) ||
             !isset($_POST['id_conversation']) ||
             !$this->checkAccess($_POST['id_conversation'])) {
-            echo 'error';
-            return Yii::$app->getResponse()->redirect('conversation-list');
+            $result['status'] = 'redirect';
         }
 
-        $conversation = Conversation::find($_POST['id_conversation']);
-        $conversation = $conversation->addSubscribed(User::find($_POST['id_user']));
-        $conversation->save();
+        if('ok' == $result['status']) {
+            $conversation = Conversation::find($_POST['id_conversation']);
+            $conversation = $conversation->addSubscribed(User::find($_POST['id_user']));
+            $conversation->save();
+        }
 
         if ($conversation->id != $_POST['id_conversation']) {
-            echo Yii::$app->getUrlManager()->createAbsoluteUrl('/conversation/'.$conversation->id);
+           $result['status']   = 'redirect';
+           $result['redirect'] = Yii::$app->getUrlManager()->createAbsoluteUrl('/conversation/'.$conversation->id);
         } else {
-            echo 'ok';
+            $result['status'] = 'ok';
         }
+        return json_encode($result);
     }
 
     public function actionMessageSend() {
-        if (!isset($_POST['id']) || !$this->checkAccess($_POST['id'])) {
-            return Yii::$app->getResponse()->redirect('conversation-list');
+        $result = array(
+            'redirect' => Yii::$app->getUrlManager()->createAbsoluteUrl('/conversation/conversation-list'),
+            'status'   => 'ok'
+        );
+
+        if (!Yii::$app->getRequest()->getIsAjax() || !isset($_POST['id']) || !$this->checkAccess($_POST['id'])) {
+            $result['status'] = 'redirect';
         }
 
-        $conversation = Conversation::find($_POST['id']);
-        $message      = new Message();
+        if('ok' == $result['status']) {
+            $conversation = Conversation::find($_POST['id']);
+            $message      = new Message();
 
-        $message->conversation_id = $conversation->id;
-        $message->user_id         = Yii::$app->getUser()->getIdentity()->id;
-        $message->body            = $_POST['body'];
+            $message->conversation_id = $conversation->id;
+            $message->user_id         = Yii::$app->getUser()->getIdentity()->id;
+            $message->body            = $_POST['body'];
 
-        $message->save();
+            $message->save();
+        }
 
-        $status = count($message->errors) > 0 ? 'error' : 'ok';
+        $result['status']  = count($message->errors) > 0 ? 'error' : $result['status'];
+        $result['errors']  = $message->errors;
+        $result['message'] = $message->toArray();
 
-        $result = array(
-            'status'  => $status,
-            'errors'  => $message->errors,
-            'message' => $message->toArray()
-        );
         return json_encode($result);
     }
 }

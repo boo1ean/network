@@ -32,7 +32,10 @@ $(document).ready(
                 $.get('/auth/forgot')
                  .done(function(response, textStatus) {
                     $('#forgot-modal').html(response).modal('show');
-                });
+                 })
+                 .error(function(error) {
+                    alert(error);
+                 });
             }
         }, '#forgot-open');
 
@@ -58,11 +61,15 @@ $(document).ready(
                             for (var i in result['errors']) {
                                 errors.showErrors(i, result['errors'][i])
                             }
-                        } else {
+                        } else if ('ok' == result['status']) {
                             $('#forgot-modal').modal('hide');
                             toastr['success']('<h4>'+result['message']+'</h4>');
+                        } else if('redirect' == result['status']) {
+                            window.location = result['redirect'];
                         }
-
+                    },
+                    error: function(error) {
+                        alert(error);
                     }
                 });
                 return false;
@@ -105,6 +112,9 @@ $(document).ready(
                             $(location).attr('href', '/notification');
                         };
                         toastr['success']("<h4>All notifications here</h4>");
+                    },
+                    error: function(error) {
+                      alert(error);
                     }
                 };
                 $.ajax(ajaxData);
@@ -144,18 +154,19 @@ $(document).ready(
                                 '/conversation/member-save',
                                 {id_conversation: members_list.domObj.attr('data-id'), id_user: item['id']}
                             ).done(function(response) {
-                                if('ok' != response && 'error' != response) {
-                                    window.location = response;
-                                } else {
+                                var result = $.parseJSON(response);
+                                if('redirect' == result['status']) {
+                                    window.location = result['redirect'];
+                                } else if('ok' == result['status']) {
                                     members_list.member_source.splice(i, 1);
                                     members_list.member_full.splice(i, 1);
 
-                                    var html = '<label class="label label-success" style="display: none;">' +
+                                    var html = '<div class="btn-group" data-id="' + item['id'] + '" style="display: none;" >' +
                                         '<input name="members[' + item['id'] + ']" type="checkbox" style="display: none;" checked="checked" />' +
-                                        item_current +
-                                        '</label>';
+                                        '<button class="label btn label-success">' + item_current + '</button>' +
+                                        '<button class="label btn label-success glyphicon glyphicon-remove" data-id="' + members_list.domObj.attr('data-id') + '"></button></div>';
 
-                                    $('#member-list').append(html).find('label[style="display: none;"]').show('blind');
+                                    $('#member-list').append(html).find('div[style="display: none;"]').show('blind');
                                 }
                             }).error(function(error) {
                                 alert(error);
@@ -191,14 +202,19 @@ $(document).ready(
                             for (var i in result['errors']) {
                                 errors.showErrors(i, result['errors'][i])
                             }
-                        } else {
+                        } else if ('ok' == result['status']) {
                             var html = '<div class = "messageContainer"><div class = "messageUser">' + $('#avatar-container').html() +
                                 '</div> <div class = "messageBody"> <div class = "popover right in" style="z-index: 0;">' +
                                 '<div class = "arrow"></div> <h5 class="popover-title">' + obj.attr('data-title') + '</h5>' +
                                 '<div class = "popover-content">' + result['message']['body'] + '</div> </div> </div> </div>';
                             $('#message-container').before(html);
                             form.find('textarea').val('');
+                        } else if ('redirect' == result['status']) {
+                            window.location = result['redirect'];
                         }
+                    },
+                    error: function(error) {
+                        alert(error);
                     }
                 });
                 return false;
@@ -210,10 +226,16 @@ $(document).ready(
                 if(!confirm('Do you really wanna removing this user from conversation?')) return false;
                 var obj    = $(this);
                 var parent = obj.parent();
-                var data   = {};
 
-                data['id_conversation'] = obj.attr('data-id');
-                data['id_user']         = parent.attr('data-id');
+                if('none' == obj.attr('data-action')) {
+                    parent.remove();
+                    return false;
+                }
+
+                var data = {
+                    id_conversation: obj.attr('data-id'),
+                    id_user:         parent.attr('data-id')
+                };
 
                 $.ajax({
                     url:  '/conversation/member-remove',
@@ -245,7 +267,14 @@ $(document).ready(
             click: function() {
                 $.get('/conversation/conversation-create')
                     .done(function(response, textStatus) {
-                        $('#conversation-create-modal').html(response).modal('show');
+                        var result = $.parseJSON(response);
+
+                        if('redirect' == result['status']) {
+                            window.location = result['redirect'];
+                            return false;
+                        }
+
+                        $('#conversation-create-modal').html(result['html']).modal('show');
 
                         var members_list = new members('new-member-list');
 
@@ -262,6 +291,8 @@ $(document).ready(
                                             });
 
                                             members_list.member_full = data;
+                                        }).error(function(error) {
+                                            alert(error);
                                         });
                                 }
                                 this.process(members_list.member_source);
@@ -273,16 +304,19 @@ $(document).ready(
                                         members_list.member_source.splice(i, 1);
                                         members_list.member_full.splice(i, 1);
 
-                                        var html = '<label class="label label-success" style="display: none;">' +
+                                        var html = '<div class="btn-group" data-id="' + item['id'] + '" style="display: none;" >' +
                                             '<input name="members[' + item['id'] + ']" type="checkbox" style="display: none;" checked="checked" />' +
-                                            item_current +
-                                            '</label>';
+                                            '<button class="label btn label-success">' + item_current + '</button>' +
+                                            '<button class="label btn label-success glyphicon glyphicon-remove" data-action="none"></button></div>';
 
-                                        $('#member-list').append(html).find('label[style="display: none;"]').show('blind');
+                                        $('#member-list').append(html).find('div[style="display: none;"]').show('blind');
+
                                     }
                                 });
                             }
                         });
+                    }).error(function(error) {
+                        alert(error);
                     });
                 }
         }, '#conversation-create');
@@ -313,6 +347,9 @@ $(document).ready(
                             window.location = result['redirect'];
                         }
 
+                    },
+                    error: function(error) {
+                        alert(error);
                     }
                 });
                 return false;

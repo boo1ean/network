@@ -89,21 +89,28 @@ class AdminController extends PjaxController
     }
 
     public function actionUserEdit() {
+        $result = array(
+            'redirect' => Yii::$app->getUrlManager()->getBaseUrl(),
+            'status'   => 'ok'
+        );
 
         if (!isset($_POST['id_edit'])) {
-            Yii::$app->getResponse()->redirect('@web');
-            return false;
+            $result['status'] = 'redirect';
         }
 
-        $userForm           = new UserForm();
-        $userForm->id_edit  = $_POST['id_edit'];
-        $userForm->scenario = 'only_id';
+        if ('ok' == $result['status']) {
+            $userForm           = new UserForm();
+            $userForm->id_edit  = $_POST['id_edit'];
+            $userForm->scenario = 'only_id';
 
-        $userForm->userEdit();
+            $userForm->userEdit();
 
-        $this->layout = 'block';
-        $param = array('model' => $userForm);
-        return $this->render('userEdit', $param);
+            $this->layout = 'block';
+            $param = array('model' => $userForm);
+            $result['html'] = $this->render('userEdit', $param);
+        }
+
+        return json_encode($result);
     }
 
     public function actionUserList($page = 0) {
@@ -129,30 +136,32 @@ class AdminController extends PjaxController
     }
 
     public function actionUserSave() {
+        $result = array(
+            'redirect' => Yii::$app->getUrlManager()->getBaseUrl(),
+            'status'   => 'ok'
+        );
 
         if (!isset($_POST['id_edit'])) {
-            Yii::$app->getResponse()->redirect('@web');
-            return false;
+            $result['status'] = 'redirect';
         }
 
-        $userForm = new UserForm();
+        if ('ok' == $result['status']) {
+            $userForm = new UserForm();
 
-        $userForm->email           = $_POST['UserForm']['email'];
-        $userForm->first_name      = $_POST['UserForm']['first_name'];
-        $userForm->id_edit         = $_POST['id_edit'];
-        $userForm->last_name       = $_POST['UserForm']['last_name'];
-        $userForm->password        = $_POST['UserForm']['password'];
-        $userForm->repeat_password = $_POST['UserForm']['repeat_password'];
+            $userForm->email           = $_POST['UserForm']['email'];
+            $userForm->first_name      = $_POST['UserForm']['first_name'];
+            $userForm->id_edit         = $_POST['id_edit'];
+            $userForm->last_name       = $_POST['UserForm']['last_name'];
+            $userForm->password        = $_POST['UserForm']['password'];
+            $userForm->repeat_password = $_POST['UserForm']['repeat_password'];
 
-        $userForm->userSave();
+            $userForm->userSave();
+        }
 
-        $status = count($userForm->errors) > 0 ? 'error' : 'ok';
+        $result['status']  = count($userForm->errors) > 0 ? 'error' : $result['status'];
+        $result['errors']  = $userForm->errors;
+        $result['user']    = $userForm->toArray();
 
-        $result = array(
-            'status' => $status,
-            'errors' => $userForm->errors,
-            'user'   => $userForm->toArray()
-        );
-        echo json_encode($result);
+        return json_encode($result);
     }
 }

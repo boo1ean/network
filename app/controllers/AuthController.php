@@ -63,23 +63,26 @@ class AuthController extends PjaxController
     }
 
     public function actionForgotSave() {
-
-        if (!Yii::$app->getRequest()->getIsPost()) {
-            Yii::$app->getResponse()->redirect('@web');
-            return false;
+        $result = array(
+            'redirect' => Yii::$app->getUrlManager()->getBaseUrl(),
+            'status'   => 'ok'
+        );
+        if (!Yii::$app->getRequest()->getIsAjax() || !Yii::$app->getRequest()->getIsPost()) {
+            $result['status'] = 'redirect';
         }
 
-        $forgotForm = new ForgotForm();
-        $forgotForm->email = $_POST['ForgotForm']['email'];
+        if('ok' == $result['status']) {
+            $forgotForm = new ForgotForm();
+            $forgotForm->email = $_POST['ForgotForm']['email'];
 
-        $message = $forgotForm->send();
-        $status  = count($forgotForm->errors) > 0 ? 'error' : 'ok';
+            $message = $forgotForm->send();
+        }
 
-        $result = array(
-            'status'  => $status,
-            'message' => $message,
-            'errors'  => $forgotForm->errors
-        );
+
+        $result['status']  = count($forgotForm->errors) > 0 ? 'error' : $result['status'];
+        $result['errors']  = $forgotForm->errors;
+        $result['message'] = $message;
+
         echo json_encode($result);
     }
 
