@@ -121,7 +121,7 @@ $(document).ready(
                 source: function() {
                     if (!members_list.member_source.length) {
                         $.post(
-                            '/message/member-not-subscribe-list',
+                            '/conversation/member-not-subscribe-list',
                             {id_conversation: members_list.domObj.attr('data-id')}
                         ).done(function(response) {
                             var data = $.parseJSON(response);
@@ -141,7 +141,7 @@ $(document).ready(
                     $.each(members_list.member_full, function (i, item) {
                         if(item && item['name'] == item_current) {
                             $.post(
-                                '/message/member-save',
+                                '/conversation/member-save',
                                 {id_conversation: members_list.domObj.attr('data-id'), id_user: item['id']}
                             ).done(function(response) {
                                 if('ok' != response && 'error' != response) {
@@ -174,18 +174,18 @@ $(document).ready(
                 var obj    = $(this);
                 var data   = obj.parents('form').serialize();
                 var errors = new messages();
+                var form   = obj.parents('form');
 
                 data += '&id=' + obj.attr('data-id');
                 $.ajax({
-                    url:  '/message/message-send',
+                    url:  '/conversation/message-send',
                     type: 'POST',
                     data: data,
                     beforeSend: function() {
-                        errors.hideErrors(obj.parents('form'));
+                        errors.hideErrors(form);
                     },
                     success: function(response, textStatus) {
                         var result = $.parseJSON(response);
-                        console.log(result);
 
                         if ('error' == result['status']) {
                             for (var i in result['errors']) {
@@ -196,7 +196,8 @@ $(document).ready(
                                 '</div> <div class = "messageBody"> <div class = "popover right in" style="z-index: 0;">' +
                                 '<div class = "arrow"></div> <h5 class="popover-title">' + obj.attr('data-title') + '</h5>' +
                                 '<div class = "popover-content">' + result['message']['body'] + '</div> </div> </div> </div>';
-                            $('#message-container').before(html)
+                            $('#message-container').before(html);
+                            form.find('textarea').val('');
                         }
                     }
                 });
@@ -210,7 +211,7 @@ $(document).ready(
          */
         $(document).on({
             click: function() {
-                $.get('/message/conversation-create')
+                $.get('/conversation/conversation-create')
                     .done(function(response, textStatus) {
                         $('#conversation-create-modal').html(response).modal('show');
 
@@ -220,7 +221,7 @@ $(document).ready(
                             items:  5,
                             source: function() {
                                 if(!members_list.member_source.length){
-                                    $.post('/message/member-not-subscribe-list')
+                                    $.post('/conversation/member-not-subscribe-list')
                                         .done(function(response) {
                                             var data = $.parseJSON(response);
 
@@ -263,7 +264,7 @@ $(document).ready(
                 var data   = obj.parents('form').serialize();
                 var errors = new messages();
                 $.ajax({
-                    url:  '/message/conversation-create',
+                    url:  '/conversation/conversation-create',
                     type: 'POST',
                     data: data,
                     beforeSend: function() {

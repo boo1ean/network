@@ -9,7 +9,7 @@ use app\models\Conversation;
 use app\models\Message;
 use app\models\User;
 
-class MessageController extends PjaxController
+class ConversationController extends PjaxController
 {
     const EVENT_SEND_MESSAGE = "sendMessage";
 
@@ -43,42 +43,6 @@ class MessageController extends PjaxController
         $mail->send();
     }
 
-    public function actionIndex() {
-        // Get all users conversations
-        $conversations = Yii::$app->getUser()->getIdentity()->conversations;
-        $viewParams = array();
-
-        foreach($conversations as $conversation) {
-            $row = array();
-
-            $row['id']      = $conversation->id;
-            $row['title']   = $conversation->title;
-            $row['private'] = $conversation->isPrivate();
-            $row['users']   = array();
-
-            foreach ($conversation->users as $user) {
-                if (Yii::$app->getUser()->getIdentity()->id != $user->id) {
-                    $row['users'][] = $user;
-                }
-            }
-
-            $row['unread'] = $conversation->isUnread(Yii::$app->getUser()->getIdentity()->id);
-            $message = Message::getLastInConversation($conversation->id);
-
-            if ($message != null) {
-                $row['lastMessage']       = $message;
-                $lastMessageUser          = $message->user;
-                $row['lastMessageUser']   = $lastMessageUser->userName;
-                $row['lastMessageAvatar'] = $lastMessageUser->avatar;
-            }
-
-            $viewParams[] = $row;
-        }
-        return $this->render('conversations', array(
-            'conversations' => $viewParams,
-        ));
-    }
-
     // Check user rights to access conversation
     private function checkAccess($id) {
         if(!isset($id)) {
@@ -95,28 +59,9 @@ class MessageController extends PjaxController
         return true;
     }
 
-    public function actionConversation($id = null) {
-
-        if (!isset($id) || !$this->checkAccess($id)) {
-            return Yii::$app->getResponse()->redirect('message');
-        }
-
-        $conversation = Conversation::find($id);
-
-        // Mark conversation as read
-        $conversation->markAsRead(Yii::$app->getUser()->getIdentity()->id);
-        return $this->render('messages', array(
-            'conversationCreator' => $conversation->getCreator(),
-            'conversationId'      => $conversation->id,
-            'conversationMembers' => $conversation->users,
-            'conversationTitle'   => $conversation->title,
-            'messages'            => $conversation->messages,
-        ));
-    }
-
     public function actionConversationCreate() {
         if (!Yii::$app->getRequest()->getIsAjax()) {
-            return Yii::$app->getResponse()->redirect('message');
+            return Yii::$app->getResponse()->redirect('conversation-list');
         }
 
         $this->layout = 'block';
@@ -149,7 +94,7 @@ class MessageController extends PjaxController
                     $conversation->title = isset($_POST['Conversation']['title']) ? $_POST['Conversation']['title'] : null;
                     $conversation->save();
 
-                    return json_encode(array('redirect' => 'message/conversation/' . $conversation->id));
+                    return json_encode(array('redirect' => '/conversation/' . $conversation->id));
                 } else {
                     $result = array(
                         'status' => 'error',
@@ -173,14 +118,72 @@ class MessageController extends PjaxController
         }
     }
 
+    public function actionConversationList() {
+        // Get all users conversations
+        $conversations = Yii::$app->getUser()->getIdentity()->conversations;
+        $viewParams = array();
+
+        foreach($conversations as $conversation) {
+            $row = array();
+
+            $row['id']      = $conversation->id;
+            $row['title']   = $conversation->title;
+            $row['private'] = $conversation->isPrivate();
+            $row['users']   = array();
+
+            foreach ($conversation->users as $user) {
+                if (Yii::$app->getUser()->getIdentity()->id != $user->id) {
+                    $row['users'][] = $user;
+                }
+            }
+
+            $row['unread'] = $conversation->isUnread(Yii::$app->getUser()->getIdentity()->id);
+            $message = Message::getLastInConversation($conversation->id);
+
+            if ($message != null) {
+                $row['lastMessage']       = $message;
+                $lastMessageUser          = $message->user;
+                $row['lastMessageUser']   = $lastMessageUser->userName;
+                $row['lastMessageAvatar'] = $lastMessageUser->avatar;
+            }
+
+            $viewParams[] = $row;
+        }
+        return $this->render('conversationList', array(
+            'conversations' => $viewParams,
+        ));
+    }
+
+    /*
+     * get conversation
+     */
+    public function actionIndex($id = null) {
+
+        if (!is_numeric($id) || !$this->checkAccess($id)) {
+            return Yii::$app->getResponse()->redirect('conversation/conversation-list');
+        }
+
+        $conversation = Conversation::find($id);
+
+        // Mark conversation as read
+        $conversation->markAsRead(Yii::$app->getUser()->getIdentity()->id);
+        return $this->render('conversation', array(
+            'conversationCreator' => $conversation->getCreator(),
+            'conversationId'      => $conversation->id,
+            'conversationMembers' => $conversation->users,
+            'conversationTitle'   => $conversation->title,
+            'messages'            => $conversation->messages,
+        ));
+    }
+
     public function actionMemberNotSubscribeList() {
 
         if (!Yii::$app->getRequest()->getIsAjax()) {
-            return Yii::$app->getResponse()->redirect('message');
+            return Yii::$app->getResponse()->redirect('conversation-list');
         }
 
         if (isset($_POST['id_conversation']) && !$this->checkAccess($_POST['id_conversation'])) {
-            return Yii::$app->getResponse()->redirect('message');
+            return Yii::$app->getResponse()->redirect('conversation-list');
         }
 
         $conversation = isset($_POST['id_conversation']) ? Conversation::find($_POST['id_conversation']) : new Conversation();
@@ -208,7 +211,7 @@ class MessageController extends PjaxController
             !isset($_POST['id_conversation']) ||
             !$this->checkAccess($_POST['id_conversation'])) {
             echo 'error';
-            return Yii::$app->getResponse()->redirect('message');
+            return Yii::$app->getResponse()->redirect('conversation-list');
         }
 
         $conversation = Conversation::find($_POST['id_conversation']);
@@ -216,7 +219,7 @@ class MessageController extends PjaxController
         $conversation->save();
 
         if ($conversation->id != $_POST['id_conversation']) {
-            echo Yii::$app->getUrlManager()->createAbsoluteUrl('/message/conversation/'.$conversation->id);
+            echo Yii::$app->getUrlManager()->createAbsoluteUrl('/conversation/'.$conversation->id);
         } else {
             echo 'ok';
         }
@@ -224,7 +227,7 @@ class MessageController extends PjaxController
 
     public function actionMessageSend() {
         if (!isset($_POST['id']) || !$this->checkAccess($_POST['id'])) {
-            return Yii::$app->getResponse()->redirect('message');
+            return Yii::$app->getResponse()->redirect('conversation-list');
         }
 
         $conversation = Conversation::find($_POST['id']);

@@ -9,26 +9,26 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 ?>
-
-<h1>Conversations
-    <?php
-    // Link for new conversation creation
-    echo Html::tag(
-        'button',
-        '+ New conversation',
-        array(
-            'class' => 'btn btn-success',
-            'id'    => 'conversation-create'
-        )
-    );
-    ?>
-</h1>
-<div id="conversation-create-modal" class="modal fade"></div>
-<ul class="nav nav-stacked" id="conversation-list">
-<?php // Print list of conversations
-    foreach ($conversations as $conversation):
-        $title = $conversation['title'] == NULL ? 'conversation #' . $conversation['id'] : $conversation['title'];
-?>
+<div class="col-lg-offset-2">
+    <h1>Conversations
+        <?php
+        // Link for new conversation creation
+        echo Html::tag(
+            'button',
+            '+ New conversation',
+            array(
+                'class' => 'btn btn-success',
+                'id'    => 'conversation-create'
+            )
+        );
+        ?>
+    </h1>
+    <div id="conversation-create-modal" class="modal fade"></div>
+    <ul class="nav nav-stacked" id="conversation-list">
+        <?php // Print list of conversations
+            foreach ($conversations as $conversation):
+                $title = $conversation['title'] == NULL ? 'conversation #' . $conversation['id'] : $conversation['title'];
+        ?>
         <li>
             <?php
             // Class for link to conversation depends on read state of conversation
@@ -38,7 +38,7 @@ use yii\widgets\ActiveForm;
             }
             // Begin to make link for conversation
             echo Html::beginTag('a', array(
-                'href' => 'message/conversation/' . $conversation['id'],
+                'href' => '/conversation/' . $conversation['id'],
                 'class' => $aClass
             ));
             echo Html::beginTag('div', array('class' => 'conversation_info'));
@@ -76,5 +76,6 @@ use yii\widgets\ActiveForm;
             echo Html::endTag('a');
             ?>
         </li>
-<?php endforeach; ?>
-</ul>
+        <?php endforeach; ?>
+    </ul>
+</div>

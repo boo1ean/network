@@ -35,9 +35,9 @@ if ($user === null) {
         $items[] = array('label' => 'Administrate', 'url' => array('/admin'), 'items' => $items_sub, 'active' => 'admin' == $controller_id);
     }
 
-    $items[] = array('label' => 'Messages',     'url' => array('/message'), 'active' => 'message' == $controller_id);
-    $items[] = array('label' => 'Library',      'url' => array('/library/books'));
-    $items[] = array('label' => 'Calendar',     'url' => array('/calendar/calendar'));
+    $items[] = array('label' => 'Conversations', 'url' => array('/conversation/conversation-list'), 'active' => 'conversation' == $controller_id);
+    $items[] = array('label' => 'Library',       'url' => array('/library/books'));
+    $items[] = array('label' => 'Calendar',      'url' => array('/calendar/calendar'));
 }
 
 ?>
