@@ -1,7 +1,7 @@
 var messages = function() {
     this.hideErrors = function(obj) {
         obj.find('div').removeClass('has-error');
-        obj.find('p.help-block').hide('blind').empty();
+        obj.find('.help-block').hide('blind').empty();
     };
 
     this.showErrors = function(id, error) {
@@ -11,7 +11,7 @@ var messages = function() {
             obj.addClass('has-error');
         }
 
-        obj.find('p.help-block').attr('style', 'display:none').html(error).show('blind');
+        obj.find('.help-block').attr('style', 'display:none').html(error).show('blind');
     };
 }
 
@@ -37,33 +37,35 @@ $(document).ready(
         /**
          * sent settings on the email
          */
-        $('body').on('click','#forgot-save', function (event) {
-            var obj    = $(this);
-            var data   = obj.parents('form').serialize();
-            var errors = new messages();
-            $.ajax({
-                url:  '/auth/forgot-save',
-                type: 'POST',
-                data: data,
-                beforeSend: function() {
-                    errors.hideErrors(obj.parents('form'));
-                },
-                success: function(response, textStatus) {
-                    var result = $.parseJSON(response);
+        $(document).on({
+            click: function (event) {
+                var obj    = $(this);
+                var data   = obj.parents('form').serialize();
+                var errors = new messages();
+                $.ajax({
+                    url:  '/auth/forgot-save',
+                    type: 'POST',
+                    data: data,
+                    beforeSend: function() {
+                        errors.hideErrors(obj.parents('form'));
+                    },
+                    success: function(response, textStatus) {
+                        var result = $.parseJSON(response);
 
-                    if ('error' == result['status']) {
-                        for (var i in result['errors']) {
-                            errors.showErrors(i, result['errors'][i])
+                        if ('error' == result['status']) {
+                            for (var i in result['errors']) {
+                                errors.showErrors(i, result['errors'][i])
+                            }
+                        } else {
+                            $('#forgot-modal').modal('hide');
+                            toastr['success']('<h4>'+result['message']+'</h4>');
                         }
-                    } else {
-                        $('#forgot-modal').modal('hide');
-                        toastr['success']('<h4>'+result['message']+'</h4>');
-                    }
 
-                }
-            });
-            return false
-        });
+                    }
+                });
+                return false;
+            }
+        }, '#forgot-save');
 
         // Tooltips for userBox
         $(document).on({
@@ -215,31 +217,33 @@ $(document).ready(
         /**
          * create new conversation
          */
-        $('body').on('click','button#conversation-save', function (event) {
-            var obj    = $(this);
-            var data   = obj.parents('form').serialize();
-            var errors = new messages();
-            $.ajax({
-                url:  '/message/conversation-create',
-                type: 'POST',
-                data: data,
-                beforeSend: function() {
-                    errors.hideErrors(obj.parents('form'));
-                },
-                success: function(response, textStatus) {
-                    var result = $.parseJSON(response);
+        $(document).on({
+            click: function (event) {
+                var obj    = $(this);
+                var data   = obj.parents('form').serialize();
+                var errors = new messages();
+                $.ajax({
+                    url:  '/message/conversation-create',
+                    type: 'POST',
+                    data: data,
+                    beforeSend: function() {
+                        errors.hideErrors(obj.parents('form'));
+                    },
+                    success: function(response, textStatus) {
+                        var result = $.parseJSON(response);
 
-                    if('error' == result['status']) {
-                        for(var i in result['errors']){
-                            errors.showErrors(i, result['errors'][i])
+                        if('error' == result['status']) {
+                            for(var i in result['errors']){
+                                errors.showErrors(i, result['errors'][i])
+                            }
+                        } else {
+                            window.location = result['redirect'];
                         }
-                    } else {
-                        window.location = result['redirect'];
-                    }
 
-                }
-            });
-            return false;
-        });
+                    }
+                });
+                return false;
+            }
+        }, '#conversation-save');
     }
 );

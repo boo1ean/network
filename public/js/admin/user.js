@@ -90,34 +90,36 @@ $(function(){
     /**
      * save data of user
      */
-    $('body').on('click','button[name="user-save"]', function (event) {
-        var obj         = $(this);
-        var id          = obj.attr('data-id');
-        var data        = obj.parents('form').serialize();
-        data['id_edit'] = id;
-        var errors = new messages();
-        $.ajax({
-            url:  '/admin/user-save',
-            type: 'POST',
-            data: data,
-            beforeSend: function() {
-                errors.hideErrors(obj.parents('form'));
-            },
-            success: function(response, textStatus) {
-                var result = $.parseJSON(response);
+    $(document).on({
+        click: function (event) {
+            var obj         = $(this);
+            var id          = obj.attr('data-id');
+            var data        = obj.parents('form').serialize();
+            data['id_edit'] = id;
+            var errors = new messages();
+            $.ajax({
+                url:  '/admin/user-save',
+                type: 'POST',
+                data: data,
+                beforeSend: function() {
+                    errors.hideErrors(obj.parents('form'));
+                },
+                success: function(response, textStatus) {
+                    var result = $.parseJSON(response);
 
-                if ('error' == result['status']) {
-                    for (var i in result['errors']) {
-                        errors.showErrors(i, result['errors'][i])
+                    if ('error' == result['status']) {
+                        for (var i in result['errors']) {
+                            errors.showErrors(i, result['errors'][i])
+                        }
+                    } else {
+                        for (var i in result['user']) {
+                            $('#'+id+'_'+i).html(result['user'][i]);
+                        }
+                        $('#user-modal').modal('hide');
                     }
-                } else {
-                    for (var i in result['user']) {
-                        $('#'+id+'_'+i).html(result['user'][i]);
-                    }
-                    $('#user-modal').modal('hide');
                 }
-            }
-        });
-        return false;
-    });
+            });
+            return false;
+        }
+    }, 'button[name="user-save"]');
 });
