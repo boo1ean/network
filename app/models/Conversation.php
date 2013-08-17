@@ -60,6 +60,15 @@ class Conversation extends ActiveRecord
         return $newConversation;
     }
 
+    public function deleteMember($user) {
+
+        if(is_numeric($user)) {
+            $user = User::find($user);
+        }
+
+        $this->unlink('users', $user);
+    }
+
     /**
      * @return object /app/models/User
      */

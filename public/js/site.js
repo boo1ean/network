@@ -205,6 +205,38 @@ $(document).ready(
             }
         }, '#message-send');
 
+        $(document).on({
+            click: function (event) {
+                if(!confirm('Do you really wanna removing this user from conversation?')) return false;
+                var obj    = $(this);
+                var parent = obj.parent();
+                var data   = {};
+
+                data['id_conversation'] = obj.attr('data-id');
+                data['id_user']         = parent.attr('data-id');
+
+                $.ajax({
+                    url:  '/conversation/member-remove',
+                    type: 'POST',
+                    data: data,
+                    success: function(response, textStatus) {
+                        var result = $.parseJSON(response);
+
+                        if ('error' == result['status']) {
+                            alert('We have some problems with deleting this user. Please try again.');
+                        } else if ('ok' == result['status']) {
+                            parent.remove();
+                        } else if ('redirect' == result['status']) {
+                            window.location = result['redirect'];
+                        }
+                    },
+                    error: function() {
+                        alert('We have some problems with deleting this user. Please try again.');
+                    }
+                });
+                return false;
+            }
+        },'.btn-group > .glyphicon-remove');
 
         /**
          * load form for create new conversation

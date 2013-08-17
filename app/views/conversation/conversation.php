@@ -13,10 +13,21 @@ use yii\widgets\ActiveForm;
     <br/>
     <div id="member-list">
         <?php foreach ($conversationMembers as $member):?>
-            <?php echo html::tag(
-                'label',
-                $member->userName,
-                array('class' => $member->id == $conversationCreator->id ? 'label label-info' : 'label label-success')); ?>
+            <div class="btn-group" <?php echo 'data-id="'.$member->id.'"';?> >
+                <?php
+                $is_member_creator = $member->id == $conversationCreator->id;
+                $class  = 'label btn';
+                $class .= $is_member_creator ? ' label-info' : ' label-success';
+                echo html::tag(
+                    $is_creator ? 'button' : 'label',
+                    $member->userName,
+                    array('class' => $class)) ?>
+
+                <?php if ($is_creator && !$is_member_creator || $member->id == $user->id && !$is_member_creator) {
+                    $class .= ' glyphicon glyphicon-remove';
+                    echo html::tag('button', '', array('class' => $class, 'data-id' => $conversationId));
+                } ?>
+            </div>
         <?php endforeach; ?>
     </div>
 
@@ -39,8 +50,7 @@ use yii\widgets\ActiveForm;
     <?php endforeach; ?>
     <!-- Input for new message -->
     <div class = "messageContainer" id="message-container">
-        <?php $form = ActiveForm::begin(array('options' => array('class' => 'form-inline')));
-              $user = Yii::$app->getUser()->getIdentity();?>
+        <?php $form = ActiveForm::begin(array('options' => array('class' => 'form-inline'))); ?>
         <div class="row">
             <div class="col-1" id="avatar-container">
                 <?php echo Html::img($user->avatar, array('class' => 'avatar'));?>

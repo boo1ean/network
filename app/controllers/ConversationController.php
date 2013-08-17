@@ -164,15 +164,19 @@ class ConversationController extends PjaxController
         }
 
         $conversation = Conversation::find($id);
+        $creator      = $conversation->getCreator();
+        $user         = Yii::$app->getUser()->getIdentity();
 
         // Mark conversation as read
-        $conversation->markAsRead(Yii::$app->getUser()->getIdentity()->id);
+        $conversation->markAsRead($user->id);
         return $this->render('conversation', array(
-            'conversationCreator' => $conversation->getCreator(),
+            'conversationCreator' => $creator,
             'conversationId'      => $conversation->id,
             'conversationMembers' => $conversation->users,
             'conversationTitle'   => $conversation->title,
+            'is_creator'          => $user->id == $creator->id,
             'messages'            => $conversation->messages,
+            'user'                => $user
         ));
     }
 
@@ -202,6 +206,38 @@ class ConversationController extends PjaxController
         }
 
         return json_encode($users);
+    }
+
+    public function actionMemberRemove() {
+        $result = array(
+            'redirect' => Yii::$app->getUrlManager()->createAbsoluteUrl('/conversation/conversation-list'),
+            'status'   => 'ok'
+        );
+        $user = Yii::$app->getUser()->getIdentity();
+
+        if (!Yii::$app->getRequest()->getIsAjax() ||
+            !isset($_POST['id_user']) ||
+            !isset($_POST['id_conversation']) ||
+            !$this->checkAccess($_POST['id_conversation']) && $_POST['id_user'] != $user->id) {
+            $result['status'] = 'redirect';
+        }
+
+        $conversation = Conversation::find($_POST['id_conversation']);
+
+        if($_POST['id_user'] != $user->id && $conversation->getCreator()->id != $user->id) {
+            $result['status'] = 'redirect';
+        }
+
+        if('ok' == $result['status']) {
+            $conversation = Conversation::find($_POST['id_conversation']);
+            $conversation->deleteMember($_POST['id_user']);
+        }
+
+        if ($_POST['id_user'] == $user->id) {
+            $result['status'] = 'redirect';
+        }
+
+        return json_encode($result);
     }
 
     public function actionMemberSave() {

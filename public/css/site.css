@@ -108,7 +108,10 @@ button {
     box-shadow: 0 0 6px #f8b9b7 !important;
 }
 /*--------------------------------------------------------------------------------------------------------------------*/
-
+.btn-group > .glyphicon {
+    font-size: 65%;
+    margin-left: -5em;
+}
 .main-container {
     padding-top: 60px;
 }
