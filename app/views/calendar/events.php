@@ -22,7 +22,7 @@ use app\models\User;
 <hr>
 
 <p class='lead'>
-    <?php echo Html::a($event->title, 'calendar/eventpage/' . $event->id); ?><br/>
+    <?php echo Html::a($event->title, 'calendar/eventpage/'.$event->id); ?><br/>
 </p>
 
 <blockquote>

@@ -6,9 +6,9 @@ $(document).ready(function() {
         .on('pjax:success', function() {
               $('.masthead li.active').removeClass('active');
               $('.masthead li:has(a[href=\"' + window.location.pathname + '\"])').addClass('active');
+              calendarReady();
         });
     
     /*------------------For all links-------------*/
     //$(document).pjax('a', { container: '#pjax-container', timeout: 0});
-    
 }); 

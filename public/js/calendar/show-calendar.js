@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    calendarReady();
+});
+
+function calendarReady() {
 
     $('#calendar').html('');
 
@@ -33,7 +37,7 @@ $(document).ready(function() {
         },
         eventClick: function(event, element) {
             $.ajax({
-                url:  'edit-event',
+                url:  'eventpage',
                 type: 'POST',
                 data: {
                     title: event.title,
@@ -41,11 +45,9 @@ $(document).ready(function() {
                     end: event.end
                 },
                 success: function(response) {
-                    $('#myModal').html(response);
+                    window.location.replace('/calendar/eventpage/' + response);
                 }
             });
-
-            $('#myModal').modal();
         },
         editable: true,
         selectable: true,
@@ -97,5 +99,6 @@ $(document).ready(function() {
         }
     });
 
-});
+}
+
 

@@ -93,20 +93,31 @@ class CalendarController extends PjaxController
         ));
     }
 
-    function actionEventpage($id) {
+    function actionEventpage($id = null) {
         if (Yii::$app->getUser()->getIsGuest()) {
             Yii::$app->getResponse()->redirect('@web');
             return false;
         }
 
-        $event = Event::find($id);
+        if ($id != null) {
+            $event = Event::find($id);
+        } else if (isset($_POST['title'])) {
+            date_default_timezone_set('Europe/Kiev');
+            $date_start = date("Y-m-d", strtotime($_POST['start']));
+            $date_end = date("Y-m-d", strtotime($_POST['end']));
+            $event = Event::findByTitleAndDate($_POST['title'], $date_start, $date_end);
+        }
 
         // Mark event as read
         $event->markAsRead(Yii::$app->getUser()->getIdentity()->id);
 
-        return $this->render('eventpage', array(
-            'event' => $event
-        ));
+        if ($id == null) {
+            echo $event->id;
+        } else {
+            return $this->render('eventpage', array(
+                'event' => $event
+            ));
+        }
     }
 
     function actionAddevent() {
