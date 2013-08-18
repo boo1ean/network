@@ -30,6 +30,7 @@ return array(
             'rules' => array(
                 '/'                                                         => 'site/index',
                 '/admin'                                                    => 'admin/main',
+                '/admin/library'                                            => 'admin/library-book-list',
                 '/admin/user'                                               => 'admin/user-list',
                 '/admin/user-list/<id:\d+>'                                 => 'admin/user-list',
                 '/auth/recover/<email:[^\s]+?>/<password_hash:[^\s]+>'      => 'auth/recover',

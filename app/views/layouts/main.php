@@ -28,8 +28,9 @@ if ($user === null) {
     if ($authManager->checkAccess($user->id, 'admin')) {
         $items_sub = array(
             array('label' => 'Users',            'url' => array('/admin/user')),
+            array('label' => 'Library',          'url' => array('/admin/library')),
             array('label' => 'Send invite',      'url' => array('/admin/send-invite')),
-            array('label' => 'Send test invite', 'url' => array('/admin/send-invite-test'))
+            //array('label' => 'Send test invite', 'url' => array('/admin/send-invite-test'))
         );
 
         $items[] = array('label' => 'Administrate', 'url' => array('/admin'), 'items' => $items_sub, 'active' => 'admin' == $controller_id);

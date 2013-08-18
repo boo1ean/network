@@ -1,12 +1,11 @@
 <?php
 namespace app\controllers;
 
-use app\models\User;
 use app\models\admin\InviteForm;
+use app\models\admin\LibraryForm;
 use app\models\admin\MainForm;
 use app\models\admin\UserForm;
 use Yii;
-use yii\web\Controller;
 
 
 class AdminController extends PjaxController
@@ -55,6 +54,24 @@ class AdminController extends PjaxController
         }
 
         return $this->render('sendInvite', $param);
+    }
+
+    public function actionLibraryBookList() {
+
+        $libraryForm = new LibraryForm();
+
+        $books = $libraryForm->libraryBookList();
+
+        foreach ($books as $key => $val) {
+            $books[$key]['type'] = $val['type'] == \app\models\Book::TYPE_PAPER ? 'Paper' : 'E-book';
+        }
+
+        $param = array(
+            'model' => $libraryForm,
+            'books' => $books
+        );
+
+        return $this->render('libraryBookList', $param);
     }
 
     public function actionUserBlock() {

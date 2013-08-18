@@ -6,6 +6,10 @@ use \yii\db\ActiveRecord;
 
 class Book extends ActiveRecord
 {
+    // Book types
+    const TYPE_PAPER      = 1;
+    const TYPE_ELECTRONIC = 2;
+
     public static function tableName() {
         return 'books';
     }
@@ -37,13 +41,13 @@ class Book extends ActiveRecord
 
     public static function getPaperBooks() {
         return static::find()
-            ->where(array('type' => 'paper'))
+            ->where(array('type' => Book::TYPE_PAPER))
             ->all();
     }
 
     public static function getEbooks() {
         return static::find()
-            ->where(array('type' => 'ebook'))
+            ->where(array('type' => Book::TYPE_ELECTRONIC))
             ->all();
     }
 
