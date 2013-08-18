@@ -6,6 +6,7 @@ use app\models\CalendarSettingsForm;
 use yii;
 use yii\web\Controller;
 use app\models\Event;
+use app\models\Eventcomment;
 use app\models\User;
 use app\models\Userevent;
 use app\models\AddEventForm;
@@ -90,6 +91,27 @@ class CalendarController extends PjaxController
 
         return $this->render('events', array(
             'events' => $events
+        ));
+    }
+
+    function actionComment() {
+        if (isset($_POST['event_id'])) {
+
+            $event = Event::find($_POST['event_id']);
+
+            $userId = Yii::$app->getUser()->getIdentity()->getId();
+
+            $eventcomment = new Eventcomment;
+            $eventcomment->user_id = $userId;
+            $eventcomment->event_id = $_POST['event_id'];
+            $eventcomment->body = $_POST['comment'];
+            $eventcomment->save();
+        }
+
+        $this->layout = 'block';
+
+        return $this->render('eventcomments', array(
+            'event' => $event
         ));
     }
 

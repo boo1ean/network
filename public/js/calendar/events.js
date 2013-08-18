@@ -114,4 +114,23 @@ $(function(){
         }
     }, 'a[name="event-delete"]');
 
+    /*
+     * Post comment to event
+     */
+    $(document).on({
+        click: function() {
+            var data        = $(this).parents('form').serialize();
+
+            $.ajax({
+                url:  '/calendar/comment',
+                type: 'POST',
+                data: data,
+                success: function(html) {
+                    $('.event_comments').html(html);
+                }
+            });
+            return false;
+        }
+    }, 'button[name="post-comment"]');
+
 });
