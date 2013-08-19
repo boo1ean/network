@@ -84,7 +84,7 @@ class AddBookForm extends Book
                 $storage = Yii::$app->getComponent('storage');
                 $link = $storage->save($book_file);
 
-                $book->type = self::TYPE_EBOOK;
+                $book->type = parent::TYPE_ELECTRONIC;
                 $book->link = $link;
             }
 

@@ -26,9 +26,12 @@ foreach ($books as $book) {
             <small>
                 Taken by
                 <?php
-                $booktake = Booktaking::findByBookIdAndStatus($book->id, 1);
-                echo User::getUserNameById($booktake->user_id).' '.$booktake->taken.
-                    '. Will be returned '.$booktake->returned.'.';
+                    $booktake = Booktaking::findByBookIdAndStatus($book->id, 1);
+
+                    if ($booktake) {
+                        echo User::getUserNameById($booktake->user_id).' '.$booktake->taken.
+                            '. Will be returned '.$booktake->returned.'.';
+                    }
                 ?>
             </small>
 
@@ -40,7 +43,7 @@ foreach ($books as $book) {
                 <p><?php echo $book->description; ?></p>
             </blockquote>
 
-            <?php if ($book->type == 1) { ?>
+            <?php if ($book->type == 2) { ?>
                 <span class='label label-success'><?php echo Html::a('Download Ebook', $book->link, array(
                         'target' => '_blank')); ?></span>
             <?php } ?>
@@ -78,10 +81,10 @@ foreach ($books as $book) {
     <?php } else {
 
         //check if current user took this book to paint "Untake" button or not. Admin also can Untake books
-        $taken = 1;
-        $book_take = Booktaking::findByBookIdAndStatus($book->id, $taken);
+        $book_take = Booktaking::findByBookIdAndStatus($book->id, 1);
 
-        if(Yii::$app->getUser()->getId() == $book_take->user_id || Yii::$app->getUser()->getIdentity()->type == 0) {
+        if ($book_take) {
+            if(Yii::$app->getUser()->getId() == $book_take->user_id || Yii::$app->getUser()->getIdentity()->type == 0) {
 
             ?>
 
@@ -93,7 +96,7 @@ foreach ($books as $book) {
                     )); ?></li>
             </ul>
 
-        <?php } }
+        <?php } } }
 
     //only admin can edit and delete book
     if (Yii::$app->getUser()->getIdentity()->type == 0) {

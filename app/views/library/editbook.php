@@ -86,7 +86,7 @@ use app\models\Book;
 
     <br/>
 
-    <?php if ($book->type == 1) { ?>
+    <?php if ($book->type == 2) { ?>
         <div class="ebook">
             <span class='label label-success'><?php echo Html::a('Download Ebook', $book->link, array(
                     'target' => '_blank')); ?></span>
