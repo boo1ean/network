@@ -6,6 +6,10 @@ use \yii\db\ActiveRecord;
 
 class Book extends ActiveRecord
 {
+    // Book status
+    const STATUS_TAKEN = 1;
+    const STATUS_UNTAKEN = 2;
+
     // Book types
     const TYPE_PAPER      = 1;
     const TYPE_ELECTRONIC = 2;
