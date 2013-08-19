@@ -20,12 +20,9 @@ class AppAsset extends AssetBundle
     public $css = array(
         'css/toastr.css',
         'css/site.css',
-        'css/bootstrap-glyphicons.css',
         'css/jquery.tagsinput.css',
         'css/fullcalendar.css',
-        'css/fullcalendar.print.css',
-
-
+        'css/fullcalendar.print.css'
     );
     public $js = array(
         'js/jquery-2.0.3.min.js',
@@ -44,9 +41,7 @@ class AppAsset extends AssetBundle
         'js/pjax/jquery.pjax.js',
         'js/pjax/jquery.cookie.js',
         'js/pjax/pjax-navigation.js',
-
         'js/site.js'
-
     );
     public $depends = array(
         'yii\web\YiiAsset',
