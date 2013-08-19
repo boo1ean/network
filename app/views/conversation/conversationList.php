@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use app\helpers\DateTimeHelper;
 ?>
 <div class="col-lg-offset-2">
     <h1>Conversations
@@ -69,7 +69,7 @@ use yii\widgets\ActiveForm;
                     'height' => '50',
                     'class' => 'img-rounded left'
                 ));
-                echo Html::tag('b', $conversation['lastMessageUser'] . ' ( ' . $conversation['lastMessage']->datetime . ' )');
+                echo Html::tag('b', $conversation['lastMessageUser'] . ' (' . DateTimeHelper::relativeTime($conversation['lastMessage']->datetime) . ')');
                 echo Html::tag('p', $conversation['lastMessage']->body);
                 echo Html::endTag('div');
             }

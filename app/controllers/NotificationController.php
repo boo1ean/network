@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\User;
 use yii\base\InvalidParamException;
+use app\helpers\DateTimeHelper;
 
 class NotificationController extends PjaxController
 {
@@ -70,7 +71,7 @@ class NotificationController extends PjaxController
                     $row['icon'] = 'glyphicon glyphicon-envelope';
                     $row['link'] = '/conversation/' . $notifications[$i]->id;
                     $row['title'] = $notifications[$i]->title;
-                    $row['description'] = 'Last message was sent on ' . $time;
+                    $row['description'] = 'Last message was sent ' . DateTimeHelper::relativeTime($time);
                     $row['time'] = $time;
                     break;
                 case 'app\models\Event':
@@ -78,7 +79,7 @@ class NotificationController extends PjaxController
                     $row['icon'] = 'glyphicon glyphicon-calendar';
                     $row['link'] = '/calendar/eventpage/' . $notifications[$i]->id;
                     $row['title'] = $notifications[$i]->title;
-                    $row['description'] = 'Event starts on ' . $notifications[$i]->start_date . ' at ' . $notifications[$i]->start_time;
+                    $row['description'] = 'Event starts ' . DateTimeHelper::relativeTime($notifications[$i]->start_date);
                     $row['time'] = $time;
                     break;
                 default:

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\helpers\DateTimeHelper;
 ?>
 <div class="col-lg-offset-2">
     <h1><?php echo $conversationTitle ?> </h1>
@@ -40,7 +41,9 @@ use yii\widgets\ActiveForm;
             <div class = "messageBody">
                 <div class = "popover right in" style="z-index: 0;">
                     <div class = "arrow"></div>
-                    <h5 class="popover-title"><?php echo $message->user->userName; ?></h5>
+                    <h5 class="popover-title">
+                        <?php echo $message->user->userName . ' (' . $message->datetime . ')'; ?>
+                    </h5>
                     <div class = "popover-content">
                         <?php echo $message->body; ?>
                     </div>
