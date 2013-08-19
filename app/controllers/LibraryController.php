@@ -173,9 +173,9 @@ class LibraryController extends PjaxController
 
         $book = Book::find($_POST['id']);
 
-        $book_take = Booktaking::findByBookIdAndStatus($_POST['id'], parent::STATUS_TAKEN);
+        $book_take = Booktaking::findByBookIdAndStatus($_POST['id'], 1);
         $book_take->returned = date('Y-m-d');
-        $book_take->status = parent::STATUS_UNTAKEN;
+        $book_take->status = 2;
         $book_take->save();
 
         $book->status = 'available';
