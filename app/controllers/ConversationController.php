@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use ___PHPSTORM_HELPERS\object;
+use app\events\HandlerEvent;
 use yii;
 use yii\web\Controller;
 use app\models\Conversation;
@@ -289,6 +290,13 @@ class ConversationController extends PjaxController
             $message->conversation_id = $conversation->id;
             $message->user_id         = Yii::$app->getUser()->getIdentity()->id;
             $message->body            = $_POST['body'];
+
+            // Send event for notification
+            $event = new HandlerEvent(array(
+                'conversation_id'           => $conversation->id,
+                'message_body'              => $message->body,
+            ));
+            Yii::$app->trigger('CONVERSATION_MESSAGE_SENT', $event);
 
             $message->save();
         }

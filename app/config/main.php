@@ -4,6 +4,10 @@ return array(
     'id'       => 'bootstrap',
     'basePath' => dirname(__DIR__),
 
+    'preload'  => array(
+        'eventHandler'
+    ),
+
     'components' => array(
         'cache' => array(
             'class' => 'yii\caching\FileCache'
@@ -82,6 +86,10 @@ return array(
             'servers'       => array('127.0.0.1' => 4730),         // array('127.0.0.1' => 12345, '127.0.0.2' => 12346)
             'jobClassPath'  => dirname(__DIR__) . '/jobs',
             'jobNamespace'  => 'app\jobs\\',
+        ),
+
+        'eventHandler'  =>  array(
+            'class'     => 'app\components\EventHandler',
         ),
 
 
