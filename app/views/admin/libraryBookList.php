@@ -2,9 +2,20 @@
 use yii\helpers\Html;
 ?>
 <div class="col-lg-offset-1">
-    <h1>Book list</h1>
+    <h1>
+        Book list
+        <?php echo Html::tag(
+            'button',
+            '+ New book',
+            array(
+            'class'   => 'btn btn-success',
+            'data-id' => 0,
+            'id'      => 'book-create'
+            )
+        ); ?>
+    </h1>
     <div class="modal fade" id="book-modal"></div>
-    <table class="table table-hover">
+    <table class="table table-hover" id="book-table">
         <tr >
             <td > <?php echo Html::tag('b', 'Author'); ?> </td>
             <td > <?php echo Html::tag('b', 'Title');?>   </td>
@@ -37,7 +48,7 @@ use yii\helpers\Html;
                     ));
                     if('E-book' == $book->type) {
                         echo Html::a('Download', $book->link, array(
-                            'class'   => 'btn btn-sm btn-primary',
+                            'class'   => 'btn btn-sm btn-primary '.('undefined' == $book->link ? 'disabled' : ''),
                             'data-id' => $book->id,
                             'name'    => 'book-download',
                             'target'  => '_blank'

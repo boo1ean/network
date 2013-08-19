@@ -7,8 +7,8 @@ use \yii\db\ActiveRecord;
 class Book extends ActiveRecord
 {
     // Book status
-    const STATUS_TAKEN = 1;
-    const STATUS_UNTAKEN = 2;
+    const STATUS_TAKEN   = 'taken';
+    const STATUS_UNTAKEN = 'available';
 
     // Book types
     const TYPE_PAPER      = 1;

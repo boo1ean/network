@@ -72,18 +72,20 @@ class AdminController extends PjaxController
             $libraryForm->id_edit  = $_POST['id_edit'];
             $libraryForm->scenario = 'only_id';
 
-            $libraryForm->libraryBookEdit();
-            $tags = '';
+            if(0 != $libraryForm->id_edit) {
+                $libraryForm->libraryBookEdit();
+                $tags = '';
 
-            foreach ($libraryForm->tags as $key => $tag) {
-                if(0 == $key) {
-                    $tags .= $tag->title;
-                } else {
-                    $tags .= ','.$tag->title;
+                foreach ($libraryForm->tags as $key => $tag) {
+                    if(0 == $key) {
+                        $tags .= $tag->title;
+                    } else {
+                        $tags .= ','.$tag->title;
+                    }
                 }
-            }
 
-            $libraryForm->tags = $tags;
+                $libraryForm->tags = $tags;
+            }
 
             $this->layout = 'block';
             $param = array('model' => $libraryForm);

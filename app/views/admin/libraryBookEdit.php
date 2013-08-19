@@ -21,7 +21,7 @@ use yii\helpers\Html;
 
             <div class="input-group" id="book-types">
                 <span class="input-group-addon"> Paper
-                    <input type="radio" name="LibraryForm[type]" value="1" <?php echo 1 == $model->type ? 'checked="checked"' : ''?>>
+                    <input type="radio" name="LibraryForm[type]" value="1" <?php echo 2 != $model->type ? 'checked="checked"' : ''?>>
                 </span>
 
                 <span class="input-group-addon"> E-book

@@ -80,11 +80,14 @@ class LibraryForm extends Book
      */
     public function libraryBookSave() {
         if ($this->validate()) {
-            $book     = Book::find($this->id_edit);
-            $tags_old = $book->tags;
+            $book = empty($this->id_edit) ? new Book() : Book::find($this->id_edit);
+
+            $this->status = empty($this->id_edit) ? parent::STATUS_UNTAKEN : $this->status;
+            $tags_old     = $book->tags;
 
             $book->author      = $this->author;
             $book->description = $this->description;
+            $book->status      = $this->status;
             $book->title       = $this->title;
             $book->type        = $this->type;
 
@@ -93,6 +96,7 @@ class LibraryForm extends Book
             }
 
             $book->save();
+            $this->id = $book->id;
 
             if('' !== $this->tags) {
                 $tags_new = explode(',', $this->tags);
