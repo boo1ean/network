@@ -68,7 +68,7 @@ class NotificationController extends PjaxController
                 case 'app\models\Conversation':
                     $time = $notifications[$i]->lastMessageTime;
                     $row['icon'] = 'glyphicon glyphicon-envelope';
-                    $row['link'] = '/message/conversation/' . $notifications[$i]->id;
+                    $row['link'] = '/conversation/' . $notifications[$i]->id;
                     $row['title'] = $notifications[$i]->title;
                     $row['description'] = 'Last message was sent on ' . $time;
                     $row['time'] = $time;
