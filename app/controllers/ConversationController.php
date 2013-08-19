@@ -95,17 +95,17 @@ class ConversationController extends PjaxController
                     $conversation->refresh();
                     $conversation->link('users', $owner);
 
+                    foreach($_POST['members'] as $key => $value) {
+                        $user         = User::find($key);
+                        $conversation = $conversation->addSubscribed($user);
+                    }
+
                     // Add message to conversation
                     $message = new Message();
                     $message->user_id         = $owner->id;
                     $message->conversation_id = $conversation->id;
                     $message->body            = $_POST['message'];
                     $message->save();
-
-                    foreach($_POST['members'] as $key => $value) {
-                        $user         = User::find($key);
-                        $conversation = $conversation->addSubscribed($user);
-                    }
 
                     $conversation->title = isset($_POST['Conversation']['title']) ? $_POST['Conversation']['title'] : null;
                     $conversation->save();
