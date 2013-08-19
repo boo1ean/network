@@ -2,9 +2,9 @@
 
 namespace app\controllers;
 
-use yii\web\Controller;
 use Yii;
 use app\models\User;
+use yii\base\InvalidParamException;
 
 class NotificationController extends PjaxController
 {
@@ -81,6 +81,8 @@ class NotificationController extends PjaxController
                     $row['description'] = 'Event starts on ' . $notifications[$i]->start_date . ' at ' . $notifications[$i]->start_time;
                     $row['time'] = $time;
                     break;
+                default:
+                    throw new InvalidParamException("Unknown notification class: " . $class);
             }
             $result[] = $row;
         }
