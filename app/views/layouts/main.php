@@ -38,7 +38,12 @@ if ($user === null) {
 
     $items[] = array('label' => 'Conversations', 'url' => array('/conversation/conversation-list'), 'active' => 'conversation' == $controller_id);
     $items[] = array('label' => 'Library',       'url' => array('/library/books'));
-    $items[] = array('label' => 'Calendar',      'url' => array('/calendar/calendar'));
+
+    $items_cal_sub = array(
+        array('label' => 'Settings',            'url' => array('/calendar/settings')),
+    );
+
+    $items[] = array('label' => 'Calendar',      'url' => array('/calendar/calendar'), 'items' => $items_cal_sub);
 }
 
 ?>

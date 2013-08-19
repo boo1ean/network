@@ -40,9 +40,7 @@ function calendarReady() {
                 url:  'eventpage',
                 type: 'POST',
                 data: {
-                    title: event.title,
-                    start: event.start,
-                    end: event.end
+                    id: event.id
                 },
                 success: function(response) {
                     window.location.replace('/calendar/eventpage/' + response);
@@ -88,7 +86,7 @@ function calendarReady() {
                 url:  'dropevent',
                 type: 'POST',
                 data: {
-                    title: event.title,
+                    id: event.id,
                     start: event.start,
                     end: event.end
                 },

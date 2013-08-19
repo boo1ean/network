@@ -1,3 +1,9 @@
+$(document).ready(function() {
+    $('#tags').tagsInput();
+
+    $('.ebook').hide();
+});
+
 function sortBooks(obj) {
     obj = $(obj);
     var id = obj.attr('id');
@@ -165,9 +171,3 @@ function showEbookUpload() {
 function showPaperBook() {
     $('.ebook').hide();
 }
-
-$(document).ready(function() {
-    $('#tags').tagsInput();
-
-    $('.ebook').hide();
-});

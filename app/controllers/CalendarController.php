@@ -18,6 +18,7 @@ class CalendarController extends PjaxController
 
         foreach ($events as $event) {
             $events_array[] = array(
+                'id'     => $event->id,
                 'title'  => $event->title,
                 'start'  => $event->start_date.' '.$event->start_time,
                 'end'    => $event->end_date.' '.$event->end_time,
@@ -61,9 +62,8 @@ class CalendarController extends PjaxController
         $start_date = date("Y-m-d", strtotime($_POST['start']));
         $end_date = date("Y-m-d", strtotime($_POST['end']));
 
-        $events = Event::findByTitle($_POST['title']);
-
-        if ($events) {
+        if (isset($_POST['id'])) {
+            $events = Event::find($_POST['id']);
             $events->start_date = $start_date;
             $events->end_date = $end_date;
             $events->save();
@@ -123,11 +123,8 @@ class CalendarController extends PjaxController
 
         if ($id != null) {
             $event = Event::find($id);
-        } else if (isset($_POST['title'])) {
-            date_default_timezone_set('Europe/Kiev');
-            $date_start = date("Y-m-d", strtotime($_POST['start']));
-            $date_end = date("Y-m-d", strtotime($_POST['end']));
-            $event = Event::findByTitleAndDate($_POST['title'], $date_start, $date_end);
+        } else if (isset($_POST['id'])) {
+            $event = Event::find($_POST['id']);
         }
 
         // Mark event as read
@@ -191,7 +188,12 @@ class CalendarController extends PjaxController
             //event edit from events list
             $event = Event::find($_POST['event_id']);
             $id = $_POST['event_id'];
-        } else if (isset($_POST['title'])) {
+        }
+        /*
+         * Not using opening modal for edit event by clicking on event in calendar
+         */
+        /*
+        else if (isset($_POST['title'])) {
             //event edit from calendar
             date_default_timezone_set('Europe/Kiev');
             $date_start = date("Y-m-d", strtotime($_POST['start']));
@@ -199,6 +201,7 @@ class CalendarController extends PjaxController
             $event = Event::findByTitleAndDate($_POST['title'], $date_start, $date_end);
             $id = $event->id;
         }
+        */
 
         $this->layout = 'block';
 
