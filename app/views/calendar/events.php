@@ -4,6 +4,9 @@ use yii\helpers\Html;
 use app\models\User;
 ?>
 
+<div class="row">
+    <div class="col-lg-6 col-lg-offset-3">
+
 <h1>Events</h1>
 
 <br/>
@@ -85,6 +88,9 @@ use app\models\User;
 }
 
 ?>
+
+    </div>
+</div>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
