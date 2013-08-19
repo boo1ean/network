@@ -10,13 +10,11 @@ use yii\base\InvalidParamException;
 class EventHandler extends Component
 {
 
-    public function init()
-    {
+    public function init() {
         $this->registerEventHandlers();
     }
 
-    protected function registerEventHandlers()
-    {
+    protected function registerEventHandlers() {
         \Yii::$app->on('CONVERSATION_MESSAGE_SENT', array($this, 'conversationMessageSentHandler'));
     }
 
@@ -25,8 +23,7 @@ class EventHandler extends Component
      * @param $event HandlerEvent
      * @throws InvalidParamException
      */
-    public function conversationMessageSentHandler($event)
-    {
+    public function conversationMessageSentHandler($event) {
         /**
          * Prepare data
          */
@@ -45,8 +42,7 @@ class EventHandler extends Component
         /** @var User $currentUser */
         $currentUser = \Yii::$app->getUser()->getIdentity();
         $mailTo = array();
-        foreach ($conversationUsers as $user)
-        {
+        foreach ($conversationUsers as $user) {
             // Skip current user
             if ($user->id === $currentUser->id || $user->searchSetting('sendNotifications') !== 'yes') {
                 continue;
