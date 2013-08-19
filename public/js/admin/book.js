@@ -1,4 +1,15 @@
 $(function(){
+    $(document).on({
+        click: function() {
+            if($(this).val() == 2) {
+                $('#e-book-load').show();
+                $('#e-book-state').show();
+            } else {
+                $('#e-book-load').hide();
+                $('#e-book-state').hide();
+            }
+        }
+    }, '#book-types input[type="radio"]');
     /**
      * load data for edit book
      */
@@ -15,6 +26,27 @@ $(function(){
                     if('ok' == result['status']) {
                         $('#book-modal').html(result['html']).modal('show');
                         $('#tags').tagsInput();
+                        $.ajax_upload($('#e-book-load'), {
+                            action: '/admin/library-book-upload',
+                            name: 'ebook',
+                            onSubmit : function (file, ext) {
+                                var allowed = ['fb2', 'txt', 'doc', 'docx', 'pdf', 'djvu'];
+                                if ($.inArray(ext, allowed ) == -1) {
+                                    alert('Invalid format. The only valid: *.fb2, *.txt, *.pdf, *.djvu, *.doc, *.docx');
+                                    return false;
+                                }
+                                $('#e-book-state').val(file + ' loading...');
+                            },
+                            onComplete: function (file, response) {
+                                var result = $.parseJSON(response);
+                                if('ok' == result['status']) {
+                                    $('#e-book-state').val(file + ' successfully loaded').attr('data-link', result['link']);
+                                } else {
+                                    alert('We have some problems with uploading this file. Please try again.');
+                                    $('#e-book-state').val('error ');
+                                }
+                            }
+                        });
                     } else if ('redirect' == result['status']) {
                         window.location = result['redirect'];
                     }
@@ -31,10 +63,12 @@ $(function(){
      */
     $(document).on({
         click: function (event) {
-            var obj         = $(this);
-            var id          = obj.attr('data-id');
-            var data        = obj.parents('form').serialize();
-            data['id_edit'] = id;
+            var obj  = $(this);
+            var id   = obj.attr('data-id');
+            var link = $('#e-book-state').attr('data-link');
+            var data = obj.parents('form').serialize();
+            data += '&link_book=' + ('undefined' == link ? '' : link);
+            data += '&id=' + id;
             var errors = new messages();
             $.ajax({
                 url:  '/admin/library-book-save',

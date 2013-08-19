@@ -19,7 +19,7 @@ use yii\helpers\Html;
             echo $form->field($model, 'tags')->textInput(array('value'        => $model->tags,        'id' => 'tags'));
             ?>
 
-            <div class="input-group">
+            <div class="input-group" id="book-types">
                 <span class="input-group-addon"> Paper
                     <input type="radio" name="LibraryForm[type]" value="1" <?php echo 1 == $model->type ? 'checked="checked"' : ''?>>
                 </span>
@@ -27,7 +27,10 @@ use yii\helpers\Html;
                 <span class="input-group-addon"> E-book
                     <input type="radio" name="LibraryForm[type]" value="2" <?php echo 2 == $model->type ? 'checked="checked"' : ''?>>
                 </span>
-                <input type="file" class="form-control">
+                <input type="input" class="form-control" id="e-book-state" <?php echo 2 == $model->type ? '' : 'style="display: none;"'?> value="<?php echo $model->link;?>">
+                <span class="input-group-btn">
+                    <button class="btn btn-default fc-state-disabled" type="button" id="e-book-load" <?php echo 2 == $model->type ? '' : 'style="display: none;"'?>>Load</button>
+                </span>
             </div>
         </div>
         <div class="modal-footer">

@@ -38,6 +38,7 @@ class AppAsset extends AssetBundle
         'js/calendar/fullcalendar.min.js',
         'js/calendar/gcal.js',
         'js/calendar/show-calendar.js',
+        'js/admin/ajaxuploader.js',
         'js/admin/user.js',
         'js/admin/book.js',
         'js/pjax/jquery.pjax.js',

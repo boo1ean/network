@@ -10,9 +10,6 @@ use yii\web\UploadedFile;
 
 class AddBookForm extends Book
 {
-    const TYPE_PAPER = 0;
-    const TYPE_EBOOK = 1;
-
     public function rules() {
         return array(
             array('author, title, description', 'required'),
@@ -40,10 +37,10 @@ class AddBookForm extends Book
                 $storage = Yii::$app->getComponent('storage');
                 $link = $storage->save($book_file);
 
-                $book->type = self::TYPE_EBOOK;
+                $book->type = parent::TYPE_ELECTRONIC;
                 $book->link = $link;
             } else {
-                $book->type = self::TYPE_PAPER;
+                $book->type = parent::TYPE_PAPER;
             }
 
             $book->status = 'available';

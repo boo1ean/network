@@ -6,6 +6,7 @@ use app\models\admin\LibraryForm;
 use app\models\admin\MainForm;
 use app\models\admin\UserForm;
 use Yii;
+use yii\web\UploadedFile;
 
 
 class AdminController extends PjaxController
@@ -126,6 +127,7 @@ class AdminController extends PjaxController
             $libraryForm->author      = $_POST['LibraryForm']['author'];
             $libraryForm->description = $_POST['LibraryForm']['description'];
             $libraryForm->id_edit     = $_POST['id_edit'];
+            $libraryForm->link        = isset($_POST['link_book']) ? $_POST['link_book'] : '';
             $libraryForm->tags        = $_POST['LibraryForm']['tags'];
             $libraryForm->title       = $_POST['LibraryForm']['title'];
             $libraryForm->type        = $_POST['LibraryForm']['type'];
@@ -136,6 +138,23 @@ class AdminController extends PjaxController
         $result['status']  = count($libraryForm->errors) > 0 ? 'error' : $result['status'];
         $result['errors']  = $libraryForm->errors;
         $result['book']    = $libraryForm->toArray();
+        $result['book']['type'] = $result['book']['type'] == \app\models\Book::TYPE_PAPER ? 'Paper' : 'E-book';
+
+        return json_encode($result);
+    }
+
+    public function actionLibraryBookUpload() {
+        $result = array();
+
+        if ($_FILES['ebook']['name'] !== '' && !empty($_FILES['ebook']['tmp_name'])) {
+            $book_file = UploadedFile::getInstanceByName('ebook');
+            $storage = Yii::$app->getComponent('storage');
+            $link = $storage->save($book_file);
+            $result['link']   = $link;
+            $result['status'] = 'ok';
+        } else {
+            $result['status'] = 'error';
+        }
 
         return json_encode($result);
     }

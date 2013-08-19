@@ -53,6 +53,7 @@ class LibraryForm extends Book
 
             $this->author      = $book->author;
             $this->description = $book->description;
+            $this->link        = $book->link;
             $this->title       = $book->title;
             $this->type        = $book->type;
             $this->tags        = $book->tags;
@@ -85,6 +86,12 @@ class LibraryForm extends Book
             $book->author      = $this->author;
             $book->description = $this->description;
             $book->title       = $this->title;
+            $book->type        = $this->type;
+
+            if ($book->type == parent::TYPE_ELECTRONIC && '' !== $this->link) {
+                $book->link = $this->link;
+            }
+
             $book->save();
 
             if('' !== $this->tags) {
