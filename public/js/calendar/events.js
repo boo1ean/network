@@ -91,7 +91,7 @@ $(function(){
     });
 
     /*
-     * Delete event link click from event list
+     * Delete event link click from event list or eventpage
      */
     $(document).on({
         click: function() {

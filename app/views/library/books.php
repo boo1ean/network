@@ -6,18 +6,33 @@ use app\models\Booktaking;
 use app\models\User;
 ?>
 
-<h1>Library</h1>
+<div class="row">
+    <div class="col-lg-6 col-lg-offset-3">
+
+<h1>Library
+
+<?php
+
+if (Yii::$app->getUser()->getIdentity()->type == 0) {
+// Link for new book
+echo Html::tag(
+    'a',
+    '+ New book',
+    array(
+        'class' => 'btn btn-success',
+        'id'    => 'conversation-create',
+        'href'   => 'addbook'
+    )
+);
+
+}
+?>
+
+</h1>
 
 <br/>
 
 <ul class="nav nav-pills">
-
-    <li>
-        <?php if (Yii::$app->getUser()->getIdentity()->type == 0) {
-            //only admin can add books
-            echo Html::a('New book', 'library/addbook');
-        } ?>
-    </li>
 
     <li class="active"><?php echo Html::a('Show all books', null, array(
             'id' => 'all',
@@ -194,4 +209,7 @@ foreach ($books as $book) {
 
 ?>
 
+</div>
+
+    </div>
 </div>

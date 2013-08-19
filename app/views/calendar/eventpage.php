@@ -7,6 +7,8 @@ use app\models\Eventcomment;
 use yii\widgets\ActiveForm;
 ?>
 
+<div class="col-lg-offset-4">
+
 <h1><?php echo $event->title; ?></h1>
 
 <br/>
@@ -93,7 +95,7 @@ switch($event->type) {
 
 <div class="event_comments">
 
-    <h3 class="text-center">Comments</h3><br/>
+    <h3>Comments</h3><br/>
 
     <?php
         $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));
@@ -155,6 +157,8 @@ switch($event->type) {
     <?php
         }
     ?>
+
+</div>
 
 </div>
 

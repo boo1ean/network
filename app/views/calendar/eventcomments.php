@@ -7,7 +7,7 @@ use app\models\User;
 
 ?>
 
-    <h3 class="text-center">Comments</h3><br/>
+    <h3>Comments</h3><br/>
 
     <?php
         $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));

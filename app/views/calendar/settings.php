@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 <br/>
 
 <?php
-    if(isset($message)) {
+    if($message !== null) {
         echo Html::tag('div class="alert alert-success"', $message);
         echo Html::tag('/div');
     }

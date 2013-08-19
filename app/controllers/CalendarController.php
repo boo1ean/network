@@ -250,6 +250,12 @@ class CalendarController extends PjaxController
             $ev->delete();
         }
 
+        $event_comments = Eventcomment::byEvent($_POST['id']);
+
+        foreach($event_comments as $comment) {
+            $comment->delete();
+        }
+
         $event->delete();
 
         return Yii::$app->getResponse()->redirect('@web/calendar/events');
@@ -268,14 +274,16 @@ class CalendarController extends PjaxController
         $calendarSettingsForm = new CalendarSettingsForm();
 
         if (isset($_POST['feed']) && $calendarSettingsForm->saveSettings()) {
-            return $this->render('settings', array(
-                'message' => 'Settings have been saved',
-                'gcal' => $_POST['feed']
-            ));
+            $message = 'Settings have been saved';
+            $feed = $_POST['feed'];
         } else {
-            return $this->render('settings', array(
-                'gcal' => $gcal
-            ));
+            $message = null;
+            $feed = $gcal;
         }
+
+        return $this->render('settings', array(
+            'message' => $message,
+            'gcal' => $feed
+        ));
     }
 }
