@@ -39,6 +39,7 @@ class AppAsset extends AssetBundle
         'js/calendar/gcal.js',
         'js/calendar/show-calendar.js',
         'js/admin/user.js',
+        'js/admin/book.js',
         'js/pjax/jquery.pjax.js',
         'js/pjax/jquery.cookie.js',
         'js/pjax/pjax-navigation.js',

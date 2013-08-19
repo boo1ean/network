@@ -56,6 +56,42 @@ class AdminController extends PjaxController
         return $this->render('sendInvite', $param);
     }
 
+    public function actionLibraryBookEdit() {
+        $result = array(
+            'redirect' => Yii::$app->getUrlManager()->getBaseUrl(),
+            'status'   => 'ok'
+        );
+
+        if (!isset($_POST['id_edit'])) {
+            $result['status'] = 'redirect';
+        }
+
+        if ('ok' == $result['status']) {
+            $libraryForm           = new LibraryForm();
+            $libraryForm->id_edit  = $_POST['id_edit'];
+            $libraryForm->scenario = 'only_id';
+
+            $libraryForm->libraryBookEdit();
+            $tags = '';
+
+            foreach ($libraryForm->tags as $key => $tag) {
+                if(0 == $key) {
+                    $tags .= $tag->title;
+                } else {
+                    $tags .= ','.$tag->title;
+                }
+            }
+
+            $libraryForm->tags = $tags;
+
+            $this->layout = 'block';
+            $param = array('model' => $libraryForm);
+            $result['html'] = $this->render('libraryBookEdit', $param);
+        }
+
+        return json_encode($result);
+    }
+
     public function actionLibraryBookList() {
 
         $libraryForm = new LibraryForm();
@@ -72,6 +108,36 @@ class AdminController extends PjaxController
         );
 
         return $this->render('libraryBookList', $param);
+    }
+
+    public function actionLibraryBookSave() {
+        $result = array(
+            'redirect' => Yii::$app->getUrlManager()->getBaseUrl(),
+            'status'   => 'ok'
+        );
+
+        if (!isset($_POST['id_edit'])) {
+            $result['status'] = 'redirect';
+        }
+
+        if ('ok' == $result['status']) {
+            $libraryForm = new LibraryForm();
+
+            $libraryForm->author      = $_POST['LibraryForm']['author'];
+            $libraryForm->description = $_POST['LibraryForm']['description'];
+            $libraryForm->id_edit     = $_POST['id_edit'];
+            $libraryForm->tags        = $_POST['LibraryForm']['tags'];
+            $libraryForm->title       = $_POST['LibraryForm']['title'];
+            $libraryForm->type        = $_POST['LibraryForm']['type'];
+
+            $libraryForm->libraryBookSave();
+        }
+
+        $result['status']  = count($libraryForm->errors) > 0 ? 'error' : $result['status'];
+        $result['errors']  = $libraryForm->errors;
+        $result['book']    = $libraryForm->toArray();
+
+        return json_encode($result);
     }
 
     public function actionUserBlock() {
