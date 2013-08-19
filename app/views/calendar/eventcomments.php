@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\Eventcomment;
+use app\models\User;
 
 ?>
 
@@ -36,17 +37,35 @@ use app\models\Eventcomment;
 
     <?php ActiveForm::end(); ?>
 
-    <br/>
+    <br/><br/>
 
     <?php
-    $comments = Eventcomment::byEvent($event->id);
+        $comments = Eventcomment::byEvent($event->id);
 
-    foreach($comments as $comment) {
+        foreach($comments as $comment) {
+
+            $comment_author = User::getUserNameById($comment->user_id);
     ?>
 
-        <?php echo $comment->body.'<br/>'; ?>
+    <div class="row">
+        <div class="col-lg-6">
+
+            <div class="panel">
+
+                <div class="panel-heading">
+                    <?php echo $comment_author; ?>
+                    <small class="pull-right"><?php echo $comment->post_datetime; ?></small>
+                </div>
+
+                <div class="panel-body">
+                    <?php echo $comment->body; ?>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
 
     <?php
     }
-
     ?>

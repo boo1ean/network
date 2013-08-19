@@ -123,15 +123,37 @@ switch($event->type) {
 
     <?php ActiveForm::end(); ?>
 
-    <br/>
+    <br/><br/>
 
     <?php
         $comments = Eventcomment::byEvent($event->id);
 
         foreach($comments as $comment) {
-            echo $comment->body.'<br/>';
-        }
 
+            $comment_author = User::getUserNameById($comment->user_id);
+    ?>
+
+    <div class="row">
+        <div class="col-lg-6">
+
+            <div class="panel">
+
+                <div class="panel-heading">
+                    <?php echo $comment_author; ?>
+                    <small class="pull-right"><?php echo $comment->post_datetime; ?></small>
+                </div>
+
+                <div class="panel-body">
+                    <?php echo $comment->body; ?>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <?php
+        }
     ?>
 
 </div>
