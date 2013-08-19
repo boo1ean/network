@@ -231,9 +231,9 @@ h4.tag a:hover {
 #userBox {
     display: block;
     position: fixed;
-    z-index: 2000;
+    z-index: 1030;
     top: 0;
-    right: 0;
+    right: 50px;
     padding: 15px 10px;
 }
 #userBox a {
