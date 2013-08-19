@@ -12,7 +12,13 @@ use yii\helpers\Html;
             <td > <?php echo Html::tag('b', 'Actions');?> </td>
         </tr>
         <?php foreach($books as $book):?>
-            <tr <?php echo 'available' == $book->status ? 'class="success"' : 'class="danger"' ?> >
+            <tr <?php
+                echo 'id="'.$book->id.'" ';
+                if('E-book' == $book->type) {
+                    echo 'class="default"';
+                } else {
+                    echo 'available' == $book->status ? 'class="success"' : 'class="danger"';
+                } ?> >
                 <td id="<?php echo $book->id?>_author"> <?php echo $book->author;?> </td>
                 <td id="<?php echo $book->id?>_title">  <?php echo $book->title;?>  </td>
                 <td id="<?php echo $book->id?>_type">   <?php echo $book->type;?>   </td>
@@ -29,6 +35,14 @@ use yii\helpers\Html;
                         'data-id' => $book->id,
                         'name'    => 'book-delete'
                     ));
+                    if('E-book' == $book->type) {
+                        echo Html::a('Download', $book->link, array(
+                            'class'   => 'btn btn-sm btn-primary',
+                            'data-id' => $book->id,
+                            'name'    => 'book-download',
+                            'target'  => '_blank'
+                        ));
+                    }
                     ?>
                 </td>
             </tr>

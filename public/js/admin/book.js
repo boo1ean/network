@@ -59,7 +59,7 @@ $(function(){
     }, 'button[name="book-edit"]');
 
     /**
-     * save data of book
+     * save data of the book
      */
     $(document).on({
         click: function (event) {
@@ -87,6 +87,25 @@ $(function(){
                     } else {
                         for (var i in result['book']) {
                             $('#'+id+'_'+i).html(result['book'][i]);
+                            if('type' == i) {
+                                var parent = $('#'+id+'_'+i).parent();
+                                if('Paper' == result['book'][i]) {
+                                    parent.attr('class', '').addClass('success');
+
+                                    if(parent.find('[name="book-download"]').length) {
+                                        parent.find('[name="book-download"]').remove();
+                                    }
+                                } else {
+                                    parent.attr('class', '').addClass('default');
+
+                                    if(!parent.find('[name="book-download"]').length) {
+                                        parent.find('[name="book-delete"]').after(
+                                            '<a href="' + result['book']['link'] + '" class="btn btn-sm btn-primary" ' +
+                                            'name="book-download" target="_blank">Download</a>'
+                                        );
+                                    }
+                                }
+                            }
                         }
                         $('#book-modal').modal('hide');
                     }
