@@ -8,15 +8,6 @@ use yii\db\Query;
 
 class UserController extends PjaxController
 {
-    public function beforeAction($action) {
-
-        // Check user on access
-        if (Yii::$app->getUser()->getIsGuest()) {
-            Yii::$app->getResponse()->redirect('/site/index');
-            return false;
-        }return parent::beforeAction($action);
-    }
-
     public function actionIndex() {
         return Yii::$app->getResponse()->redirect('user/all');
     }

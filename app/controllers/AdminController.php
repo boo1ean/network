@@ -17,7 +17,7 @@ class AdminController extends PjaxController
         $user        = Yii::$app->getUser()->getIdentity();
 
         // Check user on access
-        if ($user === null || !$authManager->checkAccess($user->id, 'admin')) {
+        if (!$authManager->checkAccess($user->id, 'admin')) {
             Yii::$app->getResponse()->redirect('/');
             return false;
         }

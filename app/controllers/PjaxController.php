@@ -15,6 +15,7 @@ class PjaxController extends Controller
     }
 
     public function beforeAction($action) {
+        // Get user
         $user = Yii::$app->getUser();
         // Is user is not quest
         if (!$user->getIsGuest()) {
@@ -27,12 +28,11 @@ class PjaxController extends Controller
             // Change last activity
             $user->last_activity = date('Y-m-d H:i:s');
             $user->update();
-        }
-        return parent::beforeAction($action);
-        /* else {
+            return parent::beforeAction($action);
+        } else {
             Yii::$app->getResponse()->redirect('/site/index');
             return false;
-        }*/
+        }
 
     }
 
