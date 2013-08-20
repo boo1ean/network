@@ -22,6 +22,7 @@ class CalendarController extends PjaxController
                 'title'  => $event->title,
                 'start'  => $event->start_date.' '.$event->start_time,
                 'end'    => $event->end_date.' '.$event->end_time,
+                'color'  => $event->color,
                 'allDay' => false
             );
         }

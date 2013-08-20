@@ -28,7 +28,7 @@ use app\models\User;
         <div class="modal-body">
 
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-lg-offset-1">
                     <?php echo $form->field($model, 'title')->textInput(array(
                         'placeholder' => 'Enter event title',
                         'value' => $event->title,
@@ -38,7 +38,7 @@ use app\models\User;
             </div>
 
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-lg-offset-1">
                     <?php echo $form->field($model, 'description')->textInput(array(
                         'placeholder' => 'Enter event description',
                         'value' => $event->description,
@@ -48,7 +48,7 @@ use app\models\User;
             </div>
 
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-4 col-lg-offset-1">
                     <?php echo $form->field($model, 'start_date')->input('date', array(
                         'value' => $event->start_date,
                         'id' => 'start_date'
@@ -64,7 +64,7 @@ use app\models\User;
             </div>
 
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-4 col-lg-offset-1">
                     <?php echo $form->field($model, 'end_date')->input('date', array(
                         'value' => $event->end_date,
                         'id' => 'end_date'
@@ -80,7 +80,7 @@ use app\models\User;
             </div>
 
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-lg-offset-1">
                     <?php echo Html::activeLabel($model, 'type', array('class' => 'control-label')); ?>
                     <?php echo Html::dropDownList('type', $event->type, array('birthday', 'corp. event', 'holiday', 'day-off'),
                         array('class' => 'form-control')); ?>
@@ -90,7 +90,7 @@ use app\models\User;
             <br/>
 
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-lg-offset-1">
                     <?php echo Html::label('Invited friends'); ?>
                     <br/>
                     <?php
@@ -106,6 +106,23 @@ use app\models\User;
                             'disabled' => 'disabled'
                         ));
                     ?>
+                </div>
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-1">
+                    <?php echo Html::label('Choose event color'); ?>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-1">
+                    <?php echo Html::input('text', 'colorpicker', $event->color, array(
+                        'id' => 'colorpicker',
+                        'value' => $event->color
+                    )); ?>
                 </div>
             </div>
 

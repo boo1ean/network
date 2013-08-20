@@ -1,8 +1,20 @@
 $(document).ready(function() {
     calendarReady();
+
+    $('#myModal').on('shown.bs.modal', function() {
+        $('#colorpicker').spectrum({
+            showButtons: false
+        });
+    });
 });
 
 function calendarReady() {
+
+    $('#myModal').on('shown.bs.modal', function() {
+        $('#colorpicker').spectrum({
+            showButtons: false
+        });
+    });
 
     $('#calendar').html('');
 
@@ -21,31 +33,6 @@ function calendarReady() {
             left: 'prev,next today',
             center: 'title',
             right: 'month, agendaWeek, agendaDay'
-        },
-        dayClick: function(date) {
-            $.ajax({
-                url:  'addevent',
-                type: 'POST',
-                data: {
-                    date: date
-                },
-                success: function(html) {
-                    $('#myModal').html(html);
-                }
-            });
-            $('#myModal').modal();
-        },
-        eventClick: function(event, element) {
-            $.ajax({
-                url:  'eventpage',
-                type: 'POST',
-                data: {
-                    id: event.id
-                },
-                success: function(response) {
-                    window.location.replace('/calendar/eventpage/' + response);
-                }
-            });
         },
         editable: true,
         selectable: true,
@@ -67,6 +54,19 @@ function calendarReady() {
                 textColor: 'white'
             }
         ],
+        dayClick: function(date) {
+            $.ajax({
+                url:  'addevent',
+                type: 'POST',
+                data: {
+                    date: date
+                },
+                success: function(html) {
+                    $('#myModal').html(html);
+                }
+            });
+            $('#myModal').modal();
+        },
         select: function(startDate, endDate, allDay, jsEvent, view) {
             $.ajax({
                 url:  'addevent',
@@ -80,6 +80,18 @@ function calendarReady() {
                 }
             });
             $('#myModal').modal();
+        },
+        eventClick: function(event, element) {
+            $.ajax({
+                url:  'eventpage',
+                type: 'POST',
+                data: {
+                    id: event.id
+                },
+                success: function(response) {
+                    window.location.replace('/calendar/eventpage/' + response);
+                }
+            });
         },
         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
             $.ajax({

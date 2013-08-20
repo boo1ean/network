@@ -1,8 +1,12 @@
 $(document).ready(function() {
+    tagsReady();
+});
+
+function tagsReady() {
     $('#tags').tagsInput();
 
     $('.ebook').hide();
-});
+}
 
 function sortBooks(obj) {
     obj = $(obj);

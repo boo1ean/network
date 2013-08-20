@@ -21,6 +21,7 @@ class AppAsset extends AssetBundle
         'css/toastr.css',
         'css/site.css',
         'css/jquery.tagsinput.css',
+        'css/spectrum.css',
         'css/fullcalendar.css',
         'css/fullcalendar.print.css'
     );
@@ -29,6 +30,7 @@ class AppAsset extends AssetBundle
         'js/toastr.js',
         'js/bootstrap.min.js',
         'js/library/books.js',
+        'js/calendar/spectrum.js',
         'js/calendar/events.js',
         'js/jquery.tagsinput.js',
         'js/calendar/jquery-ui-1.10.3.custom.min.js',
