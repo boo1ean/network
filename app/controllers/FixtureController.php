@@ -21,6 +21,7 @@ class FixtureController extends Controller
     const CONVERSATIONS_COUNT = 20;
     const MESSAGES_COUNT = 50;
     const BOOKS_COUNT = 10;
+    const EVENTS_COUNT = 5;
 
     /**
      * @var object fixtures
@@ -93,5 +94,14 @@ class FixtureController extends Controller
     public function actionBooks($booksCount = self::BOOKS_COUNT) {
         $this->fixture->generateBooks($booksCount);
         echo 'Generated ' . $booksCount . ' books'.PHP_EOL;
+    }
+
+    /**
+     * Create events
+     * @param $eventsCount
+     */
+    public function actionEvents($eventsCount = self::EVENTS_COUNT) {
+        $this->fixture->generateEvents($eventsCount);
+        echo 'Generated ' . $eventsCount . ' events'.PHP_EOL;
     }
 }
