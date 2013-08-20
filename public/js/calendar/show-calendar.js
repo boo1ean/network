@@ -43,8 +43,6 @@ function calendarReady() {
         eventSources: [
             {
                 events: events_js_obj,
-                borderColor: '#483D8B',
-                backgroundColor: '#483D8B',
                 textColor: 'white'
             },
             {
@@ -52,7 +50,7 @@ function calendarReady() {
                 className: 'gcal-event',
                 currentTimezone: 'Europe/Kiev',
                 editable: true,
-                borderColor: '#2F4F4F',
+                borderColor: 'white',
                 backgroundColor: '#2F4F4F',
                 textColor: 'white'
             }

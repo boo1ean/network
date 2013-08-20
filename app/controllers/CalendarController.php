@@ -18,12 +18,13 @@ class CalendarController extends PjaxController
 
         foreach ($events as $event) {
             $events_array[] = array(
-                'id'     => $event->id,
-                'title'  => $event->title,
-                'start'  => $event->start_date.' '.$event->start_time,
-                'end'    => $event->end_date.' '.$event->end_time,
-                'color'  => $event->color,
-                'allDay' => false
+                'id'          => $event->id,
+                'title'       => $event->title,
+                'start'       => $event->start_date.' '.$event->start_time,
+                'end'         => $event->end_date.' '.$event->end_time,
+                'color'       => $event->color,
+                'borderColor' => 'white',
+                'allDay'      => false
             );
         }
 
