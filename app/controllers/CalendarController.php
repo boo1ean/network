@@ -60,13 +60,19 @@ class CalendarController extends PjaxController
             return false;
         }
 
+        date_default_timezone_set('Europe/Kiev');
+
         $start_date = date("Y-m-d", strtotime($_POST['start']));
+        $start_time = date("H:i:s", strtotime($_POST['start']));
         $end_date = date("Y-m-d", strtotime($_POST['end']));
+        $end_time = date("H:i:s", strtotime($_POST['end']));
 
         if (isset($_POST['id'])) {
             $events = Event::find($_POST['id']);
             $events->start_date = $start_date;
+            $events->start_time = $start_time;
             $events->end_date = $end_date;
+            $events->end_time = $end_time;
             $events->save();
         }
 
@@ -186,23 +192,9 @@ class CalendarController extends PjaxController
         $users = User::getAll();
 
         if (isset($_POST['event_id'])) {
-            //event edit from events list
             $event = Event::find($_POST['event_id']);
             $id = $_POST['event_id'];
         }
-        /*
-         * Not using opening modal for edit event by clicking on event in calendar
-         */
-        /*
-        else if (isset($_POST['title'])) {
-            //event edit from calendar
-            date_default_timezone_set('Europe/Kiev');
-            $date_start = date("Y-m-d", strtotime($_POST['start']));
-            $date_end = date("Y-m-d", strtotime($_POST['end']));
-            $event = Event::findByTitleAndDate($_POST['title'], $date_start, $date_end);
-            $id = $event->id;
-        }
-        */
 
         $this->layout = 'block';
 

@@ -34,7 +34,10 @@ function calendarReady() {
             center: 'title',
             right: 'month, agendaWeek, agendaDay'
         },
+        theme: true,
         editable: true,
+        eventStartEditable: true,
+        eventDurationEditable: true,
         selectable: true,
         firstDay: 1,
         eventSources: [
@@ -94,6 +97,20 @@ function calendarReady() {
             });
         },
         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
+            $.ajax({
+                url:  'dropevent',
+                type: 'POST',
+                data: {
+                    id: event.id,
+                    start: event.start,
+                    end: event.end
+                },
+                success: function(html) {
+                    $('body').html(html);
+                }
+            });
+        },
+        eventResize: function(event,dayDelta,minuteDelta,revertFunc) {
             $.ajax({
                 url:  'dropevent',
                 type: 'POST',

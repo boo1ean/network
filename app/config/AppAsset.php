@@ -21,6 +21,7 @@ class AppAsset extends AssetBundle
         'css/toastr.css',
         'css/site.css',
         'css/jquery.tagsinput.css',
+        'css/jquery-ui-1.9.2.custom.min.css',
         'css/spectrum.css',
         'css/fullcalendar.css',
         'css/fullcalendar.print.css'

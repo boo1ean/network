@@ -22,11 +22,11 @@
 /* for vertical events */
 	
 .fc-event-bg {
-	display: none !important;
+	display: none ;
 	}
 	
 .fc-event .ui-resizable-handle {
-	display: none !important;
+	display: none ;
 	}
 	
 	
