@@ -17,21 +17,6 @@ class Event extends ActiveRecord
             ->all();
     }
 
-    public static function findByTitle($title) {
-        return static::find()
-            ->where(array('title' => $title))
-            ->one();
-    }
-
-    public static function findByTitleAndDate($title, $start_date, $end_date) {
-        return static::find()
-            ->where(array('title' => $title,
-                          'start_date' => $start_date,
-                          'end_date' => $end_date
-            ))
-            ->one();
-    }
-
     /**
      * Set event as read by specified user
      * @param $userId
