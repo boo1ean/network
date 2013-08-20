@@ -6,6 +6,10 @@ use \yii\db\ActiveRecord;
 
 class Event extends ActiveRecord
 {
+    const TYPE_BIRTHDAY = 0;
+    const TYPE_CORPEVENT = 1;
+    const TYPE_HOLIDAY = 2;
+    const TYPE_DAYOFF = 3;
 
     public static function tableName() {
         return 'events';
@@ -29,5 +33,26 @@ class Event extends ActiveRecord
 
     public function getUser() {
         return $this->hasOne('User', array('id' => 'user_id'));
+    }
+
+    /**
+     * @return \yii\db\ActiveRelation object contains events members
+     */
+    public function getUsers() {
+        return $this->hasMany('User', array('id' => 'user_id'))
+            ->viaTable('user_events', array('event_id' => 'id'));
+    }
+
+    /**
+     * @return array of defined types
+     */
+    public static function getTypes() {
+        $types = array();
+        $types[] = self::TYPE_BIRTHDAY;
+        $types[] = self::TYPE_CORPEVENT;
+        $types[] = self::TYPE_DAYOFF;
+        $types[] = self::TYPE_HOLIDAY;
+
+        return $types;
     }
 }

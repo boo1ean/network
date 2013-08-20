@@ -10,10 +10,6 @@ use app\models\Userevent;
 
 class AddEventForm extends Event
 {
-    const TYPE_BIRTHDAY = 0;
-    const TYPE_CORPEVENT = 1;
-    const TYPE_HOLIDAY = 2;
-    const TYPE_DAYOFF = 3;
 
     public function rules() {
         return array(
