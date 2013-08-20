@@ -32,7 +32,7 @@ return array(
             'baseUrl'         => '/',
 
             'rules' => array(
-                '/'                                                         => 'site/index',
+                '/'                                                         => 'user/all',
                 '/admin'                                                    => 'admin/main',
                 '/admin/library'                                            => 'admin/library-book-list',
                 '/admin/user'                                               => 'admin/user-list',
