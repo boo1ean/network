@@ -12,7 +12,7 @@ class UserController extends PjaxController
 
         // Check user on access
         if (Yii::$app->getUser()->getIsGuest()) {
-            Yii::$app->getResponse()->redirect('/');
+            Yii::$app->getResponse()->redirect('/site/index');
             return false;
         }return parent::beforeAction($action);
     }
