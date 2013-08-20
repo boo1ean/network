@@ -25,7 +25,7 @@ class AddEventForm extends Event
 
     public function scenarios() {
         return array(
-            'default' => array('title', 'description', 'start_date', 'start_time', 'end_date', 'end_time'),
+            'default' => array('title', 'description', 'start_date', 'start_time', 'end_date', 'end_time', 'color'),
         );
     }
 
@@ -72,6 +72,7 @@ class AddEventForm extends Event
 
             $event->user_id = Yii::$app->getUser()->getId();
             $event->create_datetime = gmdate('Y-m-d H:i:s', time()+10800);
+            $event->color = $_POST['colorpicker'];
             $event->save();
 
             $event_curr = Event::findByTitleAndDate($this->title, $this->start_date, $this->end_date);
@@ -132,6 +133,7 @@ class AddEventForm extends Event
             }
 
             $event->user_id = Yii::$app->getUser()->getId();
+            $event->color = $_POST['colorpicker'];
             $event->save();
 
             return true;

@@ -4,9 +4,11 @@ $(document).ready(function() {
     $('#userBoxLogout').removeAttr('data-pjax');
     $(document).pjax('a[data-pjax]', { container: '#pjax-container', timeout: 0})
         .on('pjax:success', function() {
-              $('.masthead li.active').removeClass('active');
-              $('.masthead li:has(a[href=\"' + window.location.pathname + '\"])').addClass('active');
-              calendarReady();
+            $('.masthead li.active').removeClass('active');
+            $('.masthead li:has(a[href=\"' + window.location.pathname + '\"])').addClass('active');
+
+            calendarReady();
+            tagsReady();
         });
     
     /*------------------For all links-------------*/

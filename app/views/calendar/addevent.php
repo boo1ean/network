@@ -23,7 +23,7 @@ use yii\widgets\ActiveForm;
         <div class="modal-body">
 
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-lg-offset-1">
                     <?php echo $form->field($model, 'title')->textInput(array(
                         'placeholder' => 'Enter event title',
                         'id' => 'title'
@@ -32,7 +32,7 @@ use yii\widgets\ActiveForm;
             </div>
 
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-lg-offset-1">
                     <?php echo $form->field($model, 'description')->textInput(array(
                         'placeholder' => 'Enter event description',
                         'id' => 'description'
@@ -41,7 +41,7 @@ use yii\widgets\ActiveForm;
             </div>
 
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-4 col-lg-offset-1">
                     <?php echo $form->field($model, 'start_date')->input('date', array(
                         'id' => 'start_date',
                         'value' => $start_date
@@ -57,7 +57,7 @@ use yii\widgets\ActiveForm;
             </div>
 
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-4 col-lg-offset-1">
                     <?php echo $form->field($model, 'end_date')->input('date', array(
                         'id' => 'end_date',
                         'value' => $end_date
@@ -73,7 +73,7 @@ use yii\widgets\ActiveForm;
             </div>
 
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-lg-offset-1">
                     <?php echo Html::label('Type'); ?>
                     <?php echo Html::dropDownList('type', null, array('birthday', 'corp. event', 'holiday', 'day-off'),
                         array('class' => 'form-control')) ?>
@@ -92,7 +92,7 @@ use yii\widgets\ActiveForm;
             <br/>
 
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-lg-offset-1">
                     <?php echo Html::label('Invite friends'); ?>
                     <?php echo Html::dropDownList('invitations[]', null, $array_of_users, array(
                         'multiple' => 'multiple',
@@ -100,6 +100,23 @@ use yii\widgets\ActiveForm;
                     )); ?>
                 </div>
             </div>
+
+            <br/>
+
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-1">
+                    <?php echo Html::label('Choose event color'); ?>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-1">
+                    <?php echo Html::input('text', 'colorpicker', '#f00', array(
+                        'id' => 'colorpicker'
+                    )); ?>
+                </div>
+            </div>
+
 
         </div><!--body-->
 
