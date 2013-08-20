@@ -280,11 +280,11 @@ h4.tag a:hover {
     100% {opacity: 1;}
 }
 /*------------------------Notifications-----------------------------*/
-#notification-list {
+#notification-list, #userlist {
     margin: 0;
     width: 700px;
 }
-#notification-list a {
+#notification-list a, #userlist a {
     color: #777;
     padding: 10px;
     margin: 5px;
@@ -292,7 +292,7 @@ h4.tag a:hover {
     border: 1px solid #eee;
     border-radius: 4px;
 }
-#notification-list a:hover {
+#notification-list a:hover, #userlist a:hover {
     background-color: #eee;
     color: #333;
 }
@@ -306,4 +306,19 @@ h4.tag a:hover {
 }
 .notification >a> .glyphicon {
     margin: 5px;
+}
+/*---------------User list---------------------------*/
+.userlist-item img{
+    margin-right: 15px;
+}
+.userlist-name {
+    font-weight: bold;
+}
+.userlist-time {
+    position: relative;
+    float: right;
+}
+#userlist .online{
+    background-color: #D9EDF7;
+    border-color: #BCE8F1;
 }

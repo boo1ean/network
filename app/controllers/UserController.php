@@ -18,7 +18,7 @@ class UserController extends PjaxController
     }
 
     public function actionIndex() {
-        $this->actionAll();
+        return Yii::$app->getResponse()->redirect('user/all');
     }
 
     public function actionAll() {
