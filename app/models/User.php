@@ -223,5 +223,12 @@ class User extends ActiveRecord implements Identity
             return $user->email;
         }
     }
+
+    public function getIsOnline(){
+        $userActivity = $this->last_activity;
+        $now = time();
+        $minutes = round(($now - strtotime($userActivity))/60);
+        return $minutes < 10;
+    }
 }
 
