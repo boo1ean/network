@@ -42,14 +42,16 @@ class FixtureController extends Controller
     }
 
     /**
-     * Creates users, conversations and members
+     * Creates users, conversations, messages, books, events
      */
     public function actionAll($usersCount = self::USERS_COUNT, $conversationsCount = self::CONVERSATIONS_COUNT,
-                              $messagesCount = self::MESSAGES_COUNT, $booksCount = self::BOOKS_COUNT) {
+                              $messagesCount = self::MESSAGES_COUNT, $booksCount = self::BOOKS_COUNT,
+                              $eventsCount = self::EVENTS_COUNT) {
         $this->actionUsers($usersCount);
         $this->actionConversations($conversationsCount);
         $this->actionMessages($messagesCount);
         $this->actionBooks($booksCount);
+        $this->actionEvents($eventsCount);
     }
 
     /**

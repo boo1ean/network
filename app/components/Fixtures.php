@@ -211,13 +211,13 @@ class Fixtures extends Component
         /** @var \DateTime $startDateTime */
         $startDateTime = $this->faker->dateTimeThisMonth;
         $toDate = clone $startDateTime;
-        $toDate->add(new \DateInterval('P1W'));
+        $toDate->add(new \DateInterval('P2D'));
         /** @var \DateTime $endDateTime */
         $endDateTime = $this->faker->dateTimeBetween($startDateTime, $toDate);
         $event->start_date = $startDateTime->format('Y-m-d');
-        $event->start_time = $startDateTime->format('H:m:i');
+        $event->start_time = $startDateTime->format('H:i');
         $event->end_date = $endDateTime->format('Y-m-d');
-        $event->end_time = $endDateTime->format('H:m:i');
+        $event->end_time = $endDateTime->format('H:i');
         // Set type
         $event->type = array_rand(Event::getTypes());
         // Set color
