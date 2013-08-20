@@ -4,8 +4,6 @@ use yii\helpers\Html;
 
 ?>
 
-<h1>Calendar</h1>
-
 <br/>
 
     <?php echo Html::a('Add event', null, array(

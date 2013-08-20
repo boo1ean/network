@@ -40,6 +40,9 @@ function calendarReady() {
         eventDurationEditable: true,
         selectable: true,
         firstDay: 1,
+        contentHeight: 700,
+        aspectRatio: 1.8,
+        handleWindowResize: true,
         eventSources: [
             {
                 events: events_js_obj,

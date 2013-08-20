@@ -31,6 +31,12 @@ class Event extends ActiveRecord
             ->execute();
     }
 
+    public function markAsUnread($userId) {
+        $query = 'UPDATE `user_events` SET `unread` = 1 WHERE `event_id` = ' . $this->id . ' AND `user_id` = ' . $userId;
+        $this->db->createCommand($query)
+            ->execute();
+    }
+
     public function getUser() {
         return $this->hasOne('User', array('id' => 'user_id'));
     }

@@ -6,7 +6,6 @@ use Yii;
 use yii\base\Model;
 use app\models\Event;
 use app\models\User;
-use app\models\Userevent;
 
 class AddEventForm extends Event
 {
@@ -67,7 +66,6 @@ class AddEventForm extends Event
             }
 
             $event->user_id = Yii::$app->getUser()->getId();
-            $event->create_datetime = gmdate('Y-m-d H:i:s', time()+10800);
             $event->color = $_POST['colorpicker'];
             $event->save();
 
@@ -76,19 +74,12 @@ class AddEventForm extends Event
 
                 foreach($invites as $invite) {
                     $user = User::findByEmail($invite);
-
-                    $userevent = new Userevent();
-                    $userevent->event_id = $event->id;
-                    $userevent->user_id = $user->id;
-                    $userevent->unread = 1;
-                    $userevent->save();
+                    $event->link('users', $user);
+                    $event->markAsUnread($user->id);
                 }
 
-                $userevent = new Userevent();
-                $userevent->event_id = $event->id;
-                $userevent->user_id = Yii::$app->getUser()->getId();
-                $userevent->unread = 0;
-                $userevent->save();
+                $user = User::find(Yii::$app->getUser()->getId());
+                $event->link('users', $user);
             }
 
             return true;

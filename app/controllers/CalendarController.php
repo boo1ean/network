@@ -8,7 +8,6 @@ use yii\web\Controller;
 use app\models\Event;
 use app\models\Eventcomment;
 use app\models\User;
-use app\models\Userevent;
 use app\models\AddEventForm;
 
 class CalendarController extends PjaxController
@@ -129,7 +128,7 @@ class CalendarController extends PjaxController
             return false;
         }
 
-        if ($id != null) {
+        if ($id !== null) {
             $event = Event::find($id);
         } else if (isset($_POST['id'])) {
             $event = Event::find($_POST['id']);
@@ -240,11 +239,10 @@ class CalendarController extends PjaxController
         }
 
         $event = Event::find($_POST['id']);
+        $users = $event->users;
 
-        $user_events = Userevent::findByEventId($_POST['id']);
-
-        foreach($user_events as $ev) {
-            $ev->delete();
+        foreach($users as $user) {
+            $event->unlink('users', $user);
         }
 
         $event_comments = Eventcomment::byEvent($_POST['id']);
