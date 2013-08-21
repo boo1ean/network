@@ -72,6 +72,7 @@ $(function(){
                                     return false;
                                 }
                                 $('#e-book-state').val(file + ' loading...');
+                                $('button[name="book-save"]').addClass('disabled');
                             },
                             onComplete: function (file, response) {
                                 var result = $.parseJSON(response);
@@ -81,6 +82,7 @@ $(function(){
                                     alert('We have some problems with uploading this file. Please try again.');
                                     $('#e-book-state').val('error ');
                                 }
+                                $('button[name="book-save"]').removeClass('disabled');
                             }
                         });
                     } else if ('redirect' == result['status']) {
