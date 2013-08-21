@@ -12,11 +12,12 @@ use yii\helpers\Html;
         'class' => 'btn btn-primary',
         'name' => 'event-add',
         'data-target' => '#myModal',
-        'data-toggle' => 'modal'
+        'data-toggle' => 'modal',
+        'data-pjax' => '#pjax-container'
     )); ?>
 
-    <?php echo Html::a('Events', 'calendar/events', array('class' => 'btn btn-primary')); ?>
-    <?php echo Html::a('Settings', 'calendar/settings', array('class' => 'btn btn-primary')); ?>
+    <?php echo Html::a('Events', 'calendar/events', array('class' => 'btn btn-primary', 'data-pjax' => '#pjax-container')); ?>
+    <?php echo Html::a('Settings', 'calendar/settings', array('class' => 'btn btn-primary', 'data-pjax' => '#pjax-container')); ?>
 
 
 <br/><br/>
