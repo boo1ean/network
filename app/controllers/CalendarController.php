@@ -8,7 +8,6 @@ use yii\web\Controller;
 use app\models\Event;
 use app\models\Eventcomment;
 use app\models\User;
-use app\models\Userevent;
 use app\models\AddEventForm;
 
 class CalendarController extends PjaxController
@@ -18,12 +17,13 @@ class CalendarController extends PjaxController
 
         foreach ($events as $event) {
             $events_array[] = array(
-                'id'     => $event->id,
-                'title'  => $event->title,
-                'start'  => $event->start_date.' '.$event->start_time,
-                'end'    => $event->end_date.' '.$event->end_time,
-                'color'  => $event->color,
-                'allDay' => false
+                'id'          => $event->id,
+                'title'       => $event->title,
+                'start'       => $event->start_date.' '.$event->start_time,
+                'end'         => $event->end_date.' '.$event->end_time,
+                'color'       => $event->color,
+                'borderColor' => 'white',
+                'allDay'      => false
             );
         }
 
@@ -60,13 +60,19 @@ class CalendarController extends PjaxController
             return false;
         }
 
+        date_default_timezone_set('Europe/Kiev');
+
         $start_date = date("Y-m-d", strtotime($_POST['start']));
+        $start_time = date("H:i:s", strtotime($_POST['start']));
         $end_date = date("Y-m-d", strtotime($_POST['end']));
+        $end_time = date("H:i:s", strtotime($_POST['end']));
 
         if (isset($_POST['id'])) {
             $events = Event::find($_POST['id']);
             $events->start_date = $start_date;
+            $events->start_time = $start_time;
             $events->end_date = $end_date;
+            $events->end_time = $end_time;
             $events->save();
         }
 
@@ -122,7 +128,7 @@ class CalendarController extends PjaxController
             return false;
         }
 
-        if ($id != null) {
+        if ($id !== null) {
             $event = Event::find($id);
         } else if (isset($_POST['id'])) {
             $event = Event::find($_POST['id']);
@@ -186,23 +192,9 @@ class CalendarController extends PjaxController
         $users = User::getAll();
 
         if (isset($_POST['event_id'])) {
-            //event edit from events list
             $event = Event::find($_POST['event_id']);
             $id = $_POST['event_id'];
         }
-        /*
-         * Not using opening modal for edit event by clicking on event in calendar
-         */
-        /*
-        else if (isset($_POST['title'])) {
-            //event edit from calendar
-            date_default_timezone_set('Europe/Kiev');
-            $date_start = date("Y-m-d", strtotime($_POST['start']));
-            $date_end = date("Y-m-d", strtotime($_POST['end']));
-            $event = Event::findByTitleAndDate($_POST['title'], $date_start, $date_end);
-            $id = $event->id;
-        }
-        */
 
         $this->layout = 'block';
 
@@ -247,11 +239,10 @@ class CalendarController extends PjaxController
         }
 
         $event = Event::find($_POST['id']);
+        $users = $event->users;
 
-        $user_events = Userevent::findByEventId($_POST['id']);
-
-        foreach($user_events as $ev) {
-            $ev->delete();
+        foreach($users as $user) {
+            $event->unlink('users', $user);
         }
 
         $event_comments = Eventcomment::byEvent($_POST['id']);

@@ -9,9 +9,13 @@ use \app\models\Conversation;
 use \app\models\Message;
 use \app\models\Book;
 use \app\models\Tag;
+use \app\models\Event;
 
 class Fixtures extends Component
 {
+    /**
+     * @var \Faker\Generator
+     */
     private $faker;
     
     function __construct() {
@@ -181,6 +185,67 @@ class Fixtures extends Component
     public function generateBooks($number) {
         for($i = 0; $i < $number; $i++) {
             $this->generateBook();
+        }
+    }
+
+    /**
+     * Generates single event
+     * @throws \yii\base\InvalidCallException
+     */
+    public function generateEvent() {
+        $allUsers = User::find()->all();
+        $usersCount = count($allUsers);
+        if($usersCount <= 2) {
+            throw new InvalidCallException('Not enough users to generate event!');
+        }
+        // Create event
+        $event = new Event();
+
+        // Title and description
+        $event->title = $this->faker->word;
+        $event->description = $this->faker->text;
+
+        // Generate start and end date
+        // Start date - in current month
+        // End date - in interval between startDate and 1 week since startDate
+        /** @var \DateTime $startDateTime */
+        $startDateTime = $this->faker->dateTimeThisMonth;
+        $toDate = clone $startDateTime;
+        $toDate->add(new \DateInterval('P2D'));
+        /** @var \DateTime $endDateTime */
+        $endDateTime = $this->faker->dateTimeBetween($startDateTime, $toDate);
+        $event->start_date = $startDateTime->format('Y-m-d');
+        $event->start_time = $startDateTime->format('H:i');
+        $event->end_date = $endDateTime->format('Y-m-d');
+        $event->end_time = $endDateTime->format('H:i');
+        // Set type
+        $event->type = array_rand(Event::getTypes());
+        // Set color
+        $event->color = $this->faker->hexcolor;
+        $event->save();
+
+        // Random number of members
+        $maxRand = min($usersCount - 1, 5);
+        $eventUsersCount = rand(2, $maxRand);
+
+        // Shuffle allUsers array to get random users
+        shuffle($allUsers);
+        for ($i = 0; $i < $eventUsersCount; $i++) {
+            if (0 == $i) {
+                $event->user_id = $allUsers[$i]->id;
+                $event->save();
+            }
+            $event->link('users', $allUsers[$i], array('unread' => '1'));
+        }
+    }
+
+    /**
+     * Generate number of events
+     * @param integer $number number of events to generate
+     */
+    public function generateEvents($number) {
+        for($i = 0; $i < $number; $i++) {
+            $this->generateEvent();
         }
     }
 }

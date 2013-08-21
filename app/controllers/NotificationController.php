@@ -9,15 +9,6 @@ use app\helpers\DateTimeHelper;
 
 class NotificationController extends PjaxController
 {
-    public function beforeAction($action) {
-        // Check user on access
-        if (Yii::$app->getUser()->getIsGuest()) {
-            Yii::$app->getResponse()->redirect('/');
-            return false;
-        }
-        return true;
-    }
-
     /**
      * Render all user notifications in static page
      * @return string

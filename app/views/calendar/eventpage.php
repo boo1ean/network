@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use app\models\Userevent;
+use app\models\Event;
 use app\models\User;
 use app\models\Eventcomment;
 use yii\widgets\ActiveForm;
@@ -58,11 +58,12 @@ switch($event->type) {
         <br/>
 
         <?php
-        $invites = Userevent::findByEventId($event->id);
+        $event = Event::find($event->id);
+        $users = $event->users;
         $array_invited = array();
 
-        foreach($invites as $invite) {
-            $array_invited[] = User::getUserNameById($invite->user_id);
+        foreach($users as $user) {
+            $array_invited[] = User::getUserNameById($user->id);
         }
 
         echo Html::listBox('invites', null, $array_invited, array(

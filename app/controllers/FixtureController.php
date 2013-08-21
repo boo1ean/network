@@ -14,13 +14,14 @@ use yii\base\InvalidCallException;
 use yii\console\Controller;
 use app\components\Fixtures;
 
-class FixtureController extends PjaxController
+class FixtureController extends Controller
 {
     // Default count of data for generating
     const USERS_COUNT = 10;
     const CONVERSATIONS_COUNT = 20;
     const MESSAGES_COUNT = 50;
     const BOOKS_COUNT = 10;
+    const EVENTS_COUNT = 5;
 
     /**
      * @var object fixtures
@@ -41,14 +42,16 @@ class FixtureController extends PjaxController
     }
 
     /**
-     * Creates users, conversations and members
+     * Creates users, conversations, messages, books, events
      */
     public function actionAll($usersCount = self::USERS_COUNT, $conversationsCount = self::CONVERSATIONS_COUNT,
-                              $messagesCount = self::MESSAGES_COUNT, $booksCount = self::BOOKS_COUNT) {
+                              $messagesCount = self::MESSAGES_COUNT, $booksCount = self::BOOKS_COUNT,
+                              $eventsCount = self::EVENTS_COUNT) {
         $this->actionUsers($usersCount);
         $this->actionConversations($conversationsCount);
         $this->actionMessages($messagesCount);
         $this->actionBooks($booksCount);
+        $this->actionEvents($eventsCount);
     }
 
     /**
@@ -93,5 +96,14 @@ class FixtureController extends PjaxController
     public function actionBooks($booksCount = self::BOOKS_COUNT) {
         $this->fixture->generateBooks($booksCount);
         echo 'Generated ' . $booksCount . ' books'.PHP_EOL;
+    }
+
+    /**
+     * Create events
+     * @param $eventsCount
+     */
+    public function actionEvents($eventsCount = self::EVENTS_COUNT) {
+        $this->fixture->generateEvents($eventsCount);
+        echo 'Generated ' . $eventsCount . ' events'.PHP_EOL;
     }
 }

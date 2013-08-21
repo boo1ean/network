@@ -34,14 +34,18 @@ function calendarReady() {
             center: 'title',
             right: 'month, agendaWeek, agendaDay'
         },
+        theme: true,
         editable: true,
+        eventStartEditable: true,
+        eventDurationEditable: true,
         selectable: true,
         firstDay: 1,
+        contentHeight: 700,
+        aspectRatio: 1.8,
+        handleWindowResize: true,
         eventSources: [
             {
                 events: events_js_obj,
-                borderColor: '#483D8B',
-                backgroundColor: '#483D8B',
                 textColor: 'white'
             },
             {
@@ -49,7 +53,7 @@ function calendarReady() {
                 className: 'gcal-event',
                 currentTimezone: 'Europe/Kiev',
                 editable: true,
-                borderColor: '#2F4F4F',
+                borderColor: 'white',
                 backgroundColor: '#2F4F4F',
                 textColor: 'white'
             }
@@ -94,6 +98,20 @@ function calendarReady() {
             });
         },
         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
+            $.ajax({
+                url:  'dropevent',
+                type: 'POST',
+                data: {
+                    id: event.id,
+                    start: event.start,
+                    end: event.end
+                },
+                success: function(html) {
+                    $('body').html(html);
+                }
+            });
+        },
+        eventResize: function(event,dayDelta,minuteDelta,revertFunc) {
             $.ajax({
                 url:  'dropevent',
                 type: 'POST',

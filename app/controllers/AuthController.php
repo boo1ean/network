@@ -21,6 +21,15 @@ class AuthController extends PjaxController
     }
 
     /**
+     * To allow guests call methods of this controller
+     * @param \yii\base\Action $action
+     * @return bool
+     */
+    public function beforeAction($action) {
+        return true;
+    }
+
+    /**
      * edit user's profile
      * @return view
      */

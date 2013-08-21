@@ -18,7 +18,7 @@ $user = Yii::$app->getUser()->getIdentity();
 
 
 $items = array(
-    array('label' => 'Home', 'url' => array('/site/index')),
+    array('label' => 'Home', 'url' => array('/')),
 );
 
 if ($user === null) {
