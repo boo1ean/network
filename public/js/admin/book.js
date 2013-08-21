@@ -144,7 +144,8 @@ $(function(){
                             }
 
                             html += '</td> </tr>';
-                            $('#book-table').find('tr').first().after(html);
+                            $('#recently-added').show().after(html);
+                            $('#recently-added-bottom').show();
                         } else {
                             for (var i in result['book']) {
                                 $('#'+id+'_'+i).html(result['book'][i]);

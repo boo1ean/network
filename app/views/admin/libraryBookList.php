@@ -23,6 +23,12 @@ use yii\widgets\LinkPager;
             <td > <?php echo Html::tag('b', 'Type');?>    </td>
             <td > <?php echo Html::tag('b', 'Actions');?> </td>
         </tr>
+        <tr style="display:none" id="recently-added" class="text-center">
+            <td colspan="4"><b class="text-info">Recently added</b></td>
+        </tr>
+        <tr style="display:none" class="fade" id="recently-added-bottom">
+            <td colspan="4" style="border-top: 2px solid #000000"></td>
+        </tr>
         <?php foreach($books as $book):?>
             <tr <?php
                 echo 'id="'.$book->id.'" ';
