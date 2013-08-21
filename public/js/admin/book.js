@@ -10,6 +10,42 @@ $(function(){
             }
         }
     }, '#book-types input[type="radio"]');
+
+    /**
+     * Delete book
+     */
+    $(document).on({
+        click: function() {
+            var obj    = $(this);
+            var id     = obj.attr('data-id');
+            var author = $('#'+id+'_author').text().toString().trim();
+            var title  = $('#'+id+'_title').text().toString().trim();
+            if (confirm('Do you really wanna delete forever this book: "' + title + ' (' + author + ')"?')) {
+                $.ajax({
+                    url:  '/admin/library-book-delete',
+                    type: 'POST',
+                    data: {
+                        id_edit: id
+                    },
+                    success: function(response, textStatus) {
+                        if ('ok' == response) {
+                            var row = obj.parent().parent();
+                            row.hide('blind');
+                            setTimeout(function() {
+                                row.remove();
+                            },1000)
+                        } else {
+                            alert('Sorry, we have some problems with deleting this book. Reload this page and try again');
+                        }
+                    },
+                    error: function(error) {
+                        alert(error.statusText);
+                    }
+                });
+            }
+        }
+    }, 'button[name="book-delete"]');
+
     /**
      * load data for edit book
      */

@@ -58,6 +58,21 @@ class AdminController extends PjaxController
         return $this->render('sendInvite', $param);
     }
 
+    public function actionLibraryBookDelete() {
+
+        if (!isset($_POST['id_edit'])) {
+            Yii::$app->getResponse()->redirect('@web');
+            return false;
+        }
+
+        $libraryForm = new LibraryForm();
+
+        $libraryForm->id_edit  = $_POST['id_edit'];
+        $libraryForm->scenario = 'only_id';
+
+        return $libraryForm->libraryBookDelete() ? 'ok' : 'error';
+    }
+
     public function actionLibraryBookEdit() {
         $result = array(
             'redirect' => Yii::$app->getUrlManager()->getBaseUrl(),

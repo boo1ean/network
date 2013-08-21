@@ -5,6 +5,7 @@ namespace app\models\admin;
 use Yii;
 use yii\base\Model;
 use app\models\Book;
+use app\models\Booktaking;
 use app\models\Tag;
 
 class LibraryForm extends Book
@@ -41,6 +42,29 @@ class LibraryForm extends Book
             'default' => array('author', 'description', 'id_edit', 'title', 'type'),
             'only_id' => array('id_edit')
         );
+    }
+
+    public  function libraryBookDelete() {
+        if ($this->validate()) {
+            $book_takings = Booktaking::findByBookId($this->id_edit);
+
+            foreach ($book_takings as $book_taking) {
+                $book_taking->delete();
+            }
+
+            $book = Book::find($this->id_edit);
+            $tags = $book->tags;
+
+            foreach ($tags as $tag) {
+                $book->unlink('tags', $tag);
+            }
+
+            $book->delete();
+
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
