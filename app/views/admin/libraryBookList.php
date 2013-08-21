@@ -3,18 +3,43 @@ use yii\helpers\Html;
 use yii\widgets\LinkPager;
 ?>
 <div class="col-lg-offset-1">
-    <h1>
-        Book list
+    <h1> Book list
         <?php echo Html::tag(
             'button',
             '+ New book',
             array(
-            'class'   => 'btn btn-success',
-            'data-id' => 0,
-            'id'      => 'book-create'
+                'class'   => 'btn btn-success',
+                'data-id' => 0,
+                'id'      => 'book-create'
             )
         ); ?>
     </h1>
+
+    <div class="navbar navbar-default navbar-left">
+        <div class="collapse navbar-collapse navbar-ex2-collapse">
+            <ul class="nav nav-pills navbar-btn">
+                <li <?php echo 'all' == $status ? 'class="active"' : ''?>>
+                    <?php echo Html::a('All', '/admin/library/all/'.$page, array(
+                        'id'    => 'filter-all',
+                        'class' => 'cursorOnNoLink'
+                    )); ?>
+                </li>
+                <li <?php echo 'available' == $status ? 'class="active"' : ''?>>
+                    <?php echo Html::a('Available', '/admin/library/available/'.$page, array(
+                        'id'    => 'filter-available',
+                        'class' => 'cursorOnNoLink'
+                    )); ?>
+                </li>
+                <li <?php echo 'taken' == $status ? 'class="active"' : ''?>>
+                    <?php echo Html::a('Taken', '/admin/library/taken/'.$page, array(
+                        'id'    => 'filter-taken',
+                        'class' => 'cursorOnNoLink'
+                    )); ?>
+                </li>
+            </ul>
+        </div>
+    </div>
+
     <div class="modal fade" id="book-modal"></div>
     <table class="table table-hover" id="book-table">
         <tr >
