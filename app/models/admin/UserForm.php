@@ -120,7 +120,7 @@ class UserForm extends User
         if ($this->limit < $count_total) {
             $pagination = new Pagination(array(
                 'pageSize'   => $this->limit,
-                'totalCount' => $query_count->count()
+                'totalCount' => $count_total
             ));
         } else {
             $pagination = null;

@@ -111,20 +111,23 @@ class AdminController extends PjaxController
         return json_encode($result);
     }
 
-    public function actionLibraryBookList() {
-
+    public function actionLibraryBookList($page = 1) {
         $libraryForm = new LibraryForm();
 
-        $books = $libraryForm->libraryBookList();
+        $libraryForm->offset = $page;
+        $books_data = $libraryForm->libraryBookList();
+        $books      = array();
 
-        foreach ($books as $key => $val) {
-            $books[$key]['status'] = $val['status'] == Book::STATUS_AVAILABLE ? 'available' : 'taken';
-            $books[$key]['type']   = $val['type']   == Book::TYPE_PAPER       ? 'Paper'     : 'E-book';
+        foreach ($books_data['books'] as $key => $book) {
+            $books[$key]           = $book;
+            $books[$key]['status'] = $books[$key]['status'] == Book::STATUS_AVAILABLE ? 'available' : 'taken';
+            $books[$key]['type']   = $books[$key]['type']   == Book::TYPE_PAPER       ? 'Paper'     : 'E-book';
         }
 
         $param = array(
-            'model' => $libraryForm,
-            'books' => $books
+            'model'      => $libraryForm,
+            'pagination' => $books_data['pagination'],
+            'books'      => $books
         );
 
         return $this->render('libraryBookList', $param);
@@ -236,7 +239,7 @@ class AdminController extends PjaxController
         return json_encode($result);
     }
 
-    public function actionUserList($page = 0) {
+    public function actionUserList($page = 1) {
 
         $userForm = new UserForm();
 

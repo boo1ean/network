@@ -2,11 +2,12 @@
 
 namespace app\models\admin;
 
-use Yii;
-use yii\base\Model;
 use app\models\Book;
 use app\models\Booktaking;
 use app\models\Tag;
+use Yii;
+use yii\base\Model;
+use yii\data\Pagination;
 
 class LibraryForm extends Book
 {
@@ -14,6 +15,16 @@ class LibraryForm extends Book
      * @var integer book ID to be edited
      */
     public $id_edit;
+
+    /**
+     * @var integer limit users on the one page
+     */
+    public $limit = 10;
+
+    /**
+     * @var integer what is the recording start
+     */
+    public $offset = 1;
 
     /**
      * @var string
@@ -92,10 +103,29 @@ class LibraryForm extends Book
      * @return array
      */
     public function libraryBookList($where = array()) {
-        return $query = $this->find()
-            ->where($where)
+        $query       = $this->find()->where($where);
+        $query_count = clone $query;
+
+        $books = $query->limit($this->limit)
+            ->offset(($this->offset - 1) * $this->limit)
             ->orderBy($this->order_by)
             ->all();
+
+        $count_total = $query_count->count();
+
+        if ($this->limit < $count_total) {
+            $pagination = new Pagination(array(
+                'pageSize'   => $this->limit,
+                'totalCount' => $count_total
+            ));
+        } else {
+            $pagination = null;
+        }
+
+        return array(
+            'pagination' => $pagination,
+            'books'      => $books
+        );
     }
 
     /**

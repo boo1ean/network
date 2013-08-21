@@ -44,9 +44,9 @@
             </tr>
         <?php endforeach;?>
     </table>
-    <?php if(!is_null($pagination)):?>
-        <div class="pagination-centered">
-            <?php echo LinkPager::widget(array('pagination' => $pagination)); ?>
-        </div>
-    <?php endif;?>
 </div>
+<?php if(!is_null($pagination)):?>
+    <div class="text-center">
+        <?php echo LinkPager::widget(array('pagination' => $pagination)); ?>
+    </div>
+<?php endif;?>
