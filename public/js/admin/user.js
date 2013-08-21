@@ -33,7 +33,7 @@ $(function(){
                         }
                     },
                     error: function(error) {
-                        alert(error);
+                        alert(error.statusText);
                     }
                 });
             }
@@ -68,7 +68,7 @@ $(function(){
                         }
                     },
                     error: function(error) {
-                        alert(error);
+                        alert(error.statusText);
                     }
                 });
             }
@@ -95,7 +95,7 @@ $(function(){
                     }
                 },
                 error: function(error) {
-                    alert(error);
+                    alert(error.statusText);
                 }
             });
         }
@@ -133,7 +133,7 @@ $(function(){
                     }
                 },
                 error: function(error) {
-                    alert(error);
+                    alert(error.statusText);
                 }
             });
             return false;

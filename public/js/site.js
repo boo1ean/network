@@ -34,7 +34,7 @@ $(document).ready(
                     $('#forgot-modal').html(response).modal('show');
                  })
                  .error(function(error) {
-                    alert(error);
+                        alert(error.statusText);
                  });
             }
         }, '#forgot-open');
@@ -69,7 +69,7 @@ $(document).ready(
                         }
                     },
                     error: function(error) {
-                        alert(error);
+                        alert(error.statusText);
                     }
                 });
                 return false;
@@ -114,7 +114,7 @@ $(document).ready(
                         toastr['success']("<h4>All notifications here</h4>");
                     },
                     error: function(error) {
-                      alert(error);
+                        alert(error.statusText);
                     }
                 };
                 $.ajax(ajaxData);
@@ -142,7 +142,7 @@ $(document).ready(
 
                             members_list.member_full = data;
                         }).error(function(error) {
-                            alert(error);
+                                alert(error.statusText);
                         });
                     }
                     this.process(members_list.member_source);
@@ -169,7 +169,7 @@ $(document).ready(
                                     $('#member-list').append(html).find('div[style="display: none;"]').show('blind');
                                 }
                             }).error(function(error) {
-                                alert(error);
+                                    alert(error.statusText);
                             });
                         }
                     });
@@ -214,7 +214,7 @@ $(document).ready(
                         }
                     },
                     error: function(error) {
-                        alert(error);
+                        alert(error.statusText);
                     }
                 });
                 return false;
@@ -292,7 +292,7 @@ $(document).ready(
 
                                             members_list.member_full = data;
                                         }).error(function(error) {
-                                            alert(error);
+                                            alert(error.statusText);
                                         });
                                 }
                                 this.process(members_list.member_source);
@@ -316,7 +316,7 @@ $(document).ready(
                             }
                         });
                     }).error(function(error) {
-                        alert(error);
+                        alert(error.statusText);
                     });
                 }
         }, '#conversation-create');
@@ -349,7 +349,7 @@ $(document).ready(
 
                     },
                     error: function(error) {
-                        alert(error);
+                        alert(error.statusText);
                     }
                 });
                 return false;
