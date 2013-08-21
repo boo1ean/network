@@ -131,7 +131,7 @@ class AdminController extends PjaxController
             $libraryForm->author      = $_POST['LibraryForm']['author'];
             $libraryForm->description = $_POST['LibraryForm']['description'];
             $libraryForm->id_edit     = $_POST['id_edit'];
-            $libraryForm->link        = isset($_POST['link_book']) ? $_POST['link_book'] : '';
+            $libraryForm->link        = isset($_POST['link_book']) && !empty($_POST['link_book']) ? $_POST['link_book'] : null;
             $libraryForm->tags        = $_POST['LibraryForm']['tags'];
             $libraryForm->title       = $_POST['LibraryForm']['title'];
             $libraryForm->type        = $_POST['LibraryForm']['type'];
@@ -139,9 +139,10 @@ class AdminController extends PjaxController
             $libraryForm->libraryBookSave();
         }
 
-        $result['status']  = count($libraryForm->errors) > 0 ? 'error' : $result['status'];
-        $result['errors']  = $libraryForm->errors;
-        $result['book']    = $libraryForm->toArray();
+        $result['status']         = count($libraryForm->errors) > 0 ? 'error' : $result['status'];
+        $result['errors']         = $libraryForm->errors;
+        $result['book']           = $libraryForm->toArray();
+        $result['book']['link']   = is_null($result['book']['link'])                    ? '#'         : $result['book']['link'];
         $result['book']['status'] = $result['book']['status'] == Book::STATUS_AVAILABLE ? 'available' : 'taken';
         $result['book']['type']   = $result['book']['type']   == Book::TYPE_PAPER       ? 'Paper'     : 'E-book';
 

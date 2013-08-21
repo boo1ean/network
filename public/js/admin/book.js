@@ -102,9 +102,8 @@ $(function(){
                                  '<button type="submit" class="btn btn-sm btn-danger" name="book-delete" data-id="' + book['id'] + '">Delete</button>';
 
                             if('E-book' == book['type']) {
-                                var link = 'undefined' == result['book']['link'] ? '#' : result['book']['link'];
-                                html += '<a class="btn btn-sm btn-primary ' + ('#' == link ? 'disabled' : '') + '" ' +
-                                    'name="book-download" href="' + link + '" ' +
+                                html += '<a class="btn btn-sm btn-primary ' + ('#' == result['book']['link'] ? 'disabled' : '') + '" ' +
+                                    'name="book-download" href="' + result['book']['link'] + '" ' +
                                     'data-id="' + book['id'] + '" target="_blank">Download</a>';
                             }
 
@@ -122,12 +121,11 @@ $(function(){
                                             parent.find('[name="book-download"]').remove();
                                         }
                                     } else {
-                                        var link = 'undefined' == result['book']['link'] ? '#' : result['book']['link'];
                                         parent.attr('class', '').addClass('default');
                                         parent.find('[name="book-download"]').remove()
                                         parent.find('[name="book-delete"]').after(
-                                            '<a href="' + link + '" class="btn btn-sm btn-primary ' +
-                                            ('#' == link ? 'disabled' : '') + '" ' +
+                                            '<a href="' + result['book']['link'] + '" class="btn btn-sm btn-primary ' +
+                                            ('#' == result['book']['link'] ? 'disabled' : '') + '" ' +
                                             'name="book-download" target="_blank">Download</a>'
                                         );
                                     }

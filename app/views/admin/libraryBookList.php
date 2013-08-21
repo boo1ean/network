@@ -48,7 +48,7 @@ use yii\helpers\Html;
                     ));
                     if('E-book' == $book->type) {
                         echo Html::a('Download', $book->link, array(
-                            'class'   => 'btn btn-sm btn-primary '.('undefined' == $book->link ? 'disabled' : ''),
+                            'class'   => 'btn btn-sm btn-primary '.('' == $book->link ? 'disabled' : ''),
                             'data-id' => $book->id,
                             'name'    => 'book-download',
                             'target'  => '_blank'

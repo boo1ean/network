@@ -91,7 +91,7 @@ class LibraryForm extends Book
             $book->title       = $this->title;
             $book->type        = $this->type;
 
-            if ($book->type == parent::TYPE_ELECTRONIC && '' !== $this->link) {
+            if ($book->type == parent::TYPE_ELECTRONIC && !is_null($this->link)) {
                 $book->link = $this->link;
             }
 
