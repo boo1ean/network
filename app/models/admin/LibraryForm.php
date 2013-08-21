@@ -82,7 +82,7 @@ class LibraryForm extends Book
         if ($this->validate()) {
             $book = empty($this->id_edit) ? new Book() : Book::find($this->id_edit);
 
-            $this->status = empty($this->id_edit) ? parent::STATUS_UNTAKEN : $this->status;
+            $this->status = empty($this->id_edit) ? parent::STATUS_UNTAKEN : $book->status;
             $tags_old     = $book->tags;
 
             $book->author      = $this->author;

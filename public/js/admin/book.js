@@ -67,7 +67,7 @@ $(function(){
             var id   = obj.attr('data-id');
             var link = $('#e-book-state').attr('data-link');
             var data = obj.parents('form').serialize();
-            data += '&link_book=' + ('undefined' == link ? '' : link);
+            data += '&link_book=' + ('undefined' == typeof link ? '' : link);
             data += '&id=' + id;
             var errors = new messages();
             $.ajax({
@@ -122,16 +122,14 @@ $(function(){
                                             parent.find('[name="book-download"]').remove();
                                         }
                                     } else {
+                                        var link = 'undefined' == result['book']['link'] ? '#' : result['book']['link'];
                                         parent.attr('class', '').addClass('default');
-
-                                        if(!parent.find('[name="book-download"]').length) {
-                                            var link = 'undefined' == result['book']['link'] ? '#' : result['book']['link'];
-                                            parent.find('[name="book-delete"]').after(
-                                                '<a href="' + link + '" class="btn btn-sm btn-primary ' +
-                                                ('#' == link ? 'disabled' : '') + '" ' +
-                                                'name="book-download" target="_blank">Download</a>'
-                                            );
-                                        }
+                                        parent.find('[name="book-download"]').remove()
+                                        parent.find('[name="book-delete"]').after(
+                                            '<a href="' + link + '" class="btn btn-sm btn-primary ' +
+                                            ('#' == link ? 'disabled' : '') + '" ' +
+                                            'name="book-download" target="_blank">Download</a>'
+                                        );
                                     }
                                 }
                             }
