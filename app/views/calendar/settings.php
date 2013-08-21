@@ -32,8 +32,7 @@ use yii\widgets\ActiveForm;
     <br/>
 
     <?php echo Html::submitButton('Save settings', array(
-        'class' => 'btn btn-primary',
-        //'name'  => 'save-settings'
+        'class' => 'btn btn-primary'
     )); ?>
 
 <?php ActiveForm::end(); ?>

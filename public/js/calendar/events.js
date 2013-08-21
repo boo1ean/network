@@ -133,4 +133,25 @@ $(function(){
         }
     }, 'button[name="post-comment"]');
 
+    /*
+     * Filter by event type
+     */
+    $(document).on({
+        click: function() {
+            var filter_id = $(this).attr('id');
+
+            $.ajax({
+                url:  '/calendar/events',
+                type: 'POST',
+                data: {
+                    filter_id:  filter_id
+                },
+                success: function(html) {
+                    $('#filtered_events').html(html);
+                }
+            });
+            return false;
+        }
+    }, 'a[name="event-filter"]');
+
 });
