@@ -35,7 +35,7 @@ return array(
                 '/'                                                         => 'user/all',
                 '/admin'                                                    => 'admin/main',
                 '/admin/library'                                            => 'admin/library-book-list',
-                '/admin/library/<status:[a-z]+>/<page:\d+>'                 => 'admin/library-book-list',
+                '/admin/library/<status:[a-z]+>/<order:[a-z-]+>/<page:\d+>' => 'admin/library-book-list',
                 '/admin/user'                                               => 'admin/user-list',
                 '/admin/user-list/<page:\d+>'                               => 'admin/user-list',
                 '/auth/recover/<email:[^\s]+?>/<password_hash:[^\s]+>'      => 'auth/recover',

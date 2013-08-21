@@ -111,7 +111,7 @@ class AdminController extends PjaxController
         return json_encode($result);
     }
 
-    public function actionLibraryBookList($status = 'all', $page = 1) {
+    public function actionLibraryBookList($status = 'all', $order = 'author-asc', $page = 1) {
         $libraryForm = new LibraryForm();
         $where       = array();
 
@@ -124,7 +124,8 @@ class AdminController extends PjaxController
                 break;
         }
 
-        $libraryForm->offset = $page;
+        $libraryForm->offset   = $page;
+        $libraryForm->order_by = str_replace('-', ' ', $order);
         $books_data = $libraryForm->libraryBookList($where);
         $books      = array();
 
@@ -137,6 +138,7 @@ class AdminController extends PjaxController
         $param = array(
             'books'      => $books,
             'model'      => $libraryForm,
+            'order'      => $order,
             'page'       => $page,
             'pagination' => $books_data['pagination'],
             'status'     => $status

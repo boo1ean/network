@@ -19,19 +19,19 @@ use yii\widgets\LinkPager;
         <div class="collapse navbar-collapse navbar-ex2-collapse">
             <ul class="nav nav-pills navbar-btn">
                 <li <?php echo 'all' == $status ? 'class="active"' : ''?>>
-                    <?php echo Html::a('All', '/admin/library/all/'.$page, array(
+                    <?php echo Html::a('All', '/admin/library/all/'.$order.'/'.$page, array(
                         'id'    => 'filter-all',
                         'class' => 'cursorOnNoLink'
                     )); ?>
                 </li>
                 <li <?php echo 'available' == $status ? 'class="active"' : ''?>>
-                    <?php echo Html::a('Available', '/admin/library/available/'.$page, array(
+                    <?php echo Html::a('Available', '/admin/library/available/'.$order.'/'.$page, array(
                         'id'    => 'filter-available',
                         'class' => 'cursorOnNoLink'
                     )); ?>
                 </li>
                 <li <?php echo 'taken' == $status ? 'class="active"' : ''?>>
-                    <?php echo Html::a('Taken', '/admin/library/taken/'.$page, array(
+                    <?php echo Html::a('Taken', '/admin/library/taken/'.$order.'/'.$page, array(
                         'id'    => 'filter-taken',
                         'class' => 'cursorOnNoLink'
                     )); ?>
@@ -43,8 +43,28 @@ use yii\widgets\LinkPager;
     <div class="modal fade" id="book-modal"></div>
     <table class="table table-hover" id="book-table">
         <tr >
-            <td > <?php echo Html::tag('b', 'Author'); ?> </td>
-            <td > <?php echo Html::tag('b', 'Title');?>   </td>
+            <td >
+                <?php echo Html::tag('b', 'Author'); ?>
+                <?php echo Html::a('&#8593;', '/admin/library/'.$status.'/author-asc/'.$page, array(
+                    'id'    => 'filter-all',
+                    'class' => 'label '.('author-asc' == $order ? 'label-info' : 'label-default')
+                )); ?>
+                <?php echo Html::a('&#8595;', '/admin/library/'.$status.'/author-desc/'.$page, array(
+                    'id'    => 'filter-available',
+                    'class' => 'label '.('author-desc' == $order ? 'label-info' : 'label-default')
+                )); ?>
+            </td>
+            <td >
+                <?php echo Html::tag('b', 'Title');?>
+                <?php echo Html::a('&#8593;', '/admin/library/'.$status.'/title-asc/'.$page, array(
+                    'id'    => 'filter-all',
+                    'class' => 'label '.('title-asc' == $order ? 'label-info' : 'label-default')
+                )); ?>
+                <?php echo Html::a('&#8595;', '/admin/library/'.$status.'/title-desc/'.$page, array(
+                    'id'    => 'filter-available',
+                    'class' => 'label '.('title-desc' == $order ? 'label-info' : 'label-default')
+                )); ?>
+            </td>
             <td > <?php echo Html::tag('b', 'Type');?>    </td>
             <td > <?php echo Html::tag('b', 'Actions');?> </td>
         </tr>
