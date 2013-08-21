@@ -51,94 +51,12 @@ class LibraryController extends PjaxController
 
         if (isset($_POST['partial']) && $_POST['partial'] == 'yes') {
             $this->layout = 'block';
-
-            return $this->renderPartial('bookslist', array(
-                'books' => $books,
-                'all_tags' => $all_tags
-            ));
-        } else {
-            return $this->render('books', array(
-                'books' => $books,
-                'all_tags' => $all_tags
-            ));
-        }
-    }
-
-    public function actionAddbook() {
-
-        if (Yii::$app->getUser()->getIsGuest() || Yii::$app->getUser()->getIdentity()->type == 1) {
-            Yii::$app->getResponse()->redirect('@web');
-            return false;
         }
 
-        $bookForm = new AddBookForm();
-
-        $bookForm->scenario = 'add';
-
-        if ($bookForm->load($_POST) && $bookForm->addBook()) {
-            Yii::$app->getResponse()->redirect('@web/library/books');
-        } else {
-            return $this->render('addbook', array(
-                'model' => $bookForm,
-            ));
-        }
-    }
-
-    public function actionEditbook($id = null) {
-
-        if (Yii::$app->getUser()->getIsGuest() || Yii::$app->getUser()->getIdentity()->type == 1) {
-            Yii::$app->getResponse()->redirect('@web');
-            return false;
-        }
-
-        $book = Book::find($id);
-
-        $bookForm = new AddBookForm;
-
-        $bookForm->scenario = 'edit';
-
-        if ($bookForm->load($_POST) && $bookForm->saveBook($id)) {
-
-            $book = Book::find($id);
-
-            return $this->render('editbook', array(
-                'model'   => $bookForm,
-                'message' => 'Well done! You successfully edit book.',
-                'book' => $book
-            ));
-        } else {
-            return $this->render('editbook', array(
-                'model'   => $bookForm,
-                'book' => $book
-            ));
-        }
-
-    }
-
-    public function actionDeletebook() {
-
-        if (Yii::$app->getUser()->getIsGuest() || Yii::$app->getUser()->getIdentity()->type == 1) {
-            Yii::$app->getResponse()->redirect('@web');
-            return false;
-        }
-
-        $booktakings = Booktaking::findByBookId($_POST['id']);
-
-        foreach ($booktakings as $booktaking) {
-            $booktaking->delete();
-        }
-
-        $book = Book::find($_POST['id']);
-
-        $tags = $book->tags;
-
-        foreach ($tags as $tag) {
-            $book->unlink('tags', $tag);
-        }
-
-        $book->delete();
-
-        return Yii::$app->getResponse()->redirect('@web/library/books');
+        return $this->render('bookslist', array(
+            'books' => $books,
+            'all_tags' => $all_tags
+        ));
     }
 
     public function actionTakebook() {
