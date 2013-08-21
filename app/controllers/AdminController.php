@@ -1,6 +1,7 @@
 <?php
 namespace app\controllers;
 
+use app\models\Book;
 use app\models\admin\InviteForm;
 use app\models\admin\LibraryForm;
 use app\models\admin\MainForm;
@@ -17,7 +18,7 @@ class AdminController extends PjaxController
         $user        = Yii::$app->getUser()->getIdentity();
 
         // Check user on access
-        if (!$authManager->checkAccess($user->id, 'admin')) {
+        if (!$user || !$authManager->checkAccess($user->id, 'admin')) {
             Yii::$app->getResponse()->redirect('/');
             return false;
         }
@@ -102,7 +103,8 @@ class AdminController extends PjaxController
         $books = $libraryForm->libraryBookList();
 
         foreach ($books as $key => $val) {
-            $books[$key]['type'] = $val['type'] == \app\models\Book::TYPE_PAPER ? 'Paper' : 'E-book';
+            $books[$key]['status'] = $val['status'] == Book::STATUS_AVAILABLE ? 'available' : 'taken';
+            $books[$key]['type']   = $val['type']   == Book::TYPE_PAPER       ? 'Paper'     : 'E-book';
         }
 
         $param = array(
@@ -140,7 +142,8 @@ class AdminController extends PjaxController
         $result['status']  = count($libraryForm->errors) > 0 ? 'error' : $result['status'];
         $result['errors']  = $libraryForm->errors;
         $result['book']    = $libraryForm->toArray();
-        $result['book']['type'] = $result['book']['type'] == \app\models\Book::TYPE_PAPER ? 'Paper' : 'E-book';
+        $result['book']['status'] = $result['book']['status'] == Book::STATUS_AVAILABLE ? 'available' : 'taken';
+        $result['book']['type']   = $result['book']['type']   == Book::TYPE_PAPER       ? 'Paper'     : 'E-book';
 
         return json_encode($result);
     }

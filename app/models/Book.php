@@ -6,13 +6,13 @@ use \yii\db\ActiveRecord;
 
 class Book extends ActiveRecord
 {
-    // Book status
-    const STATUS_TAKEN   = 'taken';
-    const STATUS_UNTAKEN = 'available';
-
     // Book types
     const TYPE_PAPER      = 1;
     const TYPE_ELECTRONIC = 2;
+
+    // Book status
+    const STATUS_AVAILABLE = 1;
+    const STATUS_TAKEN     = 2;
 
     public static function tableName() {
         return 'books';

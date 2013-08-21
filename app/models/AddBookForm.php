@@ -43,7 +43,7 @@ class AddBookForm extends Book
                 $book->type = parent::TYPE_PAPER;
             }
 
-            $book->status = 'available';
+            $book->status = Book::STATUS_AVAILABLE;
             $book->save();
 
             $tags_array = $_POST['tags'];

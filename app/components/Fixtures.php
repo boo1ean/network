@@ -158,8 +158,8 @@ class Fixtures extends Component
         $fakeBook->author      = $this->faker->name;
         $fakeBook->title       = $this->faker->firstName;
         $fakeBook->description = $this->faker->text;
-        $fakeBook->type        = 1;
-        $fakeBook->status      = 'available';
+        $fakeBook->type        = Book::TYPE_PAPER;
+        $fakeBook->status      = Book::STATUS_AVAILABLE;
         $fakeBook->save();
 
         $tags_count = rand(2, 5);

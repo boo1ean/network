@@ -178,7 +178,7 @@ class LibraryController extends PjaxController
         $book_take->status = 2;
         $book_take->save();
 
-        $book->status = 'available';
+        $book->status = Book::STATUS_AVAILABLE;
         $book->save();
 
         return Yii::$app->getResponse()->redirect('@web/library/books');
