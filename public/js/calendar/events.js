@@ -20,8 +20,8 @@ $(function(){
      */
     $(document).on({
         click: function() {
-            var obj         = $(this);
-            var id          = obj.attr('event-id');
+            var obj = $(this);
+            var id = obj.attr('event-id');
 
             $.ajax({
                 url:  '/calendar/edit-event',
@@ -42,8 +42,8 @@ $(function(){
      * name="event-edit"
      */
     $('body').on('click','button[name^="event"]', function (event) {
-        var obj         = $(this);
-        var data        = obj.parents('form').serialize();
+        var obj = $(this);
+        var data = obj.parents('form').serialize();
         var errors = new messages();
 
         $.ajax({
@@ -119,7 +119,7 @@ $(function(){
      */
     $(document).on({
         click: function() {
-            var data        = $(this).parents('form').serialize();
+            var data = $(this).parents('form').serialize();
 
             $.ajax({
                 url:  '/calendar/comment',

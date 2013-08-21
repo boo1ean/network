@@ -266,9 +266,10 @@ class CalendarController extends PjaxController
         $user = User::find($id);
         $gcal = $user->searchSetting('gcal_feed');
 
-        $calendarSettingsForm = new CalendarSettingsForm();
+        if (isset($_POST['feed'])) {
+            $user->addSetting('gcal_feed', $_POST['feed']);
+            $user->save();
 
-        if (isset($_POST['feed']) && $calendarSettingsForm->saveSettings()) {
             $message = 'Settings have been saved';
             $feed = $_POST['feed'];
         } else {
@@ -281,4 +282,5 @@ class CalendarController extends PjaxController
             'gcal' => $feed
         ));
     }
+
 }
