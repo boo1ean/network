@@ -43,6 +43,7 @@ return array(
                 '/calendar/eventpage/<id:\d+>'                              => 'calendar/eventpage',
                 '/conversation/<id:\d+>'                                    => 'conversation',
                 '/library/books/<status:[a-z]+>/<order:[a-z-]+>/<page:\d+>' => 'library/books',
+                '/user/profile/<id:\d+>'                                    => 'user/profile'
             )
         ),
 

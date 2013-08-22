@@ -22,4 +22,17 @@ class UserController extends PjaxController
         return $this->render('usersList', $param);
     }
 
+    public function actionProfile($id = null) {
+        if($id == null) {
+            return Yii::$app->getResponse()->redirect('user/all');
+        }
+        $user = User::find($id);
+        if($user == null) {
+            return Yii::$app->getResponse()->redirect('user/all');
+        }
+        $param = array('user' => $user);
+
+        return $this->render('profile', $param);
+    }
+
 }
