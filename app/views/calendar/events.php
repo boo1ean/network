@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use app\models\User;
+use app\models\Event;
 ?>
 
 <div id="filtered_events">
@@ -98,6 +99,23 @@ use app\models\User;
 
         <em style="color: <?php echo $event->color; ?>;">
             <p><?php echo $event->description; ?></p>
+        </em>
+
+        <?php
+        $event_curr = Event::find($event->id);
+        $users = $event_curr->users;
+        $number_of_users = 0;
+
+        foreach($users as $user) {
+            $number_of_users++;
+        }
+        ?>
+
+        <br/>
+
+        <em class="pull-left" style="color: <?php echo $event->color; ?>;">
+            <span class="glyphicon glyphicon-user"></span>
+            <?php echo $number_of_users; ?>
         </em>
 
         <small class="pull-right" style="color: <?php echo $event->color; ?>;">

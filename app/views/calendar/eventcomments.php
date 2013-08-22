@@ -7,7 +7,7 @@ use app\models\User;
 
 ?>
 
-    <h3>Comments</h3><br/>
+    <h3 style="color: <?php echo $event->color; ?>;">Comments</h3><br/>
 
     <?php
         $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));
@@ -16,28 +16,28 @@ use app\models\User;
     ?>
 
     <div class="row">
-        <div class="col-lg-5">
+        <div class="col-lg-9">
             <?php echo Html::textarea('comment', '', array(
                 'placeholder' => 'Write comment',
-                'class' => 'form-control',
+                'class'       => 'form-control',
                 'rows'        => '3',
                 'style'       => 'resize: none',
-                'autofocus'   => 'true'
+                'autofocus'   => 'true',
+                'style'       => 'color: '.$event->color.'; border-color: '.$event->color.'',
             )); ?>
         </div>
+
+        <?php echo Html::button('Post comment', array(
+            'class' => 'btn btn-primary',
+            'style' => 'background-color: '.$event->color.'; border-color: '.$event->color.'',
+            'name' => 'post-comment',
+            'event-id' => $event->id
+        )); ?>
     </div>
-
-    <br/>
-
-    <?php echo Html::button('Post comment', array(
-        'class' => 'btn btn-primary',
-        'name' => 'post-comment',
-        'event-id' => $event->id
-    )); ?>
 
     <?php ActiveForm::end(); ?>
 
-    <br/><br/>
+    <br/>
 
     <?php
         $comments = Eventcomment::byEvent($event->id);
@@ -48,16 +48,16 @@ use app\models\User;
     ?>
 
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-12">
 
-            <div class="panel">
+            <div class="panel panel-default" style="border-color: <?php echo $event->color; ?>">
 
-                <div class="panel-heading">
+                <div class="panel-heading" style="background-color: <?php echo $event->color; ?>; color: white;">
                     <?php echo $comment_author; ?>
                     <small class="pull-right"><?php echo $comment->post_datetime; ?></small>
                 </div>
 
-                <div class="panel-body">
+                <div class="panel-body" style="color: <?php echo $event->color; ?>;">
                     <?php echo $comment->body; ?>
                 </div>
 
