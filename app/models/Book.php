@@ -6,6 +6,22 @@ use \yii\db\ActiveRecord;
 
 class Book extends ActiveRecord
 {
+    /**
+     * @var integer limit books on the one page
+     */
+    public $limit = 10;
+
+    /**
+     * @var integer what is the recording start
+     */
+    public $offset = 1;
+
+    /**
+     * @var string
+     */
+    public $order_by = 'author asc';
+
+
     // Book types
     const TYPE_PAPER      = 1;
     const TYPE_ELECTRONIC = 2;
@@ -18,41 +34,20 @@ class Book extends ActiveRecord
         return 'books';
     }
 
-    public static function findByAuthor($author) {
-        return static::find()
-            ->where(array('author' => $author))
-            ->all();
-    }
+    public function getBookList ($where = array(), $with_count = false) {
+        $query  = $this->find()->where($where);
+        $result = array();
 
-    public static function findByTitle($title) {
-        return static::find()
-            ->where(array('title' => $title))
-            ->one();
-    }
+        if($with_count) {
+            $query_count           = clone $query;
+            $result['count_total'] = $query_count->count();
+        }
 
-    public static function getBooksByParams($status, $param) {
-        return static::find()
-            ->where(array('status' => $status))
-            ->orderBy($param)
+        $result['books'] = $query->limit($this->limit)
+            ->offset(($this->offset - 1) * $this->limit)
+            ->orderBy($this->order_by)
             ->all();
-    }
-
-    public static function getAllBooks($param) {
-        return static::find()
-            ->orderBy($param)
-            ->all();
-    }
-
-    public static function getPaperBooks() {
-        return static::find()
-            ->where(array('type' => Book::TYPE_PAPER))
-            ->all();
-    }
-
-    public static function getEbooks() {
-        return static::find()
-            ->where(array('type' => Book::TYPE_ELECTRONIC))
-            ->all();
+        return $result;
     }
 
     public function getTags() {

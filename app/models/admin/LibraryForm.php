@@ -17,21 +17,6 @@ class LibraryForm extends Book
     public $id_edit;
 
     /**
-     * @var integer limit users on the one page
-     */
-    public $limit = 10;
-
-    /**
-     * @var integer what is the recording start
-     */
-    public $offset = 1;
-
-    /**
-     * @var string
-     */
-    public $order_by = 'author asc';
-
-    /**
      * @var string tags of book
      */
     public $tags;
@@ -102,21 +87,13 @@ class LibraryForm extends Book
      * List of books
      * @return array
      */
-    public function libraryBookList($where = array()) {
-        $query       = $this->find()->where($where);
-        $query_count = clone $query;
+    public function libraryBookList($where = array(), $with_count = false) {
+        $books_data = $this->getBookList($where, $with_count);
 
-        $books = $query->limit($this->limit)
-            ->offset(($this->offset - 1) * $this->limit)
-            ->orderBy($this->order_by)
-            ->all();
-
-        $count_total = $query_count->count();
-
-        if ($this->limit < $count_total) {
+        if ($with_count && $this->limit < $books_data['count_total']) {
             $pagination = new Pagination(array(
                 'pageSize'   => $this->limit,
-                'totalCount' => $count_total
+                'totalCount' => $books_data['count_total']
             ));
         } else {
             $pagination = null;
@@ -124,7 +101,7 @@ class LibraryForm extends Book
 
         return array(
             'pagination' => $pagination,
-            'books'      => $books
+            'books'      => $books_data['books']
         );
     }
 
