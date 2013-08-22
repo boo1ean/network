@@ -95,11 +95,12 @@ class User extends ActiveRecord implements Identity
      * Get avatar url
      * @return string URL to gravatar image
      */
-    public function getAvatar()
+    public function getAvatar($size = 80)
     {
         // Make gravatar
         $gravatar = new Gravatar();
         $gravatar->setDefaultImage('wavatar');
+        $gravatar->setAvatarSize($size);
         return $gravatar->buildGravatarURL($this->email);
     }
 
