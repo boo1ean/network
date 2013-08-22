@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\models\Booktaking;
+use app\models\BookTaking;
 use yii;
 use app\models\Book;
 use app\models\Tag;
@@ -52,7 +52,7 @@ class LibraryController extends PjaxController
 
         $book = Book::find($_POST['id']);
 
-        $book_take = new Booktaking;
+        $book_take = new BookTaking;
         $book_take->book_id = $_POST['id'];
         $book_take->user_id = Yii::$app->getUser()->getIdentity()->id;
         $book_take->taken = date('Y-m-d');
@@ -75,7 +75,7 @@ class LibraryController extends PjaxController
 
         $book = Book::find($_POST['id']);
 
-        $book_take = Booktaking::findByBookIdAndStatus($_POST['id'], 1);
+        $book_take = BookTaking::findByBookIdAndStatus($_POST['id'], 1);
         $book_take->returned = date('Y-m-d');
         $book_take->status = 2;
         $book_take->save();

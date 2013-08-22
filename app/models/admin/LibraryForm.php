@@ -3,7 +3,7 @@
 namespace app\models\admin;
 
 use app\models\Book;
-use app\models\Booktaking;
+use app\models\BookTaking;
 use app\models\Tag;
 use Yii;
 use yii\base\Model;
@@ -42,7 +42,7 @@ class LibraryForm extends Book
 
     public  function libraryBookDelete() {
         if ($this->validate()) {
-            $book_takings = Booktaking::findByBookId($this->id_edit);
+            $book_takings = BookTaking::findByBookId($this->id_edit);
 
             foreach ($book_takings as $book_taking) {
                 $book_taking->delete();

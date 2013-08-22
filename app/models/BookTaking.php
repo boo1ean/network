@@ -4,7 +4,7 @@ namespace app\models;
 
 use \yii\db\ActiveRecord;
 
-class Booktaking extends ActiveRecord
+class BookTaking extends ActiveRecord
 {
 
     public static function tableName() {

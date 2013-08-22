@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use app\models\Book;
-use app\models\Booktaking;
 ?>
 
 <div class="col-lg-offset-1">
