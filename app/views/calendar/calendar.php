@@ -14,9 +14,17 @@ use yii\helpers\Html;
         'data-pjax' => '#pjax-container'
     )); ?>
 
-    <?php echo Html::a('Events', 'calendar/events', array('class' => 'btn btn-primary', 'data-pjax' => '#pjax-container')); ?>
-    <?php echo Html::a('Settings', 'calendar/settings', array('class' => 'btn btn-primary', 'data-pjax' => '#pjax-container')); ?>
+    <?php echo Html::a('Events', 'calendar/events', array(
+        'class' => 'btn btn-primary',
+        'data-pjax' => '#pjax-container'
+    ));
+    ?>
 
+    <?php echo Html::a('Settings', 'calendar/settings', array(
+        'class' => 'btn btn-primary',
+        'data-pjax' => '#pjax-container'
+    ));
+    ?>
 
 <br/><br/>
 

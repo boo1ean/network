@@ -46,4 +46,19 @@ class DateTimeHelper
             return date('F Y', $ts);
         }
     }
+
+    /**
+     * Return datetime format for displaying
+     * @param $str string datetime
+     * @param bool $showSeconds true if need to display seconds, else - false
+     * @return bool|string result datetime string in pretty format (example 16 August 2013 18:19:43)
+     */
+    public static function formatTime($str, $showSeconds = false){
+        $timestamp = strtotime($str);
+        $format = 'd F Y G:i';
+        if ($showSeconds) {
+            $format .= ':s';
+        }
+        return date($format, $timestamp);
+    }
 }

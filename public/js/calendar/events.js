@@ -20,8 +20,8 @@ $(function(){
      */
     $(document).on({
         click: function() {
-            var obj         = $(this);
-            var id          = obj.attr('event-id');
+            var obj = $(this);
+            var id = obj.attr('event-id');
 
             $.ajax({
                 url:  '/calendar/edit-event',
@@ -42,8 +42,8 @@ $(function(){
      * name="event-edit"
      */
     $('body').on('click','button[name^="event"]', function (event) {
-        var obj         = $(this);
-        var data        = obj.parents('form').serialize();
+        var obj = $(this);
+        var data = obj.parents('form').serialize();
         var errors = new messages();
 
         $.ajax({
@@ -119,7 +119,7 @@ $(function(){
      */
     $(document).on({
         click: function() {
-            var data        = $(this).parents('form').serialize();
+            var data = $(this).parents('form').serialize();
 
             $.ajax({
                 url:  '/calendar/comment',
@@ -132,5 +132,47 @@ $(function(){
             return false;
         }
     }, 'button[name="post-comment"]');
+
+    /*
+     * Filter by event type
+     */
+    $(document).on({
+        click: function() {
+            var filter_id = $(this).attr('id');
+
+            if (filter_id == 'default') {
+                $('li:has(a#birthday, a#corpevent, a#holiday, a#dayoff)').removeClass('active');
+                $('li:has(a[id='+filter_id+'])').addClass('active');
+            } else {
+                $('li:has(a#default)').removeClass('active');
+                $('li:has(a[id='+filter_id+'])').toggleClass('active');
+            }
+
+            //massive of selected filters
+            var actives_arr = new Array();
+            $('li.active:has(a[name=event-filter])').each(function(index,el) {
+                if($(el).children('a').attr('id') !== 'default') {
+                    actives_arr.push($(el).children('a').attr('id'));
+                }
+            });
+
+            if (actives_arr.length == 0) {
+                $('li:has(a#default)').addClass('active');
+            }
+
+            $.ajax({
+                url:  '/calendar/events',
+                type: 'POST',
+                data: {
+                    filter_id:  filter_id,
+                    sel_filters: actives_arr
+                },
+                success: function(html) {
+                    $('#filtered_events').html(html);
+                }
+            });
+            return false;
+        }
+    }, 'a[name="event-filter"]');
 
 });

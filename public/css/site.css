@@ -120,6 +120,32 @@ button {
     cursor: pointer;
 }
 
+/* glyphicons edit|remove style */
+.white, .white span {
+    color: #fff;
+}
+
+/* glyphicons edit|remove style hover */
+a:hover .white, .white span {
+    color: #ffdddd;
+    text-decoration: none;
+}
+
+/* events-title style hover */
+b.events-heading {
+    color: white;
+}
+
+/* glyphicons edit|remove without underline on hover */
+b.pull-right a:hover {
+    text-decoration: none;
+}
+
+/* event type filter dropdown font size */
+strong.event-filter {
+    font-size: 15pt !important;
+}
+
 .mycontainer {
     background-color: #eeeeee;
     background-image: url('../js/287.gif');

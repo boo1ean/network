@@ -206,10 +206,10 @@ class Fixtures extends Component
         $event->description = $this->faker->text;
 
         // Generate start and end date
-        // Start date - in current month
+        // Start date - from '2 weeks ago' to 'in 2 weeks'
         // End date - in interval between startDate and 1 week since startDate
         /** @var \DateTime $startDateTime */
-        $startDateTime = $this->faker->dateTimeThisMonth;
+        $startDateTime = $this->faker->dateTimeBetween('-2 weeks', '+2 weeks');
         $toDate = clone $startDateTime;
         $toDate->add(new \DateInterval('P2D'));
         /** @var \DateTime $endDateTime */

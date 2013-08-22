@@ -42,7 +42,7 @@ use app\helpers\DateTimeHelper;
                 <div class = "popover right in" style="z-index: 0;">
                     <div class = "arrow"></div>
                     <h5 class="popover-title">
-                        <?php echo $message->user->userName . ' (' . $message->datetime . ')'; ?>
+                        <?php echo $message->user->userName . ' (' . DateTimeHelper::formatTime($message->datetime, true) . ')'; ?>
                     </h5>
                     <div class = "popover-content">
                         <?php echo $message->body; ?>

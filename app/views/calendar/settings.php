@@ -5,14 +5,15 @@ use app\models\User;
 use yii\widgets\ActiveForm;
 ?>
 
+<div id="cal_settings">
+
 <h1>Settings</h1>
 
 <br/>
 
 <?php
-    if($message !== null) {
+    if ($message !== null) {
         echo Html::tag('div class="alert alert-success"', $message);
-        echo Html::tag('/div');
     }
 
     $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));
@@ -30,6 +31,10 @@ use yii\widgets\ActiveForm;
 
     <br/>
 
-    <?php echo Html::submitButton('Save settings', array('class' => 'btn btn-primary')); ?>
+    <?php echo Html::submitButton('Save settings', array(
+        'class' => 'btn btn-primary'
+    )); ?>
 
 <?php ActiveForm::end(); ?>
+
+</div>

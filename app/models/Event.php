@@ -21,6 +21,60 @@ class Event extends ActiveRecord
             ->all();
     }
 
+    public static function sortByStartDateFromNow() {
+        return static::find()
+            ->where('start_date >= :date', array(':date' => date('Y-m-d')))
+            ->orderBy('start_date')
+            ->all();
+    }
+
+    public static function filterByType($type) {
+        return static::find()
+            ->where(array('type' => $type))
+            ->having('start_date >= :date', array(':date' => date('Y-m-d')))
+            ->orderBy('start_date')
+            ->all();
+    }
+
+    public static function getRightType($type_str) {
+        switch ($type_str) {
+            case 'birthday':
+                $type_curr = 0;
+                break;
+            case 'corpevent':
+                $type_curr = 1;
+                break;
+            case 'holiday':
+                $type_curr = 2;
+                break;
+            case 'dayoff':
+                $type_curr = 3;
+                break;
+            default:
+                $type_curr = 0;
+                break;
+        }
+
+        return $type_curr;
+    }
+
+    public static function filterByMultiType($mas_types) {
+
+        $types = array();
+
+        $types[] = '10';
+
+        foreach($mas_types as $type) {
+            $types[] = Event::getRightType($type);
+        }
+
+        return static::find()
+            ->where(array('type' => $types))
+            ->having('start_date >= :date', array(':date' => date('Y-m-d')))
+            ->orderBy('start_date')
+            ->all();
+    }
+
     /**
      * Set event as read by specified user
      * @param $userId

@@ -94,11 +94,23 @@ class CalendarController extends PjaxController
             return false;
         }
 
-        $events = Event::sortByStartDate();
+        $events = Event::sortByStartDateFromNow();
 
-        return $this->render('events', array(
-            'events' => $events
-        ));
+        if (isset($_POST['sel_filters'])) {
+            $events = Event::filterByMultiType($_POST['sel_filters']);
+        }
+
+        if (isset($_POST['filter_id'])) {
+            $this->layout = 'block';
+
+            return $this->renderPartial('eventslist', array(
+                'events' => $events,
+            ));
+        } else {
+            return $this->render('events', array(
+                'events' => $events
+            ));
+        }
     }
 
     function actionComment() {
@@ -266,9 +278,10 @@ class CalendarController extends PjaxController
         $user = User::find($id);
         $gcal = $user->searchSetting('gcal_feed');
 
-        $calendarSettingsForm = new CalendarSettingsForm();
+        if (isset($_POST['feed'])) {
+            $user->addSetting('gcal_feed', $_POST['feed']);
+            $user->save();
 
-        if (isset($_POST['feed']) && $calendarSettingsForm->saveSettings()) {
             $message = 'Settings have been saved';
             $feed = $_POST['feed'];
         } else {
@@ -281,4 +294,5 @@ class CalendarController extends PjaxController
             'gcal' => $feed
         ));
     }
+
 }
