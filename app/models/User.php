@@ -93,14 +93,17 @@ class User extends ActiveRecord implements Identity
 
     /**
      * Get avatar url
+     * @param string $email custom email
      * @return string URL to gravatar image
      */
-    public function getAvatar()
-    {
+    public function getAvatar($email = null) {
+        if(is_null($email)) {
+            $email = $this->email;
+        }
         // Make gravatar
         $gravatar = new Gravatar();
         $gravatar->setDefaultImage('wavatar');
-        return $gravatar->buildGravatarURL($this->email);
+        return $gravatar->buildGravatarURL($email);
     }
 
     /**
