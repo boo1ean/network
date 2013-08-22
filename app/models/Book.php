@@ -21,7 +21,6 @@ class Book extends ActiveRecord
      */
     public $order_by = 'author asc';
 
-
     // Book types
     const TYPE_PAPER      = 1;
     const TYPE_ELECTRONIC = 2;

@@ -126,7 +126,7 @@ class AdminController extends PjaxController
 
         $libraryForm->offset   = $page;
         $libraryForm->order_by = str_replace('-', ' ', $order);
-        $books_data = $libraryForm->libraryBookList($where);
+        $books_data = $libraryForm->libraryBookList($where, true);
         $books      = array();
 
         foreach ($books_data['books'] as $key => $book) {

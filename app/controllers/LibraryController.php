@@ -3,60 +3,44 @@
 namespace app\controllers;
 
 use app\models\Booktaking;
-use app\models\EditBookForm;
 use yii;
-use yii\web\Controller;
 use app\models\Book;
 use app\models\Tag;
-use app\models\AddBookForm;
 
 class LibraryController extends PjaxController
 {
-    public function actionBooks() {
-
+    public function beforeAction($action) {
+        // Check user on access
         if (Yii::$app->getUser()->getIsGuest()) {
-            Yii::$app->getResponse()->redirect('@web');
+            Yii::$app->getResponse()->redirect('/');
             return false;
         }
 
-        if (isset($_POST['id_status']) && isset($_POST['id_param']) && $_POST['id_status'] != 'all') {
-            $books = Book::getBooksByParams($_POST['id_status'], $_POST['id_param']);
-        } else if (isset($_POST['id_status']) && isset($_POST['id_param']) && $_POST['id_status'] == 'all') {
-            $books = Book::getAllBooks($_POST['id_param']);
-        } else {
-            $books = Book::getAllBooks(null);
+        return parent::beforeAction($action);
+    }
+
+    public function actionBooks() {
+        $bookModel = new Book();
+        $tagModel  = new Tag();
+        $where     = array();
+
+        $books_data = $bookModel->getBookList($where);
+        $books      = array();
+
+        foreach ($books_data['books'] as $key => $book) {
+            $books[$key]           = $book;
+            $books[$key]['status'] = $books[$key]['status'] == Book::STATUS_AVAILABLE ? 'available' : 'taken';
+            $books[$key]['type']   = $books[$key]['type']   == Book::TYPE_PAPER       ? 'Paper'     : 'E-book';
         }
 
-        if(isset($_POST['sel_tags'])) {
-            $selected_tags = $_POST['sel_tags'];
-            $books = array();
+        $tags = $tagModel->getTags();
 
-            foreach($selected_tags as $tag) {
-                $tag_curr = Tag::findByTitle($tag);
-                $books_by_tag = $tag_curr->books;
-
-                foreach($books as $book_all) {
-                    foreach($books_by_tag as $key => $book_by_tag) {
-                        if($book_by_tag->title == $book_all->title && $book_by_tag->author == $book_all->author) {
-                            unset($books_by_tag[$key]);
-                        }
-                    }
-                }
-
-                $books = array_merge($books, $books_by_tag);
-            }
-        }
-
-        $all_tags = Tag::getTags();
-
-        if (isset($_POST['partial']) && $_POST['partial'] == 'yes') {
-            $this->layout = 'block';
-        }
-
-        return $this->render('bookslist', array(
+        $param = array(
             'books' => $books,
-            'all_tags' => $all_tags
-        ));
+            'tags'  => $tags
+        );
+
+        return $this->render('bookList', $param);
     }
 
     public function actionTakebook() {
