@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use app\models\User;
 use app\models\Event;
+use app\helpers\DateTimeHelper;
 ?>
 
 <div class="row">
@@ -67,7 +68,8 @@ use app\models\Event;
     <div class="panel panel-info" style="border-color: <?php echo $event->color; ?>">
         <div class="panel-heading" style="background-color: <?php echo $event->color; ?>;">
             <b class='events-heading'>
-                <?php echo $event->start_date.' '.$event->start_time.' - '.$event->end_date.' '.$event->end_time; ?>
+                <?php echo DateTimeHelper::formatTime($event->start_date.' '.$event->start_time).' - '.
+                           DateTimeHelper::formatTime($event->end_date.' '.$event->end_time); ?>
             </b>
 
             <b class="pull-right">
