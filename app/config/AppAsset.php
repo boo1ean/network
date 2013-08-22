@@ -29,7 +29,8 @@ class AppAsset extends AssetBundle
     public $js = array(
         'js/jquery-2.0.3.min.js',
         'js/toastr.js',
-        'js/bootstrap.min.js',
+        'js/bootstrap.js',
+        'js/bootstrap-typeahead.js',
         'js/library/books.js',
         'js/calendar/spectrum.js',
         'js/calendar/events.js',
