@@ -94,35 +94,17 @@ class CalendarController extends PjaxController
             return false;
         }
 
-        if (isset($_POST['filter_id'])) {
-            switch ($_POST['filter_id']) {
-                case 'birthday':
-                    $type = 0;
-                    break;
-                case 'corpevent':
-                    $type = 1;
-                    break;
-                case 'holiday':
-                    $type = 2;
-                    break;
-                case 'dayoff':
-                    $type = 3;
-                    break;
-                default:
-                    $type = 0;
-                    break;
-            }
+        $events = Event::sortByStartDateFromNow();
 
-            $events = Event::filterByType($type);
-        } else {
-            $events = Event::sortByStartDateFromNow();
+        if (isset($_POST['sel_filters'])) {
+            $events = Event::filterByMultiType($_POST['sel_filters']);
         }
 
         if (isset($_POST['filter_id'])) {
             $this->layout = 'block';
 
             return $this->renderPartial('eventslist', array(
-                'events' => $events
+                'events' => $events,
             ));
         } else {
             return $this->render('events', array(

@@ -4,39 +4,8 @@ use app\models\User;
 use app\models\Event;
 ?>
 
-<div class="row">
-    <div class="col-lg-6 col-lg-offset-3">
-
-        <h1>Events
-
-            <strong class="event-filter">
-
-                <?php echo Html::a('+ New event', null, array(
-                    'class' => 'btn btn-success',
-                    'name' => 'event-add',
-                    'data-target' => '#myModal',
-                    'data-toggle' => 'modal'
-                )); ?>
-
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        Filter by event type <span class="glyphicon glyphicon-filter"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a name='event-filter' id='birthday' class='cursorOnNoLink'>Birthday</a></li>
-                        <li><a name='event-filter' id='corpevent' class='cursorOnNoLink'>Coprevent</a></li>
-                        <li><a name='event-filter' id='holiday' class='cursorOnNoLink'>Holiday</a></li>
-                        <li><a name='event-filter' id='dayoff' class='cursorOnNoLink'>Day-off</a></li>
-                    </ul>
-                </div>
-
-            </strong>
-
-        </h1>
-
-        <br/>
-
         <?php
+
         foreach ($events as $event) {
             ?>
 
@@ -129,6 +98,3 @@ use app\models\Event;
         }
 
         ?>
-
-    </div>
-</div>
