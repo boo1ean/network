@@ -123,15 +123,27 @@ $(function(){
                             errors.showErrors(i, result['errors'][i])
                         }
                     } else {
+                        var row_class;
+
+                        if('E-book' == result['book']['type']) {
+                            row_class = 'default';
+                        } else {
+                            switch (result['book']['status']) {
+                                case 'ask':
+                                    row_class = 'warning';
+                                    break;
+                                case 'available':
+                                    row_class = 'success';
+                                    break;
+                                case 'taken':
+                                    row_class = 'danger';
+                                    break;
+                            }
+                        }
+
                         if(0 == id) {
                             var book = result['book'];
-                            var html = '<tr id="'+book['id']+'" ';
-
-                            if('E-book' == book['type']) {
-                                html += 'class="default"';
-                            } else {
-                                html += 'available' == book['status'] ? 'class="success"' : 'class="danger"';
-                            }
+                            var html = '<tr id="' + book['id'] + '" class="' + row_class + '"';
 
                             html += '> <td id="' + book['id'] + '_author"> ' + book['author'] + ' </td>' +
                                  '<td id="' + book['id'] + '_title"> ' + book['title'] + ' </td>' +
@@ -151,28 +163,35 @@ $(function(){
                         } else {
                             for (var i in result['book']) {
                                 $('#'+id+'_'+i).html(result['book'][i]);
+
                                 if('type' == i) {
                                     var parent = $('#'+id+'_'+i).parent();
+
                                     if('Paper' == result['book'][i]) {
-                                        parent.attr('class', '').addClass('available' == result['book']['status'] ? 'success' : 'danger');
+                                        parent.attr('class', '').addClass(row_class);
 
                                         if(parent.find('[name="book-download"]').length) {
                                             parent.find('[name="book-download"]').remove();
                                         }
+
                                     } else {
                                         parent.attr('class', '').addClass('default');
                                         parent.find('[name="book-download"]').remove()
                                         parent.find('[name="book-delete"]').after(
-                                            '<a href="' + result['book']['link'] + '" class="col-sm-offset-1 btn btn-sm btn-primary ' +
+                                            '<a href="' + result['book']['link'] + '" class="col-sm-offset-1btn btn-sm btn-primary ' +
                                             ('#' == result['book']['link'] ? 'disabled' : '') + '" ' +
                                             'name="book-download" target="_blank">Download</a>'
                                         );
                                     }
+
                                 }
+
                             }
                         }
+
                         $('#book-modal').modal('hide');
                     }
+
                 },
                 error: function(error) {
                     alert(error.statusText);

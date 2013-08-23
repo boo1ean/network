@@ -63,31 +63,41 @@ use yii\widgets\LinkPager;
         </tr>
         <?php foreach($books as $book):?>
             <tr <?php
-                echo 'id="'.$book->id.'" ';
-                if('E-book' == $book->type) {
+                echo 'id="'.$book['id'].'" ';
+                if('E-book' == $book['type']) {
                     echo 'class="default"';
                 } else {
-                    echo 'available' == $book->status ? 'class="success"' : 'class="danger"';
+                    switch ($book['status']) {
+                        case 'ask':
+                            echo 'class="warning"';
+                            break;
+                        case 'available':
+                            echo 'class="success"';
+                            break;
+                        case 'taken':
+                            echo 'class="danger"';
+                            break;
+                    }
                 } ?> >
-                <td id="<?php echo $book->id?>_author"> <?php echo $book->author;?> </td>
-                <td id="<?php echo $book->id?>_title">  <?php echo $book->title;?>  </td>
-                <td id="<?php echo $book->id?>_type">   <?php echo $book->type;?>   </td>
+                <td id="<?php echo $book['id']?>_author"> <?php echo $book['author'];?> </td>
+                <td id="<?php echo $book['id']?>_title">  <?php echo $book['title'];?>  </td>
+                <td id="<?php echo $book['id']?>_type">   <?php echo $book['type'];?>   </td>
                 <td >
                     <?php
                     echo Html::button('Edit', array(
                         'class'   => 'btn btn-sm btn-success',
-                        'data-id' => $book->id,
+                        'data-id' => $book['id'],
                         'name'    => 'book-edit'
                     ));
                     echo Html::button('Delete', array(
                         'class'   => 'btn btn-sm btn-danger',
-                        'data-id' => $book->id,
+                        'data-id' => $book['id'],
                         'name'    => 'book-delete'
                     ));
-                    if('E-book' == $book->type) {
-                        echo Html::a('Download', $book->link, array(
-                            'class'   => 'col-sm-offset-1 btn btn-sm btn-primary '.('' == $book->link ? 'disabled' : ''),
-                            'data-id' => $book->id,
+                    if('E-book' == $book['type']) {
+                        echo Html::a('Download', $book['link'], array(
+                            'class'   => 'col-sm-offset-1 btn btn-sm btn-primary '.('' == $book['link'] ? 'disabled' : ''),
+                            'data-id' => $book['id'],
                             'name'    => 'book-download',
                             'target'  => '_blank'
                         ));

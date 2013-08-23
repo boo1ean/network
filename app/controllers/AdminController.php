@@ -2,6 +2,7 @@
 namespace app\controllers;
 
 use app\models\Book;
+use app\models\BookTaking;
 use app\models\admin\InviteForm;
 use app\models\admin\LibraryForm;
 use app\models\admin\MainForm;
@@ -112,6 +113,7 @@ class AdminController extends PjaxController
     }
 
     public function actionLibraryBookList($status = 'all', $order = 'author-asc', $page = 1) {
+        $user        = Yii::$app->getUser()->getIdentity();
         $libraryForm = new LibraryForm();
         $where       = array();
 
@@ -130,9 +132,21 @@ class AdminController extends PjaxController
         $books      = array();
 
         foreach ($books_data['books'] as $key => $book) {
-            $books[$key]           = $book;
-            $books[$key]['status'] = $books[$key]['status'] == Book::STATUS_AVAILABLE ? 'available' : 'taken';
-            $books[$key]['type']   = $books[$key]['type']   == Book::TYPE_PAPER       ? 'Paper'     : 'E-book';
+            $books[$key] = $book->toArray();
+
+            switch ($books[$key]['status']) {
+                case Book::STATUS_ASK:
+                    $books[$key]['status'] = 'ask';;
+                    break;
+                case Book::STATUS_AVAILABLE:
+                    $books[$key]['status']   = 'available';
+                    break;
+                case Book::STATUS_TAKEN:
+                    $books[$key]['status'] = 'taken';
+                    break;
+            }
+
+            $books[$key]['type'] = $books[$key]['type'] == Book::TYPE_PAPER ? 'Paper' : 'E-book';
         }
 
         $param = array(
