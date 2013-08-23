@@ -42,7 +42,7 @@ return array(
                 '/auth/registration/<email:[^\s]+?>/<password_hash:[^\s]+>' => 'auth/registration',
                 '/calendar/eventpage/<id:\d+>'                              => 'calendar/eventpage',
                 '/conversation/<id:\d+>'                                    => 'conversation',
-                '/library/books/<page:\d+>'                                 => 'library/books',
+                '/library/books/<status:[a-z]+>/<order:[a-z-]+>/<page:\d+>' => 'library/books',
             )
         ),
 

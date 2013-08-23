@@ -20,12 +20,22 @@ class LibraryController extends PjaxController
         return parent::beforeAction($action);
     }
 
-    public function actionBooks($page = 1) {
+    public function actionBooks($status = 'all', $order = 'author-asc', $page = 1) {
         $bookModel = new Book();
         $tagModel  = new Tag();
         $where     = array();
 
-        $bookModel->offset = $page;
+        switch($status) {
+            case 'available':
+                $where['status'] = Book::STATUS_AVAILABLE;
+                break;
+            case 'taken':
+                $where['status'] = Book::STATUS_TAKEN;
+                break;
+        }
+
+        $bookModel->offset   = $page;
+        $bookModel->order_by = str_replace('-', ' ', $order);
         $books_data = $bookModel->getBookList($where, true);
         $books      = array();
 
@@ -48,7 +58,10 @@ class LibraryController extends PjaxController
 
         $param = array(
             'books'      => $books,
+            'order'      => $order,
+            'page'       => $page,
             'pagination' => $pagination,
+            'status'     => $status,
             'tags'       => $tags
         );
 

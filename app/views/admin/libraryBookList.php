@@ -46,22 +46,18 @@ use yii\widgets\LinkPager;
             <td >
                 <?php echo Html::tag('b', 'Author'); ?>
                 <?php echo Html::a('&#8593;', '/admin/library/'.$status.'/author-asc/'.$page, array(
-                    'id'    => 'filter-all',
                     'class' => 'label '.('author-asc' == $order ? 'label-info' : 'label-default')
                 )); ?>
                 <?php echo Html::a('&#8595;', '/admin/library/'.$status.'/author-desc/'.$page, array(
-                    'id'    => 'filter-available',
                     'class' => 'label '.('author-desc' == $order ? 'label-info' : 'label-default')
                 )); ?>
             </td>
             <td >
                 <?php echo Html::tag('b', 'Title');?>
                 <?php echo Html::a('&#8593;', '/admin/library/'.$status.'/title-asc/'.$page, array(
-                    'id'    => 'filter-all',
                     'class' => 'label '.('title-asc' == $order ? 'label-info' : 'label-default')
                 )); ?>
                 <?php echo Html::a('&#8595;', '/admin/library/'.$status.'/title-desc/'.$page, array(
-                    'id'    => 'filter-available',
                     'class' => 'label '.('title-desc' == $order ? 'label-info' : 'label-default')
                 )); ?>
             </td>
