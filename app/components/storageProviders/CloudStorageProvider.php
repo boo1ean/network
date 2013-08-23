@@ -53,4 +53,14 @@ class CloudStorageProvider implements StorageProviderInterface
             return false;
         }
     }
+
+    public function image($path, $size = 'm') {
+        try {
+            $result = $this->dbxClient->getThumbnail($path, "png", $size);
+            $src = '"data:image/png;base64, ' . base64_encode($result[1]) . '"';
+            return $src;
+        } catch (Dropbox\Exception_BadResponse $e) {  // If file doesn't exist
+            return false;
+        }
+    }
 }

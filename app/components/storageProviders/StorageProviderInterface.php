@@ -22,4 +22,11 @@ interface StorageProviderInterface
      * @return bool true on success, false - on fail
      */
     public function delete($path);
+
+    /**
+     * @param $path string path to image
+     * @param string $size  size of image (xs, s, m, l, xl) for dropbox
+     * @return mixed
+     */
+    public function image($path, $size = 'm');
 }

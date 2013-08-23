@@ -73,4 +73,9 @@ class Storage extends Component
             return false;
         }
     }
+
+    public function image($id) {
+        $res = Resource::find($id);
+        return $this->provider->image($res->path);
+    }
 }

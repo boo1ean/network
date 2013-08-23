@@ -31,4 +31,8 @@ class LocalStorageProvider implements StorageProviderInterface
     public function delete($path) {
         return unlink($path);
     }
+
+    public function image($path, $size = 'm') {
+        return $path;
+    }
 }
