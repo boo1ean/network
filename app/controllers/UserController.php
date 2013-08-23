@@ -21,7 +21,10 @@ class UserController extends PjaxController
             $users = User::getOnlineUsers();
         }
 
-        $param = array('users' => $users);
+        $param = array(
+            'users'  => $users,
+            'filter' => $filter
+        );
         return $this->render('usersList', $param);
     }
 

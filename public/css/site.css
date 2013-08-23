@@ -355,12 +355,11 @@ h4.tag a:hover {
 }
 /**---------------------User profile------------*/
 #user-profile {
-    margin-top: 20px;
     display: table;
+    margin-top: 30px;
 }
 #user-profile-img, #user-profile-info {
     display: table-cell;
-
 }
 #user-profile-img {
     vertical-align: top;
@@ -387,4 +386,7 @@ h4.tag a:hover {
     font-size: 12px;
     padding: 5px;
     vertical-align: top;
+}
+.clear {
+    clear: both;
 }
