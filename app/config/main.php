@@ -32,7 +32,7 @@ return array(
             'baseUrl'         => '/',
 
             'rules' => array(
-                '/'                                                         => 'user/all',
+                '/'                                                         => 'user/list',
                 '/admin'                                                    => 'admin/main',
                 '/admin/library'                                            => 'admin/library-book-list',
                 '/admin/library/<status:[a-z]+>/<order:[a-z-]+>/<page:\d+>' => 'admin/library-book-list',
@@ -42,7 +42,10 @@ return array(
                 '/auth/registration/<email:[^\s]+?>/<password_hash:[^\s]+>' => 'auth/registration',
                 '/calendar/eventpage/<id:\d+>'                              => 'calendar/eventpage',
                 '/conversation/<id:\d+>'                                    => 'conversation',
+                '/conversation/private/<id:\d+>'                             => 'conversation/private',
                 '/library/books/<status:[a-z]+>/<order:[a-z-]+>/<page:\d+>' => 'library/books',
+                '/user/profile/<id:\d+>'                                    => 'user/profile',
+                '/user/list/<filter:[a-z]+>'                                => 'user/list'
             )
         ),
 

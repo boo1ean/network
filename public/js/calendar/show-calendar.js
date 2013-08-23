@@ -3,16 +3,38 @@ $(document).ready(function() {
 
     $('#myModal').on('shown.bs.modal', function() {
         $('#colorpicker').spectrum({
-            showButtons: false
+            showButtons: false,
+            showPalette: true,
+            palette: [
+                ['#d14d4d', '#b04497'],
+                ['#7c44b0', '#444db0'],
+                ['#44a9b0', '#44b061'],
+                ['#85b044', '#b09a44'],
+                ['#362ea6', '#b8402b'],
+                ['#3e9e18', '#ff0000']
+            ]
         });
     });
+
+    $('.panel-body:has(.panel-body-hidden-child)').hide();
 });
 
 function calendarReady() {
 
+    $('.panel-body:has(.panel-body-hidden-child)').hide();
+
     $('#myModal').on('shown.bs.modal', function() {
         $('#colorpicker').spectrum({
-            showButtons: false
+            showButtons: false,
+            showPalette: true,
+            palette: [
+                ['#d14d4d', '#b04497'],
+                ['#7c44b0', '#444db0'],
+                ['#44a9b0', '#44b061'],
+                ['#85b044', '#b09a44'],
+                ['#362ea6', '#b8402b'],
+                ['#3e9e18', '#ff0000']
+            ]
         });
     });
 
@@ -58,26 +80,16 @@ function calendarReady() {
                 textColor: 'white'
             }
         ],
-        dayClick: function(date) {
-            $.ajax({
-                url:  'addevent',
-                type: 'POST',
-                data: {
-                    date: date
-                },
-                success: function(html) {
-                    $('#myModal').html(html);
-                }
-            });
-            $('#myModal').modal();
-        },
         select: function(startDate, endDate, allDay, jsEvent, view) {
+            // getTime gets timestamp in milliseconds
+            // php use timestamp in seconds
+            // so we have to divide js timestamp into 1000 to get correct php timestamp
             $.ajax({
-                url:  'addevent',
+                url:  '/calendar/addevent',
                 type: 'POST',
                 data: {
-                    start: startDate,
-                    end: endDate
+                    start: startDate.getTime() / 1000,
+                    end: endDate.getTime() / 1000
                 },
                 success: function(html) {
                     $('#myModal').html(html);
@@ -87,7 +99,7 @@ function calendarReady() {
         },
         eventClick: function(event, element) {
             $.ajax({
-                url:  'eventpage',
+                url:  '/calendar/eventpage',
                 type: 'POST',
                 data: {
                     id: event.id
@@ -99,7 +111,7 @@ function calendarReady() {
         },
         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
             $.ajax({
-                url:  'dropevent',
+                url:  '/calendar/dropevent',
                 type: 'POST',
                 data: {
                     id: event.id,
@@ -113,7 +125,7 @@ function calendarReady() {
         },
         eventResize: function(event,dayDelta,minuteDelta,revertFunc) {
             $.ajax({
-                url:  'dropevent',
+                url:  '/calendar/dropevent',
                 type: 'POST',
                 data: {
                     id: event.id,

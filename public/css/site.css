@@ -146,6 +146,11 @@ strong.event-filter {
     font-size: 15pt !important;
 }
 
+/*hidden block at event panel-body */
+.panel-body-hidden-child {
+    display: none;
+}
+
 .mycontainer {
     background-color: #eeeeee;
     background-image: url('../js/287.gif');
@@ -306,7 +311,7 @@ h4.tag a:hover {
     100% {opacity: 1;}
 }
 /*------------------------Notifications-----------------------------*/
-#notification-list, #userlist {
+#notification-list, #userlist, #user-profile {
     margin: 0;
     width: 700px;
 }
@@ -347,4 +352,41 @@ h4.tag a:hover {
 #userlist .online{
     background-color: #D9EDF7;
     border-color: #BCE8F1;
+}
+/**---------------------User profile------------*/
+#user-profile {
+    display: table;
+    margin-top: 30px;
+}
+#user-profile-img, #user-profile-info {
+    display: table-cell;
+}
+#user-profile-img {
+    vertical-align: top;
+    width: 200px;
+}
+#user-profile-info {
+    vertical-align: middle;
+    padding: 10px;
+}
+#user-profile-name {
+    font-weight: bold;
+    font-size: 20px;
+}
+#user-profile-blocked {
+    color: red;
+    font-weight: bold;
+}
+#user-profile-message{
+    display: block;
+    width: 150px;
+}
+#user-profile-activity {
+    color: #777;
+    font-size: 12px;
+    padding: 5px;
+    vertical-align: top;
+}
+.clear {
+    clear: both;
 }

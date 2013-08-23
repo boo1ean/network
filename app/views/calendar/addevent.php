@@ -117,7 +117,6 @@ use yii\widgets\ActiveForm;
                 </div>
             </div>
 
-
         </div><!--body-->
 
         <div class="modal-footer">

@@ -4,10 +4,9 @@ namespace app\models;
 use \emberlabs\GravatarLib\Gravatar;
 use \yii\db\ActiveRecord;
 use yii\db\ActiveRelation;
-use yii\db\mssql\PDO;
 use \yii\web\Identity;
 use \yii\helpers\Security;
-use yii\db\Expression;
+use yii\db\Query;
 
 
 class User extends ActiveRecord implements Identity
@@ -15,6 +14,8 @@ class User extends ActiveRecord implements Identity
     // User types (column `type` in db)
     const TYPE_ADMIN = 0;
     const TYPE_USER = 1;
+    // Seconds of inactivity, after which the user is offline
+    const TIME_ONLINE = 600;
 
     public static function tableName() {
         return 'users';
@@ -229,11 +230,34 @@ class User extends ActiveRecord implements Identity
         }
     }
 
+    /**
+     * @return bool true if user online, else -false
+     */
     public function getIsOnline(){
         $userActivity = $this->last_activity;
         $now = time();
-        $minutes = round(($now - strtotime($userActivity))/60);
-        return $minutes < 10;
+        $seconds = $now - strtotime($userActivity);
+        return $seconds < self::TIME_ONLINE;
+    }
+
+    /**
+     * @return array of all users sorted by last activity desc
+     */
+    public static function getAllUsers() {
+        return User::find()
+            ->orderBy(array('last_activity' => Query::SORT_DESC))
+            ->all();
+    }
+
+    /**
+     * @return array of online users sorted by last activity desc
+     */
+    public static function getOnlineUsers() {
+        $onlineTime = time() - self::TIME_ONLINE;
+        return User::find()
+            ->where('last_activity >= :date', array(':date' => date('Y-m-d H:i:s', $onlineTime)))
+            ->orderBy(array('last_activity' => Query::SORT_DESC))
+            ->all();
     }
 }
 
