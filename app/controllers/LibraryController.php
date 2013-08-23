@@ -91,6 +91,11 @@ class LibraryController extends PjaxController
             ));
         } else {
             $pagination = null;
+
+            if($page != 1) {
+                Yii::$app->getResponse()->redirect('/library/books/'.$status.'/'.$order.'/1');
+            }
+
         }
 
         $param = array(

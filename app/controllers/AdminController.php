@@ -129,7 +129,12 @@ class AdminController extends PjaxController
         $libraryForm->offset   = $page;
         $libraryForm->order_by = str_replace('-', ' ', $order);
         $books_data = $libraryForm->libraryBookList($where, true);
-        $books      = array();
+
+        if(is_null($books_data['pagination']) && $page != 1) {
+            Yii::$app->getResponse()->redirect('/admin/library/'.$status.'/'.$order.'/1');
+        }
+
+        $books = array();
 
         foreach ($books_data['books'] as $key => $book) {
             $books[$key] = $book->toArray();
