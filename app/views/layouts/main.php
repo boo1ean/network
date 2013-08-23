@@ -55,7 +55,7 @@ if ($user === null) {
     <div class="container">
         <?php $this->beginBody(); ?>
         <div class="masthead">
-            <div class="navbar navbar-fixed-top">
+            <div class="navbar navbar-default navbar-fixed-top">
                 <div class="navbar-inner">
                     <div class="container">
                         <?php echo Menu::widget(array(

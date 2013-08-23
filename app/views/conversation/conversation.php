@@ -55,10 +55,10 @@ use app\helpers\DateTimeHelper;
     <div class = "messageContainer" id="message-container">
         <?php $form = ActiveForm::begin(array('options' => array('class' => 'form-inline'))); ?>
         <div class="row">
-            <div class="col-1" id="avatar-container">
+            <div class="col-lg-1 navbar-left" id="avatar-container">
                 <?php echo Html::img($user->avatar, array('class' => 'avatar'));?>
             </div>
-            <div class="col-11">
+            <div class="col-lg-11">
                 <?php echo Html::textarea('body', '', array(
                     'autofocus'   => 'true',
                     'class'       => 'form-control',
