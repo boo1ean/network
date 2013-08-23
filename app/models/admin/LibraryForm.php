@@ -127,7 +127,8 @@ class LibraryForm extends Book
             }
 
             $book->save();
-            $this->id = $book->id;
+            $this->id   = $book->id;
+            $this->link = $book->link;
 
             if('' !== $this->tags) {
                 $tags_new = explode(',', $this->tags);

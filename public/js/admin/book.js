@@ -140,7 +140,7 @@ $(function(){
                                  '<button type="submit" class="btn btn-sm btn-danger" name="book-delete" data-id="' + book['id'] + '">Delete</button>';
 
                             if('E-book' == book['type']) {
-                                html += '<a class="btn btn-sm btn-primary ' + ('#' == result['book']['link'] ? 'disabled' : '') + '" ' +
+                                html += '<a class="col-sm-offset-1 btn btn-sm btn-primary ' + ('#' == result['book']['link'] ? 'disabled' : '') + '" ' +
                                     'name="book-download" href="' + result['book']['link'] + '" ' +
                                     'data-id="' + book['id'] + '" target="_blank">Download</a>';
                             }
@@ -163,7 +163,7 @@ $(function(){
                                         parent.attr('class', '').addClass('default');
                                         parent.find('[name="book-download"]').remove()
                                         parent.find('[name="book-delete"]').after(
-                                            '<a href="' + result['book']['link'] + '" class="btn btn-sm btn-primary ' +
+                                            '<a href="' + result['book']['link'] + '" class="col-sm-offset-1 btn btn-sm btn-primary ' +
                                             ('#' == result['book']['link'] ? 'disabled' : '') + '" ' +
                                             'name="book-download" target="_blank">Download</a>'
                                         );

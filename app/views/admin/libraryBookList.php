@@ -87,20 +87,19 @@ use yii\widgets\LinkPager;
                 <td id="<?php echo $book->id?>_type">   <?php echo $book->type;?>   </td>
                 <td >
                     <?php
-
                     echo Html::button('Edit', array(
                         'class'   => 'btn btn-sm btn-success',
                         'data-id' => $book->id,
                         'name'    => 'book-edit'
                     ));
-                    echo Html::submitButton('Delete', array(
+                    echo Html::button('Delete', array(
                         'class'   => 'btn btn-sm btn-danger',
                         'data-id' => $book->id,
                         'name'    => 'book-delete'
                     ));
                     if('E-book' == $book->type) {
                         echo Html::a('Download', $book->link, array(
-                            'class'   => 'btn btn-sm btn-primary '.('' == $book->link ? 'disabled' : ''),
+                            'class'   => 'col-sm-offset-1 btn btn-sm btn-primary '.('' == $book->link ? 'disabled' : ''),
                             'data-id' => $book->id,
                             'name'    => 'book-download',
                             'target'  => '_blank'
