@@ -31,12 +31,26 @@ class CloudStorageProvider implements StorageProviderInterface
 
     /**
      * @param UploadedFile $uploadedFile
-     * @return mixed|void
+     * @return array
      */
     public function save($uploadedFile) {
 
         $meta = $this->dbxClient->uploadFile($this->dropboxPath . uniqid() . '_' . $uploadedFile->getName(), Dropbox\WriteMode::add(), fopen($uploadedFile->getTempName(), "rb"), $uploadedFile->getSize());
+        $resource = array();
+        $resource['path'] = $meta['path'];
         $share = $this->dbxClient->createShareableLink($meta['path']);
-        return $share;
+        $resource['link'] = $share;
+
+        return $resource;
+    }
+
+    public function delete($path) {
+        // Try to delete file
+        try {
+            $result = $this->dbxClient->delete($path);
+            return $result->is_deleted;
+        } catch (Dropbox\Exception_BadResponse $e) {  // If file doesn't exist
+            return false;
+        }
     }
 }

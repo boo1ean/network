@@ -35,7 +35,7 @@ class Storage extends Component
     /**
      * Save path via storageProvider
      * @param $localPath UploadedFile for saving
-     * @return mixed string|bool
+     * @return mixed integer|bool id if uploaded resource or false if failed
      */
     public function save($localPath) {
         $file =  $this->provider->save($localPath);
@@ -50,12 +50,25 @@ class Storage extends Component
         }
     }
 
+    /**
+     * @param $id integer id of resource to delete;
+     * @return bool true if success, false - if fail
+     */
     public function delete($id) {
+        // Find resource by id
         $resource = Resource::find($id);
+        // If resource was found
         if($resource != null) {
+            // Get path
             $path = $resource->path;
-            $resource->delete();
-            return $this->provider->delete($path);
+            // Try to delete
+            if ($this->provider->delete($path)) {
+                // Delete record from db
+                $resource->delete();
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
