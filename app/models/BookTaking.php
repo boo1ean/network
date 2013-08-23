@@ -50,15 +50,21 @@ class BookTaking extends ActiveRecord
         }
     }
 
-    public function findByBookId($book_id) {
+    public static function findByBookId($book_id) {
         return static::find()
             ->where(array('book_id' => $book_id))
             ->all();
     }
 
-    public function findByBookIdAndStatus($book_id, $status) {
+    public static function findByBookIdAndStatus($book_id, $status) {
         return static::find()
             ->where(array('book_id' => $book_id, 'status_user_book' => $status))
+            ->one();
+    }
+
+    public static function findByUserIdAndStatus($user_id, $status) {
+        return static::find()
+            ->where(array('user_id' => $user_id, 'status_user_book' => $status))
             ->one();
     }
 

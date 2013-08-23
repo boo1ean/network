@@ -45,25 +45,35 @@ use yii\widgets\LinkPager;
     <ul class="nav nav-list panel-group" id="books-list">
         <?php foreach ($books as $book):?>
             <li <?php
-                if('E-book' == $book->type) {
+                if('E-book' == $book['type']) {
                     echo 'class="panel panel-default"';
                 } else {
-                    echo 'available' == $book->status ? 'class="panel panel-success"' : 'class="panel panel-danger"';
+                    switch ($book['status']) {
+                        case 'ask':
+                            echo 'class="panel panel-warning"';
+                            break;
+                        case 'available':
+                            echo 'class="panel panel-success"';
+                            break;
+                        case 'taken':
+                            echo 'class="panel panel-danger"';
+                            break;
+                    }
                 } ?>
                 >
                 <div class="panel-heading ">
                     <h4 class="panel-title modal-header" style="border-bottom: 0px;">
-                        <div class="navbar-left" id="<?php echo $book->id.'-title-author'?>">
+                        <div class="navbar-left" id="<?php echo $book['id'].'-title-author'?>">
                             <b class="h2" title="Book title">
-                                <?php echo $book->title; ?>
+                                <?php echo $book['title']; ?>
                             </b>
                             <div title="Book author">
-                                <?php echo $book->author; ?>
+                                <?php echo $book['author']; ?>
                             </div>
                         </div>
                         <div class="navbar-right">
                             <?php
-                            foreach ($book->tags as $tag) {
+                            foreach ($book['tags'] as $tag) {
                                 echo Html::a($tag->title, null, array(
                                     'id'      => $tag->title,
                                     'class'   => 'label label-info'
@@ -72,28 +82,28 @@ use yii\widgets\LinkPager;
                         </div>
                         <br/><br/><br/><br/>
                         <div class="navbar-left">
-                            <a class="accordion-toggle" data-parent="#books-list" data-toggle="collapse" href="<?php echo '#'.$book->id.'-collapse'?>">
+                            <a class="accordion-toggle" data-parent="#books-list" data-toggle="collapse" href="<?php echo '#'.$book['id'].'-collapse'?>">
                                 Description
                             </a>
                         </div>
                         <div class="navbar-right">
                             <?php
-                                if ('E-book' == $book->type) {
-                                    echo Html::a('Download', $book->link, array('class' => 'label label-success', 'target' => '_blank'));
-                                } elseif ('taken' != $book->status) {
+                                if ('E-book' == $book['type']) {
+                                    echo Html::a('Download', $book['link'], array('class' => 'label label-success', 'target' => '_blank'));
+                                } elseif ($book['show_ask'] && 'taken' != $book['status']) {
                                     echo Html::button('Ask for book', array(
                                         'class'   => 'btn btn-xs',
-                                        'data-id' => $book->id,
+                                        'data-id' => $book['id'],
                                         'name'    => 'book-ask'
                                     ));
                             } ?>
                         </div>
                     </h4>
                 </div>
-                <div id="<?php echo $book->id.'-collapse'?>" class="panel-collapse collapse">
+                <div id="<?php echo $book['id'].'-collapse'?>" class="panel-collapse collapse">
                     <div class="panel-body">
                         <blockquote>
-                            <p><?php echo $book->description; ?></p>
+                            <p><?php echo $book['description']; ?></p>
                         </blockquote>
                     </div>
                 </div>

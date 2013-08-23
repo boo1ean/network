@@ -4,7 +4,6 @@ namespace app\controllers;
 
 use app\models\Book;
 use app\models\BookTaking;
-use app\models\Tag;
 use yii;
 use yii\data\Pagination;
 
@@ -43,8 +42,8 @@ class LibraryController extends PjaxController
     }
 
     public function actionBooks($status = 'all', $order = 'author-asc', $page = 1) {
+        $user      = Yii::$app->getUser()->getIdentity();
         $bookModel = new Book();
-        $tagModel  = new Tag();
         $where     = array();
 
         switch($status) {
@@ -62,12 +61,28 @@ class LibraryController extends PjaxController
         $books      = array();
 
         foreach ($books_data['books'] as $key => $book) {
-            $books[$key]           = $book;
-            $books[$key]['status'] = $books[$key]['status'] == Book::STATUS_AVAILABLE ? 'available' : 'taken';
-            $books[$key]['type']   = $books[$key]['type']   == Book::TYPE_PAPER       ? 'Paper'     : 'E-book';
-        }
+            $books[$key]         = $book->toArray();
+            $books[$key]['tags'] = $book->tags;
 
-        $tags = $tagModel->getTags();
+            switch ($books[$key]['status']) {
+                case Book::STATUS_ASK:
+                    $books[$key]['status'] = 'ask';
+                    $book_taking = BookTaking::findByUserIdAndStatus($user->id, BookTaking::STATUS_ASK);
+                    $books[$key]['show_ask'] = !is_object($book_taking);
+                    break;
+                case Book::STATUS_AVAILABLE:
+                    $books[$key]['status']   = 'available';
+                    $books[$key]['show_ask'] = true;
+                    break;
+                case Book::STATUS_TAKEN:
+                    $books[$key]['status'] = 'taken';
+                    $book_taking = BookTaking::findByUserIdAndStatus($user->id, BookTaking::STATUS_TAKEN);
+                    $books[$key]['show_ask'] = is_object($book_taking);
+                    break;
+            }
+
+            $books[$key]['type'] = $books[$key]['type'] == Book::TYPE_PAPER ? 'Paper' : 'E-book';
+        }
 
         if (isset($books_data['count_total']) && $bookModel->limit < $books_data['count_total']) {
             $pagination = new Pagination(array(
@@ -83,8 +98,7 @@ class LibraryController extends PjaxController
             'order'      => $order,
             'page'       => $page,
             'pagination' => $pagination,
-            'status'     => $status,
-            'tags'       => $tags
+            'status'     => $status
         );
 
         return $this->render('bookList', $param);
