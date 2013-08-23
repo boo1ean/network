@@ -39,4 +39,8 @@ class Storage extends Component
     public function save($localPath) {
         return  $this->provider->save($localPath);
     }
+
+    public function delete($path) {
+        return $this->provider->delete($path);
+    }
 }

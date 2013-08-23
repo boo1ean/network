@@ -16,4 +16,11 @@ interface StorageProviderInterface
      * @param $params array of parameters
      */
     public function setParams($params);
+
+    /**
+     * Delete file in specified path
+     * @param $path
+     * @return mixed
+     */
+    public function delete($path);
 }

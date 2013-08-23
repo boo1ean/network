@@ -22,6 +22,11 @@ class LocalStorageProvider implements StorageProviderInterface
     public function save($filename) {
 
         $newPath = $this->params['directory'] . uniqid() . '_' . $filename->getName();
+
         return ($filename->saveAs($newPath)) ? $newPath : false;
+    }
+
+    public function delete($path) {
+        return unlink($path);
     }
 }
