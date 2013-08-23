@@ -146,6 +146,11 @@ strong.event-filter {
     font-size: 15pt !important;
 }
 
+/*hidden block at event panel-body */
+.panel-body-hidden-child {
+    display: none;
+}
+
 .mycontainer {
     background-color: #eeeeee;
     background-image: url('../js/287.gif');

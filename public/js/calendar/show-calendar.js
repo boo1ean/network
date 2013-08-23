@@ -15,9 +15,13 @@ $(document).ready(function() {
             ]
         });
     });
+
+    $('.panel-body:has(.panel-body-hidden-child)').hide();
 });
 
 function calendarReady() {
+
+    $('.panel-body:has(.panel-body-hidden-child)').hide();
 
     $('#myModal').on('shown.bs.modal', function() {
         $('#colorpicker').spectrum({
@@ -76,19 +80,6 @@ function calendarReady() {
                 textColor: 'white'
             }
         ],
-        dayClick: function(date) {
-            $.ajax({
-                url:  'addevent',
-                type: 'POST',
-                data: {
-                    date: date
-                },
-                success: function(html) {
-                    $('#myModal').html(html);
-                }
-            });
-            $('#myModal').modal();
-        },
         select: function(startDate, endDate, allDay, jsEvent, view) {
             $.ajax({
                 url:  'addevent',

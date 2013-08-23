@@ -169,10 +169,33 @@ $(function(){
                 },
                 success: function(html) {
                     $('#filtered_events').html(html);
+
+                    $('.panel-body:has(.panel-body-hidden-child)').hide();
                 }
             });
             return false;
         }
     }, 'a[name="event-filter"]');
+
+    /*
+     * Filter by event type
+     */
+    $(document).on({
+        click: function() {
+            var body_id = $(this).attr('id');
+
+            var up_or_down = $('.panel-heading .pull-right a[id='+body_id+']').html();
+
+            if (up_or_down == '<span class="glyphicon glyphicon-chevron-up white"></span>') {
+                $('.panel-heading .pull-right a[id='+body_id+']').html(
+                    '<span class="glyphicon glyphicon-chevron-down white"></span>');
+            } else {
+                $('.panel-heading .pull-right a[id='+body_id+']').html(
+                    '<span class="glyphicon glyphicon-chevron-up white"></span>');
+            }
+
+            $('.panel-body:has(.panel-body-hidden-child:contains('+body_id+'))').toggle('show hide');
+        }
+    }, 'a[name="event-body-down"]');
 
 });
