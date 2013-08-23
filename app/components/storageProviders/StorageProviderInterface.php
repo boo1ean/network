@@ -5,9 +5,8 @@ interface StorageProviderInterface
 {
     /**
      * Saves file according to parameters
-     * If file saved successfully returns path to file, else returns false
      * @param $filename UploadedFile
-     * @return mixed string|bool
+     * @return array contains path and link for uploaded file
      */
     public function save($filename);
 
@@ -20,7 +19,7 @@ interface StorageProviderInterface
     /**
      * Delete file in specified path
      * @param $path
-     * @return mixed
+     * @return bool true on success, false - on fail
      */
     public function delete($path);
 }
