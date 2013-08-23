@@ -28,14 +28,6 @@ class Event extends ActiveRecord
             ->all();
     }
 
-    public static function filterByType($type) {
-        return static::find()
-            ->where(array('type' => $type))
-            ->having('start_date >= :date', array(':date' => date('Y-m-d')))
-            ->orderBy('start_date')
-            ->all();
-    }
-
     public static function getRightType($type_str) {
         switch ($type_str) {
             case 'birthday':

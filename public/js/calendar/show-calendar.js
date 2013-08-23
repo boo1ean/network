@@ -3,7 +3,16 @@ $(document).ready(function() {
 
     $('#myModal').on('shown.bs.modal', function() {
         $('#colorpicker').spectrum({
-            showButtons: false
+            showButtons: false,
+            showPalette: true,
+            palette: [
+                ['#d14d4d', '#b04497'],
+                ['#7c44b0', '#444db0'],
+                ['#44a9b0', '#44b061'],
+                ['#85b044', '#b09a44'],
+                ['#362ea6', '#b8402b'],
+                ['#3e9e18', '#ff0000']
+            ]
         });
     });
 });
@@ -12,7 +21,16 @@ function calendarReady() {
 
     $('#myModal').on('shown.bs.modal', function() {
         $('#colorpicker').spectrum({
-            showButtons: false
+            showButtons: false,
+            showPalette: true,
+            palette: [
+                ['#d14d4d', '#b04497'],
+                ['#7c44b0', '#444db0'],
+                ['#44a9b0', '#44b061'],
+                ['#85b044', '#b09a44'],
+                ['#362ea6', '#b8402b'],
+                ['#3e9e18', '#ff0000']
+            ]
         });
     });
 

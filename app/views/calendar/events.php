@@ -66,6 +66,7 @@ use app\helpers\DateTimeHelper;
     ?>
 
     <div class="panel panel-info" style="border-color: <?php echo $event->color; ?>">
+
         <div class="panel-heading" style="background-color: <?php echo $event->color; ?>;">
             <b class='events-heading'>
                 <?php echo DateTimeHelper::formatTime($event->start_date.' '.$event->start_time).' - '.
@@ -129,6 +130,7 @@ use app\helpers\DateTimeHelper;
             <br/>
 
         </div>
+
     </div>
 
     <?php
