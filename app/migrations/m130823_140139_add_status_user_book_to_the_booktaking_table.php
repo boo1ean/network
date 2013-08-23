@@ -2,18 +2,18 @@
 
 use yii\db\mysql\Schema;
 
-class m130822_081033_remove_status_field_from_booktaking_table extends \yii\db\Migration
+class m130823_140139_add_status_user_book_to_the_booktaking_table extends \yii\db\Migration
 {
     public function up() {
         $this->db->createCommand()
-            ->dropColumn('book_taking', 'status')
+            ->addColumn('book_taking', 'status_user_book', Schema::TYPE_SMALLINT . ' not null default 1')
             ->execute();
         return true;
     }
 
     public function down() {
         $this->db->createCommand()
-            ->addColumn('book_taking', 'status', Schema::TYPE_SMALLINT . ' not null default 1')
+            ->dropColumn('book_taking', 'status_user_book')
             ->execute();
         return true;
     }
