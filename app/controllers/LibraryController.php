@@ -2,10 +2,11 @@
 
 namespace app\controllers;
 
-use app\models\BookTaking;
-use yii;
 use app\models\Book;
+use app\models\BookTaking;
 use app\models\Tag;
+use yii;
+use yii\data\Pagination;
 
 class LibraryController extends PjaxController
 {
@@ -19,12 +20,13 @@ class LibraryController extends PjaxController
         return parent::beforeAction($action);
     }
 
-    public function actionBooks() {
+    public function actionBooks($page = 1) {
         $bookModel = new Book();
         $tagModel  = new Tag();
         $where     = array();
 
-        $books_data = $bookModel->getBookList($where);
+        $bookModel->offset = $page;
+        $books_data = $bookModel->getBookList($where, true);
         $books      = array();
 
         foreach ($books_data['books'] as $key => $book) {
@@ -35,9 +37,19 @@ class LibraryController extends PjaxController
 
         $tags = $tagModel->getTags();
 
+        if (isset($books_data['count_total']) && $bookModel->limit < $books_data['count_total']) {
+            $pagination = new Pagination(array(
+                'pageSize'   => $bookModel->limit,
+                'totalCount' => $books_data['count_total']
+            ));
+        } else {
+            $pagination = null;
+        }
+
         $param = array(
-            'books' => $books,
-            'tags'  => $tags
+            'books'      => $books,
+            'pagination' => $pagination,
+            'tags'       => $tags
         );
 
         return $this->render('bookList', $param);

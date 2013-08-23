@@ -100,7 +100,7 @@ class User extends ActiveRecord implements Identity
         if(is_null($email)) {
             $email = $this->email;
         }
-        
+
         // Make gravatar
         $gravatar = new Gravatar();
         $gravatar->setDefaultImage('wavatar');

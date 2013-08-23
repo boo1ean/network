@@ -1,7 +1,7 @@
 <?php
-
-use yii\helpers\Html;
 use app\models\Book;
+use yii\helpers\Html;
+use yii\widgets\LinkPager;
 ?>
 
 <div class="col-lg-offset-1">
@@ -52,3 +52,8 @@ use app\models\Book;
         <?php endforeach;?>
     </ul>
 </div>
+<?php if(!is_null($pagination)):?>
+    <div class="text-center">
+        <?php echo LinkPager::widget(array('pagination' => $pagination)); ?>
+    </div>
+<?php endif;?>

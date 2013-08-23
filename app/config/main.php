@@ -40,9 +40,9 @@ return array(
                 '/admin/user-list/<page:\d+>'                               => 'admin/user-list',
                 '/auth/recover/<email:[^\s]+?>/<password_hash:[^\s]+>'      => 'auth/recover',
                 '/auth/registration/<email:[^\s]+?>/<password_hash:[^\s]+>' => 'auth/registration',
+                '/calendar/eventpage/<id:\d+>'                              => 'calendar/eventpage',
                 '/conversation/<id:\d+>'                                    => 'conversation',
-                '/library/editbook/<id:\d+>'                                => 'library/editbook',
-                '/calendar/eventpage/<id:\d+>'                              => 'calendar/eventpage'
+                '/library/books/<page:\d+>'                                 => 'library/books',
             )
         ),
 
