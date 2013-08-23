@@ -32,7 +32,7 @@ return array(
             'baseUrl'         => '/',
 
             'rules' => array(
-                '/'                                                         => 'user/all',
+                '/'                                                         => 'user/list',
                 '/admin'                                                    => 'admin/main',
                 '/admin/library'                                            => 'admin/library-book-list',
                 '/admin/library/<status:[a-z]+>/<order:[a-z-]+>/<page:\d+>' => 'admin/library-book-list',
@@ -43,7 +43,8 @@ return array(
                 '/calendar/eventpage/<id:\d+>'                              => 'calendar/eventpage',
                 '/conversation/<id:\d+>'                                    => 'conversation',
                 '/library/books/<status:[a-z]+>/<order:[a-z-]+>/<page:\d+>' => 'library/books',
-                '/user/profile/<id:\d+>'                                    => 'user/profile'
+                '/user/profile/<id:\d+>'                                    => 'user/profile',
+                '/user/list/<filter:[a-z]+>'                                 => 'user/list'
             )
         ),
 
