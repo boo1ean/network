@@ -8,7 +8,6 @@ $(document).ready(function() {
             $('.masthead li:has(a[href=\"' + window.location.pathname + '\"])').addClass('active');
 
             calendarReady();
-            tagsReady();
         });
     
     /*------------------For all links-------------*/

@@ -19,22 +19,13 @@ use yii\widgets\LinkPager;
         <div class="collapse navbar-collapse navbar-ex2-collapse">
             <ul class="nav nav-pills navbar-btn">
                 <li <?php echo 'all' == $status ? 'class="active"' : ''?>>
-                    <?php echo Html::a('All', '/admin/library/all/'.$order.'/'.$page, array(
-                        'id'    => 'filter-all',
-                        'class' => 'cursorOnNoLink'
-                    )); ?>
+                    <?php echo Html::a('All', '/admin/library/all/'.$order.'/'.$page); ?>
                 </li>
                 <li <?php echo 'available' == $status ? 'class="active"' : ''?>>
-                    <?php echo Html::a('Available', '/admin/library/available/'.$order.'/'.$page, array(
-                        'id'    => 'filter-available',
-                        'class' => 'cursorOnNoLink'
-                    )); ?>
+                    <?php echo Html::a('Available', '/admin/library/available/'.$order.'/'.$page); ?>
                 </li>
                 <li <?php echo 'taken' == $status ? 'class="active"' : ''?>>
-                    <?php echo Html::a('Taken', '/admin/library/taken/'.$order.'/'.$page, array(
-                        'id'    => 'filter-taken',
-                        'class' => 'cursorOnNoLink'
-                    )); ?>
+                    <?php echo Html::a('Taken', '/admin/library/taken/'.$order.'/'.$page); ?>
                 </li>
             </ul>
         </div>

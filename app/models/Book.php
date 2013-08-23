@@ -28,6 +28,7 @@ class Book extends ActiveRecord
     // Book status
     const STATUS_AVAILABLE = 1;
     const STATUS_TAKEN     = 2;
+    const STATUS_ASK       = 3;
 
     public static function tableName() {
         return 'books';

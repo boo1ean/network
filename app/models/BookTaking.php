@@ -2,24 +2,63 @@
 
 namespace app\models;
 
+use \app\models\Book;
+use \yii;
 use \yii\db\ActiveRecord;
 
 class BookTaking extends ActiveRecord
 {
+    /**
+     * @var integer book ID
+     */
+    public $id_ask;
+
+    // Status of the book relative to the user
+    const STATUS_RETURNED = 1;
+    const STATUS_TAKEN    = 2;
+    const STATUS_ASK      = 3;
 
     public static function tableName() {
         return 'book_taking';
     }
 
-    public static function findByBookId($book_id) {
+    /**
+     * @return validation rules array
+     */
+    public function rules() {
+        return array(
+            array('id_ask', 'required'),
+            array('id_ask', 'validAskId')
+        );
+    }
+
+    public function addToAskOrder() {
+        if ($this->validate()) {
+            $book = Book::find($this->id_ask);
+
+            $book->status = Book::STATUS_ASK;
+            $book->save();
+
+            $this->book_id           = $this->id_ask;
+            $this->user_id           = Yii::$app->getUser()->getIdentity()->id;
+            $this->status_user_book  = self::STATUS_ASK;
+
+            $this->save();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function findByBookId($book_id) {
         return static::find()
             ->where(array('book_id' => $book_id))
             ->all();
     }
 
-    public static function findByBookIdAndStatus($book_id, $status) {
+    public function findByBookIdAndStatus($book_id, $status) {
         return static::find()
-            ->where(array('book_id' => $book_id, 'status' => $status))
+            ->where(array('book_id' => $book_id, 'status_user_book' => $status))
             ->one();
     }
 
@@ -31,4 +70,11 @@ class BookTaking extends ActiveRecord
         return $this->hasOne('Book', array('id' => 'book_id'));
     }
 
+    public function validAskId() {
+        $user = $this->findByBookIdAndStatus($this->id_ask, self::STATUS_ASK);
+
+        if ($user) {
+            $this->addError('id_ask', 'You already in the order');
+        }
+    }
 }

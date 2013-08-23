@@ -20,6 +20,28 @@ class LibraryController extends PjaxController
         return parent::beforeAction($action);
     }
 
+    public function actionAskForBook() {
+        $result = array(
+            'redirect' => Yii::$app->getUrlManager()->getBaseUrl(),
+            'status'   => 'ok'
+        );
+
+        if (!isset($_POST['id_ask'])) {
+            $result['status'] = 'redirect';
+        }
+
+        if ('ok' == $result['status']) {
+            $bookTaking = new BookTaking();
+
+            $bookTaking->id_ask = $_POST['id_ask'];
+
+            $result['status'] = $bookTaking->addToAskOrder() ? 'ok' : 'error';
+            $result['errors'] = $bookTaking->errors;
+        }
+
+        return json_encode($result);
+    }
+
     public function actionBooks($status = 'all', $order = 'author-asc', $page = 1) {
         $bookModel = new Book();
         $tagModel  = new Tag();
@@ -67,48 +89,4 @@ class LibraryController extends PjaxController
 
         return $this->render('bookList', $param);
     }
-
-    public function actionTakebook() {
-
-        if (Yii::$app->getUser()->getIsGuest()) {
-            Yii::$app->getResponse()->redirect('@web');
-            return false;
-        }
-
-        $book = Book::find($_POST['id']);
-
-        $book_take = new BookTaking;
-        $book_take->book_id = $_POST['id'];
-        $book_take->user_id = Yii::$app->getUser()->getIdentity()->id;
-        $book_take->taken = date('Y-m-d');
-        $tomorrow  = mktime(0, 0, 0, date("m"), date("d")+1, date("Y"));
-        $book_take->returned = date('Y-m-d', $tomorrow);
-        $book_take->save();
-
-        $book->status = 'taken';
-        $book->save();
-
-        return Yii::$app->getResponse()->redirect('@web/library/books');
-    }
-
-    public function actionUntakebook() {
-
-        if (Yii::$app->getUser()->getIsGuest()) {
-            Yii::$app->getResponse()->redirect('@web');
-            return false;
-        }
-
-        $book = Book::find($_POST['id']);
-
-        $book_take = BookTaking::findByBookIdAndStatus($_POST['id'], 1);
-        $book_take->returned = date('Y-m-d');
-        $book_take->status = 2;
-        $book_take->save();
-
-        $book->status = Book::STATUS_AVAILABLE;
-        $book->save();
-
-        return Yii::$app->getResponse()->redirect('@web/library/books');
-    }
-
 }
