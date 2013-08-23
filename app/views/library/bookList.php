@@ -1,5 +1,4 @@
 <?php
-use app\models\Book;
 use yii\helpers\Html;
 use yii\widgets\LinkPager;
 ?>
@@ -75,16 +74,14 @@ use yii\widgets\LinkPager;
                         </div>
                         <div class="navbar-right">
                             <?php
-                            $book_current = Book::find($book->id);
-                            $tags_by_book = $book_current->tags;
-
-                            foreach ($tags_by_book as $tag) {
+                            foreach ($book->tags as $tag) {
                                 echo Html::a($tag->title, null, array(
                                     'id'      => $tag->title,
                                     'class'   => 'label label-info'
                                 )).' ';
                             } ?>
-                        </div> <br/><br/><br/><br/>
+                        </div>
+                        <br/><br/><br/><br/>
                         <a class="accordion-toggle" data-parent="#books-list" data-toggle="collapse" href="<?php echo '#'.$book->id.'-collapse'?>">
                             Description
                         </a>
