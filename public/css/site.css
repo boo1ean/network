@@ -311,7 +311,7 @@ h4.tag a:hover {
     100% {opacity: 1;}
 }
 /*------------------------Notifications-----------------------------*/
-#notification-list, #userlist {
+#notification-list, #userlist, #user-profile {
     margin: 0;
     width: 700px;
 }
@@ -352,4 +352,39 @@ h4.tag a:hover {
 #userlist .online{
     background-color: #D9EDF7;
     border-color: #BCE8F1;
+}
+/**---------------------User profile------------*/
+#user-profile {
+    margin-top: 20px;
+    display: table;
+}
+#user-profile-img, #user-profile-info {
+    display: table-cell;
+
+}
+#user-profile-img {
+    vertical-align: top;
+    width: 200px;
+}
+#user-profile-info {
+    vertical-align: middle;
+    padding: 10px;
+}
+#user-profile-name {
+    font-weight: bold;
+    font-size: 20px;
+}
+#user-profile-blocked {
+    color: red;
+    font-weight: bold;
+}
+#user-profile-message{
+    display: block;
+    width: 150px;
+}
+#user-profile-activity {
+    color: #777;
+    font-size: 12px;
+    padding: 5px;
+    vertical-align: top;
 }
