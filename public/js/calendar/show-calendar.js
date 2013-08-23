@@ -81,12 +81,15 @@ function calendarReady() {
             }
         ],
         select: function(startDate, endDate, allDay, jsEvent, view) {
+            // getTime gets timestamp in milliseconds
+            // php use timestamp in seconds
+            // so we have to divide js timestamp into 1000 to get correct php timestamp
             $.ajax({
-                url:  'addevent',
+                url:  '/calendar/addevent',
                 type: 'POST',
                 data: {
-                    start: startDate,
-                    end: endDate
+                    start: startDate.getTime() / 1000,
+                    end: endDate.getTime() / 1000
                 },
                 success: function(html) {
                     $('#myModal').html(html);
@@ -96,7 +99,7 @@ function calendarReady() {
         },
         eventClick: function(event, element) {
             $.ajax({
-                url:  'eventpage',
+                url:  '/calendar/eventpage',
                 type: 'POST',
                 data: {
                     id: event.id
@@ -108,7 +111,7 @@ function calendarReady() {
         },
         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
             $.ajax({
-                url:  'dropevent',
+                url:  '/calendar/dropevent',
                 type: 'POST',
                 data: {
                     id: event.id,
@@ -122,7 +125,7 @@ function calendarReady() {
         },
         eventResize: function(event,dayDelta,minuteDelta,revertFunc) {
             $.ajax({
-                url:  'dropevent',
+                url:  '/calendar/dropevent',
                 type: 'POST',
                 data: {
                     id: event.id,

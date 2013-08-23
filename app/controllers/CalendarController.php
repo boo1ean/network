@@ -167,14 +167,15 @@ class CalendarController extends PjaxController
         date_default_timezone_set('Europe/Kiev');
 
         if (isset($_POST['start']) && isset($_POST['end'])) {
-            $start_date = date("Y-m-d", strtotime($_POST['start']));
-            $end_date = date("Y-m-d", strtotime($_POST['end']));
+            $start_date = date("Y-m-d", $_POST['start']);
+            $end_date = date("Y-m-d", $_POST['end']);
+            //var_dump($_POST['start']); die();
         } else if (isset($_POST['date'])) {
-            $start_date = date("Y-m-d", strtotime($_POST['date']));
-            $end_date = date("Y-m-d", strtotime($_POST['date']));
+            $start_date = date("Y-m-d", $_POST['date']);
+            $end_date = date("Y-m-d", $_POST['date']);
         } else {
-            $start_date = null;
-            $end_date = null;
+            $start_date = date("Y-m-d");
+            $end_date = date("Y-m-d");
         }
 
         $eventForm = new AddEventForm();
