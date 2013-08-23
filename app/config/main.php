@@ -42,9 +42,10 @@ return array(
                 '/auth/registration/<email:[^\s]+?>/<password_hash:[^\s]+>' => 'auth/registration',
                 '/calendar/eventpage/<id:\d+>'                              => 'calendar/eventpage',
                 '/conversation/<id:\d+>'                                    => 'conversation',
+                '/conversation/private/<id:\d+>'                             => 'conversation/private',
                 '/library/books/<status:[a-z]+>/<order:[a-z-]+>/<page:\d+>' => 'library/books',
                 '/user/profile/<id:\d+>'                                    => 'user/profile',
-                '/user/list/<filter:[a-z]+>'                                 => 'user/list'
+                '/user/list/<filter:[a-z]+>'                                => 'user/list'
             )
         ),
 

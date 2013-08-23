@@ -169,4 +169,19 @@ class Conversation extends ActiveRecord
     public static function tableName() {
         return 'conversations';
     }
+
+    public static function getPrivateConversation($id1, $id2) {
+        $ids = '(' . $id1 . ',' . $id2 . ')';
+        $privateConversation = static::createQuery()
+            ->select('conversations.id')
+            ->from('conversations')
+            ->innerJoin('user_conversations', 'conversations.id = user_conversations.conversation_id')
+            ->where('conversations.private = 1')
+            ->andWhere('user_conversations.user_id in ' . $ids)
+            ->groupBy('conversations.id')
+            ->having('count(user_conversations.user_id) = 2')
+            ->one();
+        return $privateConversation;
+
+    }
 }

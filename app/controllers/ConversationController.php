@@ -276,4 +276,37 @@ class ConversationController extends PjaxController
 
         return json_encode($result);
     }
+
+    public function actionPrivate($id = null) {
+        /**
+         * @var $currentUser User
+         */
+        $currentUser = Yii::$app->getUser()->getIdentity();
+        $currentId = $currentUser->id;
+        if ($id == null || $id == $currentId) {
+            return Yii::$app->getResponse()->redirect('/');
+        }
+        /**
+         * @var $recipient User
+         */
+        $recipient = User::find($id);
+        if ($recipient == null) {
+            return Yii::$app->getResponse()->redirect('/');
+        }
+        // Search private conversation with specified user
+        /**
+         * @var $conversation Conversation
+         */
+        $conversation = Conversation::getPrivateConversation($currentId, $id);
+        // If conversation was found - open it, if was not found - create and open
+        if($conversation == null) {
+            $conversation = new Conversation();
+            $conversation->creator = $currentUser->id;
+            $conversation->save();
+            $conversation->addSubscribed($currentUser);
+            $conversation->addSubscribed($recipient);
+        }
+        return Yii::$app->getResponse()->redirect('/conversation/' . $conversation->id);
+
+    }
 }
