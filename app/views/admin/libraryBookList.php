@@ -96,7 +96,7 @@ use yii\widgets\LinkPager;
                     ));
                     if('E-book' == $book['type']) {
                         echo Html::a('Download', $book['link'], array(
-                            'class'   => 'col-sm-offset-1 btn btn-sm btn-primary '.('' == $book['link'] ? 'disabled' : ''),
+                            'class'   => 'col-sm-offset-1 btn btn-sm btn-primary '.($book['link'] ? '' : 'disabled'),
                             'data-id' => $book['id'],
                             'name'    => 'book-download',
                             'target'  => '_blank'

@@ -27,9 +27,14 @@ use yii\helpers\Html;
                 <span class="input-group-addon"> E-book
                     <input type="radio" name="LibraryForm[type]" value="2" <?php echo 2 == $model->type ? 'checked="checked"' : ''?>>
                 </span>
-                <input type="input" class="form-control" id="e-book-state" <?php echo 2 == $model->type ? '' : 'style="display: none;"'?> value="<?php echo $model->link;?>">
+                <input type="input" id="e-book-state" class="form-control" <?php echo 2 == $model->type ? '' : 'style="display: none;"'?> value="<?php echo $link;?>">
                 <span class="input-group-btn">
-                    <button class="btn btn-default fc-state-disabled" type="button" id="e-book-load" <?php echo 2 == $model->type ? '' : 'style="display: none;"'?>>Load</button>
+                    <?php echo Html::button('Load', array(
+                        'class'   => 'btn btn-default fc-state-disabled',
+                        'data-id' => $model->resource_id,
+                        'id'      => 'e-book-load',
+                        'style'   => 2 == $model->type ? '' : 'display: none;'
+                    ));?>
                 </span>
             </div>
         </div>

@@ -79,6 +79,7 @@ class AdminController extends PjaxController
             'redirect' => Yii::$app->getUrlManager()->getBaseUrl(),
             'status'   => 'ok'
         );
+        $link = '';
 
         if (!isset($_POST['id_edit'])) {
             $result['status'] = 'redirect';
@@ -102,10 +103,14 @@ class AdminController extends PjaxController
                 }
 
                 $libraryForm->tags = $tags;
+
+                $storage = Yii::$app->getComponent('storage');
+                $link    = $storage->link($libraryForm->resource_id);
+                $link = $link ? $link : '';
             }
 
-            $this->layout = 'block';
-            $param = array('model' => $libraryForm);
+            $this->layout   = 'block';
+            $param          = array('model' => $libraryForm, 'link' => $link);
             $result['html'] = $this->render('libraryBookEdit', $param);
         }
 
@@ -114,6 +119,7 @@ class AdminController extends PjaxController
 
     public function actionLibraryBookList($status = 'all', $order = 'author-asc', $page = 1) {
         $user        = Yii::$app->getUser()->getIdentity();
+        $storage     = Yii::$app->getComponent('storage');
         $libraryForm = new LibraryForm();
         $where       = array();
 
@@ -137,7 +143,8 @@ class AdminController extends PjaxController
         $books = array();
 
         foreach ($books_data['books'] as $key => $book) {
-            $books[$key] = $book->toArray();
+            $books[$key]         = $book->toArray();
+            $books[$key]['link'] = $storage->link($book->resource_id);
 
             switch ($books[$key]['status']) {
                 case Book::STATUS_ASK:
@@ -152,6 +159,7 @@ class AdminController extends PjaxController
             }
 
             $books[$key]['type'] = $books[$key]['type'] == Book::TYPE_PAPER ? 'Paper' : 'E-book';
+
         }
 
         $param = array(
@@ -176,24 +184,30 @@ class AdminController extends PjaxController
             $result['status'] = 'redirect';
         }
 
+        $link = false;
         if ('ok' == $result['status']) {
             $libraryForm = new LibraryForm();
 
             $libraryForm->author      = $_POST['LibraryForm']['author'];
             $libraryForm->description = $_POST['LibraryForm']['description'];
             $libraryForm->id_edit     = $_POST['id_edit'];
-            $libraryForm->link        = isset($_POST['link_book']) && !empty($_POST['link_book']) ? $_POST['link_book'] : null;
+            $libraryForm->resource_id = $_POST['resource_id'];
             $libraryForm->tags        = $_POST['LibraryForm']['tags'];
             $libraryForm->title       = $_POST['LibraryForm']['title'];
             $libraryForm->type        = $_POST['LibraryForm']['type'];
 
             $libraryForm->libraryBookSave();
+
+            if(!empty($libraryForm->resource_id)) {
+                $storage = Yii::$app->getComponent('storage');
+                $link    = $storage->link($libraryForm->resource_id);
+            }
         }
 
         $result['status']         = count($libraryForm->errors) > 0 ? 'error' : $result['status'];
         $result['errors']         = $libraryForm->errors;
         $result['book']           = $libraryForm->toArray();
-        $result['book']['link']   = is_null($result['book']['link'])                    ? '#'         : $result['book']['link'];
+        $result['book']['link']   = $link;
         $result['book']['status'] = $result['book']['status'] == Book::STATUS_AVAILABLE ? 'available' : 'taken';
         $result['book']['type']   = $result['book']['type']   == Book::TYPE_PAPER       ? 'Paper'     : 'E-book';
 
@@ -206,9 +220,9 @@ class AdminController extends PjaxController
         if ($_FILES['ebook']['name'] !== '' && !empty($_FILES['ebook']['tmp_name'])) {
             $book_file = UploadedFile::getInstanceByName('ebook');
             $storage = Yii::$app->getComponent('storage');
-            $link = $storage->save($book_file);
-            $result['link']   = $link;
-            $result['status'] = 'ok';
+            $resource_id = $storage->save($book_file);
+            $result['resource_id'] = $resource_id;
+            $result['status']      = 'ok';
         } else {
             $result['status'] = 'error';
         }

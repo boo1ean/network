@@ -73,7 +73,7 @@ class LibraryForm extends Book
 
             $this->author      = $book->author;
             $this->description = $book->description;
-            $this->link        = $book->link;
+            $this->resource_id = $book->resource_id;
             $this->title       = $book->title;
             $this->type        = $book->type;
             $this->tags        = $book->tags;
@@ -122,13 +122,18 @@ class LibraryForm extends Book
             $book->title       = $this->title;
             $book->type        = $this->type;
 
-            if ($book->type == parent::TYPE_ELECTRONIC && !is_null($this->link)) {
-                $book->link = $this->link;
+            if ($book->type == parent::TYPE_ELECTRONIC && !empty($this->resource_id) && $this->resource_id != $book->resource_id) {
+
+                if(!empty($book->resource_id)) {
+                    $storage = Yii::$app->getComponent('storage');
+                    $storage->delete($book->resource_id);
+                }
+
+                $book->resource_id = $this->resource_id;
             }
 
             $book->save();
-            $this->id   = $book->id;
-            $this->link = $book->link;
+            $this->id = $book->id;
 
             if('' !== $this->tags) {
                 $tags_new = explode(',', $this->tags);

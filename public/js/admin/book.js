@@ -18,8 +18,8 @@ $(function(){
         click: function() {
             var obj    = $(this);
             var id     = obj.attr('data-id');
-            var author = $('#'+id+'_author').text().toString().trim();
-            var title  = $('#'+id+'_title').text().toString().trim();
+            var author = $('#' + id + '_author').text().toString().trim();
+            var title  = $('#' + id + '_title').text().toString().trim();
             if (confirm('Do you really wanna delete forever this book: "' + title + ' (' + author + ')"?')) {
                 $.ajax({
                     url:  '/admin/library-book-delete',
@@ -59,6 +59,7 @@ $(function(){
                 },
                 success: function(response, textStatus) {
                     var result = $.parseJSON(response);
+
                     if('ok' == result['status']) {
                         $('#book-modal').html(result['html']).modal('show');
                         $('#tags').tagsInput();
@@ -67,27 +68,33 @@ $(function(){
                             name: 'ebook',
                             onSubmit : function (file, ext) {
                                 var allowed = ['fb2', 'txt', 'doc', 'docx', 'pdf', 'djvu'];
+
                                 if ($.inArray(ext, allowed ) == -1) {
                                     alert('Invalid format. The only valid: *.fb2, *.txt, *.pdf, *.djvu, *.doc, *.docx');
                                     return false;
                                 }
+
                                 $('#e-book-state').val(file + ' loading...');
                                 $('button[name="book-save"]').addClass('disabled');
                             },
                             onComplete: function (file, response) {
                                 var result = $.parseJSON(response);
+
                                 if('ok' == result['status']) {
-                                    $('#e-book-state').val(file + ' successfully loaded').attr('data-link', result['link']);
+                                    $('#e-book-state').val(file + ' successfully loaded');
+                                    $('#e-book-load').attr('data-id', result['resource_id']);
                                 } else {
                                     alert('We have some problems with uploading this file. Please try again.');
                                     $('#e-book-state').val('error ');
                                 }
+
                                 $('button[name="book-save"]').removeClass('disabled');
                             }
                         });
                     } else if ('redirect' == result['status']) {
                         window.location = result['redirect'];
                     }
+
                 },
                 error: function(error) {
                     alert(error.statusText);
@@ -101,11 +108,11 @@ $(function(){
      */
     $(document).on({
         click: function (event) {
-            var obj  = $(this);
-            var id   = obj.attr('data-id');
-            var link = $('#e-book-state').attr('data-link');
-            var data = obj.parents('form').serialize();
-            data += '&link_book=' + ('undefined' == typeof link ? '' : link);
+            var obj         = $(this);
+            var id          = obj.attr('data-id');
+            var resource_id = $('#e-book-load').attr('data-id');
+            var data        = obj.parents('form').serialize();
+            data += '&resource_id=' + resource_id;
             data += '&id=' + id;
             var errors = new messages();
             $.ajax({
@@ -152,8 +159,8 @@ $(function(){
                                  '<button type="submit" class="btn btn-sm btn-danger" name="book-delete" data-id="' + book['id'] + '">Delete</button>';
 
                             if('E-book' == book['type']) {
-                                html += '<a class="col-sm-offset-1 btn btn-sm btn-primary ' + ('#' == result['book']['link'] ? 'disabled' : '') + '" ' +
-                                    'name="book-download" href="' + result['book']['link'] + '" ' +
+                                html += '<a class="col-sm-offset-1 btn btn-sm btn-primary ' + (book['link'] ? '' : 'disabled') + '" ' +
+                                    'name="book-download" href="' + (book['link'] ? book['link'] : '#') + '" ' +
                                     'data-id="' + book['id'] + '" target="_blank">Download</a>';
                             }
 
@@ -162,10 +169,10 @@ $(function(){
                             $('#recently-added-bottom').show();
                         } else {
                             for (var i in result['book']) {
-                                $('#'+id+'_'+i).html(result['book'][i]);
+                                $('#' + id + '_' + i).html(result['book'][i]);
 
                                 if('type' == i) {
-                                    var parent = $('#'+id+'_'+i).parent();
+                                    var parent = $('#' + id + '_' + i).parent();
 
                                     if('Paper' == result['book'][i]) {
                                         parent.attr('class', '').addClass(row_class);
@@ -176,10 +183,11 @@ $(function(){
 
                                     } else {
                                         parent.attr('class', '').addClass('default');
-                                        parent.find('[name="book-download"]').remove()
+                                        parent.find('[name="book-download"]').remove();
                                         parent.find('[name="book-delete"]').after(
-                                            '<a href="' + result['book']['link'] + '" class="col-sm-offset-1btn btn-sm btn-primary ' +
-                                            ('#' == result['book']['link'] ? 'disabled' : '') + '" ' +
+                                            '<a href="' + (result['book']['link'] ? result['book']['link'] : '') + '" ' +
+                                            'class="col-sm-offset-1 btn btn-sm btn-primary ' +
+                                            (result['book']['link'] ? '' : 'disabled') + '" ' +
                                             'name="book-download" target="_blank">Download</a>'
                                         );
                                     }
