@@ -44,6 +44,7 @@ class LibraryController extends PjaxController
     public function actionBooks($status = 'all', $order = 'author-asc', $page = 1) {
         $user      = Yii::$app->getUser()->getIdentity();
         $bookModel = new Book();
+        $storage   = Yii::$app->getComponent('storage');
         $where     = array();
 
         switch($status) {
@@ -81,7 +82,13 @@ class LibraryController extends PjaxController
                     break;
             }
 
-            $books[$key]['type'] = $books[$key]['type'] == Book::TYPE_PAPER ? 'Paper' : 'E-book';
+            if ($books[$key]['type'] == Book::TYPE_PAPER) {
+                $books[$key]['type'] = 'Paper';
+            } else {
+                $books[$key]['type'] = 'E-book';
+                $books[$key]['link'] = $storage->link($book->resource_id);
+            }
+
         }
 
         if (isset($books_data['count_total']) && $bookModel->limit < $books_data['count_total']) {

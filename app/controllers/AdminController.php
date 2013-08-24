@@ -118,7 +118,6 @@ class AdminController extends PjaxController
     }
 
     public function actionLibraryBookList($status = 'all', $order = 'author-asc', $page = 1) {
-        $user        = Yii::$app->getUser()->getIdentity();
         $storage     = Yii::$app->getComponent('storage');
         $libraryForm = new LibraryForm();
         $where       = array();

@@ -89,7 +89,10 @@ use yii\widgets\LinkPager;
                         <div class="navbar-right">
                             <?php
                                 if ('E-book' == $book['type']) {
-                                    echo Html::a('Download', $book['link'], array('class' => 'label label-success', 'target' => '_blank'));
+                                    echo Html::a('Download', $book['link'] ? $book['link'] : null, array(
+                                        'class'  => 'label label-success',
+                                        'style'  => $book['link'] ? '' : 'text-decoration: line-through',
+                                        'target' => '_blank'));
                                 } elseif ($book['show_ask'] && 'taken' != $book['status']) {
                                     echo Html::button('Ask for book', array(
                                         'class'   => 'btn btn-xs',
