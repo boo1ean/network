@@ -119,7 +119,7 @@ function calendarReady() {
                     end: event.end
                 },
                 success: function(html) {
-                    $('body').html(html);
+                    //$('body').html(html);
                 }
             });
         },
@@ -133,7 +133,7 @@ function calendarReady() {
                     end: event.end
                 },
                 success: function(html) {
-                    $('body').html(html);
+                    //$('body').html(html);
                 }
             });
         }
