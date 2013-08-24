@@ -74,8 +74,43 @@ class Storage extends Component
         }
     }
 
+    /**
+     * @param $id integer of resource to get image
+     * @return bool|string to put into src attribute of img or false
+     */
     public function image($id) {
         $res = Resource::find($id);
-        return $this->provider->image($res->path);
+        if ($res != null) {
+            return $this->provider->image($res->path);
+        } else {
+            return false;
+        }
     }
+
+    /**
+     * @param $id integer of resource to get link
+     * @return bool|string link of resource or false
+     */
+    public function link($id) {
+        $res = Resource::find($id);
+        if ($res != null) {
+            return $res->link;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @param $id integer of resource to get path
+     * @return bool|string path of resource or false
+     */
+    public function path($id) {
+        $res = Resource::find($id);
+        if ($res != null) {
+            return $res->path;
+        } else {
+            return false;
+        }
+    }
+
 }
