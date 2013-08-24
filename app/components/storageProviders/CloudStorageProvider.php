@@ -47,8 +47,7 @@ class CloudStorageProvider implements StorageProviderInterface
     public function delete($path) {
         // Try to delete file
         try {
-            $result = $this->dbxClient->delete($path);
-            return $result->is_deleted;
+            return $this->dbxClient->delete($path);
         } catch (Dropbox\Exception_BadResponse $e) {  // If file doesn't exist
             return false;
         }
