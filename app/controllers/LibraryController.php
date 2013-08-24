@@ -25,14 +25,14 @@ class LibraryController extends PjaxController
             'status'   => 'ok'
         );
 
-        if (!isset($_POST['id_ask'])) {
+        if (!isset($_POST['id_book'])) {
             $result['status'] = 'redirect';
         }
 
         if ('ok' == $result['status']) {
             $bookTaking = new BookTaking();
 
-            $bookTaking->id_ask = $_POST['id_ask'];
+            $bookTaking->id_book = $_POST['id_book'];
 
             $result['status'] = $bookTaking->addToAskOrder() ? 'ok' : 'error';
             $result['errors'] = $bookTaking->errors;

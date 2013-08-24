@@ -11,7 +11,7 @@ class BookTaking extends ActiveRecord
     /**
      * @var integer book ID
      */
-    public $id_ask;
+    public $id_book;
 
     // Status of the book relative to the user
     const STATUS_RETURNED = 1;
@@ -27,19 +27,19 @@ class BookTaking extends ActiveRecord
      */
     public function rules() {
         return array(
-            array('id_ask', 'required'),
-            array('id_ask', 'validAskId')
+            array('id_book', 'required'),
+            array('id_book', 'validAskId')
         );
     }
 
     public function addToAskOrder() {
         if ($this->validate()) {
-            $book = Book::find($this->id_ask);
+            $book = Book::find($this->id_book);
 
             $book->status = Book::STATUS_ASK;
             $book->save();
 
-            $this->book_id           = $this->id_ask;
+            $this->book_id           = $this->id_book;
             $this->user_id           = Yii::$app->getUser()->getIdentity()->id;
             $this->status_user_book  = self::STATUS_ASK;
 
@@ -77,10 +77,10 @@ class BookTaking extends ActiveRecord
     }
 
     public function validAskId() {
-        $user = $this->findByBookIdAndStatus($this->id_ask, self::STATUS_ASK);
+        $user = $this->findByBookIdAndStatus($this->id_book, self::STATUS_ASK);
 
         if ($user) {
-            $this->addError('id_ask', 'You already in the order');
+            $this->addError('id_book', 'You already in the order');
         }
     }
 }
