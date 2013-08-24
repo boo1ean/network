@@ -69,6 +69,9 @@ class AddEventForm extends Event
             $event->color = $_POST['colorpicker'];
             $event->save();
 
+            $user = User::find(Yii::$app->getUser()->getId());
+            $event->link('users', $user);
+
             if (isset($_POST['invitations'])) {
                 $invites = $_POST['invitations'];
 
@@ -77,9 +80,6 @@ class AddEventForm extends Event
                     $event->link('users', $user);
                     $event->markAsUnread($user->id);
                 }
-
-                $user = User::find(Yii::$app->getUser()->getId());
-                $event->link('users', $user);
             }
 
             return true;

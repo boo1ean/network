@@ -65,6 +65,8 @@ $(function(){
 
                     if (window.location.pathname.substring(0,20) == '/calendar/eventpage/') {
                         window.location.replace(window.location.pathname.substring(20,24));
+                    } else if (window.location.pathname.substring(0,16) == '/calendar/events') {
+                        window.location.replace(window.location.pathname.substring(0,16));
                     } else {
                         window.location.replace('/calendar/calendar');
                     }
@@ -106,8 +108,15 @@ $(function(){
                         $('body').addClass('mycontainer');
                     },
                     success: function(html) {
-                        $('body').html(html);
                         $('body').removeClass('mycontainer');
+
+                        if (window.location.pathname.substring(0,20) == '/calendar/eventpage/') {
+                            window.location.replace('/calendar/calendar');
+                        } else if (window.location.pathname.substring(0,16) == '/calendar/events') {
+                            window.location.replace(window.location.pathname.substring(0,16));
+                        } else {
+                            window.location.replace('/calendar/calendar');
+                        }
                     }
                 });
             }

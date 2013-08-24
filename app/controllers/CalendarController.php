@@ -13,18 +13,27 @@ use app\models\AddEventForm;
 class CalendarController extends PjaxController
 {
     static function calendarData() {
+
         $events = Event::sortByStartDate();
 
         foreach ($events as $event) {
-            $events_array[] = array(
-                'id'          => $event->id,
-                'title'       => $event->title,
-                'start'       => $event->start_date.' '.$event->start_time,
-                'end'         => $event->end_date.' '.$event->end_time,
-                'color'       => $event->color,
-                'borderColor' => 'white',
-                'allDay'      => false
-            );
+
+            $users = $event->users;
+
+            foreach($users as $user) {
+                if ($user->id == Yii::$app->getUser()->getIdentity()->getId()) {
+                    $events_array[] = array(
+                        'id'          => $event->id,
+                        'title'       => $event->title,
+                        'start'       => $event->start_date.' '.$event->start_time,
+                        'end'         => $event->end_date.' '.$event->end_time,
+                        'color'       => $event->color,
+                        'borderColor' => 'white',
+                        'allDay'      => false
+                    );
+                    break;
+                }
+            }
         }
 
         if (isset($events_array)) {
@@ -146,12 +155,14 @@ class CalendarController extends PjaxController
             $event = Event::find($_POST['id']);
         }
 
-        // Mark event as read
-        $event->markAsRead(Yii::$app->getUser()->getIdentity()->id);
+        if($event) {
+            // Mark event as read
+            $event->markAsRead(Yii::$app->getUser()->getIdentity()->id);
+        }
 
         if ($id == null) {
             echo $event->id;
-        } else {
+        } else if ($event) {
             return $this->render('eventpage', array(
                 'event' => $event
             ));
@@ -265,8 +276,6 @@ class CalendarController extends PjaxController
         }
 
         $event->delete();
-
-        return Yii::$app->getResponse()->redirect('@web/calendar/events');
     }
 
     function actionSettings() {
