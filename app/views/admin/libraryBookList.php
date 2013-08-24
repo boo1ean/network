@@ -101,6 +101,12 @@ use yii\widgets\LinkPager;
                             'name'    => 'book-download',
                             'target'  => '_blank'
                         ));
+                    } elseif ('ask' == $book['status']) {
+                        echo Html::button('Queue', array(
+                            'class'   => 'col-sm-offset-1 btn btn-sm btn-primary',
+                            'data-id' => $book['id'],
+                            'name'    => 'book-queue'
+                        ));
                     }
                     ?>
                 </td>

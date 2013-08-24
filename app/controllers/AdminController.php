@@ -173,6 +173,33 @@ class AdminController extends PjaxController
         return $this->render('libraryBookList', $param);
     }
 
+    public function actionLibraryBookQueue() {
+        $result = array(
+            'redirect' => Yii::$app->getUrlManager()->getBaseUrl(),
+            'status'   => 'ok'
+        );
+
+        if (!isset($_POST['id_book']) || empty($_POST['id_book']) || ! is_numeric($_POST['id_book'])) {
+            $result['status'] = 'redirect';
+        }
+
+        if ('ok' == $result['status']) {
+            $bookTakingModel       = new BookTaking();
+            $bookTakingModel->id_book  = $_POST['id_book'];
+
+            $users = $bookTakingModel->getQueueListOfUsers();
+
+            $this->layout = 'block';
+            $param = array(
+                'model' => $bookTakingModel,
+                'users' => $users
+            );
+            $result['html'] = $this->render('libraryBookQueue', $param);
+        }
+
+        return json_encode($result);
+    }
+
     public function actionLibraryBookSave() {
         $result = array(
             'redirect' => Yii::$app->getUrlManager()->getBaseUrl(),

@@ -33,6 +33,7 @@ class LibraryController extends PjaxController
             $bookTaking = new BookTaking();
 
             $bookTaking->id_book = $_POST['id_book'];
+            $bookTaking->scenario = 'ask';
 
             $result['status'] = $bookTaking->addToAskOrder() ? 'ok' : 'error';
             $result['errors'] = $bookTaking->errors;
@@ -60,15 +61,18 @@ class LibraryController extends PjaxController
         $bookModel->order_by = str_replace('-', ' ', $order);
         $books_data = $bookModel->getBookList($where, true);
         $books      = array();
+        $where      = array('user_id' => $user->id);
 
         foreach ($books_data['books'] as $key => $book) {
             $books[$key]         = $book->toArray();
             $books[$key]['tags'] = $book->tags;
+            $where['book_id']    = $book->id;
 
             switch ($books[$key]['status']) {
                 case Book::STATUS_ASK:
                     $books[$key]['status'] = 'ask';
-                    $book_taking = BookTaking::findByUserIdAndStatus($user->id, BookTaking::STATUS_ASK);
+                    $where['status_user_book'] = BookTaking::STATUS_ASK;
+                    $book_taking = BookTaking::findOneByParams($where);
                     $books[$key]['show_ask'] = !is_object($book_taking);
                     break;
                 case Book::STATUS_AVAILABLE:
@@ -77,7 +81,8 @@ class LibraryController extends PjaxController
                     break;
                 case Book::STATUS_TAKEN:
                     $books[$key]['status'] = 'taken';
-                    $book_taking = BookTaking::findByUserIdAndStatus($user->id, BookTaking::STATUS_TAKEN);
+                    $where['status_user_book'] = BookTaking::STATUS_TAKEN;
+                    $book_taking = BookTaking::findOneByParams($where);
                     $books[$key]['show_ask'] = is_object($book_taking);
                     break;
             }

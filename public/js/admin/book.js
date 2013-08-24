@@ -104,6 +104,34 @@ $(function(){
     }, 'button[name="book-edit"], #book-create');
 
     /**
+     * load users list who staying in queue for the book
+     */
+    $(document).on({
+        click: function() {
+            $.ajax({
+                url:  '/admin/library-book-queue',
+                type: 'POST',
+                data: {
+                    id_book: $(this).attr('data-id')
+                },
+                success: function(response, textStatus) {
+                    var result = $.parseJSON(response);
+
+                    if('ok' == result['status']) {
+                        $('#book-modal').html(result['html']).modal('show');
+                    } else if ('redirect' == result['status']) {
+                        window.location = result['redirect'];
+                    }
+
+                },
+                error: function(error) {
+                    alert(error.statusText);
+                }
+            });
+        }
+    }, 'button[name="book-queue"]');
+
+    /**
      * save data of the book
      */
     $(document).on({
