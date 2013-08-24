@@ -117,6 +117,30 @@ class AdminController extends PjaxController
         return json_encode($result);
     }
 
+    public function actionLibraryBookGive() {
+        $result = array(
+            'redirect' => Yii::$app->getUrlManager()->getBaseUrl(),
+            'status'   => 'ok'
+        );
+
+        if (!isset($_POST['book_id']) || !isset($_POST['user_id'])) {
+            $result['status'] = 'redirect';
+        }
+
+        if ('ok' == $result['status']) {
+            $bookTakingModel = new BookTaking();
+
+            $bookTakingModel->book_id  = $_POST['book_id'];
+            $bookTakingModel->user_id  = $_POST['user_id'];
+            $bookTakingModel->scenario = 'give';
+
+            $result['status'] = $bookTakingModel->giveBook() ? 'ok' : 'error';
+            $result['errors'] = $bookTakingModel->errors;
+        }
+
+        return json_encode($result);
+    }
+
     public function actionLibraryBookList($status = 'all', $order = 'author-asc', $page = 1) {
         $storage     = Yii::$app->getComponent('storage');
         $libraryForm = new LibraryForm();
@@ -179,13 +203,13 @@ class AdminController extends PjaxController
             'status'   => 'ok'
         );
 
-        if (!isset($_POST['id_book']) || empty($_POST['id_book']) || ! is_numeric($_POST['id_book'])) {
+        if (!isset($_POST['book_id']) || empty($_POST['book_id']) || ! is_numeric($_POST['book_id'])) {
             $result['status'] = 'redirect';
         }
 
         if ('ok' == $result['status']) {
-            $bookTakingModel       = new BookTaking();
-            $bookTakingModel->id_book  = $_POST['id_book'];
+            $bookTakingModel          = new BookTaking();
+            $bookTakingModel->book_id = $_POST['book_id'];
 
             $users = $bookTakingModel->getQueueListOfUsers();
 

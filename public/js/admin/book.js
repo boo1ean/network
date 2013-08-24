@@ -104,6 +104,55 @@ $(function(){
     }, 'button[name="book-edit"], #book-create');
 
     /**
+     * Give the a book
+     */
+    $(document).on({
+        click: function() {
+            var obj     = $(this);
+            var book_id = obj.attr('data-id');
+            var user_id = obj.parents('form').find('a.active').attr('data-id');
+
+            if('undefined' == typeof user_id) {
+                alert('Select the user to give the a book!');
+                return false;
+            }
+
+            var user = $('#' + user_id + '_user').text().toString().trim();
+            if (confirm('Do you really want to give this book for ' + user + '?')) {
+                $.ajax({
+                    url:  '/admin/library-book-give',
+                    type: 'POST',
+                    data: {
+                        book_id: book_id,
+                        user_id: user_id
+                    },
+                    success: function(response, textStatus) {
+                        var result = $.parseJSON(response);
+                        if ('ok' == result['status']) {
+                            var row = $('#' + book_id);
+                            row.removeClass('warning').addClass('danger');
+                            row.find('button[name="book-queue"]').remove();
+                            $('#book-modal').modal('hide');
+                        } else if('error' == result['status']) {
+                            if('' != result['errors']['book_id']) {
+                                alert(result['errors']['book_id']);
+                            } else if('' != result['errors']['user_id']) {
+                                alert(result['errors']['user_id']);
+                            }
+                        } else {
+                            window.location = result['redirect'];
+                        }
+                    },
+                    error: function(error) {
+                        alert(error.statusText);
+                    }
+                });
+            }
+            return false;
+        }
+    }, 'button[name="book-give"]');
+
+    /**
      * load users list who staying in queue for the book
      */
     $(document).on({
@@ -112,7 +161,7 @@ $(function(){
                 url:  '/admin/library-book-queue',
                 type: 'POST',
                 data: {
-                    id_book: $(this).attr('data-id')
+                    book_id: $(this).attr('data-id')
                 },
                 success: function(response, textStatus) {
                     var result = $.parseJSON(response);
@@ -130,6 +179,17 @@ $(function(){
             });
         }
     }, 'button[name="book-queue"]');
+
+    /**
+     * pick user for give book
+     */
+    $(document).on({
+        click: function() {
+            $(this).parent().find('.active').removeClass('active');
+            $(this).addClass('active');
+            return false;
+        }
+    }, '#user-queue a');
 
     /**
      * save data of the book

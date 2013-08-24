@@ -10,11 +10,13 @@ use yii\helpers\Html;
         </div>
         <?php $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal', 'id' => 'queue-book')));?>
         <div class="modal-body">
-            <div class="list-group">
+            <div class="list-group" id="user-queue">
                 <?php foreach ($users as $user):?>
-                    <a href="#" class="list-group-item">
+                    <a href="#" class="list-group-item" data-id="<?php echo $user->id?>">
                         <?php echo Html::img($user->getAvatar(), array('class' => 'avatar small')); ?>
-                        <?php echo $user->first_name . '   ' . $user->last_name?>
+                        <span id="<?php echo $user->id.'_user'?>">
+                            <?php echo $user->first_name . '   ' . $user->last_name?>
+                        </span>
                     </a>
                 <?php endforeach;?>
             </div>
@@ -23,7 +25,7 @@ use yii\helpers\Html;
             <?php
             echo Html::button('Confirm', array(
                 'class'   => 'btn btn-success',
-                'data-id' => $model->id_book,
+                'data-id' => $model->book_id,
                 'name'    => 'book-give'
             ));
             ?>

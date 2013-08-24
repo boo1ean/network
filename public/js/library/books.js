@@ -14,7 +14,7 @@ $(function(){
                     url:  '/library/ask-for-book',
                     type: 'POST',
                     data: {
-                        id_book: id
+                        book_id: id
                     },
                     success: function(response, textStatus) {
                         var result = $.parseJSON(response);
@@ -23,7 +23,7 @@ $(function(){
                             obj.parents('li').removeClass('panel-success').removeClass('panel-success').addClass('panel-warning');
                             obj.remove();
                         } else if('error' == result['status']) {
-                            alert(result['errors']['id_book']);
+                            alert(result['errors']['book_id']);
                         } else {
                             window.location = result['redirect'];
                         }

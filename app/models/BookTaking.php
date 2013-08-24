@@ -8,11 +8,6 @@ use \yii\db\ActiveRecord;
 
 class BookTaking extends ActiveRecord
 {
-    /**
-     * @var integer book ID
-     */
-    public $id_book;
-
     // Status of the book relative to the user
     const STATUS_RETURNED = 1;
     const STATUS_TAKEN    = 2;
@@ -27,8 +22,9 @@ class BookTaking extends ActiveRecord
      */
     public function scenarios() {
         return array(
-            'ask'     => array('id_book'),
-            'default' => array('id_book')
+            'ask'     => array('book_id'),
+            'default' => array('book_id'),
+            'give'    => array('book_id', 'user_id')
         );
     }
 
@@ -37,19 +33,18 @@ class BookTaking extends ActiveRecord
      */
     public function rules() {
         return array(
-            array('id_book', 'required'),
-            array('id_book', 'validAskId')
+            array('book_id, user_id', 'required'),
+            array('book_id', 'validAskId')
         );
     }
 
     public function addToAskOrder() {
         if ($this->validate()) {
-            $book = Book::find($this->id_book);
+            $book = Book::find($this->book_id);
 
             $book->status = Book::STATUS_ASK;
             $book->save();
 
-            $this->book_id           = $this->id_book;
             $this->user_id           = Yii::$app->getUser()->getIdentity()->id;
             $this->status_user_book  = self::STATUS_ASK;
 
@@ -80,7 +75,7 @@ class BookTaking extends ActiveRecord
                 ->join('inner join', 'book_taking', 'book_taking.user_id = users.id')
                 ->join('inner join', 'books',       'books.id = book_taking.book_id')
                 ->where('book_taking.status_user_book = ' . self::STATUS_ASK)
-                ->andWhere('book_taking.book_id = ' . $this->id_book)
+                ->andWhere('book_taking.book_id = ' . $this->book_id)
                 ->all();
 
             return $result;
@@ -97,16 +92,37 @@ class BookTaking extends ActiveRecord
         return $this->hasOne('Book', array('id' => 'book_id'));
     }
 
+    public function giveBook() {
+        if ($this->validate()) {
+            $book = Book::find($this->book_id);
+
+            $book->status = Book::STATUS_TAKEN;
+            $book->save();
+
+            $bookTaking = $this->findOneByParams(array(
+                'book_id'          => $this->book_id,
+                'status_user_book' => self::STATUS_ASK,
+                'user_id'          => $this->user_id
+            ));
+
+            $bookTaking->status_user_book = self::STATUS_TAKEN;
+            $bookTaking->save();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function validAskId() {
         $where = array(
-            'book_id'          => $this->id_book,
+            'book_id'          => $this->book_id,
             'user_id'          => Yii::$app->getUser()->getIdentity()->id,
             'status_user_book' => self::STATUS_ASK
         );
         $user = $this->findOneByParams($where);
 
         if ($user && 'ask' == $this->scenario) {
-            $this->addError('id_book', 'You already in the order');
+            $this->addError('book_id', 'You already in the order');
         }
     }
 }
