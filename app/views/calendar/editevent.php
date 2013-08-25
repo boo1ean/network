@@ -133,13 +133,6 @@ use app\models\User;
 
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 
-            <?php echo Html::button('Delete', array(
-                'class' => 'btn btn-danger',
-                'name' => 'event-delete',
-                'event-id' => $event->id,
-                'data-dismiss' => 'modal'
-            )); ?>
-
             <?php echo Html::button('Confirm', array(
                 'class' => 'btn btn-primary',
                 'name' => 'event-save'
