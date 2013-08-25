@@ -112,8 +112,44 @@ button {
     font-size: 65%;
     margin-left: -5em;
 }
+
+.side-bar {
+    margin-top: 20px;
+}
+
+.side-bar-menu {
+    line-height: 25pt;
+    list-style-type: none;
+}
+
+.side-bar-menu a {
+    color: #666666;
+    padding-left: 13px;
+    padding-right: 15px;
+}
+
+.side-bar-menu a:hover {
+    text-decoration: none;
+}
+
+.side-bar-menu :hover {
+    background-color: #eeeeee;
+    color: #363636;
+}
+
 .main-container {
-    padding-top: 60px;
+    border-left: 1px solid #e3e3e3;
+    padding-bottom: 30px;
+    padding-left: 30px;
+    margin-top: 25px;
+}
+
+#filtered_events {
+    width: 70%;
+}
+
+#event_page_style {
+    width: 70%;
 }
 
 .cursorOnNoLink {

@@ -2,7 +2,7 @@
     use yii\helpers\Html;
     use yii\widgets\LinkPager;
 ?>
-<div class="col-lg-offset-1">
+
     <h1>Users list</h1>
     <div class="modal fade" id="user-modal"></div>
     <table class="table table-hover">
@@ -44,7 +44,7 @@
             </tr>
         <?php endforeach;?>
     </table>
-</div>
+
 <?php if(!is_null($pagination)):?>
     <div class="text-center">
         <?php echo LinkPager::widget(array('pagination' => $pagination)); ?>

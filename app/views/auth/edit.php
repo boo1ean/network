@@ -8,7 +8,7 @@ use yii;
 
 ?>
 
-<div class="col-lg-offset-3">
+
     <h1>Edit profile</h1>
     <br/>
     <?php if (isset($message)): ?>
@@ -69,4 +69,3 @@ use yii;
         <br/>
 
     <?php $form->end(); ?>
-</div>

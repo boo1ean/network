@@ -2,7 +2,7 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 ?>
-<div class="col-lg-offset-3">
+
     <h1>Registration</h1>
     <?php $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));?>
         <?php if(isset($message)): ?>
@@ -43,4 +43,3 @@ use yii\helpers\Html;
             <?php echo Html::submitButton('Registration', array('class' => 'btn btn-success'));?>
         <?php endif;?>
     <?php ActiveForm::end(); ?>
-</div>

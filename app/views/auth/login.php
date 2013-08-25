@@ -3,7 +3,7 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\widgets\Captcha;
 ?>
-<div class="col-lg-offset-3">
+
     <h1>Login</h1>
     <div id="forgot-modal" class="modal fade"></div>
     <?php $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));?>
@@ -26,4 +26,3 @@ use yii\widgets\Captcha;
     </div>
 
     <?php ActiveForm::end(); ?>
-</div>

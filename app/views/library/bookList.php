@@ -3,7 +3,6 @@ use yii\helpers\Html;
 use yii\widgets\LinkPager;
 ?>
 
-<div class="col-lg-offset-1">
     <h1> Library </h1>
 
     <div class="navbar navbar-default navbar-left">
@@ -113,7 +112,7 @@ use yii\widgets\LinkPager;
             </li>
         <?php endforeach;?>
     </ul>
-</div>
+
 <?php if(!is_null($pagination)):?>
     <div class="text-center">
         <?php echo LinkPager::widget(array('pagination' => $pagination)); ?>

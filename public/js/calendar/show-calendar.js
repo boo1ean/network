@@ -62,7 +62,7 @@ function calendarReady() {
         eventDurationEditable: true,
         selectable: true,
         firstDay: 1,
-        contentHeight: 700,
+        contentHeight: 600,
         aspectRatio: 1.8,
         handleWindowResize: true,
         eventSources: [

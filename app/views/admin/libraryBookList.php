@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 use yii\widgets\LinkPager;
 ?>
-<div class="col-lg-offset-1">
+
     <h1> Book list
         <?php echo Html::tag(
             'button',
@@ -113,7 +113,7 @@ use yii\widgets\LinkPager;
             </tr>
         <?php endforeach;?>
     </table>
-</div>
+
 <?php if(!is_null($pagination)):?>
     <div class="text-center">
         <?php echo LinkPager::widget(array('pagination' => $pagination)); ?>

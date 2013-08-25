@@ -6,8 +6,8 @@ use app\models\Event;
 use app\helpers\DateTimeHelper;
 ?>
 
-<div class="row">
-    <div class="col-lg-6 col-lg-offset-3">
+
+
 
     <h1>Agenda
 
@@ -102,6 +102,7 @@ use app\helpers\DateTimeHelper;
 
             <p class='lead'>
                 <?php echo Html::a($event->title, 'calendar/eventpage/'.$event->id, array(
+                    'data-pjax' => '#pjax-container',
                     'style' => 'color: '.$event->color.''
                 )); ?>
 
@@ -149,8 +150,7 @@ use app\helpers\DateTimeHelper;
 
         </div>
 
-    </div>
-</div>
+
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 

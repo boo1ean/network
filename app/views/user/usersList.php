@@ -3,7 +3,6 @@ use yii\helpers\Html;
 use app\helpers\DateTimeHelper;
 ?>
 
-<div class="col-lg-offset-2">
     <h1>Users</h1>
     <div class="navbar navbar-default navbar-left">
         <div class="collapse navbar-collapse navbar-ex2-collapse">
@@ -49,4 +48,3 @@ use app\helpers\DateTimeHelper;
             </li>
         <?php endforeach; ?>
     </ul>
-</div>

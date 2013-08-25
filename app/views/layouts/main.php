@@ -26,10 +26,11 @@ if ($user === null) {
 } else {
 
     if ($authManager->checkAccess($user->id, 'admin')) {
+
         $items_sub = array(
-            array('label' => 'Users',            'url' => array('/admin/user')),
-            array('label' => 'Library',          'url' => array('/admin/library')),
-            array('label' => 'Send invite',      'url' => array('/admin/send-invite')),
+            //array('label' => 'Users',            'url' => array('/admin/user')),
+            //array('label' => 'Library',          'url' => array('/admin/library')),
+            //array('label' => 'Send invite',      'url' => array('/admin/send-invite')),
             //array('label' => 'Send test invite', 'url' => array('/admin/send-invite-test'))
         );
 
@@ -52,39 +53,46 @@ if ($user === null) {
 </head>
 
 <body>
+
     <div class="container">
+
         <?php $this->beginBody(); ?>
-        <div class="masthead">
-            <div class="navbar navbar-default navbar-fixed-top">
-                <div class="navbar-inner">
-                    <div class="container">
-                        <?php echo Menu::widget(array(
-                            'options' => array('class' => 'nav navbar-nav'),
-                            'items' => $items,
-                        )); ?>
-                    </div>
+
+        <div class="row">
+
+            <div class="col-xs-2 col-sm-2 col-md-2">
+                <div class="side-bar">
+                    <?php echo Menu::widget(array(
+                        'options' => array('class' => 'side-bar-menu'),
+                        'items' => $items,
+                    )); ?>
                 </div>
             </div>
-            <!-- /.navbar -->
+
+            <div class="col-xs-10 col-sm-10 col-md-10">
+                <div class="main-container" id="pjax-container">
+
+                    <?php echo Breadcrumbs::widget(array(
+                        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : array(),
+                    )); ?>
+
+                    <?php if(!Yii::$app->getUser()->getIsGuest()) {
+                        echo UserBox::widget(array(
+                            'avatar'              => Yii::$app->getUser()->getIdentity()->avatar,
+                            'username'            => Yii::$app->getUser()->getIdentity()->userName,
+                            'notificationsCount'  => Yii::$app->getUser()->getIdentity()->notificationsCount,
+                        ));
+                    }
+                    ?>
+
+                    <?php echo $content; ?>
+
+                </div>
+            </div>
+
         </div>
 
-        <div class="main-container" id="pjax-container">
-            <?php echo Breadcrumbs::widget(array(
-                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : array(),
-            )); ?>
-
-            <?php if(!Yii::$app->getUser()->getIsGuest()) {
-                echo UserBox::widget(array(
-                    'avatar'              => Yii::$app->getUser()->getIdentity()->avatar,
-                    'username'            => Yii::$app->getUser()->getIdentity()->userName,
-                    'notificationsCount'  => Yii::$app->getUser()->getIdentity()->notificationsCount,
-                ));
-            }
-            ?>
-
-            <?php echo $content; ?>
-        </div>
-            <hr>
+        <hr>
 
         <div class="footer, text-center">
             <p>&copy; <a href="http://binary-studio.com">Binary Studio</a> <?php echo date('Y'); ?></p>
@@ -92,6 +100,7 @@ if ($user === null) {
         </div>
 
     </div>
+
 </body>
 </html>
 <?php $this->endPage(); ?>

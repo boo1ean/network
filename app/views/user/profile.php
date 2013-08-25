@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 use app\helpers\DateTimeHelper;
 ?>
-<div class="col-lg-offset-2">
+
     <div id = "user-profile">
         <?php
         // Image div
@@ -50,4 +50,3 @@ use app\helpers\DateTimeHelper;
         echo Html::endTag('div');
         ?>
     </div>
-</div>

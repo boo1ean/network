@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\helpers\DateTimeHelper;
 ?>
-<div class="col-lg-offset-2">
+
     <h1><?php echo $conversationTitle ?> </h1>
     <div class="row">
         <div class="col-lg-3">
@@ -82,7 +82,6 @@ use app\helpers\DateTimeHelper;
         </div>
         <?php ActiveForm::end(); ?>
     </div>
-</div>
 
 
 

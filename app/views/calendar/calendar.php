@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 ?>
 
-<br/>
+<h1>Calendar</h1> <br/>
 
     <?php echo Html::a('New event', null, array(
         'class' => 'btn btn-primary',

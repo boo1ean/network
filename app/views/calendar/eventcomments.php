@@ -16,7 +16,7 @@ use app\models\User;
     ?>
 
     <div class="row">
-        <div class="col-lg-9">
+        <div class="col-md-7">
             <?php echo Html::textarea('comment', '', array(
                 'placeholder' => 'Write comment',
                 'class'       => 'form-control',
@@ -33,6 +33,7 @@ use app\models\User;
             'name' => 'post-comment',
             'event-id' => $event->id
         )); ?>
+
     </div>
 
     <?php ActiveForm::end(); ?>
@@ -47,9 +48,6 @@ use app\models\User;
             $comment_author = User::getUserNameById($comment->user_id);
     ?>
 
-    <div class="row">
-        <div class="col-lg-12">
-
             <div class="panel panel-default" style="border-color: <?php echo $event->color; ?>">
 
                 <div class="panel-heading" style="background-color: <?php echo $event->color; ?>; color: white;">
@@ -62,10 +60,6 @@ use app\models\User;
                 </div>
 
             </div>
-
-        </div>
-    </div>
-
     <?php
     }
     ?>

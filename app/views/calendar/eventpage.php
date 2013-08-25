@@ -8,8 +8,7 @@ use yii\widgets\ActiveForm;
 use app\helpers\DateTimeHelper;
 ?>
 
-<div class="row">
-    <div class="col-lg-6 col-lg-offset-3">
+<div id='event_page_style'>
 
         <?php
         switch($event->type) {
@@ -123,7 +122,7 @@ use app\helpers\DateTimeHelper;
             ?>
 
             <div class="row">
-                <div class="col-lg-9">
+                <div class="col-md-7">
                     <?php echo Html::textarea('comment', '', array(
                         'placeholder' => 'Write comment',
                         'class'       => 'form-control',
@@ -140,6 +139,7 @@ use app\helpers\DateTimeHelper;
                     'name' => 'post-comment',
                     'event-id' => $event->id
                 )); ?>
+
             </div>
 
             <?php ActiveForm::end(); ?>
@@ -154,9 +154,6 @@ use app\helpers\DateTimeHelper;
                     $comment_author = User::getUserNameById($comment->user_id);
             ?>
 
-            <div class="row">
-                <div class="col-lg-12">
-
                     <div class="panel panel-default" style="border-color: <?php echo $event->color; ?>">
 
                         <div class="panel-heading" style="background-color: <?php echo $event->color; ?>; color: white;">
@@ -169,17 +166,11 @@ use app\helpers\DateTimeHelper;
                         </div>
 
                     </div>
-
-                </div>
-            </div>
-
             <?php
                 }
             ?>
 
         </div>
-
-    </div>
 </div>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

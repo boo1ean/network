@@ -9,7 +9,7 @@
 use yii\helpers\Html;
 use app\helpers\DateTimeHelper;
 ?>
-<div class="col-lg-offset-2">
+
     <h1>Conversations
         <?php
         // Link for new conversation creation
@@ -78,4 +78,3 @@ use app\helpers\DateTimeHelper;
         </li>
         <?php endforeach; ?>
     </ul>
-</div>

@@ -2,7 +2,7 @@
     use yii\widgets\ActiveForm;
     use yii\helpers\Html;
 ?>
-<div class="col-lg-offset-2">
+
     <h1>Send invite</h1>
 
     <?php $form = ActiveForm::begin();?>
@@ -19,4 +19,3 @@
     </div>
 
     <?php ActiveForm::end(); ?>
-</div>
