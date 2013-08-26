@@ -18,6 +18,7 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = array(
+        'css/bootstrap-datetimepicker.min.css',
         'css/toastr.css',
         'css/site.css',
         'css/jquery.tagsinput.css',
@@ -31,6 +32,7 @@ class AppAsset extends AssetBundle
         'js/toastr.js',
         'js/bootstrap.js',
         'js/bootstrap-typeahead.js',
+        'js/bootstrap-datetimepicker.min.js',
         'js/library/books.js',
         'js/calendar/spectrum.js',
         'js/calendar/events.js',
