@@ -1,42 +1,33 @@
 $(document).ready(function() {
     calendarReady();
 
-    $('#myModal').on('shown.bs.modal', function() {
-        $('#colorpicker').spectrum({
-            showButtons: false,
-            showPalette: true,
-            palette: [
-                ['#d14d4d', '#b04497'],
-                ['#7c44b0', '#444db0'],
-                ['#44a9b0', '#44b061'],
-                ['#85b044', '#b09a44'],
-                ['#362ea6', '#b8402b'],
-                ['#3e9e18', '#ff0000']
-            ]
-        });
-    });
-
     $('.panel-body:has(.panel-body-hidden-child)').hide();
 });
+
+function showModal(html) {
+    // Get modal
+    var modal = $('#myModal');
+    modal.html(html);
+    // Set colorpicker
+    $('#colorpicker').spectrum({
+        showButtons: false,
+        showPalette: true,
+        palette: [
+            ['#d14d4d', '#b04497'],
+            ['#7c44b0', '#444db0'],
+            ['#44a9b0', '#44b061'],
+            ['#85b044', '#b09a44'],
+            ['#362ea6', '#b8402b'],
+            ['#3e9e18', '#ff0000']
+        ]
+    });
+    // Show modal
+    modal.modal('show');
+}
 
 function calendarReady() {
 
     $('.panel-body:has(.panel-body-hidden-child)').hide();
-
-    $('#myModal').on('shown.bs.modal', function() {
-        $('#colorpicker').spectrum({
-            showButtons: false,
-            showPalette: true,
-            palette: [
-                ['#d14d4d', '#b04497'],
-                ['#7c44b0', '#444db0'],
-                ['#44a9b0', '#44b061'],
-                ['#85b044', '#b09a44'],
-                ['#362ea6', '#b8402b'],
-                ['#3e9e18', '#ff0000']
-            ]
-        });
-    });
 
     $('#calendar').html('');
 
@@ -92,10 +83,9 @@ function calendarReady() {
                     end: endDate.getTime() / 1000
                 },
                 success: function(html) {
-                    $('#myModal').html(html);
+                    showModal(html);
                 }
             });
-            $('#myModal').modal();
         },
         eventClick: function(event, element) {
             $.ajax({
