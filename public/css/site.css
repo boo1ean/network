@@ -55,37 +55,6 @@ button {
 }
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-/*---------------------------------------------Main menu navigation---------------------------------------------------*/
-.nav a {
-    color: #777777;
-    text-decoration: none;
-}
-.nav a:hover {
-    color: #333333;
-}
-
-.nav ul {
-    background-color: #eeeeee;
-    display: none;
-    margin: 0px;
-    max-width: 170px;
-    padding: 0px;
-    position: absolute;
-    top: 50px;
-}
-
-.nav li:hover > ul{
-    display: block;
-}
-.nav li:hover ul > li {
-    list-style-type: none;
-    min-height: 30px;
-    position: relative;
-    padding: 15px 15px 5px 15px;
-    text-align: left;
-}
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 /*--------------------------------------------------General styles----------------------------------------------------*/
 .avatar {
     border-radius: 7px;
