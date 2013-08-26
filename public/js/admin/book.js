@@ -108,9 +108,12 @@ $(function(){
      */
     $(document).on({
         click: function() {
-            var obj     = $(this);
-            var book_id = obj.attr('data-id');
-            var user_id = obj.parents('form').find('a.active').attr('data-id');
+            var obj      = $(this);
+            var active   = obj.parents('form').find('div.active');
+            var book_id  = obj.attr('data-id');
+            var user_id  = active.attr('data-id');
+            var returned = active.find('input').val();
+
 
             if('undefined' == typeof user_id) {
                 alert('Select the user to give the a book!');
@@ -123,21 +126,26 @@ $(function(){
                     url:  '/admin/library-book-give',
                     type: 'POST',
                     data: {
-                        book_id: book_id,
-                        user_id: user_id
+                        book_id:  book_id,
+                        returned: returned,
+                        user_id:  user_id
+                    },
+                    beforeSend: function() {
+                        $('#error').hide();
                     },
                     success: function(response, textStatus) {
                         var result = $.parseJSON(response);
+
                         if ('ok' == result['status']) {
                             var row = $('#' + book_id);
                             row.removeClass('warning').addClass('danger');
                             row.find('button[name="book-queue"]').remove();
                             $('#book-modal').modal('hide');
                         } else if('error' == result['status']) {
-                            if('' != result['errors']['book_id']) {
-                                alert(result['errors']['book_id']);
-                            } else if('' != result['errors']['user_id']) {
-                                alert(result['errors']['user_id']);
+                            for (var i in result['errors']) {
+                                if(result['errors'][i]) {
+                                    $('#error').html(result['errors'][i]).show();
+                                }
                             }
                         } else {
                             window.location = result['redirect'];
@@ -185,11 +193,23 @@ $(function(){
      */
     $(document).on({
         click: function() {
-            $(this).parent().find('.active').removeClass('active');
-            $(this).addClass('active');
+            var obj      = $(this).parent();
+            var date     = new Date();
+            var datetime = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' ' +
+                date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+
+            obj.parent().find('.active').removeClass('active').find('.navbar-right').html('');
+            obj.addClass('active');
+            obj.find('.navbar-right').html(
+                '<div class="date-time-picker input-group" style="width:200px;" title="Return date">' +
+                '<input data-format="dd/MM/yyyy hh:mm:ss" type="text" class="form-control" value="' + datetime + '"/>' +
+                '<span class="input-group-addon add-on"> ' +
+                '<i style="color: #000000" class="glyphicon glyphicon-calendar"></i> </span> </div>'
+            );
+            $('.date-time-picker').datetimepicker();
             return false;
         }
-    }, '#user-queue a');
+    }, '#user-queue span.cursorOnNoLink');
 
     /**
      * save data of the book

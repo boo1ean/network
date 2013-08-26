@@ -24,7 +24,7 @@ class BookTaking extends ActiveRecord
         return array(
             'ask'     => array('book_id'),
             'default' => array('book_id'),
-            'give'    => array('book_id', 'user_id')
+            'give'    => array('book_id', 'returned', 'taken', 'user_id')
         );
     }
 
@@ -33,8 +33,9 @@ class BookTaking extends ActiveRecord
      */
     public function rules() {
         return array(
-            array('book_id, user_id', 'required'),
-            array('book_id', 'validAskId')
+            array('book_id, returned, taken, user_id', 'required'),
+            array('book_id', 'validAskId'),
+            array('returned', 'compare', 'compareAttribute'=>'taken', 'operator'=>'>')
         );
     }
 
@@ -105,7 +106,12 @@ class BookTaking extends ActiveRecord
                 'user_id'          => $this->user_id
             ));
 
+            $date_time = explode(' ', $this->returned);
+            $date = explode('/', $date_time[0]);
+
+            $bookTaking->returned         = $date[2] . '-' . $date[1] . '-' . $date[0] . ' ' . $date_time[1];
             $bookTaking->status_user_book = self::STATUS_TAKEN;
+            $bookTaking->taken            = $this->taken;
             $bookTaking->save();
             return true;
         } else {

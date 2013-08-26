@@ -12,16 +12,21 @@ use yii\helpers\Html;
         <div class="modal-body">
             <div class="list-group" id="user-queue">
                 <?php foreach ($users as $user):?>
-                    <a href="#" class="list-group-item" data-id="<?php echo $user->id?>">
-                        <?php echo Html::img($user->getAvatar(), array('class' => 'avatar small')); ?>
-                        <span id="<?php echo $user->id.'_user'?>">
-                            <?php echo $user->first_name . '   ' . $user->last_name?>
+                    <div class="list-group-item" data-id="<?php echo $user->id?>">
+                        <span class="cursorOnNoLink">
+                            <?php echo Html::img($user->getAvatar(), array('class' => 'avatar small')); ?>
+                            <span id="<?php echo $user->id.'_user'?>">
+                                <?php echo $user->first_name . '   ' . $user->last_name?>
+                            </span>
                         </span>
-                    </a>
+                        <div class="navbar-right"> </div>
+                    </div>
                 <?php endforeach;?>
+
             </div>
         </div>
         <div class="modal-footer">
+            <div id="error" class="label label-danger" style="display:none;"></div>
             <?php
             echo Html::button('Confirm', array(
                 'class'   => 'btn btn-success',
