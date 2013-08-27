@@ -29,7 +29,7 @@ use app\helpers\DateTimeHelper;
         }
         ?>
 
-        <div class="panel panel-info" style="border-color: <?php echo $event->color; ?>">
+        <div class="panel panel-info event" style="border-color: <?php echo $event->color; ?>; color: <?php echo $event->color; ?>">
             <div class="panel-heading" style="background-color: <?php echo $event->color; ?>;">
                 <b class='events-heading'>
                     <?php echo DateTimeHelper::formatTime($event->start_date.' '.$event->start_time).' - '.
@@ -56,7 +56,7 @@ use app\helpers\DateTimeHelper;
             <div class="panel-body">
 
                 <p class='lead'>
-                    <strong style="color: <?php echo $event->color; ?>;">
+                    <strong>
                         <?php echo $event->title; ?>
                     </strong>
 
@@ -65,55 +65,43 @@ use app\helpers\DateTimeHelper;
                     </b>
                 </p>
 
-                <em style="color: <?php echo $event->color; ?>;">
-                    <p><?php echo $event->description; ?></p>
-                </em>
+                <p class = "event-description">
+                    <?php echo $event->description; ?>
+                </p>
 
-                <br/>
-
-                <b style="color: <?php echo $event->color; ?>;">
+                <b>
                     <?php echo 'Invited friends'; ?>
                 </b>
-
-                <br/>
 
                 <?php
                 $event = Event::find($event->id);
                 $users = $event->users;
 
-                $number_of_users = 0;
+                $number_of_users = count($users);
 
                 foreach($users as $user) {
-                ?>
-
-                    <small style="color: <?php echo $event->color; ?>;">
-                        <?php echo User::getUserNameById($user->id).'<br/>'; ?>
-                    </small>
-
-                <?php
-                    $number_of_users++;
+                    echo Html::beginTag('small', array('class' => 'event-members'));
+                    echo Html::a($user->userName, '/user/profile/' . $user->id);
+                    echo Html::endTag('small');
                 }
                 ?>
 
-                <br/>
-
-                <em class="pull-left" style="color: <?php echo $event->color; ?>;">
+                <em class="pull-left">
                     <span class="glyphicon glyphicon-user"></span>
                     <?php echo $number_of_users; ?>
                 </em>
 
-                <small class="pull-right" style="color: <?php echo $event->color; ?>;">
-                    Organized by: <?php echo User::getUserNameById($event->user_id); ?>
+                <small class="pull-right">
+                    Organized by:
+                    <?php $creator = User::find($event->user_id);
+                    echo Html::a($creator->userName, '/user/profile/' . $creator->id); ?>
                 </small>
-
-                <br/>
-
             </div>
         </div>
 
-        <div class="event_comments">
+        <div class="event_comments" style="color: <?php echo $event->color; ?>;">
 
-            <h3 style="color: <?php echo $event->color; ?>;">Comments</h3><br/>
+            <h3>Comments</h3>
 
             <?php
                 $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));
@@ -174,5 +162,4 @@ use app\helpers\DateTimeHelper;
 </div>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-
 </div>
