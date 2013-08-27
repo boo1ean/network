@@ -21,13 +21,10 @@ use app\helpers\DateTimeHelper;
         // Online or not
         if($user->isOnline) {
             $lastActivity = 'online';
-            $class = 'online flashing';
         } else {
             $lastActivity = DateTimeHelper::relativeTime($user->last_activity);
-            $class = 'offline';
         }
         echo Html::tag('span', $lastActivity, array(
-            'class' => $class,
             'id'    => 'user-profile-activity'
         ));
         echo Html::endTag('div');
