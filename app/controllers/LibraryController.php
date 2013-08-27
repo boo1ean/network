@@ -9,16 +9,6 @@ use yii\data\Pagination;
 
 class LibraryController extends PjaxController
 {
-    public function beforeAction($action) {
-        // Check user on access
-        if (Yii::$app->getUser()->getIsGuest()) {
-            Yii::$app->getResponse()->redirect('/');
-            return false;
-        }
-
-        return parent::beforeAction($action);
-    }
-
     public function actionAskForBook() {
         $result = array(
             'redirect' => Yii::$app->getUrlManager()->getBaseUrl(),
