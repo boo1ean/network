@@ -27,6 +27,10 @@ class UserBox extends Widget
      * @var array of unread notifications
      */
     public $notificationsCount;
+    /**
+     * @var string link to profile
+     */
+    public $link;
 
     public function init() {
         if ($this->avatar == null) {
@@ -45,7 +49,6 @@ class UserBox extends Widget
 
         // Notifications
         if ($this->notificationsCount > 0) {
-            $html .= Html::beginTag('span');
             $html .= Html::beginTag('a', array(
                 'class' => 'flashing',
                 'id'    => 'userBoxNotifications',
@@ -56,11 +59,10 @@ class UserBox extends Widget
             $html .= Html::beginTag('span', array('class' => 'glyphicon glyphicon-comment'));
             $html .= Html::endTag('span');
             $html .= Html::endTag('a');
-            $html .= Html::endTag('span');
         }
 
         // User info
-        $html .= Html::beginTag('span');
+        $html .= Html::beginTag('a', array('href' => $this->link));
         // Add user avatar
         $html .= Html::img($this->avatar, array(
             'class' => 'img-rounded',
@@ -70,7 +72,7 @@ class UserBox extends Widget
         ));
         // Add username
         $html .= $this->username;
-        $html .= Html::endTag('span');
+        $html .= Html::endTag('a');
 
         // Link to edit profile
         $html .= Html::beginTag('a', array(
