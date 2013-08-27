@@ -359,7 +359,7 @@ h4.tag a:hover {
     font-size: 12px;
 }
 .notification >a> .glyphicon {
-    margin: 5px;
+    margin: 0 5px;
 }
 /*---------------User list---------------------------*/
 .userlist-item img{
