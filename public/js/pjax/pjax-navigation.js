@@ -1,15 +1,16 @@
 $(document).ready(function() {
-    /*----If we don't want to use pjax for all links-----*/
-    $('a').attr('data-pjax', '#pjax-container');    
-    $('#userBoxLogout').removeAttr('data-pjax');
-    $(document).pjax('a[data-pjax]', { container: '#pjax-container', timeout: 0})
-        .on('pjax:success', function() {
-            $('.masthead li.active').removeClass('active');
-            $('.masthead li:has(a[href=\"' + window.location.pathname + '\"])').addClass('active');
 
-            calendarReady();
+    // Add data-pjax to all links after document load
+    $('a:not(#userBoxLogout)').attr('data-pjax', '#pjax-container');
+
+    $(document).pjax('a[data-pjax]', { container: '#pjax-container', timeout: 0})
+        .on('pjax:success', function(event) {
+            // If current target is calendar, call calendarReady function
+            var isCalendar = event.relatedTarget.toString().search("calendar/calendar");
+            if(isCalendar) {
+                calendarReady();
+            }
+            // Add data-pjax to all links
+            $('a:not(#userBoxLogout)').attr('data-pjax', '#pjax-container');
         });
-    
-    /*------------------For all links-------------*/
-    //$(document).pjax('a', { container: '#pjax-container', timeout: 0});
 }); 
