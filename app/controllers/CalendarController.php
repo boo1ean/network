@@ -46,10 +46,6 @@ class CalendarController extends PjaxController
     }
 
     function actionCalendar() {
-        if (Yii::$app->getUser()->getIsGuest()) {
-            Yii::$app->getResponse()->redirect('@web');
-            return false;
-        }
 
         $events_json = self::calendarData();
 
@@ -64,10 +60,6 @@ class CalendarController extends PjaxController
     }
 
     function actionDropevent() {
-        if (Yii::$app->getUser()->getIsGuest()) {
-            Yii::$app->getResponse()->redirect('@web');
-            return false;
-        }
 
         date_default_timezone_set('Europe/Kiev');
 
@@ -98,10 +90,6 @@ class CalendarController extends PjaxController
     }
 
     function actionEvents() {
-        if (Yii::$app->getUser()->getIsGuest()) {
-            Yii::$app->getResponse()->redirect('@web');
-            return false;
-        }
 
         $events = Event::sortByStartDateFromNow();
 
@@ -144,10 +132,6 @@ class CalendarController extends PjaxController
     }
 
     function actionEventpage($id = null) {
-        if (Yii::$app->getUser()->getIsGuest()) {
-            Yii::$app->getResponse()->redirect('@web');
-            return false;
-        }
 
         if ($id !== null) {
             $event = Event::find($id);
@@ -170,10 +154,6 @@ class CalendarController extends PjaxController
     }
 
     function actionAddevent() {
-        if (Yii::$app->getUser()->getIsGuest()) {
-            Yii::$app->getResponse()->redirect('@web');
-            return false;
-        }
 
         date_default_timezone_set('Europe/Kiev');
 
@@ -205,10 +185,6 @@ class CalendarController extends PjaxController
     }
 
     function actionEditEvent() {
-        if (Yii::$app->getUser()->getIsGuest()) {
-            Yii::$app->getResponse()->redirect('@web');
-            return false;
-        }
 
         $eventForm = new AddEventForm();
         $eventForm->scenario = 'default';
@@ -231,10 +207,6 @@ class CalendarController extends PjaxController
     }
 
     function actionSaveEvent() {
-        if (Yii::$app->getUser()->getIsGuest()) {
-            Yii::$app->getResponse()->redirect('@web');
-            return false;
-        }
 
         $eventForm = new AddEventForm();
         $eventForm->scenario = 'default';
@@ -257,10 +229,6 @@ class CalendarController extends PjaxController
     }
 
     function actionDeleteevent() {
-        if (Yii::$app->getUser()->getIsGuest()) {
-            Yii::$app->getResponse()->redirect('@web');
-            return false;
-        }
 
         $event = Event::find($_POST['id']);
         $users = $event->users;
@@ -279,10 +247,6 @@ class CalendarController extends PjaxController
     }
 
     function actionSettings() {
-        if (Yii::$app->getUser()->getIsGuest()) {
-            Yii::$app->getResponse()->redirect('@web');
-            return false;
-        }
 
         $id = Yii::$app->getUser()->getIdentity()->getId();
         $user = User::find($id);
