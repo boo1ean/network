@@ -171,6 +171,11 @@ strong.event-filter {
     display: none;
 }
 
+/*hidden block at event panel-body */
+.panel-head-hidden-child {
+    display: none;
+}
+
 .mycontainer {
     background-color: #eeeeee;
     background-image: url('../js/287.gif');

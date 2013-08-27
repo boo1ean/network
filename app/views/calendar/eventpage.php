@@ -86,6 +86,8 @@ use app\helpers\DateTimeHelper;
                 }
                 ?>
 
+                <br/>
+
                 <em class="pull-left">
                     <span class="glyphicon glyphicon-user"></span>
                     <?php echo $number_of_users; ?>

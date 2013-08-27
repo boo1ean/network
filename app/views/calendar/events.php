@@ -34,6 +34,8 @@ if(isset($header) && $header == true): ?>
         </strong>
     </h1>
 
+<br/>
+
 <div id="filtered_events">
 <?php endif;
     foreach ($events as $event) :
@@ -58,18 +60,15 @@ if(isset($header) && $header == true): ?>
 
     <div class="panel panel-info event" style="border-color: <?php echo $event->color; ?>; color:<?php echo $event->color; ?>">
         <div class="panel-heading" style="background-color: <?php echo $event->color; ?>;">
+
+            <div class="panel-head-hidden-child"><?php echo $event->id; ?></div>
+
             <b class='events-heading'>
                 <?php echo DateTimeHelper::formatTime($event->start_date.' '.$event->start_time).' - '.
                            $event->title; ?>
             </b>
 
             <b class="pull-right">
-                <?php echo Html::a('<span class="glyphicon glyphicon-chevron-down white"></span>', null, array(
-                    'name'  => 'event-body-down',
-                    'id'    => $event->id,
-                    'class' => 'cursorOnNoLink'
-                )); ?>
-
                 <?php echo Html::a('<span class="glyphicon glyphicon-edit white"></span>', null, array(
                     'name' => 'event-edit',
                     'event-id' => $event->id,
@@ -101,6 +100,8 @@ if(isset($header) && $header == true): ?>
             <p class = "event-description">
                 <?php echo $event->description; ?>
             </p>
+
+            <br/>
 
             <?php
             $event_curr = Event::find($event->id);
