@@ -96,18 +96,16 @@ class CalendarController extends PjaxController
         if (isset($_POST['sel_filters'])) {
             $events = Event::filterByMultiType($_POST['sel_filters']);
         }
-
+        $params = array();
+        $params['events'] = $events;
         if (isset($_POST['filter_id'])) {
             $this->layout = 'block';
-
-            return $this->renderPartial('eventslist', array(
-                'events' => $events,
-            ));
+            return $this->renderPartial('events', $params);
         } else {
-            return $this->render('events', array(
-                'events' => $events
-            ));
+            $params['header'] = true;
+            return $this->render('events', $params);
         }
+
     }
 
     function actionComment() {

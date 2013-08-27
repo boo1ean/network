@@ -4,21 +4,18 @@ use yii\helpers\Html;
 use app\models\User;
 use app\models\Event;
 use app\helpers\DateTimeHelper;
-?>
 
-
-
-
+if(isset($header) && $header == true): ?>
     <h1>Agenda
 
         <strong class="event-filter">
 
-    <?php echo Html::a('+ New event', null, array(
-        'class' => 'btn btn-success',
-        'name' => 'event-add',
-        'data-target' => '#myModal',
-        'data-toggle' => 'modal'
-    )); ?>
+        <?php echo Html::a('+ New event', null, array(
+            'class' => 'btn btn-success',
+            'name' => 'event-add',
+            'data-target' => '#myModal',
+            'data-toggle' => 'modal'
+        )); ?>
 
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -35,18 +32,12 @@ use app\helpers\DateTimeHelper;
         </div>
 
         </strong>
-
     </h1>
 
-    <br/>
+<div id="filtered_events">
+<?php endif;
+    foreach ($events as $event) :
 
-    <div id="filtered_events">
-
-    <?php
-        foreach ($events as $event) {
-    ?>
-
-    <?php
         switch($event->type) {
             case '0':
                 $type = 'birthday';
@@ -65,8 +56,7 @@ use app\helpers\DateTimeHelper;
         }
     ?>
 
-    <div class="panel panel-info" style="border-color: <?php echo $event->color; ?>">
-
+    <div class="panel panel-info event" style="border-color: <?php echo $event->color; ?>; color:<?php echo $event->color; ?>">
         <div class="panel-heading" style="background-color: <?php echo $event->color; ?>;">
             <b class='events-heading'>
                 <?php echo DateTimeHelper::formatTime($event->start_date.' '.$event->start_time).' - '.
@@ -101,57 +91,40 @@ use app\helpers\DateTimeHelper;
             <div class="panel-body-hidden-child"><?php echo $event->id; ?></div>
 
             <p class='lead'>
-                <?php echo Html::a($event->title, 'calendar/eventpage/'.$event->id, array(
-                    'data-pjax' => '#pjax-container',
-                    'style' => 'color: '.$event->color.''
-                )); ?>
+                <?php echo Html::a($event->title, 'calendar/eventpage/' . $event->id); ?>
 
                 <b class="pull-right">
                     <span class="label label-default"><?php echo $type; ?></span>
                 </b>
             </p>
 
-            <em style="color: <?php echo $event->color; ?>;">
-                <p><?php echo $event->description; ?></p>
-            </em>
+            <p class = "event-description">
+                <?php echo $event->description; ?>
+            </p>
 
             <?php
             $event_curr = Event::find($event->id);
-            $users = $event_curr->users;
-            $number_of_users = 0;
-
-            foreach($users as $user) {
-                $number_of_users++;
-            }
+            $number_of_users = count($event_curr->users);
             ?>
 
-            <br/>
-
-            <em class="pull-left" style="color: <?php echo $event->color; ?>;">
+            <em class="pull-left">
                 <span class="glyphicon glyphicon-user"></span>
                 <?php echo $number_of_users; ?>
             </em>
+            <?php $creator = User::find($event_curr->user_id); ?>
 
-            <small class="pull-right" style="color: <?php echo $event->color; ?>;">
-                Organized by: <?php echo User::getUserNameById($event->user_id); ?>
+            <small class="pull-right">
+                Organized by: <?php echo Html::a($creator->userName, '/user/profile/' . $creator->id); ?>
             </small>
-
-            <br/>
-
         </div>
-
     </div>
 
-    <?php
+    <?php endforeach; ?>
 
-    }
-
-    ?>
-
-        </div>
-
+<?php if(isset($header) && $header == true): ?>
+</div>
+<?php endif; ?>
 
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-
 </div>
