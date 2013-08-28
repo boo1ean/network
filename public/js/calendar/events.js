@@ -130,6 +130,12 @@ $(function(){
         click: function() {
             var data = $(this).parents('form').serialize();
 
+            var comment = $('#comment_text').val();
+
+            if (comment == '' || comment === undefined) {
+                return false;
+            }
+
             $.ajax({
                 url:  '/calendar/comment',
                 type: 'POST',
