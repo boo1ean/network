@@ -29,15 +29,15 @@
                         'data-id' => $user->id,
                         'name'    => 'user-edit'
                     ));
-                    echo Html::submitButton($user->is_active ? 'Block account' : 'Unblock account', array(
-                        'class'   => $user->is_active ? 'btn btn-sm btn-warning' : 'btn btn-sm btn-info',
-                        'data-id' => $user->id,
-                        'name'    => 'user-block'
-                    ));
                     echo Html::submitButton('Delete', array(
                         'class'   => 'btn btn-sm btn-danger',
                         'data-id' => $user->id,
                         'name'    => 'user-delete'
+                    ));
+                    echo Html::submitButton($user->is_active ? 'Block account' : 'Unblock account', array(
+                        'class'   => $user->is_active ? 'btn btn-sm btn-warning' : 'btn btn-sm btn-info',
+                        'data-id' => $user->id,
+                        'name'    => 'user-block'
                     ));
                 ?>
                 </td>

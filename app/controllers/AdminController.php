@@ -176,10 +176,15 @@ class AdminController extends PjaxController
                     $books[$key]['status'] = 'ask';;
                     break;
                 case Book::STATUS_AVAILABLE:
-                    $books[$key]['status']   = 'available';
+                    $books[$key]['status'] = 'available';
                     break;
                 case Book::STATUS_TAKEN:
                     $books[$key]['status'] = 'taken';
+                    $where = array(
+                        'book_id'          => $book->id,
+                        'status_user_book' => BookTaking::STATUS_TAKEN
+                    );
+                    $books[$key]['taken_info'] = BookTaking::findOneByParams($where);;
                     break;
             }
 
@@ -221,6 +226,34 @@ class AdminController extends PjaxController
                 'users' => $users
             );
             $result['html'] = $this->render('libraryBookQueue', $param);
+        }
+
+        return json_encode($result);
+    }
+
+    public function actionLibraryBookReturn() {
+        $result = array(
+            'redirect' => Yii::$app->getUrlManager()->getBaseUrl(),
+            'status'   => 'ok'
+        );
+
+        if (!isset($_POST['book_id']) || !isset($_POST['user_id'])) {
+            $result['status'] = 'redirect';
+        }
+
+        if ('ok' == $result['status']) {
+            $bookTakingModel = new BookTaking();
+
+            $bookTakingModel->book_id  = $_POST['book_id'];
+            $bookTakingModel->user_id  = $_POST['user_id'];
+            $bookTakingModel->scenario = 'return';
+
+            $result['status'] = $bookTakingModel->returnBook() ? 'ok' : 'error';
+            $result['errors'] = $bookTakingModel->errors;
+
+            if('ok' == $result['status']) {
+                $result['book_status'] = $bookTakingModel->status_user_book == Book::STATUS_ASK ? 'ask' : 'available';
+            }
         }
 
         return json_encode($result);

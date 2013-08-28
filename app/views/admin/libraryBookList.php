@@ -107,6 +107,13 @@ use yii\widgets\LinkPager;
                             'data-id' => $book['id'],
                             'name'    => 'book-queue'
                         ));
+                    } elseif ('taken' == $book['status'] && !empty($book['taken_info'])) {
+                        echo Html::button('Return', array(
+                            'class'        => 'col-sm-offset-1 btn btn-sm btn-primary',
+                            'data-id-book' => $book['id'],
+                            'data-id-user' => $book['taken_info']->user_id,
+                            'name'         => 'book-return'
+                        ));
                     }
                     ?>
                 </td>

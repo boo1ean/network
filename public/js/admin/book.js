@@ -140,6 +140,12 @@ $(function(){
                             var row = $('#' + book_id);
                             row.removeClass('warning').addClass('danger');
                             row.find('button[name="book-queue"]').remove();
+
+                            row.find('[name="book-delete"]').after(
+                                '<button class="col-sm-offset-1 btn btn-sm btn-primary" data-id-book="' + book_id + '"' +
+                                    'data-id-user="' + user_id + '" name="book-queue"> Return </button>'
+                            );
+
                             $('#book-modal').modal('hide');
                         } else if('error' == result['status']) {
                             for (var i in result['errors']) {
@@ -210,6 +216,57 @@ $(function(){
             return false;
         }
     }, '#user-queue span.cursorOnNoLink');
+
+    /**
+     * Return the a book
+     */
+    $(document).on({
+        click: function() {
+            var obj      = $(this);
+            var book_id  = obj.attr('data-id-book');
+            var user_id  = obj.attr('data-id-user');
+            var author = $('#' + book_id + '_author').text().toString().trim();
+            var title  = $('#' + book_id + '_title').text().toString().trim();
+
+            var user = $('#' + user_id + '_user').text().toString().trim();
+            if (confirm('Do you really want return this book: "' + title + ' (' + author + ')"?')) {
+                $.ajax({
+                    url:  '/admin/library-book-return',
+                    type: 'POST',
+                    data: {
+                        book_id: book_id,
+                        user_id: user_id
+                    },
+                    success: function(response, textStatus) {
+                        var result = $.parseJSON(response);
+
+                        if ('ok' == result['status']) {
+                            var row = $('#' + book_id);
+                            row.removeClass('danger').addClass('ask' == result['book_status'] ? 'warning' : 'success');
+                            row.find('button[name="book-return"]').remove();
+
+                            if('ask' == result['book_status']) {
+                                row.find('[name="book-delete"]').after(
+                                    '<button class="col-sm-offset-1 btn btn-sm btn-primary" data-id="' + book_id + '"' +
+                                    'name="book-queue"> Queue</button>'
+                                );
+                            }
+
+                            $('#book-modal').modal('hide');
+                        } else if('error' == result['status']) {
+                            alert('Sorry, we have some problems with the return of this book. Reload this page and try again');
+                        } else {
+                            window.location = result['redirect'];
+                        }
+                    },
+                    error: function(error) {
+                        alert(error.statusText);
+                    }
+                });
+            }
+            return false;
+        }
+    }, 'button[name="book-return"]');
 
     /**
      * save data of the book

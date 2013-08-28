@@ -24,7 +24,8 @@ class BookTaking extends ActiveRecord
         return array(
             'ask'     => array('book_id'),
             'default' => array('book_id'),
-            'give'    => array('book_id', 'returned', 'taken', 'user_id')
+            'give'    => array('book_id', 'returned', 'taken', 'user_id'),
+            'return'  => array('book_id', 'user_id')
         );
     }
 
@@ -35,7 +36,7 @@ class BookTaking extends ActiveRecord
         return array(
             array('book_id, returned, taken, user_id', 'required'),
             array('book_id', 'validAskId'),
-            array('returned', 'compare', 'compareAttribute'=>'taken', 'operator'=>'>')
+            array('returned', 'compare', 'compareAttribute' => 'taken', 'operator' => '>')
         );
     }
 
@@ -112,6 +113,36 @@ class BookTaking extends ActiveRecord
             $bookTaking->returned         = $date[2] . '-' . $date[1] . '-' . $date[0] . ' ' . $date_time[1];
             $bookTaking->status_user_book = self::STATUS_TAKEN;
             $bookTaking->taken            = $this->taken;
+            $bookTaking->save();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function returnBook() {
+        if ($this->validate()) {
+
+            $is_queue = $this->findOneByParams(array(
+                'book_id'          => $this->book_id,
+                'status_user_book' => self::STATUS_ASK
+            ));
+
+            $bookTaking = $this->findOneByParams(array(
+                'book_id'          => $this->book_id,
+                'status_user_book' => self::STATUS_TAKEN,
+                'user_id'          => $this->user_id
+            ));
+
+            $book = Book::find($this->book_id);
+
+            $book->status = is_object($is_queue) ? Book::STATUS_ASK : Book::STATUS_AVAILABLE;
+            $book->save();
+
+            $this->status_user_book = $book->status;
+
+            $bookTaking->returned         = date('Y-m-d H:i:s', time());
+            $bookTaking->status_user_book = self::STATUS_RETURNED;
             $bookTaking->save();
             return true;
         } else {
