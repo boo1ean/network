@@ -149,6 +149,9 @@ class AdminController extends PjaxController
         $where       = array();
 
         switch($status) {
+            case 'ask':
+                $where['status'] = Book::STATUS_ASK;
+                break;
             case 'available':
                 $where['status'] = Book::STATUS_AVAILABLE;
                 break;

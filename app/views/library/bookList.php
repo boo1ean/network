@@ -17,6 +17,9 @@ use yii\widgets\LinkPager;
                 <li <?php echo 'taken' == $status ? 'class="active"' : ''?>>
                     <?php echo Html::a('Taken', '/library/books/taken/'.$order.'/'.$page); ?>
                 </li>
+                <li <?php echo 'ask' == $status ? 'class="active"' : ''?>>
+                    <?php echo Html::a('In queue', '/library/books/ask/'.$order.'/'.$page); ?>
+                </li>
             </ul>
         </div>
     </div>
