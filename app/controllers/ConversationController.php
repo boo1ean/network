@@ -239,6 +239,7 @@ class ConversationController extends PjaxController
         } else {
             $result['status'] = 'ok';
         }
+
         return json_encode($result);
     }
 

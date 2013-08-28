@@ -75,8 +75,8 @@ class AddEventForm extends Event
             if (isset($_POST['invitations'])) {
                 $invites = $_POST['invitations'];
 
-                foreach($invites as $invite) {
-                    $user = User::findByEmail($invite);
+                foreach($invites as $id_user => $val) {
+                    $user = User::findIdentity($id_user);
                     $event->link('users', $user);
                     $event->markAsUnread($user->id);
                 }

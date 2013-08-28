@@ -12,7 +12,7 @@ use app\helpers\DateTimeHelper;
         </div>
     </div>
     <br/>
-    <div id="member-list">
+    <div id="member-conversation-list" data-creator="<?echo $is_creator ? 1 : 0;?>">
         <?php foreach ($conversationMembers as $member):?>
             <div class="btn-group" <?php echo 'data-id="'.$member->id.'"';?> >
                 <?php
@@ -21,7 +21,7 @@ use app\helpers\DateTimeHelper;
                 $class .= $is_member_creator ? ' btn-info' : ' btn-success';
                 echo html::tag('a', $member->userName, array(
                     'class' => $class . ' btn-xs',
-                    'href'    => '/user/profile/' . $member->id,
+                    'href'  => '/user/profile/' . $member->id,
                 )); ?>
 
                 <?php if ($is_creator && !$is_member_creator || $member->id == $user->id && !$is_member_creator) {

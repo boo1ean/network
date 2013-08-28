@@ -88,6 +88,18 @@ class Event extends ActiveRecord
     }
 
     /**
+     * @return array of users don't participate in event
+     */
+    public function getUnsubscribedUsers() {
+        $id = array();
+        foreach($this->users as $user)
+            $id[] = $user->id;
+        return User::find()
+            ->where(array('not in', 'id', $id))
+            ->all();
+    }
+
+    /**
      * @return \yii\db\ActiveRelation object contains events members
      */
     public function getUsers() {

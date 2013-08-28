@@ -21,8 +21,76 @@ var members = function(id) {
     this.domObj        = $('#' + id);
 }
 
+var conversation_list = function() {
+    this.initTypeahead = function() {
+        var members_list = new members('not-member-list');
+        members_list.domObj.typeahead({
+            items:  10,
+            source: function() {
+                if (!members_list.member_source.length) {
+                    $.post(
+                        '/conversation/member-not-subscribe-list',
+                        {id_conversation: members_list.domObj.attr('data-id')}
+                    ).done(function(response) {
+                            var data = $.parseJSON(response);
+
+                            $.each(data, function (i, item) {
+                                members_list.member_source.push(item['name']);
+                            });
+
+                            members_list.member_full = data;
+                        }).error(function(error) {
+                            alert(error.statusText);
+                        });
+                }
+                this.process(members_list.member_source);
+            },
+            updater: function(item_current) {
+                $.each(members_list.member_full, function (i, item) {
+                    if(item && item['name'] == item_current) {
+                        $.post(
+                            '/conversation/member-save',
+                            {id_conversation: members_list.domObj.attr('data-id'), id_user: item['id']}
+                        ).done(function(response) {
+                                var result = $.parseJSON(response);
+                                if('redirect' == result['status']) {
+                                    window.location = result['redirect'];
+                                } else if('ok' == result['status']) {
+                                    members_list.member_source.splice(i, 1);
+                                    members_list.member_full.splice(i, 1);
+
+                                    var member_conversation_list = $('#member-conversation-list');
+
+                                    var html =
+                                        '<div class="btn-group" data-id="' + item['id'] + '" style="display: none;" >' +
+                                            '<input name="members[' + item['id'] + ']" type="checkbox" style="display: none;" checked="checked" />' +
+                                            '<a href="/user/profile/' + item['id'] + '" target="_blank" class="btn btn-xs btn-success">' + item_current + '</a>';
+
+                                    if(1 == member_conversation_list.attr('data-creator')) {
+                                        html += '<button class="btn btn-success glyphicon glyphicon-remove" data-id="' +
+                                            members_list.domObj.attr('data-id') + '" style="top:0px;height:22px"> </button>';
+                                    }
+
+                                    html += '</div>';
+                                    member_conversation_list.append(html).find('div[style="display: none;"]').show('blind');
+                                }
+                            }).error(function(error) {
+                                alert(error.statusText);
+                            });
+                    }
+                });
+            }
+        });
+    }
+}
+
 $(document).ready(
     function() {
+
+        if ($('#not-member-list').length) {
+            var tmp = new conversation_list();
+            tmp.initTypeahead();
+        }
 
         /**
          * Open form to recover  password
@@ -202,7 +270,7 @@ $(document).ready(
                 });
                 return false;
             }
-        },'.btn-group > .glyphicon-remove');
+        },'#member-conversation-list .glyphicon-remove');
 
         /**
          * load form for create new conversation
@@ -250,11 +318,11 @@ $(document).ready(
 
                                         var html = '<div class="btn-group" data-id="' + item['id'] + '" style="display: none;" >' +
                                             '<input name="members[' + item['id'] + ']" type="checkbox" style="display: none;" checked="checked" />' +
-                                            '<button class="btn btn-xs btn-success">' + item_current + '</button>' +
+                                            '<a href="/user/profile/' + item['id'] + '" target="_blank" class="btn btn-xs btn-success">' + item_current + '</a>' +
                                             '<button class="btn btn-success glyphicon glyphicon-remove" ' +
                                             'data-action="none" style="top:0px;height:22px;"> </button></div>';
 
-                                        $('#member-list').append(html).find('div[style="display: none;"]').show('blind');
+                                        $('#member-conversation-list').append(html).find('div[style="display: none;"]').show('blind');
 
                                     }
                                 });

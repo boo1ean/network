@@ -63,10 +63,10 @@ class CalendarController extends PjaxController
 
         date_default_timezone_set('Europe/Kiev');
 
-        $start_date = date("Y-m-d", strtotime($_POST['start']));
-        $start_time = date("H:i:s", strtotime($_POST['start']));
-        $end_date = date("Y-m-d", strtotime($_POST['end']));
-        $end_time = date("H:i:s", strtotime($_POST['end']));
+        $start_date = date('Y-m-d', strtotime($_POST['start']));
+        $start_time = date('H:i:s', strtotime($_POST['start']));
+        $end_date = date('Y-m-d', strtotime($_POST['end']));
+        $end_time = date('H:i:s', strtotime($_POST['end']));
 
         if (isset($_POST['id'])) {
             $events = Event::find($_POST['id']);
@@ -156,15 +156,14 @@ class CalendarController extends PjaxController
         date_default_timezone_set('Europe/Kiev');
 
         if (isset($_POST['start']) && isset($_POST['end'])) {
-            $start_date = date("Y-m-d", $_POST['start']);
-            $end_date = date("Y-m-d", $_POST['end']);
-            //var_dump($_POST['start']); die();
+            $start_date = date('Y-m-d', $_POST['start']);
+            $end_date = date('Y-m-d', $_POST['end']);
         } else if (isset($_POST['date'])) {
-            $start_date = date("Y-m-d", $_POST['date']);
-            $end_date = date("Y-m-d", $_POST['date']);
+            $start_date = date('Y-m-d', $_POST['date']);
+            $end_date = date('Y-m-d', $_POST['date']);
         } else {
-            $start_date = date("Y-m-d");
-            $end_date = date("Y-m-d");
+            $start_date = date('Y-m-d');
+            $end_date = date('Y-m-d');
         }
 
         $eventForm = new AddEventForm();
@@ -265,6 +264,30 @@ class CalendarController extends PjaxController
             'message' => $message,
             'gcal' => $feed
         ));
+    }
+
+    public function actionMemberNotSubscribeList() {
+
+        if (!Yii::$app->getRequest()->getIsAjax()) {
+            return Yii::$app->getResponse()->redirect('calendar');
+        }
+
+        $event = isset($_POST['id_event']) ? Event::find($_POST['id_event']) : new Event();
+        $users        = array();
+
+        foreach ($event->unsubscribedUsers as $user) {
+
+            if($user->id == Yii::$app->getUser()->getIdentity()->id) {
+                continue;
+            }
+
+            $users[] = array(
+                'id'   => $user->id,
+                'name' => $user->first_name.' '.$user->last_name
+            );
+        }
+
+        return json_encode($users);
     }
 
 }

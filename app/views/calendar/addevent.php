@@ -80,27 +80,18 @@ use yii\widgets\ActiveForm;
                 </div>
             </div>
 
-            <?php
-                $array_of_users = array();
-                $other_users = $users->getOtherUsers();
-
-                foreach($other_users as $user) {
-                    $array_of_users[$user->email] = $user->first_name.' '.$user->last_name;
-                }
-            ?>
-
-            <br/>
-
-            <div class="row">
+            <div class="row drop">
                 <div class="col-lg-6 col-lg-offset-1">
-                    <?php echo Html::label('Invite friends'); ?>
-                    <?php echo Html::dropDownList('invitations[]', null, $array_of_users, array(
-                        'multiple' => 'multiple',
-                        'class' => 'form-control'
-                    )); ?>
+                    Add new member:
+                    <input type="text" id="new-member-list" class="form-control">
+                    <p class="help-block" style="display: none;"></p>
                 </div>
             </div>
+            <br/>
 
+            <div class="row drop">
+                <div id="member-event-list" class="col-lg-10 col-lg-offset-1"> </div>
+            </div>
             <br/>
 
             <div class="row">

@@ -31,7 +31,7 @@ use yii\widgets\ActiveForm;
                     </div>
                 </div>
                 <br/>
-                <div id="member-list"></div>
+                <div id="member-conversation-list"></div>
             </div>
 
             <div class="modal-footer">
