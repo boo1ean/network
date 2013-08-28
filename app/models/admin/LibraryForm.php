@@ -135,28 +135,31 @@ class LibraryForm extends Book
             $book->save();
             $this->id = $book->id;
 
-            if('' !== $this->tags) {
-                $tags_new = explode(',', $this->tags);
-                foreach ($tags_old as $old) {
-                    foreach ($tags_new as $key => $new) {
-                        if ($old->title != $new && end($tags_new) == $new) {
-                            $book->unlink('tags', $old);
-                        }
-                    }
-                }
+            $tags_new = explode(',', $this->tags);
+            foreach ($tags_old as $old) {
+                foreach ($tags_new as $key => $new) {
 
-                foreach ($tags_new as $new) {
-                    $tag = Tag::findByTitle($new);
-
-                    if (!$tag) {
-                        $tag = new Tag;
-                        $tag->title = $new;
-                        $tag->save();
-
+                    if($old->id == $new) {
+                        break;
                     }
 
-                    $book->link('tags', $tag);
+                    if ($old->title != $new && end($tags_new) == $new) {
+                        $book->unlink('tags', $old);
+                    }
                 }
+            }
+
+            foreach ($tags_new as $new) {
+                $tag = Tag::findByTitle($new);
+
+                if (!$tag) {
+                    $tag = new Tag;
+                    $tag->title = $new;
+                    $tag->save();
+
+                }
+
+                $book->link('tags', $tag);
             }
 
             return true;

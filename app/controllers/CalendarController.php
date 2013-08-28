@@ -157,27 +157,24 @@ class CalendarController extends PjaxController
 
         if (isset($_POST['start']) && isset($_POST['end'])) {
             $start_date = date('Y-m-d', $_POST['start']);
-            $end_date = date('Y-m-d', $_POST['end']);
+            $end_date   = date('Y-m-d', $_POST['end']);
         } else if (isset($_POST['date'])) {
             $start_date = date('Y-m-d', $_POST['date']);
-            $end_date = date('Y-m-d', $_POST['date']);
+            $end_date   = date('Y-m-d', $_POST['date']);
         } else {
             $start_date = date('Y-m-d');
-            $end_date = date('Y-m-d');
+            $end_date   = date('Y-m-d');
         }
 
         $eventForm = new AddEventForm();
         $eventForm->scenario = 'default';
 
-        $users = User::find(Yii::$app->getUser()->getId());
-
         $this->layout = 'block';
 
         return $this->render('addevent', array(
-            'model' => $eventForm,
-            'users' => $users,
+            'model'      => $eventForm,
             'start_date' => $start_date,
-            'end_date' => $end_date
+            'end_date'   => $end_date
         ));
     }
 
@@ -186,20 +183,21 @@ class CalendarController extends PjaxController
         $eventForm = new AddEventForm();
         $eventForm->scenario = 'default';
 
-        $users = User::getAll();
-
         if (isset($_POST['event_id'])) {
             $event = Event::find($_POST['event_id']);
-            $id = $_POST['event_id'];
+            $id    = $_POST['event_id'];
         }
 
         $this->layout = 'block';
+        $user         = Yii::$app->getUser()->getIdentity();
 
         return $this->render('editevent', array(
-            'model' => $eventForm,
-            'event' => $event,
-            'users' => $users,
-            'event_id' => $id
+            'model'      => $eventForm,
+            'event'      => $event,
+            'event_id'   => $id,
+            'is_creator' => $event->user_id == $user->id,
+            'members'    => $event->users,
+            'user'       => $user
         ));
     }
 
@@ -272,8 +270,8 @@ class CalendarController extends PjaxController
             return Yii::$app->getResponse()->redirect('calendar');
         }
 
-        $event = isset($_POST['id_event']) ? Event::find($_POST['id_event']) : new Event();
-        $users        = array();
+        $event = isset($_POST['id_event']) && !empty($_POST['id_event']) ? Event::find($_POST['id_event']) : new Event();
+        $users = array();
 
         foreach ($event->unsubscribedUsers as $user) {
 

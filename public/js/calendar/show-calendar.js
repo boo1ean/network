@@ -6,44 +6,17 @@ $(document).ready(function() {
 
 $(document).on({
     click: function (event) {
-        if(!confirm('Do you really wanna removing this user from event?')) return false;
-        var obj    = $(this);
-        var parent = obj.parent();
 
-        if('none' == obj.attr('data-action')) {
-            parent.remove();
+        if(!confirm('Do you really wanna removing this user from event?')) {
             return false;
         }
 
-        var data = {
-            id_event: obj.attr('data-id'),
-            id_user:  parent.attr('data-id')
-        };
-
-        $.ajax({
-            url:  '/event/member-remove',
-            type: 'POST',
-            data: data,
-            success: function(response, textStatus) {
-                var result = $.parseJSON(response);
-
-                if ('error' == result['status']) {
-                    alert('We have some problems with deleting this user. Please try again.');
-                } else if ('ok' == result['status']) {
-                    parent.remove();
-                } else if ('redirect' == result['status']) {
-                    window.location = result['redirect'];
-                }
-            },
-            error: function() {
-                alert('We have some problems with deleting this user. Please try again.');
-            }
-        });
+        $(this).parent().remove();
         return false;
     }
 },'#member-event-list .glyphicon-remove');
 
-function showModal(html) {
+function showModal(html, id) {
     // Get modal
     var modal = $('#myModal');
     modal.html(html);
@@ -67,7 +40,7 @@ function showModal(html) {
         items:  5,
         source: function() {
             if(!members_list.member_source.length){
-                $.post('/calendar/member-not-subscribe-list')
+                $.post('/calendar/member-not-subscribe-list', {id_event: id})
                     .done(function(response) {
                         var data = $.parseJSON(response);
 
@@ -90,7 +63,7 @@ function showModal(html) {
                     members_list.member_full.splice(i, 1);
 
                     var html = '<div class="btn-group navbar-btn" data-id="' + item['id'] + '" style="display: none;" >' +
-                        '<input name="invitations[' + item['id'] + ']" type="checkbox" style="display: none;" checked="checked" />' +
+                        '<input name="invitations[' + item['id'] + ']" type="checkbox" style="display: none;" checked="checked" value="' + item['id'] + '" />' +
                         '<a href="/user/profile/' + item['id'] + '" target="_blank" class="btn btn-xs btn-success">' + item_current + '</a>' +
                         '<button class="btn btn-success glyphicon glyphicon-remove" ' +
                         'data-action="none" style="top:0px;height:22px;"> </button></div>';
@@ -164,7 +137,7 @@ function calendarReady() {
                     end: endDate.getTime() / 1000
                 },
                 success: function(html) {
-                    showModal(html);
+                    showModal(html, 0);
                 }
             });
         },

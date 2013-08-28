@@ -89,27 +89,47 @@ use app\models\User;
 
             <br/>
 
-            <div class="row">
+            <div class="row drop">
                 <div class="col-lg-6 col-lg-offset-1">
-                    <?php echo Html::label('Invited friends'); ?>
-                    <br/>
-                    <?php
-                        $event = Event::find($event->id);
-                        $users = $event->users;
-                        $array_invited = array();
-
-                        foreach($users as $user) {
-                            $array_invited[] = User::getUserNameById($user->id);
-                        }
-
-                        echo Html::listBox('invites', null, $array_invited, array(
-                            'class' => 'form-control',
-                            'disabled' => 'disabled'
-                        ));
-                    ?>
+                    Add new member:
+                    <input type="text" id="new-member-list" class="form-control">
+                    <p class="help-block" style="display: none;"></p>
                 </div>
             </div>
+            <br/>
 
+            <div class="row drop">
+                <div id="member-event-list" class="col-lg-10 col-lg-offset-1" data-creator="<?echo $is_creator ? 1 : 0;?>">
+                    <?php foreach ($members as $member):?>
+                        <div class="btn-group navbar-btn" <?php echo 'data-id="'.$member->id.'"';?> >
+
+                            <?php
+                            $is_member_creator = $member->id == $user->id;
+                            $class  = 'btn';
+                            $class .= $is_member_creator ? ' btn-info' : ' btn-success';
+
+                            echo html::checkbox('invitations['.$member->id.']', true, array(
+                                'style' => 'display: none;',
+                                'value' => $member->id
+                            ));
+
+                            echo html::tag('a', $member->userName, array(
+                                'class' => $class . ' btn-xs',
+                                'href'  => '/user/profile/' . $member->id,
+                            )); ?>
+
+                            <?php if ($is_creator && !$is_member_creator || $member->id == $user->id && !$is_member_creator) {
+                                $class .= ' glyphicon glyphicon-remove';
+                                echo html::tag('button', ' ', array(
+                                    'class'   => $class,
+                                    'data-id' => $event->id,
+                                    'style'   => 'top:0px;height:22px;'
+                                ));
+                            } ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
             <br/>
 
             <div class="row">

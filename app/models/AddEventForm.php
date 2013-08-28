@@ -41,12 +41,12 @@ class AddEventForm extends Event
 
             $event = new Event;
 
-            $event->title = $this->title;
+            $event->title       = $this->title;
             $event->description = $this->description;
-            $event->start_date = $this->start_date;
-            $event->start_time = $this->start_time;
-            $event->end_date = $this->end_date;
-            $event->end_time = $this->end_time;
+            $event->start_date  = $this->start_date;
+            $event->start_time  = $this->start_time;
+            $event->end_date    = $this->end_date;
+            $event->end_time    = $this->end_time;
 
             switch($_POST['type']) {
                 case '0':
@@ -66,7 +66,7 @@ class AddEventForm extends Event
             }
 
             $event->user_id = Yii::$app->getUser()->getId();
-            $event->color = $_POST['colorpicker'];
+            $event->color   = $_POST['colorpicker'];
             $event->save();
 
             $user = User::find(Yii::$app->getUser()->getId());
@@ -93,12 +93,12 @@ class AddEventForm extends Event
 
             $event = Event::find($id);
 
-            $event->title = $this->title;
+            $event->title       = $this->title;
             $event->description = $this->description;
-            $event->start_date = $this->start_date;
-            $event->start_time = $this->start_time;
-            $event->end_date = $this->end_date;
-            $event->end_time = $this->end_time;
+            $event->start_date  = $this->start_date;
+            $event->start_time  = $this->start_time;
+            $event->end_date    = $this->end_date;
+            $event->end_time    = $this->end_time;
 
             switch($_POST['type']) {
                 case '0':
@@ -117,8 +117,35 @@ class AddEventForm extends Event
                     break;
             }
 
+            $users_new = isset($_POST['invitations']) ? $_POST['invitations'] : array();
+
+            foreach ($event->users as $old) {
+
+                if(0 == count($users_new)) {
+                    $event->unlink('users', $old);
+                } else {
+                    foreach ($users_new as $id_new => $val) {
+
+                        if($old->id == $id_new) {
+                            unset($users_new[$id_new]);
+                            break;
+                        }
+
+                        if ($old->id != $id_new && end($users_new) == $val) {
+                            $event->unlink('users', $old);
+                        }
+                    }
+                }
+            }
+
+            foreach ($users_new as $id_user => $val) {
+                $user = User::findIdentity($id_user);
+                $event->link('users', $user);
+                $event->markAsUnread($user->id);
+            }
+
             $event->user_id = Yii::$app->getUser()->getId();
-            $event->color = $_POST['colorpicker'];
+            $event->color   = $_POST['colorpicker'];
             $event->save();
 
             return true;

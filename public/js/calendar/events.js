@@ -9,7 +9,7 @@ $(function(){
                 url:  'addevent',
                 type: 'POST',
                 success: function(html) {
-                    showModal(html);
+                    showModal(html, 0);
                 }
             });
         }
@@ -30,7 +30,7 @@ $(function(){
                     event_id:  id
                 },
                 success: function(html) {
-                    showModal(html);
+                    showModal(html, id);
                 }
             });
         }

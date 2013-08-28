@@ -14,7 +14,7 @@ use app\helpers\DateTimeHelper;
     <br/>
     <div id="member-conversation-list" data-creator="<?echo $is_creator ? 1 : 0;?>">
         <?php foreach ($conversationMembers as $member):?>
-            <div class="btn-group" <?php echo 'data-id="'.$member->id.'"';?> >
+            <div class="btn-group navbar-btn" <?php echo 'data-id="'.$member->id.'"';?> >
                 <?php
                 $is_member_creator = $member->id == $conversationCreator->id;
                 $class  = 'btn';
