@@ -9,7 +9,7 @@ $(function(){
             var title_author = $('#'+id+'-title-author');
             var author       = title_author.find('div').text().toString().trim();
             var title        = title_author.find('b').text().toString().trim();
-            if (confirm('Do you really wanna delete forever this book: "' + title + ' (' + author + ')"?')) {
+            if (confirm('Do you really wanna this book: "' + title + ' (' + author + ')"?')) {
                 $.ajax({
                     url:  '/library/ask-for-book',
                     type: 'POST',

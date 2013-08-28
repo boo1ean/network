@@ -17,16 +17,20 @@ use app\helpers\DateTimeHelper;
             <div class="btn-group" <?php echo 'data-id="'.$member->id.'"';?> >
                 <?php
                 $is_member_creator = $member->id == $conversationCreator->id;
-                $class  = 'label btn';
-                $class .= $is_member_creator ? ' label-info' : ' label-success';
+                $class  = 'btn';
+                $class .= $is_member_creator ? ' btn-info' : ' btn-success';
                 echo html::tag('a', $member->userName, array(
-                    'class' => $class,
+                    'class' => $class . ' btn-xs',
                     'href'    => '/user/profile/' . $member->id,
                 )); ?>
 
                 <?php if ($is_creator && !$is_member_creator || $member->id == $user->id && !$is_member_creator) {
                     $class .= ' glyphicon glyphicon-remove';
-                    echo html::tag('button', '', array('class' => $class, 'data-id' => $conversationId));
+                    echo html::tag('button', ' ', array(
+                        'class'   => $class,
+                        'data-id' => $conversationId,
+                        'style'   => 'top:0px;height:22px;'
+                    ));
                 } ?>
             </div>
         <?php endforeach; ?>
