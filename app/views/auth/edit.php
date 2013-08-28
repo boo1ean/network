@@ -48,18 +48,32 @@ use yii;
         </div>
         <div class="controls">
             <?php
-
-                if ('yes' == $model->notification) {
-                    echo Html::checkbox('notification', true);
+                /**
+                 * Messages notification
+                 */
+                if (isset($model->notifications['messages']) && $model->notifications['messages'] === true) {
+                    echo Html::checkbox('notifications[messages]', true);
                 }
                 else {
-                    echo Html::checkbox('notification', false);
+                    echo Html::checkbox('notifications[messages]', false);
                 }
-
                 echo ' Send notifications on email when someone send me a private message';
             ?>
         </div>
-
+        <div class="controls">
+            <?php
+            /**
+             * Events notification
+             */
+            if (isset($model->notifications['events']) && $model->notifications['events'] === true) {
+                echo Html::checkbox('notifications[events]', true);
+            }
+            else {
+                echo Html::checkbox('notifications[events]', false);
+            }
+            echo ' Send notifications on email when someone invite me to the event';
+            ?>
+        </div>
         <br/><br/>
 
         <div class="controls">

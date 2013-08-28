@@ -43,8 +43,9 @@ class EventHandler extends Component
         $currentUser = \Yii::$app->getUser()->getIdentity();
         $mailTo = array();
         foreach ($conversationUsers as $user) {
+            $notifications = $user->searchSetting('notifications');
             // Skip current user
-            if ($user->id === $currentUser->id || $user->searchSetting('sendNotifications') !== 'yes') {
+            if ($user->id === $currentUser->id || $notifications['messages'] !== true) {
                 continue;
             }
 
