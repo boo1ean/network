@@ -132,7 +132,7 @@ $(function(){
 
             var comment = $('#comment_text').val();
 
-            if (comment == '' || comment === undefined) {
+            if (comment == '' || comment === undefined || !/\w+/.exec(comment)) {
                 return false;
             }
 
