@@ -130,6 +130,12 @@ $(function(){
         click: function() {
             var data = $(this).parents('form').serialize();
 
+            var comment = $('#comment_text').val();
+
+            if (comment == '' || comment === undefined) {
+                return false;
+            }
+
             $.ajax({
                 url:  '/calendar/comment',
                 type: 'POST',
@@ -201,5 +207,48 @@ $(function(){
             $('.panel-body:has(.panel-body-hidden-child:contains('+body_id+'))').toggle('show hide');
         }
     }, '.panel-heading:has(.panel-head-hidden-child)');
+
+    /*
+     * Choose type of event - change color
+     */
+    $(document).on({
+        click: function() {
+            var color;
+
+            switch ($(':selected').val()) {
+                case '0':
+                    color = '#d14d4d';
+                    break;
+                case '1':
+                    color = '#b04497';
+                    break;
+                case '2':
+                    color = '#44b061';
+                    break;
+                case '3':
+                    color = '#444db0';
+                    break;
+                default:
+                    color = '#d14d4d';
+                    break;
+            }
+
+            $('#colorpicker').val(color);
+
+            $('#colorpicker').spectrum({
+                showButtons: false,
+                showPalette: true,
+                palette: [
+                    ['#d14d4d', '#b04497'],
+                    ['#7c44b0', '#444db0'],
+                    ['#44a9b0', '#44b061'],
+                    ['#85b044', '#b09a44'],
+                    ['#362ea6', '#b8402b'],
+                    ['#3e9e18', '#ff0000']
+                ],
+                color: color
+            });
+        }
+    }, '.row .drop :input');
 
 });

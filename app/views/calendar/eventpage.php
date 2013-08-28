@@ -103,7 +103,7 @@ use app\helpers\DateTimeHelper;
 
         <div class="event_comments" style="color: <?php echo $event->color; ?>;">
 
-            <h3>Comments</h3>
+            <h3>Comments</h3><br/>
 
             <?php
                 $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));
@@ -114,6 +114,7 @@ use app\helpers\DateTimeHelper;
             <div class="row">
                 <div class="col-md-7">
                     <?php echo Html::textarea('comment', '', array(
+                        'id'          => 'comment_text',
                         'placeholder' => 'Write comment',
                         'class'       => 'form-control',
                         'rows'        => '3',

@@ -72,7 +72,7 @@ use yii\widgets\ActiveForm;
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row drop">
                 <div class="col-lg-6 col-lg-offset-1">
                     <?php echo Html::label('Type'); ?>
                     <?php echo Html::dropDownList('type', null, array('birthday', 'corp. event', 'holiday', 'day-off'),
@@ -111,7 +111,7 @@ use yii\widgets\ActiveForm;
 
             <div class="row">
                 <div class="col-lg-6 col-lg-offset-1">
-                    <?php echo Html::input('text', 'colorpicker', '#f00', array(
+                    <?php echo Html::input('text', 'colorpicker', '#d14d4d', array(
                         'id' => 'colorpicker'
                     )); ?>
                 </div>

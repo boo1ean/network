@@ -79,7 +79,7 @@ use app\models\User;
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row drop">
                 <div class="col-lg-6 col-lg-offset-1">
                     <?php echo Html::activeLabel($model, 'type', array('class' => 'control-label')); ?>
                     <?php echo Html::dropDownList('type', $event->type, array('birthday', 'corp. event', 'holiday', 'day-off'),
