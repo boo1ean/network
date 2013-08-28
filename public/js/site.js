@@ -195,9 +195,10 @@ $(document).ready(
         $(document).on({
             click: function(event) {
                 var obj    = $(this);
-                var data   = obj.parents('form').serialize();
-                var errors = new messages();
                 var form   = obj.parents('form');
+                var data   = form.serialize();
+                var errors = new messages();
+                var body   = form.find('#body').val();
 
                 data += '&id=' + obj.attr('data-id');
                 $.ajax({
@@ -215,12 +216,7 @@ $(document).ready(
                                 errors.showErrors(i, result['errors'][i])
                             }
                         } else if ('ok' == result['status']) {
-                            var html = '<div class = "messageContainer"><div class = "messageUser">' + $('#avatar-container').html() +
-                                '</div> <div class = "messageBody"> <div class = "popover right in" style="z-index: 0;">' +
-                                '<div class = "arrow"></div> <h5 class="popover-title">' + obj.attr('data-title') + '</h5>' +
-                                '<div class = "popover-content">' + result['message']['body'] + '</div> </div> </div> </div>';
-                            $('#message-container').before(html);
-                            form.find('textarea').val('');
+
                         } else if ('redirect' == result['status']) {
                             window.location = result['redirect'];
                         }
@@ -229,6 +225,15 @@ $(document).ready(
                         alert(error.statusText);
                     }
                 });
+
+                $('#message-container').before(
+                    '<div class = "messageContainer"><div class = "messageUser">' + $('#avatar-container').html() +
+                    '</div> <div class = "messageBody"> <div class = "popover right in" style="z-index: 0;">' +
+                    '<div class = "arrow"></div> <h5 class="popover-title">' + obj.attr('data-title') + '</h5>' +
+                    '<div class = "popover-content">' + body + '</div> </div> </div> </div>'
+                );
+                form.find('textarea').val('');
+
                 return false;
             }
         }, '#message-send');
