@@ -4,7 +4,6 @@ namespace app\controllers;
 
 use app\models\CalendarSettingsForm;
 use yii;
-use yii\web\Controller;
 use app\models\Event;
 use app\models\Eventcomment;
 use app\models\User;
@@ -202,9 +201,22 @@ class CalendarController extends PjaxController
     }
 
     function actionSaveEvent() {
-
         $eventForm = new AddEventForm();
-        $eventForm->scenario = 'default';
+
+        if(isset($_POST['start_datetime'])) {
+            $date_time = explode(' ', $_POST['start_datetime']);
+            $date      = explode('/', $date_time[0]);
+            $_POST['AddEventForm']['start_date'] = $date[2] . '-' . $date[1] . '-'  . $date[0];
+            $_POST['AddEventForm']['start_time'] = $date_time[1];
+        }
+
+        if(isset($_POST['end_datetime'])) {
+            $date_time = explode(' ', $_POST['end_datetime']);
+            $date      = explode('/', $date_time[0]);
+            $_POST['AddEventForm']['end_date'] = $date[2] . '-' . $date[1] . '-'  . $date[0];
+            $_POST['AddEventForm']['end_time'] = $date_time[1];
+        }
+
         $eventForm->load($_POST);
 
         if (isset($_POST['param'])) {

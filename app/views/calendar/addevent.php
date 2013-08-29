@@ -23,56 +23,40 @@ use yii\widgets\ActiveForm;
         <div class="modal-body">
 
             <div class="row">
-                <div class="col-lg-6 col-lg-offset-1">
+                <div class="col-lg-10 col-lg-offset-1">
                     <?php echo $form->field($model, 'title')->textInput(array(
-                        'placeholder' => 'Enter event title',
-                        'id' => 'title'
+                        'id'          => 'title',
+                        'placeholder' => 'Enter event title'
                     )); ?>
                 </div>
-            </div>
-
-            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <?php echo $form->field($model, 'description')->textarea(array(
+                        'id'          => 'description',
+                        'placeholder' => 'Enter event description'
+                    )); ?>
+                </div>
                 <div class="col-lg-6 col-lg-offset-1">
-                    <?php echo $form->field($model, 'description')->textInput(array(
-                        'placeholder' => 'Enter event description',
-                        'id' => 'description'
-                    )); ?>
+                    <div class="form-group">
+                        <b>Start date</b>
+                        <div class="date-time-picker input-group" style="padding-left: 0px;">
+                            <input name="start_datetime" data-format="dd/MM/yyyy hh:mm" type="text" class="form-control" value="<?php echo date('d/m/Y H:i', time())?>"/>
+                            <span class="input-group-addon add-on">
+                                <i style="color: #000000" class="glyphicon glyphicon-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-4 col-lg-offset-1">
-                    <?php echo $form->field($model, 'start_date')->input('date', array(
-                        'id' => 'start_date',
-                        'value' => $start_date
-                    )); ?>
+                <div class="col-lg-6 col-lg-offset-1">
+                    <div class="form-group">
+                        <b>End date</b>
+                        <div class="date-time-picker input-group" style="padding-left: 0px;">
+                            <input name="end_datetime" data-format="dd/MM/yyyy hh:mm" type="text" class="form-control" value="<?php echo date('d/m/Y H:i', time() + 3600*24)?>"/>
+                            <span class="input-group-addon add-on">
+                                <i style="color: #000000" class="glyphicon glyphicon-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="col-lg-3 col-lg-push-1">
-                    <?php echo $form->field($model, 'start_time')->input('time', array(
-                        'id' => 'start_time',
-                        'value' => '12:00:00'
-                    )); ?>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-4 col-lg-offset-1">
-                    <?php echo $form->field($model, 'end_date')->input('date', array(
-                        'id' => 'end_date',
-                        'value' => $end_date
-                    )); ?>
-                </div>
-
-                <div class="col-lg-3 col-lg-push-1">
-                    <?php echo $form->field($model, 'end_time')->input('time', array(
-                        'id' => 'end_time',
-                        'value' => '15:00:00'
-                    )); ?>
-                </div>
-            </div>
-
-            <div class="row drop">
                 <div class="col-lg-6 col-lg-offset-1">
                     <div class="form-group">
                         <?php echo Html::label('Type'); ?>
@@ -80,25 +64,18 @@ use yii\widgets\ActiveForm;
                             array('class' => 'form-control')) ?>
                     </div>
                 </div>
-            </div>
-
-            <div class="row drop">
-                <div class="col-lg-6 col-lg-offset-1">
+                <div class="col-lg-10 col-lg-offset-1">
                     <div class="form-group">
                         <?php echo Html::label('Add new member'); ?>
                         <input type="text" id="new-member-list" class="form-control">
                         <p class="help-block" style="display: none;"></p>
                     </div>
                 </div>
-            </div>
 
-            <div class="row drop">
                 <div class="form-group">
                     <div id="member-event-list" class="col-lg-10 col-lg-offset-1"> </div>
                 </div>
-            </div>
 
-            <div class="row">
                 <div class="col-lg-6 col-lg-offset-1">
                     <div class="form-group">
                         <?php echo Html::label('Choose event color'); ?>

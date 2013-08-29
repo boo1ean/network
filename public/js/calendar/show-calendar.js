@@ -20,6 +20,9 @@ function showModal(html, id) {
     // Get modal
     var modal = $('#myModal');
     modal.html(html);
+
+    $('.date-time-picker').datetimepicker();
+
     // Set colorpicker
     $('#colorpicker').spectrum({
         showButtons: false,
