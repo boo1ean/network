@@ -239,6 +239,15 @@ $(document).ready(
         }, '#message-send');
 
         $(document).on({
+            'keypress': function(e) {
+                if(e.which == 13) {
+                    $('#message-send').click();
+                    $(this).value = $(this).value.replace(/^\s*|\s*$/g,'');
+                }
+            }
+        }, '#body');
+
+        $(document).on({
             click: function (event) {
                 if(!confirm('Do you really wanna removing this user from conversation?')) return false;
                 var obj    = $(this);
