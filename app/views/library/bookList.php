@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\LinkPager;
+$tags_string = empty($tags_filter) ? '' : '/' . implode('/', $tags_filter);
 ?>
 
     <h1> Library </h1>
@@ -9,16 +10,16 @@ use yii\widgets\LinkPager;
         <div class="collapse navbar-collapse navbar-ex2-collapse">
             <ul class="nav nav-pills navbar-btn">
                 <li <?php echo 'all' == $status ? 'class="active"' : ''?>>
-                    <?php echo Html::a('All', '/library/books/all/'.$order.'/'.$page); ?>
+                    <?php echo Html::a('All', '/library/books/all/'.$order.'/'.$page.$tags_string); ?>
                 </li>
                 <li <?php echo 'available' == $status ? 'class="active"' : ''?>>
-                    <?php echo Html::a('Available', '/library/books/available/'.$order.'/'.$page); ?>
+                    <?php echo Html::a('Available', '/library/books/available/'.$order.'/'.$page.$tags_string); ?>
                 </li>
                 <li <?php echo 'taken' == $status ? 'class="active"' : ''?>>
-                    <?php echo Html::a('Taken', '/library/books/taken/'.$order.'/'.$page); ?>
+                    <?php echo Html::a('Taken', '/library/books/taken/'.$order.'/'.$page.$tags_string); ?>
                 </li>
                 <li <?php echo 'ask' == $status ? 'class="active"' : ''?>>
-                    <?php echo Html::a('In queue', '/library/books/ask/'.$order.'/'.$page); ?>
+                    <?php echo Html::a('In queue', '/library/books/ask/'.$order.'/'.$page.$tags_string); ?>
                 </li>
             </ul>
         </div>
@@ -28,22 +29,58 @@ use yii\widgets\LinkPager;
         <div class="collapse navbar-collapse navbar-ex2-collapse">
             <ul class="nav nav-pills navbar-btn">
                 <li <?php echo 'author-asc' == $order ? 'class="active"' : ''?>>
-                    <?php echo Html::a('Author &#8593;', '/library/books/'.$status.'/author-asc/'.$page); ?>
+                    <?php echo Html::a('Author &#8593;', '/library/books/'.$status.'/author-asc/'.$page.$tags_string); ?>
                 </li>
                 <li <?php echo 'author-desc' == $order ? 'class="active"' : ''?>>
-                    <?php echo Html::a('Author &#8595;', '/library/books/'.$status.'/author-desc/'.$page); ?>
+                    <?php echo Html::a('Author &#8595;', '/library/books/'.$status.'/author-desc/'.$page.$tags_string); ?>
                 </li>
                 <li <?php echo 'title-asc' == $order ? 'class="active"' : ''?>>
-                    <?php echo Html::a('Title &#8593;', '/library/books/'.$status.'/title-asc/'.$page); ?>
+                    <?php echo Html::a('Title &#8593;', '/library/books/'.$status.'/title-asc/'.$page.$tags_string); ?>
                 </li>
                 <li <?php echo 'title-desc' == $order ? 'class="active"' : ''?>>
-                    <?php echo Html::a('Title &#8595;', '/library/books/'.$status.'/title-desc/'.$page); ?>
+                    <?php echo Html::a('Title &#8595;', '/library/books/'.$status.'/title-desc/'.$page.$tags_string); ?>
                 </li>
             </ul>
         </div>
     </div>
 
     <br/><br/><br/><br/>
+    <div class="navbar navbar-default">
+        <div class="collapse navbar-collapse navbar-ex2-collapse">
+            <?php foreach ($tags as $tag):
+                $class = '';
+                $href  = '';
+
+                if(!empty($tags_filter)) {
+                    foreach ($tags_filter as $key => $tag_filter) {
+                        if($tag_filter == $tag->title) {
+                            $class = 'btn-primary';
+                            $tmp = $tags_filter;
+                            unset($tmp[$key]);
+                            if(count($tmp) > 0) {
+                                $href = '/library/books/'.$status.'/'.$order.'/'.$page.'/'.implode('/', $tmp);
+                            } else {
+                                $href = '/library/books/'.$status.'/'.$order.'/'.$page;
+                            }
+                            break;
+                        } else {
+                            $href = '/library/books/'.$status.'/'.$order.'/'.$page.$tags_string.'/'.$tag->title;
+                        }
+                    }
+                } else {
+                    $href = '/library/books/'.$status.'/'.$order.'/'.$page.'/'.$tag->title;
+                } ?>
+
+                <div class="btn-group navbar-btn">
+                    <?php
+                    echo html::tag('a', $tag->title, array(
+                        'class' => 'btn btn-sm ' . $class,
+                        'href'  => $href,
+                    )); ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
     <ul class="nav nav-list panel-group" id="books-list">
         <?php foreach ($books as $book):?>
             <li <?php
@@ -76,9 +113,32 @@ use yii\widgets\LinkPager;
                         <div class="navbar-right">
                             <?php
                             foreach ($book['tags'] as $tag) {
-                                echo Html::a($tag->title, null, array(
-                                    'id'      => $tag->title,
-                                    'class'   => 'label label-info'
+                                $class = 'label-info';
+                                $href  = '';
+
+                                if(!empty($tags_filter)) {
+                                    foreach ($tags_filter as $key => $tag_filter) {
+                                        if($tag_filter == $tag->title) {
+                                            $class = 'label-primary';
+                                            $tmp = $tags_filter;
+                                            unset($tmp[$key]);
+                                            if(count($tmp) > 0) {
+                                                $href = '/library/books/'.$status.'/'.$order.'/'.$page.'/'.implode('/', $tmp);
+                                            } else {
+                                                $href = '/library/books/'.$status.'/'.$order.'/'.$page;
+                                            }
+                                            break;
+                                        } else {
+                                            $href = '/library/books/'.$status.'/'.$order.'/'.$page.$tags_string.'/'.$tag->title;
+                                        }
+                                    }
+                                } else {
+                                    $href = '/library/books/'.$status.'/'.$order.'/'.$page.'/'.$tag->title;
+                                }
+
+                                echo Html::a($tag->title, $href, array(
+                                    'id'    => $tag->title,
+                                    'class' => 'label '.$class
                                 )).' ';
                             } ?>
                         </div>

@@ -41,12 +41,10 @@ class Book extends ActiveRecord
         if($with_count) {
             $query_count           = clone $query;
             $result['count_total'] = $query_count->count();
+            $query->limit($this->limit)->offset(($this->offset - 1) * $this->limit);
         }
 
-        $result['books'] = $query->limit($this->limit)
-            ->offset(($this->offset - 1) * $this->limit)
-            ->orderBy($this->order_by)
-            ->all();
+        $result['books'] = $query->orderBy($this->order_by)->all();
         return $result;
     }
 
