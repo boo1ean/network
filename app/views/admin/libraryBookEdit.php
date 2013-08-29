@@ -10,32 +10,55 @@ use yii\helpers\Html;
         </div>
         <?php $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal', 'id' => 'edit-book', 'enctype' => 'multipart/form-data')));?>
         <div class="modal-body">
-            <?php
-            echo HTML::hiddenInput('id_edit', $model->id_edit, array('id' => 'id_edit'));
-
-            echo $form->field($model, 'author')->textInput(array('value'      => $model->author,      'id' => 'author'));
-            echo $form->field($model, 'title')->textInput(array('value'       => $model->title,       'id' => 'title'));
-            echo $form->field($model, 'description')->textarea(array('value'  => $model->description, 'id' => 'description'));
-            echo $form->field($model, 'tags')->textInput(array('value'        => $model->tags,        'id' => 'tags'));
-            ?>
-
-            <div class="input-group" id="book-types">
-                <span class="input-group-addon"> Paper
-                    <input type="radio" name="LibraryForm[type]" value="1" <?php echo 2 != $model->type ? 'checked="checked"' : ''?>>
-                </span>
-
-                <span class="input-group-addon"> E-book
-                    <input type="radio" name="LibraryForm[type]" value="2" <?php echo 2 == $model->type ? 'checked="checked"' : ''?>>
-                </span>
-                <input type="input" id="e-book-state" class="form-control" <?php echo 2 == $model->type ? '' : 'style="display: none;"'?> value="<?php echo $link;?>">
-                <span class="input-group-btn">
-                    <?php echo Html::button('Load', array(
-                        'class'   => 'btn btn-default fc-state-disabled',
-                        'data-id' => $model->resource_id,
-                        'id'      => 'e-book-load',
-                        'style'   => 2 == $model->type ? '' : 'display: none;'
+            <?php echo HTML::hiddenInput('id_edit', $model->id_edit, array('id' => 'id_edit'));?>
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <?php echo $form->field($model, 'author')->textInput(array(
+                        'id'    => 'author',
+                        'value' => $model->author
                     ));?>
-                </span>
+                </div>
+
+                <div class="col-lg-10 col-lg-offset-1">
+                    <?php echo $form->field($model, 'title')->textInput(array(
+                        'id'    => 'title',
+                        'value' => $model->title
+                    ));?>
+                </div>
+
+                <div class="col-lg-10 col-lg-offset-1">
+                    <?php echo $form->field($model, 'description')->textarea(array(
+                        'id'    => 'description',
+                        'value' => $model->description
+                    )); ?>
+                </div>
+
+                <div class="col-lg-10 col-lg-offset-1">
+                    <?php echo $form->field($model, 'tags')->textInput(array(
+                        'id'    => 'tags',
+                        'value' => $model->tags,
+                    ));?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-group col-lg-10 col-lg-offset-1" id="book-types" style="padding-left: 0px;">
+                    <span class="input-group-addon"> Paper
+                        <input type="radio" name="LibraryForm[type]" value="1" <?php echo 2 != $model->type ? 'checked="checked"' : ''?>>
+                    </span>
+
+                    <span class="input-group-addon"> E-book
+                        <input type="radio" name="LibraryForm[type]" value="2" <?php echo 2 == $model->type ? 'checked="checked"' : ''?>>
+                    </span>
+                    <input type="input" id="e-book-state" class="form-control" <?php echo 2 == $model->type ? '' : 'style="display: none;"'?> value="<?php echo $link;?>">
+                    <span class="input-group-btn">
+                        <?php echo Html::button('Load', array(
+                            'class'   => 'btn btn-default fc-state-disabled',
+                            'data-id' => $model->resource_id,
+                            'id'      => 'e-book-load',
+                            'style'   => 2 == $model->type ? '' : 'display: none;'
+                        ));?>
+                    </span>
+                </div>
             </div>
         </div>
         <div class="modal-footer">
