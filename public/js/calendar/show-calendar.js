@@ -43,6 +43,8 @@ function showModal(html, id) {
                 $.post('/calendar/member-not-subscribe-list', {id_event: id})
                     .done(function(response) {
                         var data = $.parseJSON(response);
+                        members_list.member_source = new Array();
+                        members_list.member_full   = {};
 
                         $.each(data, function (i, item) {
                             members_list.member_source.push(item['name']);
