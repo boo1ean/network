@@ -74,39 +74,41 @@ use yii\widgets\ActiveForm;
 
             <div class="row drop">
                 <div class="col-lg-6 col-lg-offset-1">
-                    <?php echo Html::label('Type'); ?>
-                    <?php echo Html::dropDownList('type', null, array('birthday', 'corp. event', 'holiday', 'day-off'),
-                        array('class' => 'form-control')) ?>
+                    <div class="form-group">
+                        <?php echo Html::label('Type'); ?>
+                        <?php echo Html::dropDownList('type', null, array('birthday', 'corp. event', 'holiday', 'day-off'),
+                            array('class' => 'form-control')) ?>
+                    </div>
                 </div>
             </div>
 
             <div class="row drop">
                 <div class="col-lg-6 col-lg-offset-1">
-                    Add new member:
-                    <input type="text" id="new-member-list" class="form-control">
-                    <p class="help-block" style="display: none;"></p>
+                    <div class="form-group">
+                        <?php echo Html::label('Add new member'); ?>
+                        <input type="text" id="new-member-list" class="form-control">
+                        <p class="help-block" style="display: none;"></p>
+                    </div>
                 </div>
             </div>
-            <br/>
 
             <div class="row drop">
-                <div id="member-event-list" class="col-lg-10 col-lg-offset-1"> </div>
-            </div>
-            <br/>
-
-            <div class="row">
-                <div class="col-lg-6 col-lg-offset-1">
-                    <?php echo Html::label('Choose event color'); ?>
+                <div class="form-group">
+                    <div id="member-event-list" class="col-lg-10 col-lg-offset-1"> </div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-lg-6 col-lg-offset-1">
-                    <?php echo Html::input('text', 'colorpicker', '#d14d4d', array(
-                        'id' => 'colorpicker'
-                    )); ?>
+                    <div class="form-group">
+                        <?php echo Html::label('Choose event color'); ?>
+                        <?php echo Html::input('text', 'colorpicker', '#d14d4d', array(
+                            'id' => 'colorpicker'
+                        )); ?>
+                    </div>
                 </div>
             </div>
+
 
         </div><!--body-->
 
