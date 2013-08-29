@@ -144,7 +144,7 @@ $tags_string = empty($tags_filter) ? '' : '/' . implode('/', $tags_filter);
                                 Description
                             </a>
                         </div>
-                        <div class="navbar-right" style="width: 80%;">
+                        <div class="navbar-right text-right" style="width: 80%;">
                             <?php
                                 if ('E-book' == $book['type']) {
                                     echo Html::a('Download', $book['link'] ? $book['link'] : null, array(
