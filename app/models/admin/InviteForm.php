@@ -71,7 +71,7 @@ class InviteForm extends User
             );
             $queue->enqueue(EmailJob::getJobName(), $emailData);
 
-            return 'Email successfully sent';
+            return 'The invitation has been sent successfully';
         }
 
         return false;

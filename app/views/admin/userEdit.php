@@ -6,21 +6,43 @@ use yii\helpers\Html;
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h3>Edit data user </h3>
+            <h3>Edit user profile</h3>
         </div>
         <?php $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal', 'id' => 'edit_user')));?>
         <div class="modal-body">
-            <?php
-                echo HTML::hiddenInput('id_edit', $model->id_edit, array('id' => 'id_edit'));
-
-                echo $form->field($model, 'email')->textInput(array('value'      => $model->email,      'id' => 'email'));
-                echo $form->field($model, 'first_name')->textInput(array('value' => $model->first_name, 'id' => 'first_name'));
-                echo $form->field($model, 'last_name')->textInput(array('value'  => $model->last_name,  'id' => 'last_name'));
-
-                echo HTML::tag('b', 'If you wanna change password for this user, write in both of field below');
-                echo $form->field($model, 'password')->passwordInput(array('placeholder' => 'Enter new password', 'id' => 'password'));
-                echo $form->field($model, 'repeat_password')->passwordInput(array('placeholder' => 'Repeat password', 'id' => 'repeat_password'));
-            ?>
+            <?php echo HTML::hiddenInput('id_edit', $model->id_edit, array('id' => 'id_edit')); ?>
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <?php echo $form->field($model, 'email')->textInput(array(
+                        'id'    => 'email',
+                        'value' => $model->email
+                    ));?>
+                </div>
+                <div class="col-lg-10 col-lg-offset-1">
+                    <?php echo $form->field($model, 'first_name')->textInput(array(
+                        'id'    => 'first_name',
+                        'value' => $model->first_name
+                    ));?>
+                </div>
+                <div class="col-lg-10 col-lg-offset-1">
+                    <?php echo $form->field($model, 'last_name')->textInput(array(
+                        'id'    => 'last_name',
+                        'value' => $model->last_name
+                    ));?>
+                </div>
+                <div class="col-lg-10 col-lg-offset-1">
+                    <?php echo HTML::tag('b', 'For change password of this user, write in both of field below');?>
+                    <?php echo $form->field($model, 'password')->passwordInput(array(
+                        'id'          => 'password',
+                        'placeholder' => 'Enter new password'
+                    ));?>
+                </div>
+                <div class="col-lg-10 col-lg-offset-1">
+                    <?php echo $form->field($model, 'repeat_password')->passwordInput(array(
+                        'id'          => 'repeat_password',
+                        'placeholder' => 'Repeat password',
+                    ));?>
+            </div>
         </div>
         <div class="modal-footer">
             <?php
