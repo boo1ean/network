@@ -114,11 +114,19 @@ use yii\widgets\LinkPager;
                         echo Html::button('Return', array(
                             'class'        => 'col-sm-offset-1 btn btn-sm btn-primary',
                             'data-id-book' => $book['id'],
-                            'data-id-user' => $book['taken_info']->user_id,
+                            'data-id-user' => $book['taken_info']['user_id'],
                             'name'         => 'book-return'
-                        ));
-                    }
-                    ?>
+                        ));?>
+                        <br/>
+                        <div class=" progress progress-striped navbar-btn">
+                            <div class="<?php echo 'progress-bar progress-bar-'.$book['taken_info']['class']?>"
+                                 style="<?php echo 'position: relative; width:'.$book['taken_info']['percent'].'%'?>">
+                                <div <?php echo $book['taken_info']['percent'] < 10 ? 'class="progress-bar-left"' : ''?>>
+                                    <?php echo $book['taken_info']['percent']?>%
+                                </div>
+                            </div>
+                        </div>
+                    <?php }?>
                 </td>
             </tr>
         <?php endforeach;?>

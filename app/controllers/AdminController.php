@@ -187,7 +187,18 @@ class AdminController extends PjaxController
                         'book_id'          => $book->id,
                         'status_user_book' => BookTaking::STATUS_TAKEN
                     );
-                    $books[$key]['taken_info'] = BookTaking::findOneByParams($where);;
+                    $taken_info = BookTaking::findOneByParams($where)->toArray();
+
+                    $taken_info['percent'] = BookTaking::calcPercentFromDateInterval($taken_info['taken'], $taken_info['returned']);
+
+                    if ($taken_info['percent'] <= 50) {
+                        $taken_info['class'] = 'success';
+                    } elseif ($books[$key]['taken_info']['percent'] > 80) {
+                        $taken_info['class'] = 'danger';
+                    } else {
+                        $taken_info['class'] = 'warning';
+                    }
+                    $books[$key]['taken_info'] = $taken_info;
                     break;
             }
 

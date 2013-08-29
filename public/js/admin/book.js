@@ -143,7 +143,9 @@ $(function(){
 
                             row.find('[name="book-delete"]').after(
                                 '<button class="col-sm-offset-1 btn btn-sm btn-primary" data-id-book="' + book_id + '"' +
-                                    'data-id-user="' + user_id + '" name="book-queue"> Return </button>'
+                                'data-id-user="' + user_id + '" name="book-return"> Return </button>' +
+                                '<div class=" progress progress-striped navbar-btn"> <div class="progress-bar progress-bar-success"' +
+                                'style="position: relative; width:0%"><div class="progress-bar-left">0.0%</div></div></div>'
                             );
 
                             $('#book-modal').modal('hide');
@@ -244,6 +246,7 @@ $(function(){
                             var row = $('#' + book_id);
                             row.removeClass('danger').addClass('ask' == result['book_status'] ? 'warning' : 'success');
                             row.find('button[name="book-return"]').remove();
+                            row.find('.progress').remove();
 
                             if('ask' == result['book_status']) {
                                 row.find('[name="book-delete"]').after(

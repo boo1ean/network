@@ -57,6 +57,21 @@ class BookTaking extends ActiveRecord
         }
     }
 
+    public static function calcPercentFromDateInterval($start, $end, $round = 1) {
+        $now      = time();
+        $datetime = explode(' ', $end);
+        $date     = explode('-', $datetime[0]);
+        $time     = explode(':', $datetime[1]);
+        $returned = mktime($time[0], $time[1], $time[2], $date[1], $date[2], $date[0]);
+
+        $datetime = explode(' ', $start);
+        $date     = explode('-', $datetime[0]);
+        $time     = explode(':', $datetime[1]);
+        $taken    = mktime($time[0], $time[1], $time[2], $date[1], $date[2], $date[0]);
+
+        return round(($now - $taken) * 100 / ($returned - $taken), $round);
+    }
+
     public static function findByBookId($book_id) {
         return static::find()
             ->where(array('book_id' => $book_id))

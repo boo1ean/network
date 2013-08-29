@@ -77,6 +77,12 @@ button, a {
     -moz-box-shadow: 0 0 6px #f8b9b7 !important;
     box-shadow: 0 0 6px #f8b9b7 !important;
 }
+
+.progress > .progress-bar > .progress-bar-left {
+    color: #000000;
+    right: -30px;
+    position: absolute;
+}
 /*--------------------------------------------------------------------------------------------------------------------*/
 .btn-group > .glyphicon {
     font-size: 65%;
