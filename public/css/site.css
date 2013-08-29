@@ -1,6 +1,7 @@
 button, a {
     margin-left: 5px;
 }
+
 .message {
     position: relative;
     padding:15px;
@@ -285,10 +286,7 @@ h4.tag a:hover {
     margin-top: 7px;
     color: #777;
 }
-#member-conversation-list{
-    width: 700px;
-    margin: 15px 5px;
-}
+
 .messageContainer {
     display: table;
     margin: 15px 5px;

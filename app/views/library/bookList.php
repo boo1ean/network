@@ -72,11 +72,7 @@ $tags_string = empty($tags_filter) ? '' : '/' . implode('/', $tags_filter);
                 } ?>
 
                 <div class="btn-group navbar-btn">
-                    <?php
-                    echo html::tag('a', $tag->title, array(
-                        'class' => 'btn btn-sm ' . $class,
-                        'href'  => $href,
-                    )); ?>
+                    <?php echo html::a($tag->title, $href, array('class' => 'btn btn-sm ' . $class )); ?>
                 </div>
             <?php endforeach; ?>
         </div>

@@ -11,27 +11,30 @@ use yii\widgets\ActiveForm;
         </div>
         <?php $form = ActiveForm::begin();?>
             <div class="modal-body" >
-                <?php echo $form->field($model, 'title')->textInput(array('value'=> $model->title, 'class' => 'form-control')); ?>
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-10 col-lg-offset-1">
+                        <?php echo $form->field($model, 'title')->textInput(array(
+                            'class' => 'form-control',
+                            'value' => $model->title
+                        )); ?>
+                    </div>
+                    <div class="col-lg-10 col-lg-offset-1">
                         Message:
                         <?php echo Html::textarea('message', '', array(
-                            'class'       => 'form-control',
-                            'rows'        => '4',
-                            'style'       => 'resize: none',
-                            'id'          => 'message'
+                            'class' => 'form-control',
+                            'rows'  => '4',
+                            'style' => 'resize: none',
+                            'id'    => 'message'
                         )); ?>
                         <p class="help-block" style="display: none;"></p>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        Add new member: <input type="text" id="new-member-list" class="form-control">
+                    <div class="col-lg-10 col-lg-offset-1">
+                        Add new member:
+                        <input type="text" id="new-member-list" class="form-control">
                         <p class="help-block" style="display: none;"></p>
                     </div>
+                    <div id="member-conversation-list" class="col-lg-10 col-lg-offset-1"></div>
                 </div>
-                <br/>
-                <div id="member-conversation-list"></div>
             </div>
 
             <div class="modal-footer">

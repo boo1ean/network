@@ -26,7 +26,7 @@ use app\helpers\DateTimeHelper;
             <input type="text" id="not-member-list" data-id="<?php echo $conversationId?>" class="form-control">
         </div>
     </div>
-    <div id="member-conversation-list" data-creator="<?echo $is_creator ? 1 : 0;?>">
+    <div class="col-lg-10" id="member-conversation-list" data-creator="<?echo $is_creator ? 1 : 0;?>">
         <?php foreach ($conversationMembers as $member):?>
             <div class="btn-group navbar-btn" <?php echo 'data-id="'.$member->id.'"';?> >
                 <?php

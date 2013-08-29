@@ -34,7 +34,6 @@ var conversation_list = function() {
                     ).done(function(response) {
                             var data = $.parseJSON(response);
                             members_list.member_source = new Array();
-                            members_list.member_full   = {};
 
                             $.each(data, function (i, item) {
                                 members_list.member_source.push(item['name']);
@@ -64,7 +63,7 @@ var conversation_list = function() {
                                     var member_conversation_list = $('#member-conversation-list');
 
                                     var html =
-                                        '<div class="btn-group" data-id="' + item['id'] + '" style="display: none;" >' +
+                                        '<div class="btn-group navbar-btn" data-id="' + item['id'] + '" style="display: none;" >' +
                                             '<input name="members[' + item['id'] + ']" type="checkbox" style="display: none;" checked="checked" />' +
                                             '<a href="/user/profile/' + item['id'] + '" target="_blank" class="btn btn-xs btn-success">' + item_current + '</a>';
 
@@ -313,6 +312,7 @@ $(document).ready(
                                     $.post('/conversation/member-not-subscribe-list')
                                         .done(function(response) {
                                             var data = $.parseJSON(response);
+                                            members_list.member_source = new Array();
 
                                             $.each(data, function (i, item) {
                                                 members_list.member_source.push(item['name']);
@@ -332,7 +332,7 @@ $(document).ready(
                                         members_list.member_source.splice(i, 1);
                                         members_list.member_full.splice(i, 1);
 
-                                        var html = '<div class="btn-group" data-id="' + item['id'] + '" style="display: none;" >' +
+                                        var html = '<div class="btn-group navbar-btn" data-id="' + item['id'] + '" style="display: none;" >' +
                                             '<input name="members[' + item['id'] + ']" type="checkbox" style="display: none;" checked="checked" />' +
                                             '<a href="/user/profile/' + item['id'] + '" target="_blank" class="btn btn-xs btn-success">' + item_current + '</a>' +
                                             '<button class="btn btn-success glyphicon glyphicon-remove" ' +
