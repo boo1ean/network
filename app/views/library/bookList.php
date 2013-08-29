@@ -144,7 +144,7 @@ $tags_string = empty($tags_filter) ? '' : '/' . implode('/', $tags_filter);
                                 Description
                             </a>
                         </div>
-                        <div class="navbar-right">
+                        <div class="navbar-right" style="width: 80%;">
                             <?php
                                 if ('E-book' == $book['type']) {
                                     echo Html::a('Download', $book['link'] ? $book['link'] : null, array(
@@ -157,7 +157,16 @@ $tags_string = empty($tags_filter) ? '' : '/' . implode('/', $tags_filter);
                                         'data-id' => $book['id'],
                                         'name'    => 'book-ask'
                                     ));
-                            } ?>
+                                } elseif ('taken' == $book['status']) {?>
+                                    <div class=" progress progress-striped" style="margin-bottom: 0px;">
+                                        <div class="<?php echo 'progress-bar progress-bar-'.$book['class']?>"
+                                             style="<?php echo 'position: relative; width:'.$book['percent'].'%'?>">
+                                            <div <?php echo $book['percent'] < 10 ? 'class="progress-bar-left"' : ''?>>
+                                                <?php echo $book['percent']?>%
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
                         </div>
                     </h4>
                 </div>
