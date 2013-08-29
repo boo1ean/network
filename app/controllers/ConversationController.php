@@ -310,4 +310,23 @@ class ConversationController extends PjaxController
         return Yii::$app->getResponse()->redirect('/conversation/' . $conversation->id);
 
     }
+
+    public function actionUpdateTitle() {
+        $result = array(
+            'redirect' => Yii::$app->getUrlManager()->createAbsoluteUrl('/conversation/conversation-list'),
+            'status'   => 'ok'
+        );
+        if (!Yii::$app->getRequest()->getIsAjax() || !isset($_POST['id']) || !isset($_POST['title'])) {
+            $result['status'] = 'redirect';
+        }
+
+        $conversation = Conversation::find($_POST['id']);
+        if ($conversation == null) {
+            $result['status'] = 'redirect';
+        } else {
+            $conversation->title = $_POST['title'];
+            $conversation->save();
+        }
+        return json_encode($result);
+    }
 }

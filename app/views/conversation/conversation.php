@@ -8,13 +8,13 @@ use app\helpers\DateTimeHelper;
     <div class="row" id="conversation-header">
         <div class="col-lg-5">
             <?php
-            echo Html::beginTag('a', array(
+            echo Html::beginTag('div', array(
                 'class' => 'cursorOnNoLink',
                 'data-id'  => $conversationId,
                 'id' => 'conversation-title'
             ));
-            echo $conversationTitle;
-            echo Html::endTag('a');
+            echo Html::tag('span', $conversationTitle);
+            echo Html::endTag('div');
             ?>
         </div>
         <div class="col-lg-3">

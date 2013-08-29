@@ -373,5 +373,48 @@ $(document).ready(
                 return false;
             }
         }, '#conversation-save');
+
+        //Change conversation title
+        $(document).on({
+             'click': function() {
+                 var currentTitle = $(this).find('span').text();
+                 // If double clicked - return
+                 if(currentTitle == '') return;
+                 // Clear div
+                 $(this).empty();
+                 // Add input for new title
+                 $(this).html('<input type="text" id="new-title" class="form-control" value='+ currentTitle + '>');
+                 $('#new-title').focus();
+             }
+        },'#conversation-title');
+
+        $(document).on({
+            'blur': function() {
+                var parent = $(this).parent();
+                var newTitle = $(this).val();
+                var id = parent.attr('data-id');
+
+                var ajaxData = {
+                    url:  '/conversation/update-title',
+                    type: 'POST',
+                    data: {'title':newTitle, 'id':id},
+                    success: function() {
+                        parent.empty();
+                        parent.html('<span>' + newTitle + '</span>');
+                    }
+                };
+                if (newTitle.length < 4 || newTitle.length > 16) {
+                    alert('Title length must contain from 4 to 16 symbols!');
+                } else {
+                    $.ajax(ajaxData);
+                }
+            },
+            'keypress': function(e) {
+                if(e.which == 13) {
+                    $(this).blur();
+                }
+            }
+        }, '#new-title');
+
     }
 );
