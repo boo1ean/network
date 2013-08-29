@@ -5,7 +5,7 @@ class DateTimeHelper
 {
     /**
      * @param $ts string timestamp
-     * @return bool|string relative date
+     * @return string relative date
      * @link http://stackoverflow.com/questions/2690504/php-producing-relative-date-time-from-timestamps
      */
     public static function relativeTime($ts) {
