@@ -101,7 +101,7 @@ class ConversationController extends PjaxController
             $row = array();
 
             $row['id']      = $conversation->id;
-            $row['title']   = $conversation->title;
+            $row['title']   = $conversation->conversationTitle;
             $row['private'] = $conversation->isPrivate();
             $row['users']   = array();
 
@@ -147,7 +147,7 @@ class ConversationController extends PjaxController
             'conversationCreator' => $creator,
             'conversationId'      => $conversation->id,
             'conversationMembers' => $conversation->users,
-            'conversationTitle'   => $conversation->title,
+            'conversationTitle'   => $conversation->conversationTitle,
             'is_creator'          => $user->id == $creator->id,
             'messages'            => $conversation->messages,
             'user'                => $user

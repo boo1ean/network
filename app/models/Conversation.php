@@ -184,4 +184,12 @@ class Conversation extends ActiveRecord
         return $privateConversation;
 
     }
+
+    public function getConversationTitle() {
+        if($this->title != null) {
+            return $this->title;
+        } else {
+            return 'conversation #' . $this->id;
+        }
+    }
 }

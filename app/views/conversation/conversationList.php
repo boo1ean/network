@@ -25,10 +25,7 @@ use app\helpers\DateTimeHelper;
     </h1>
     <div id="conversation-create-modal" class="modal fade"></div>
     <ul class="nav nav-stacked" id="conversation-list">
-        <?php // Print list of conversations
-            foreach ($conversations as $conversation):
-                $title = $conversation['title'] == NULL ? 'conversation #' . $conversation['id'] : $conversation['title'];
-        ?>
+        <?php foreach ($conversations as $conversation): ?>
         <li>
             <?php
             // Class for link to conversation depends on read state of conversation
@@ -43,7 +40,7 @@ use app\helpers\DateTimeHelper;
             ));
             echo Html::beginTag('div', array('class' => 'conversation_info'));
             // Title of conversation
-            echo Html::tag('span', $title, array('class' => 'conversation_title'));
+            echo Html::tag('span', $conversation['title'], array('class' => 'conversation_title'));
             // Users of conversation
             echo Html::beginTag('div', array('class' => 'conversation_users'));
             //echo Html::tag('b', $members);
