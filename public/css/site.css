@@ -248,6 +248,7 @@ h4.tag a:hover {
     vertical-align: middle;
     min-width: 450px !important;
     color: #777;
+    word-break: break-all;
 }
 .conversation_message p{
     text-align: justify;
