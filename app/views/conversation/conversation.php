@@ -5,13 +5,27 @@ use yii\widgets\ActiveForm;
 use app\helpers\DateTimeHelper;
 ?>
 
-    <h1><?php echo $conversationTitle ?> </h1>
-    <div class="row">
+    <div class="row" id="conversation-header">
+        <div class="col-lg-5">
+            <?php
+            echo Html::beginTag('a', array(
+                'class' => 'cursorOnNoLink',
+                'data-id'  => $conversationId,
+                'id' => 'conversation-title'
+            ));
+            echo $conversationTitle;
+            echo Html::endTag('a');
+            ?>
+        </div>
         <div class="col-lg-3">
-            Add new member: <input type="text" id="not-member-list" data-id="<?php echo $conversationId?>" class="form-control">
+            <div id="add-conversation-member-lbl">
+            Add new member:
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" id="not-member-list" data-id="<?php echo $conversationId?>" class="form-control">
         </div>
     </div>
-    <br/>
     <div id="member-conversation-list" data-creator="<?echo $is_creator ? 1 : 0;?>">
         <?php foreach ($conversationMembers as $member):?>
             <div class="btn-group navbar-btn" <?php echo 'data-id="'.$member->id.'"';?> >

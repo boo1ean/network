@@ -263,6 +263,32 @@ h4.tag a:hover {
     margin-right: 15px;
 }
 /*-----------------------------------Styles for messages-------------------------*/
+#conversation-header {
+    background: #ECECEC;
+    border-radius: 3px;
+    width: 700px;
+    margin: 15px 5px;
+    padding: 10px;
+    border: 1px solid #DDD;
+}
+#conversation-title:hover {
+    color: #333;
+    text-decoration: none;
+}
+#conversation-title {
+    font-size: 25px;
+    font-weight: bold;
+    color: #777;
+}
+#add-conversation-member-lbl {
+    text-align: right;
+    margin-top: 7px;
+    color: #777;
+}
+#member-conversation-list{
+    width: 700px;
+    margin: 15px 5px;
+}
 .messageContainer {
     display: table;
     margin: 15px 5px;
@@ -421,3 +447,4 @@ h4.tag a:hover {
 .clear {
     clear: both;
 }
+
