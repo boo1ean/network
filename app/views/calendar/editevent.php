@@ -28,77 +28,66 @@ use app\models\User;
         <div class="modal-body">
 
             <div class="row">
-                <div class="col-lg-6 col-lg-offset-1">
+                <div class="col-lg-10 col-lg-offset-1">
                     <?php echo $form->field($model, 'title')->textInput(array(
                         'placeholder' => 'Enter event title',
                         'value' => $event->title,
                         'id' => 'title'
                     )); ?>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-6 col-lg-offset-1">
+                <div class="col-lg-10 col-lg-offset-1">
                     <?php echo $form->field($model, 'description')->textInput(array(
                         'placeholder' => 'Enter event description',
                         'value' => $event->description,
                         'id' => 'description'
                     )); ?>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-4 col-lg-offset-1">
-                    <?php echo $form->field($model, 'start_date')->input('date', array(
-                        'value' => $event->start_date,
-                        'id' => 'start_date'
-                    )); ?>
-                </div>
-
-                <div class="col-lg-3 col-lg-push-1">
-                    <?php echo $form->field($model, 'start_time')->input('time', array(
-                        'value' => $event->start_time,
-                        'id' => 'start_time'
-                    )); ?>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-4 col-lg-offset-1">
-                    <?php echo $form->field($model, 'end_date')->input('date', array(
-                        'value' => $event->end_date,
-                        'id' => 'end_date'
-                    )); ?>
-                </div>
-
-                <div class="col-lg-3 col-lg-push-1">
-                    <?php echo $form->field($model, 'end_time')->input('time', array(
-                        'value' => $event->end_time,
-                        'id' => 'end_time'
-                    )); ?>
-                </div>
-            </div>
-
-            <div class="row drop">
                 <div class="col-lg-6 col-lg-offset-1">
-                    <?php echo Html::activeLabel($model, 'type', array('class' => 'control-label')); ?>
-                    <?php echo Html::dropDownList('type', $event->type, array('birthday', 'corp. event', 'holiday', 'day-off'),
-                        array('class' => 'form-control')); ?>
+                    <div class="form-group">
+                        <b>Start date</b>
+                        <div class="date-time-picker input-group" style="padding-left: 0px;">
+                            <?php
+                                $start_date = explode('-', $event->start_date);
+                                $start_date = $start_date[2] . '/' . $start_date[1] . '/' . $start_date[0] .' ' . $event->start_time;
+                            ?>
+                            <input name="start_datetime" data-format="dd/MM/yyyy hh:mm" type="text" class="form-control" value="<?php echo $start_date ?>"/>
+                            <span class="input-group-addon add-on">
+                                <i style="color: #000000" class="glyphicon glyphicon-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            <br/>
-
-            <div class="row drop">
                 <div class="col-lg-6 col-lg-offset-1">
-                    Add new member:
-                    <input type="text" id="new-member-list" class="form-control">
-                    <p class="help-block" style="display: none;"></p>
+                    <div class="form-group">
+                        <b>End date</b>
+                        <div class="date-time-picker input-group" style="padding-left: 0px;">
+                            <?php
+                                $end_date = explode('-', $event->end_date);
+                                $end_date = $end_date[2] . '/' . $end_date[1] . '/' . $end_date[0] .' ' . $event->end_time;
+                            ?>
+                            <input name="end_datetime" data-format="dd/MM/yyyy hh:mm" type="text" class="form-control" value="<?php echo $end_date?>"/>
+                            <span class="input-group-addon add-on">
+                                <i style="color: #000000" class="glyphicon glyphicon-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <br/>
+                <div class="col-lg-6 col-lg-offset-1">
+                    <div class="form-group">
+                        <?php echo Html::activeLabel($model, 'type', array('class' => 'control-label')); ?>
+                        <?php echo Html::dropDownList('type', $event->type, array('birthday', 'corp. event', 'holiday', 'day-off'),
+                            array('class' => 'form-control')); ?>
+                    </div>
+                </div>
 
-            <div class="row drop">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <div class="form-group">
+                        Add new member:
+                        <input type="text" id="new-member-list" class="form-control">
+                        <p class="help-block" style="display: none;"></p>
+                     </div>
+                </div>
+
                 <div id="member-event-list" class="col-lg-10 col-lg-offset-1" data-creator="<?echo $is_creator ? 1 : 0;?>">
                     <?php foreach ($members as $member):?>
                         <div class="btn-group navbar-btn" <?php echo 'data-id="'.$member->id.'"';?> >
@@ -129,21 +118,18 @@ use app\models\User;
                         </div>
                     <?php endforeach; ?>
                 </div>
-            </div>
-            <br/>
-
-            <div class="row">
                 <div class="col-lg-6 col-lg-offset-1">
-                    <?php echo Html::label('Choose event color'); ?>
+                    <div class="form-group">
+                        <?php echo Html::label('Choose event color'); ?>
+                    </div>
                 </div>
-            </div>
-
-            <div class="row">
                 <div class="col-lg-6 col-lg-offset-1">
-                    <?php echo Html::input('text', 'colorpicker', $event->color, array(
-                        'id' => 'colorpicker',
-                        'value' => $event->color
-                    )); ?>
+                    <div class="form-group">
+                        <?php echo Html::input('text', 'colorpicker', $event->color, array(
+                            'id' => 'colorpicker',
+                            'value' => $event->color
+                        )); ?>
+                    </div>
                 </div>
             </div>
 
