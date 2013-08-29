@@ -39,11 +39,13 @@ use app\helpers\DateTimeHelper;
             echo Html::tag('p', 'User is blocked', array('id' => 'user-profile-blocked'));
         }
         // Button for sending private messages
-        echo Html::tag('a', 'Send message', array(
-            'class' => 'btn btn-info',
-            'id'    => 'user-profile-message',
-            'href'  => '/conversation/private/' . $user->id
-        ));
+        if(Yii::$app->getUser()->getIdentity()->id != $user->id) {
+            echo Html::tag('a', 'Send message', array(
+                'class' => 'btn btn-info',
+                'id'    => 'user-profile-message',
+                'href'  => '/conversation/private/' . $user->id
+            ));
+        }
         echo Html::endTag('div');
         ?>
     </div>

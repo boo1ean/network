@@ -84,6 +84,7 @@ return array(
             'class'     => 'app\components\Queue',
             'servers'   => array('127.0.0.1' => 4730),         // array('127.0.0.1' => 12345, '127.0.0.2' => 12346)
             'sync'      => true,
+            'timeout'   => 10000,                              // IO timeout in milliseconds
         ),
 
         'queueWorker' => array(

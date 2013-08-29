@@ -24,6 +24,11 @@ class Queue extends Component
     public $sync;
 
     /**
+     * @var int IO timeout in milliseconds
+     */
+    public $timeout;
+
+    /**
      * Initializes the object.
      * This method is invoked at the end of the constructor after the object is initialized with the
      * given configuration.
@@ -36,6 +41,7 @@ class Queue extends Component
         }
 
         $this->gearmanClient = new \GearmanClient();
+        $this->gearmanClient->setTimeout($this->timeout);
 
         if (empty($this->servers)) {
             throw new InvalidConfigException("Could not found server IP in config");
@@ -57,10 +63,14 @@ class Queue extends Component
 
         // Code $data to string
         $data = serialize($data);
+
+        /**
+         * Using @ for prevent GearmanClient warning when timeout happened
+         */
         if (($background === null && !$this->sync) || $background === true) {
-            $this->gearmanClient->doBackground($task, $data);
+            @$this->gearmanClient->doBackground($task, $data);
         } else {
-            $this->gearmanClient->do($task, $data);
+            @$this->gearmanClient->do($task, $data);
         }
 
         return $this->gearmanClient->returnCode() == GEARMAN_SUCCESS;

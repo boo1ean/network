@@ -46,6 +46,9 @@ class EmailJob implements JobInterface
         /** @var Mailer $mail */
         $mail = \Yii::$app->getComponent('mail');
 
+        // HTML-message
+        $contentType = (isset($dataArray['html']) && $dataArray['html'] === false) ? null : 'text/html';
+
         // If "to" is array, add each of it.
         if (is_array($dataArray['to'])) {
             foreach ($dataArray['to'] as $to) {
@@ -56,7 +59,7 @@ class EmailJob implements JobInterface
         }
 
         $mail->setSubject($dataArray['subject']);
-        $mail->setBody($dataArray['body']);
+        $mail->setBody($dataArray['body'], $contentType);
         return $mail->send($failedRecipients);
     }
 

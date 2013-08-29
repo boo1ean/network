@@ -2,10 +2,12 @@
 use app\widgets\UserBox;
 
 if(!Yii::$app->getUser()->getIsGuest()) {
+    $user = Yii::$app->getUser()->getIdentity();
     echo UserBox::widget(array(
-        'avatar'              => Yii::$app->getUser()->getIdentity()->avatar,
-        'username'            => Yii::$app->getUser()->getIdentity()->userName,
-        'notificationsCount'  => Yii::$app->getUser()->getIdentity()->notificationsCount,
+        'avatar'              => $user->avatar,
+        'username'            => $user->userName,
+        'notificationsCount'  => $user->notificationsCount,
+        'link'                => '/user/profile/' . $user->id
     ));
 }
 
