@@ -275,6 +275,8 @@ h4.tag a:hover {
 .messageBody {
     display: table-cell;
     vertical-align: middle;
+    word-break: break-all;
+    text-align: justify;
 }
 .messageBody .popover {
     display: block;
