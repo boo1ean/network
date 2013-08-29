@@ -101,7 +101,7 @@ use app\helpers\DateTimeHelper;
             </div>
         </div>
 
-        <div class="event_comments" style="color: <?php echo $event->color; ?>;">
+        <div class="event_comments">
 
             <h3>Comments</h3><br/>
 
@@ -120,13 +120,11 @@ use app\helpers\DateTimeHelper;
                         'rows'        => '3',
                         'style'       => 'resize: none',
                         'autofocus'   => 'true',
-                        'style'       => 'color: '.$event->color.'; border-color: '.$event->color.'',
                     )); ?>
                 </div>
 
                 <?php echo Html::button('Post comment', array(
                     'class' => 'btn btn-primary',
-                    'style' => 'background-color: '.$event->color.'; border-color: '.$event->color.'',
                     'name' => 'post-comment',
                     'event-id' => $event->id
                 )); ?>
@@ -145,14 +143,14 @@ use app\helpers\DateTimeHelper;
                     $comment_author = User::getUserNameById($comment->user_id);
             ?>
 
-                    <div class="panel panel-default" style="border-color: <?php echo $event->color; ?>">
+                    <div class="panel panel-default">
 
-                        <div class="panel-heading" style="background-color: <?php echo $event->color; ?>; color: white;">
+                        <div class="panel-heading">
                             <?php echo $comment_author; ?>
                             <small class="pull-right"><?php echo $comment->post_datetime; ?></small>
                         </div>
 
-                        <div class="panel-body" style="color: <?php echo $event->color; ?>;">
+                        <div class="panel-body">
                             <?php echo $comment->body; ?>
                         </div>
 

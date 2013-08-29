@@ -217,19 +217,19 @@ $(function(){
 
             switch ($(':selected').val()) {
                 case '0':
-                    color = '#d14d4d';
+                    color = '#d17875';
                     break;
                 case '1':
-                    color = '#b04497';
+                    color = '#b06f9f';
                     break;
                 case '2':
-                    color = '#44b061';
+                    color = '#6cb080';
                     break;
                 case '3':
-                    color = '#444db0';
+                    color = '#6d70b0';
                     break;
                 default:
-                    color = '#d14d4d';
+                    color = '#d17875';
                     break;
             }
 
@@ -239,9 +239,9 @@ $(function(){
                 showButtons: false,
                 showPalette: true,
                 palette: [
-                    ['#d14d4d', '#b04497'],
-                    ['#7c44b0', '#444db0'],
-                    ['#44a9b0', '#44b061'],
+                    ['#d17875', '#b06f9f'],
+                    ['#7c44b0', '#6d70b0'],
+                    ['#44a9b0', '#6cb080'],
                     ['#85b044', '#b09a44'],
                     ['#362ea6', '#b8402b'],
                     ['#3e9e18', '#ff0000']

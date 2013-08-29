@@ -102,7 +102,7 @@ use yii\widgets\ActiveForm;
                 <div class="col-lg-6 col-lg-offset-1">
                     <div class="form-group">
                         <?php echo Html::label('Choose event color'); ?>
-                        <?php echo Html::input('text', 'colorpicker', '#d14d4d', array(
+                        <?php echo Html::input('text', 'colorpicker', '#d17875', array(
                             'id' => 'colorpicker'
                         )); ?>
                     </div>

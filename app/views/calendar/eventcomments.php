@@ -7,7 +7,7 @@ use app\models\User;
 
 ?>
 
-    <h3 style="color: <?php echo $event->color; ?>;">Comments</h3><br/>
+    <h3>Comments</h3><br/>
 
     <?php
         $form = ActiveForm::begin(array('options' => array('class' => 'form-horizontal')));
@@ -24,13 +24,11 @@ use app\models\User;
                 'rows'        => '3',
                 'style'       => 'resize: none',
                 'autofocus'   => 'true',
-                'style'       => 'color: '.$event->color.'; border-color: '.$event->color.'',
             )); ?>
         </div>
 
         <?php echo Html::button('Post comment', array(
             'class' => 'btn btn-primary',
-            'style' => 'background-color: '.$event->color.'; border-color: '.$event->color.'',
             'name' => 'post-comment',
             'event-id' => $event->id
         )); ?>
@@ -49,14 +47,14 @@ use app\models\User;
             $comment_author = User::getUserNameById($comment->user_id);
     ?>
 
-            <div class="panel panel-default" style="border-color: <?php echo $event->color; ?>">
+            <div class="panel panel-default">
 
-                <div class="panel-heading" style="background-color: <?php echo $event->color; ?>; color: white;">
+                <div class="panel-heading">
                     <?php echo $comment_author; ?>
                     <small class="pull-right"><?php echo $comment->post_datetime; ?></small>
                 </div>
 
-                <div class="panel-body" style="color: <?php echo $event->color; ?>;">
+                <div class="panel-body">
                     <?php echo $comment->body; ?>
                 </div>
 
