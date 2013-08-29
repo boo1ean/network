@@ -202,13 +202,13 @@ $(function(){
             var obj      = $(this).parent();
             var date     = new Date();
             var datetime = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' ' +
-                date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+                date.getHours() + ':' + date.getMinutes();
 
             obj.parent().find('.active').removeClass('active').find('.navbar-right').html('');
             obj.addClass('active');
             obj.find('.navbar-right').html(
                 '<div class="date-time-picker input-group" style="width:200px;" title="Return date">' +
-                '<input data-format="dd/MM/yyyy hh:mm:ss" type="text" class="form-control" value="' + datetime + '"/>' +
+                '<input data-format="dd/MM/yyyy hh:mm" type="text" class="form-control" value="' + datetime + '"/>' +
                 '<span class="input-group-addon add-on"> ' +
                 '<i style="color: #000000" class="glyphicon glyphicon-calendar"></i> </span> </div>'
             );
