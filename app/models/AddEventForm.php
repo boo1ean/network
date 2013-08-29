@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\events\HandlerEvent;
 use Yii;
 use yii\base\Model;
 use app\models\Event;
@@ -72,6 +73,7 @@ class AddEventForm extends Event
             $user = User::find(Yii::$app->getUser()->getId());
             $event->link('users', $user);
 
+            $usersId = array();
             if (isset($_POST['invitations'])) {
                 $invites = $_POST['invitations'];
 
@@ -79,8 +81,11 @@ class AddEventForm extends Event
                     $user = User::findIdentity($id_user);
                     $event->link('users', $user);
                     $event->markAsUnread($user->id);
+                    $usersId[] = $id_user;
                 }
             }
+
+            $this->sendNotifications($event->id, $usersId);
 
             return true;
         }
@@ -91,6 +96,7 @@ class AddEventForm extends Event
     public function editEvent($id) {
         if ($this->validate()) {
 
+            /** @var Event $event */
             $event = Event::find($id);
 
             $event->title       = $this->title;
@@ -138,19 +144,33 @@ class AddEventForm extends Event
                 }
             }
 
+            // Array of invited user ids
+            $usersId = array();
             foreach ($users_new as $id_user => $val) {
                 $user = User::findIdentity($id_user);
                 $event->link('users', $user);
                 $event->markAsUnread($user->id);
+                $usersId[] = $id_user;
             }
 
             $event->user_id = Yii::$app->getUser()->getId();
             $event->color   = $_POST['colorpicker'];
             $event->save();
 
+            $this->sendNotifications($event->id, $usersId);
+
             return true;
         }
 
         return false;
+    }
+
+    // Send event for notification
+    protected function sendNotifications($eventId, $userIds) {
+        $event = new HandlerEvent(array(
+            'eventId'           =>      $eventId,
+            'usersId'           =>      $userIds,
+        ));
+        Yii::$app->trigger('CALENDAR_USER_INVITE', $event);
     }
 }
