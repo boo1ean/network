@@ -117,7 +117,7 @@ class CalendarController extends PjaxController
             $eventcomment = new Eventcomment;
             $eventcomment->user_id = $userId;
             $eventcomment->event_id = $_POST['event_id'];
-            $eventcomment->body = $_POST['comment'];
+            $eventcomment->body = htmlspecialchars($_POST['comment']);
             $eventcomment->save();
         }
 
