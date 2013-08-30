@@ -48,7 +48,7 @@ class EventHandler extends Component
         foreach ($conversationUsers as $user) {
             $notifications = $user->searchSetting('notifications');
             // Skip current user
-            if ($user->id === $currentUser->id || $notifications['messages'] !== true) {
+            if ($user->id === $currentUser->id || !isset($notifications['messages']) || $notifications['messages'] !== true) {
                 continue;
             }
 
