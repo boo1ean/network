@@ -122,6 +122,10 @@ class LibraryController extends PjaxController
 
                     $books[$key]['percent'] = BookTaking::calcPercentFromDateInterval($book_taking['taken'], $book_taking['returned']);
 
+                    if($books[$key]['percent'] > 100) {
+                        $books[$key]['percent'] = 100;
+                    }
+
                     if ($books[$key]['percent'] <= 50) {
                         $books[$key]['class'] = 'success';
                     } elseif ($books[$key]['percent'] > 80) {
@@ -130,7 +134,7 @@ class LibraryController extends PjaxController
                         $books[$key]['class'] = 'warning';
                     }
 
-                    $books[$key]['show_ask']   = is_object($book_taking);
+                    $books[$key]['show_ask'] = is_object($book_taking);
                     break;
             }
 

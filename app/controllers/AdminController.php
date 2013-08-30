@@ -191,9 +191,13 @@ class AdminController extends PjaxController
 
                     $taken_info['percent'] = BookTaking::calcPercentFromDateInterval($taken_info['taken'], $taken_info['returned']);
 
+                    if($taken_info['percent'] > 100) {
+                        $taken_info['percent'] = 100;
+                    }
+
                     if ($taken_info['percent'] <= 50) {
                         $taken_info['class'] = 'success';
-                    } elseif ($books[$key]['taken_info']['percent'] > 80) {
+                    } elseif ($taken_info['percent'] > 80) {
                         $taken_info['class'] = 'danger';
                     } else {
                         $taken_info['class'] = 'warning';
