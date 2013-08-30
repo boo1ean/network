@@ -145,32 +145,9 @@ class ConversationController extends PjaxController
         $creator      = $conversation->getCreator();
         $user         = Yii::$app->getUser()->getIdentity();
 
-        /** @var Storage $storage */
-        $storage = Yii::$app->getComponent('storage');
-
         // Parse messages on attachments
         foreach ($conversation->messages as $message) {
-            preg_match_all('/\[\[attachment(\d+)_([a-z]+)_([a-z0-9]+)\]\]/', $message->body, $attachments, PREG_SET_ORDER);
-
-            foreach ($attachments as $attachment) {
-                // Check sign
-                list($full, $res_id, $res_type, $sign) = $attachment;
-
-                // Invalid sign
-                if ($sign !== md5(Yii::$app->params['secretString'] . '_' . $res_id . '_' . $res_type . '_' . Yii::$app->params['secretString'])) {
-                    continue;
-                }
-
-                switch ($res_type) {
-                    case 'image':
-                        $message->body = str_replace($full, '<a href="' . $storage->link($res_id) . '" target="_blank"><img src=' . $storage->image($res_id) . ' border="0"></a>', $message->body);
-                        break;
-                    default:
-                        $message->body = str_replace($full, '<a href="' . $storage->link($res_id) . '" target="_blank">' . basename($storage->path($res_id)) . '</a>', $message->body);
-                        break;
-                }
-
-            }
+            $message->body = $this->handleAttachment($message->body);
         }
 
         // Mark conversation as read
@@ -322,11 +299,14 @@ class ConversationController extends PjaxController
             Yii::$app->trigger('CONVERSATION_MESSAGE_SENT', $event);
 
             $message->save();
-        }
 
-        $result['status']  = count($message->errors) > 0 ? 'error' : $result['status'];
-        $result['errors']  = $message->errors;
-        $result['message'] = $message->toArray();
+            // Handle attachments
+            $message->body = $this->handleAttachment($message->body);
+
+            $result['status']  = count($message->errors) > 0 ? 'error' : $result['status'];
+            $result['errors']  = $message->errors;
+            $result['message'] = $message->toArray();
+        }
 
         return json_encode($result);
     }
@@ -424,6 +404,35 @@ class ConversationController extends PjaxController
         } else {
             Yii::$app->getResponse()->setStatusCode(503);
         }
+    }
+
+    protected function handleAttachment($body) {
+        /** @var Storage $storage */
+        $storage = Yii::$app->getComponent('storage');
+
+        preg_match_all('/\[\[attachment(\d+)_([a-z]+)_([a-z0-9]+)\]\]/', $body, $attachments, PREG_SET_ORDER);
+
+        foreach ($attachments as $attachment) {
+            // Check sign
+            list($full, $res_id, $res_type, $sign) = $attachment;
+
+            // Invalid sign
+            if ($sign !== md5(Yii::$app->params['secretString'] . '_' . $res_id . '_' . $res_type . '_' . Yii::$app->params['secretString'])) {
+                continue;
+            }
+
+            switch ($res_type) {
+                case 'image':
+                    $body = str_replace($full, '<a href="' . $storage->link($res_id) . '" target="_blank"><img src=' . $storage->image($res_id) . ' border="0"></a>', $body);
+                    break;
+                default:
+                    $body = str_replace($full, '<a href="' . $storage->link($res_id) . '" target="_blank">' . basename($storage->path($res_id)) . '</a>', $body);
+                    break;
+            }
+
+        }
+
+        return $body;
     }
 
 }
