@@ -217,6 +217,12 @@ $(document).ready(
                                 errors.showErrors(i, result['errors'][i])
                             }
                         } else if ('ok' == result['status']) {
+                            $('#message-container').before(
+                                '<div class = "messageContainer"><div class = "messageUser">' + $('#avatar-container').html() +
+                                '</div> <div class = "messageBody"> <div class = "popover right in" style="z-index: 0;">' +
+                                '<div class = "arrow"></div> <h5 class="popover-title">' + obj.attr('data-title') + '</h5>' +
+                                '<div class = "popover-content">' + body + '</div> </div> </div> </div>'
+                            );
 
                         } else if ('redirect' == result['status']) {
                             window.location = result['redirect'];
@@ -227,12 +233,6 @@ $(document).ready(
                     }
                 });
 
-                $('#message-container').before(
-                    '<div class = "messageContainer"><div class = "messageUser">' + $('#avatar-container').html() +
-                    '</div> <div class = "messageBody"> <div class = "popover right in" style="z-index: 0;">' +
-                    '<div class = "arrow"></div> <h5 class="popover-title">' + obj.attr('data-title') + '</h5>' +
-                    '<div class = "popover-content">' + body + '</div> </div> </div> </div>'
-                );
                 form.find('textarea').val('');
 
                 return false;
