@@ -245,6 +245,16 @@ h4.tag a:hover {
 .conversation {
     display: table-row;
     width: 700px;
+    -ms-word-break: break-all;
+    word-break: break-all;
+
+    /* Non standard for webkit */
+    word-break: break-word;
+
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
 }
 .conversation_info {
     display: table-cell;
@@ -255,7 +265,6 @@ h4.tag a:hover {
     vertical-align: middle;
     min-width: 450px !important;
     color: #777;
-    word-break: break-all;
 }
 .conversation_message p{
     text-align: justify;
@@ -263,7 +272,6 @@ h4.tag a:hover {
 .conversation_title {
     font-weight: bold;
     font-size: 20px;
-    word-break: break-all;
 }
 .left {
     float: left;
@@ -297,6 +305,16 @@ h4.tag a:hover {
     display: table;
     margin: 15px 5px;
     width: 700px;
+    -ms-word-break: break-all;
+    word-break: break-all;
+
+    /* Non standard for webkit */
+    word-break: break-word;
+
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
 }
 .messageUser {
     display: table-cell;
@@ -306,7 +324,6 @@ h4.tag a:hover {
 .messageBody {
     display: table-cell;
     vertical-align: middle;
-    word-break: break-all;
     text-align: justify;
 }
 .messageBody .popover {
