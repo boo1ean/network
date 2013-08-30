@@ -53,11 +53,12 @@ var uploadFiles = function() {
             '</div>',
         classes: {
             success: 'alert alert-success',
-            fail: 'alert alert-error'
+            fail: 'alert alert-danger'
         }/*,
         dragAndDrop: {
             extraDropzones: [$("#body")],
             hideDropzones: false
         }*/
+
     });
 };
