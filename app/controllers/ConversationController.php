@@ -166,7 +166,7 @@ class ConversationController extends PjaxController
                         $message->body = str_replace($full, '<a href="' . $storage->link($res_id) . '" target="_blank"><img src=' . $storage->image($res_id) . ' border="0"></a>', $message->body);
                         break;
                     default:
-                        $message->body = str_replace($full, '<a href="' . $storage->link($res_id) . '">' . basename($storage->path($res_id)) . '</a>', $message->body);
+                        $message->body = str_replace($full, '<a href="' . $storage->link($res_id) . '" target="_blank">' . basename($storage->path($res_id)) . '</a>', $message->body);
                         break;
                 }
 
@@ -397,25 +397,15 @@ class ConversationController extends PjaxController
         }
 
         // MIME type checks
-        switch ($mime) {
-            // Images
-            case (preg_match('/image\/(.*)/', $mime) ? true : false):
-                $result = array(
-                    'type'  =>  'image',
-                );
-                break;
-            // Other file type
-            default:
-                $result = array(
-                    'type'  =>  'file',
-                );
-                break;
-        }
+        $type = (preg_match('/image\/(.*)/', $mime)) ? 'image' : 'file';
 
         // Security file sign
-        $sign                   = md5(Yii::$app->params['secretString'] . '_' . $resource_id . '_' . $result['type'] . '_' . Yii::$app->params['secretString']);
-        $result['newUuid']      = $resource_id . '_' . $result['type'] . '_' . $sign;
-        $result['success']      = true;
+        $sign                   = md5(Yii::$app->params['secretString'] . '_' . $resource_id . '_' . $type . '_' . Yii::$app->params['secretString']);
+        $result = array(
+            'success'   =>  true,
+            'mime'      => $mime,
+            'newUuid'   =>  $resource_id . '_' . $type . '_' . $sign,
+        );
         return json_encode($result);
     }
 
