@@ -52,7 +52,7 @@ var uploadFiles = function() {
             '</div>',
         classes: {
             success: 'alert alert-success',
-            fail: 'alert alert-error'
+            fail: 'alert alert-danger'
         }
     });
 };
