@@ -118,6 +118,7 @@ class ConversationController extends PjaxController
             $message = Message::getLastInConversation($conversation->id);
 
             if ($message != null) {
+                $message->body = preg_replace('/\[\[attachment(\d+)_([a-z]+)_([a-z0-9]+)\]\]/', '[Attachment]', $message->body);
                 $row['lastMessage']       = $message;
                 $lastMessageUser          = $message->user;
                 $row['lastMessageUser']   = $lastMessageUser->userName;
@@ -401,7 +402,6 @@ class ConversationController extends PjaxController
             case (preg_match('/image\/(.*)/', $mime) ? true : false):
                 $result = array(
                     'type'  =>  'image',
-                    'src'   =>  $storage->image($resource_id, 'xs'),
                 );
                 break;
             // Other file type
