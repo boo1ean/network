@@ -196,11 +196,21 @@ $(document).ready(
         $(document).on({
             click: function(event) {
                 var obj    = $(this);
-                var form   = obj.parents('form');
-                var data   = form.serialize();
+                var data   = obj.parents('form').serialize();
                 var errors = new messages();
-                var body   = form.find('#body').val();
+                var form   = obj.parents('form');
 
+                // Add uploaded files to the message
+                var uploaded = $('#jquery-wrapped-fine-uploader').fineUploader('getUploads', {
+                    status: [qq.status.UPLOAD_SUCCESSFUL]
+                });
+
+                var attachemnts = [];
+                uploaded.forEach(function(element, index, array) {
+                    attachemnts.push(element.uuid);
+                });
+
+                data += '&attachments=' + JSON.stringify(attachemnts);
                 data += '&id=' + obj.attr('data-id');
                 $.ajax({
                     url:  '/conversation/message-send',
@@ -217,24 +227,22 @@ $(document).ready(
                                 errors.showErrors(i, result['errors'][i])
                             }
                         } else if ('ok' == result['status']) {
-                            $('#message-container').before(
-                                '<div class = "messageContainer"><div class = "messageUser">' + $('#avatar-container').html() +
+                            var html = '<div class = "messageContainer"><div class = "messageUser">' + $('#avatar-container').html() +
                                 '</div> <div class = "messageBody"> <div class = "popover right in" style="z-index: 0;">' +
                                 '<div class = "arrow"></div> <h5 class="popover-title">' + obj.attr('data-title') + '</h5>' +
-                                '<div class = "popover-content">' + body + '</div> </div> </div> </div>'
-                            );
-
+                                '<div class = "popover-content">' + result['message']['body'] + '</div> </div> </div> </div>';
+                            $('#message-container').before(html);
+                            form.find('textarea').val('');
                         } else if ('redirect' == result['status']) {
                             window.location = result['redirect'];
                         }
+
+                        $('#jquery-wrapped-fine-uploader').fineUploader('reset');
                     },
                     error: function(error) {
                         alert(error.statusText);
                     }
                 });
-
-                form.find('textarea').val('');
-
                 return false;
             }
         }, '#message-send');

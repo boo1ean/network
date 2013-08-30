@@ -2,13 +2,16 @@
 
 namespace app\controllers;
 
-use ___PHPSTORM_HELPERS\object;
+use app\components\Storage;
 use app\events\HandlerEvent;
 use yii;
-use yii\web\Controller;
 use app\models\Conversation;
 use app\models\Message;
 use app\models\User;
+use yii\helpers\FileHelper;
+use yii\web\UploadedFile;
+
+
 
 class ConversationController extends PjaxController
 {
@@ -115,6 +118,7 @@ class ConversationController extends PjaxController
             $message = Message::getLastInConversation($conversation->id);
 
             if ($message != null) {
+                $message->body = preg_replace('/\[\[attachment(\d+)_([a-z]+)_([a-z0-9]+)\]\]/', '[Attachment]', $message->body);
                 $row['lastMessage']       = $message;
                 $lastMessageUser          = $message->user;
                 $row['lastMessageUser']   = $lastMessageUser->userName;
@@ -140,6 +144,11 @@ class ConversationController extends PjaxController
         $conversation = Conversation::find($id);
         $creator      = $conversation->getCreator();
         $user         = Yii::$app->getUser()->getIdentity();
+
+        // Parse messages on attachments
+        foreach ($conversation->messages as $message) {
+            $message->body = $this->handleAttachment($message->body);
+        }
 
         // Mark conversation as read
         $conversation->markAsRead($user->id);
@@ -261,6 +270,27 @@ class ConversationController extends PjaxController
             $message->user_id         = Yii::$app->getUser()->getIdentity()->id;
             $message->body            = $_POST['body'];
 
+            // Handle attachments
+            $attachments = json_decode($_POST['attachments']);
+
+            // New line for attachments
+            if (count($attachments) > 0) {
+                $message->body .= '<br>';
+            }
+
+            foreach ($attachments as $attachment) {
+                // Get attachment parts
+                list($res_id, $res_type, $sign) = explode('_', $attachment);
+
+                // Invalid signature - skip attachment
+                if ($sign !== $sign = md5(Yii::$app->params['secretString'] . '_' . $res_id . '_' . $res_type . '_' . Yii::$app->params['secretString'])) {
+                    continue;
+                }
+
+                // Add attachment to body message
+                $message->body .= ' [[attachment' . $res_id . '_' . $res_type . '_' . $sign . ']]';
+            }
+
             // Send event for notification
             $event = new HandlerEvent(array(
                 'conversation_id'           => $conversation->id,
@@ -269,11 +299,14 @@ class ConversationController extends PjaxController
             Yii::$app->trigger('CONVERSATION_MESSAGE_SENT', $event);
 
             $message->save();
-        }
 
-        $result['status']  = count($message->errors) > 0 ? 'error' : $result['status'];
-        $result['errors']  = $message->errors;
-        $result['message'] = $message->toArray();
+            // Handle attachments
+            $message->body = $this->handleAttachment($message->body);
+
+            $result['status']  = count($message->errors) > 0 ? 'error' : $result['status'];
+            $result['errors']  = $message->errors;
+            $result['message'] = $message->toArray();
+        }
 
         return json_encode($result);
     }
@@ -329,4 +362,77 @@ class ConversationController extends PjaxController
         }
         return json_encode($result);
     }
+
+    public function actionFilesUpload() {
+        $file = UploadedFile::getInstanceByName('qqfile');
+        $mime = FileHelper::getMimeType($file->getTempName());
+
+        /** @var Storage $storage */
+        $storage = Yii::$app->getComponent('storage');
+        $resource_id = $storage->save($file);
+
+        if ($resource_id === false)
+        {
+            return json_encode(array('success' => false));
+        }
+
+        // MIME type checks
+        $type = (preg_match('/image\/(.*)/', $mime)) ? 'image' : 'file';
+
+        // Security file sign
+        $sign                   = md5(Yii::$app->params['secretString'] . '_' . $resource_id . '_' . $type . '_' . Yii::$app->params['secretString']);
+        $result = array(
+            'success'   =>  true,
+            'mime'      => $mime,
+            'newUuid'   =>  $resource_id . '_' . $type . '_' . $sign,
+        );
+        return json_encode($result);
+    }
+
+    public function actionFilesDelete() {
+        list($res_id, $res_type, $sign) = explode('_', $_POST['qquuid']);
+
+        // Invalid signature - send error code
+        if ($sign !== md5(Yii::$app->params['secretString'] . '_' . $res_id . '_' . $res_type . '_' . Yii::$app->params['secretString'])) {
+            Yii::$app->getResponse()->setStatusCode(403);
+        }
+
+        /** @var Storage $storage */
+        $storage = Yii::$app->getComponent('storage');
+        if ($storage->delete($res_id)) {
+            Yii::$app->getResponse()->setStatusCode(200);
+        } else {
+            Yii::$app->getResponse()->setStatusCode(503);
+        }
+    }
+
+    protected function handleAttachment($body) {
+        /** @var Storage $storage */
+        $storage = Yii::$app->getComponent('storage');
+
+        preg_match_all('/\[\[attachment(\d+)_([a-z]+)_([a-z0-9]+)\]\]/', $body, $attachments, PREG_SET_ORDER);
+
+        foreach ($attachments as $attachment) {
+            // Check sign
+            list($full, $res_id, $res_type, $sign) = $attachment;
+
+            // Invalid sign
+            if ($sign !== md5(Yii::$app->params['secretString'] . '_' . $res_id . '_' . $res_type . '_' . Yii::$app->params['secretString'])) {
+                continue;
+            }
+
+            switch ($res_type) {
+                case 'image':
+                    $body = str_replace($full, '<a href="' . $storage->link($res_id) . '" target="_blank"><img src=' . $storage->image($res_id) . ' border="0"></a>', $body);
+                    break;
+                default:
+                    $body = str_replace($full, '<a href="' . $storage->link($res_id) . '" target="_blank">' . basename($storage->path($res_id)) . '</a>', $body);
+                    break;
+            }
+
+        }
+
+        return $body;
+    }
+
 }
