@@ -77,11 +77,12 @@ class Storage extends Component
     /**
      * @param $id integer of resource to get image
      * @return bool|string to put into src attribute of img or false
+     * @param string $size  size of image (xs, s, m, l, xl)
      */
-    public function image($id) {
+    public function image($id, $size = 'm') {
         $res = Resource::find($id);
         if ($res != null) {
-            return $this->provider->image($res->path);
+            return $this->provider->image($res->path, $size);
         } else {
             return false;
         }
