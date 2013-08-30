@@ -35,14 +35,15 @@ $(document).ready(function() {
 var uploadFiles = function() {
     $('#jquery-wrapped-fine-uploader').fineUploader({
         request: {
-            endpoint: 'server/handleUploads'
+            endpoint: '/conversation/files-upload'
         },
         text: {
             uploadButton: '<div><span class="glyphicon glyphicon-cloud-upload white"></span> Upload a file</div>'
         },
         deleteFile: {
             enabled: true, // defaults to false
-            endpoint: '/my/delete/endpoint'
+            method: 'POST',
+            endpoint: '/conversation/files-delete'
         },
         template: '<div class="qq-uploader span12">' +
             '<pre class="qq-upload-drop-area span12"><span>{dragZoneText}</span></pre>' +
@@ -53,6 +54,10 @@ var uploadFiles = function() {
         classes: {
             success: 'alert alert-success',
             fail: 'alert alert-error'
-        }
+        }/*,
+        dragAndDrop: {
+            extraDropzones: [$("#body")],
+            hideDropzones: false
+        }*/
     });
 };

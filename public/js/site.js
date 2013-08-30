@@ -201,6 +201,17 @@ $(document).ready(
                 var errors = new messages();
                 var body   = form.find('#body').val();
 
+                // Add uploaded files to the message
+                var uploaded = $('#jquery-wrapped-fine-uploader').fineUploader('getUploads', {
+                    status: [qq.status.UPLOAD_SUCCESSFUL]
+                });
+
+                var attachemnts = [];
+                uploaded.forEach(function(element, index, array) {
+                    attachemnts.push(element.uuid);
+                });
+
+                data += '&attachments=' + JSON.stringify(attachemnts);
                 data += '&id=' + obj.attr('data-id');
                 $.ajax({
                     url:  '/conversation/message-send',
@@ -221,6 +232,8 @@ $(document).ready(
                         } else if ('redirect' == result['status']) {
                             window.location = result['redirect'];
                         }
+
+                        $('#jquery-wrapped-fine-uploader').fineUploader('reset');
                     },
                     error: function(error) {
                         alert(error.statusText);
