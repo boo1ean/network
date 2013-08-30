@@ -152,7 +152,11 @@ class LibraryController extends PjaxController
             $pagination = null;
 
             if($page != 1) {
-                Yii::$app->getResponse()->redirect('/library/books/'.$status.'/'.$order.'/1/'.implode('/', $tags));
+                if(is_array($tags) && count($tags) > 0) {
+                    Yii::$app->getResponse()->redirect('/library/books/'.$status.'/'.$order.'/1/'.implode('/', $tags));
+                } else {
+                    Yii::$app->getResponse()->redirect('/library/books/'.$status.'/'.$order.'/1');
+                }
             }
 
         }
