@@ -30,6 +30,7 @@ class AppAsset extends AssetBundle
     public $js = array(
         'js/jquery-2.0.3.min.js',
         'js/toastr.js',
+        'js/jquery.html5-fileupload.js',
         'js/bootstrap.js',
         'js/bootstrap-typeahead.js',
         'js/bootstrap-datetimepicker.min.js',

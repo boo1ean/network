@@ -239,6 +239,7 @@ $(document).ready(
             }
         }, '#message-send');
 
+        // Message send on enter key press
         $(document).on({
             'keypress': function(e) {
                 if(e.which == 13) {

@@ -451,4 +451,7 @@ h4.tag a:hover {
 .clear {
     clear: both;
 }
+.uploading {
+    background: #eeeeee url('../js/287.gif') no-repeat center center;
+}
 
