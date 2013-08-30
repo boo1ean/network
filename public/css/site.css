@@ -451,4 +451,11 @@ h4.tag a:hover {
 .clear {
     clear: both;
 }
+/*------------------file uploading-------------------*/
+.qq-upload-button {
+    color: #FFF;
+    background-color: #5CB85C;
+    border-color: #4CAE4C;
+}
+
 

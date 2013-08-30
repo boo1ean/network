@@ -95,6 +95,21 @@ class CalendarController extends PjaxController
         if (isset($_POST['sel_filters'])) {
             $events = Event::filterByMultiType($_POST['sel_filters']);
         }
+
+        foreach ($events as $key => $event) {
+            $user_exist = false;
+            $users = $event->users;
+            foreach($users as $user) {
+                if ($user->id == Yii::$app->getUser()->getIdentity()->getId()) {
+                    $user_exist = true;
+                    break;
+                }
+            }
+            if (!$user_exist) {
+                unset($events[$key]);
+            }
+        }
+
         $params = array();
         $params['events'] = $events;
         if (isset($_POST['filter_id'])) {
