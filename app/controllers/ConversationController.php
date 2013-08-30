@@ -2,13 +2,16 @@
 
 namespace app\controllers;
 
-use ___PHPSTORM_HELPERS\object;
+use app\components\Storage;
 use app\events\HandlerEvent;
 use yii;
-use yii\web\Controller;
 use app\models\Conversation;
 use app\models\Message;
 use app\models\User;
+use yii\helpers\FileHelper;
+use yii\web\UploadedFile;
+
+
 
 class ConversationController extends PjaxController
 {
@@ -327,6 +330,41 @@ class ConversationController extends PjaxController
             $conversation->title = $_POST['title'];
             $conversation->save();
         }
+        return json_encode($result);
+    }
+
+    public function actionUpload() {
+        $file = UploadedFile::getInstanceByName('Filedata');
+        $mime = FileHelper::getMimeType($file->getTempName());
+
+        /** @var Storage $storage */
+        $storage = Yii::$app->getComponent('storage');
+        $resource_id = $storage->save($file);
+
+        if ($resource_id === false)
+        {
+            return json_encode(array('success' => false));
+        }
+
+        // MIME type checks
+        switch ($mime) {
+            // Images
+            case (preg_match('/image\/(.*)/', $mime) ? true : false):
+                $result = array(
+                    'type'  =>  'image',
+                    'src'   =>  $storage->image($resource_id, 'xs'),
+                );
+                break;
+            // Other file type
+            default:
+                $result = array(
+                    'type'  =>  'file',
+                    'src'   =>  $storage->image($resource_id, 'xs'),
+                );
+                break;
+        }
+
+        $result['success'] = true;
         return json_encode($result);
     }
 }
