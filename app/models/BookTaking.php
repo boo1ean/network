@@ -36,7 +36,7 @@ class BookTaking extends ActiveRecord
         return array(
             array('book_id, returned, taken, user_id', 'required'),
             array('book_id', 'validAskId'),
-            array('returned', 'compare', 'compareAttribute' => 'taken', 'operator' => '>')
+            array('returned', 'validReturnedDate')
         );
     }
 
@@ -175,6 +175,17 @@ class BookTaking extends ActiveRecord
 
         if ($user && 'ask' == $this->scenario) {
             $this->addError('book_id', 'You already in the order');
+        }
+    }
+
+    public function validReturnedDate() {
+        $datetime = explode(' ', $this->returned);
+        $date     = explode('/', $datetime[0]);
+        $time     = explode(':', $datetime[1]);
+        $returned = mktime($time[0], $time[1], 0, $date[1], $date[0], $date[2]);
+
+        if($returned < time()) {
+            $this->addError('returned', 'End date can\'t be in past');
         }
     }
 }

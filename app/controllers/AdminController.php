@@ -118,6 +118,7 @@ class AdminController extends PjaxController
     }
 
     public function actionLibraryBookGive() {
+        date_default_timezone_set('Europe/Kiev');
         $result = array(
             'redirect' => Yii::$app->getUrlManager()->getBaseUrl(),
             'status'   => 'ok'
@@ -132,7 +133,7 @@ class AdminController extends PjaxController
 
             $bookTakingModel->book_id  = $_POST['book_id'];
             $bookTakingModel->returned = $_POST['returned'];
-            $bookTakingModel->taken    = date('Y-m-d H:i:s', time());
+            $bookTakingModel->taken    = date('Y-m-d H:i', time());
             $bookTakingModel->user_id  = $_POST['user_id'];
             $bookTakingModel->scenario = 'give';
 
