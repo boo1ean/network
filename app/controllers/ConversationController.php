@@ -364,7 +364,8 @@ class ConversationController extends PjaxController
                 break;
         }
 
-        $result['success'] = true;
+        $result['success']  = true;
+        $result['sign']     = md5(Yii::$app->secretString . $resource_id . Yii::$app->secretString);    // Security file sign
         return json_encode($result);
     }
 }
