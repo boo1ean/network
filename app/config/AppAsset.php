@@ -20,6 +20,7 @@ class AppAsset extends AssetBundle
     public $css = array(
         'css/bootstrap-datetimepicker.min.css',
         'css/toastr.css',
+        'css/fineuploader-3.8.1.min.css',
         'css/site.css',
         'css/jquery.tagsinput.css',
         'css/jquery-ui-1.9.2.custom.min.css',

@@ -85,6 +85,7 @@ use app\helpers\DateTimeHelper;
                     'rows'        => '4',
                     'style'       => 'resize: none'
                 )); ?>
+                <div id="jquery-wrapped-fine-uploader"></div>
                 <div class="help-block"></div>
             </div>
 

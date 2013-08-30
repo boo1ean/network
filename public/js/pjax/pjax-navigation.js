@@ -33,16 +33,26 @@ $(document).ready(function() {
 });
 
 var uploadFiles = function() {
-    var item = $('#body');
-    item.fileUpload({
-        url: '/',
-        type: 'POST',
-        dataType: 'json',
-        beforeSend: function () {
-            item.addClass('uploading');
+    $('#jquery-wrapped-fine-uploader').fineUploader({
+        request: {
+            endpoint: 'server/handleUploads'
         },
-        complete: function () {
-            item.removeClass('uploading');
+        text: {
+            uploadButton: '<div><span class="glyphicon glyphicon-cloud-upload white"></span> Upload a file</div>'
+        },
+        deleteFile: {
+            enabled: true, // defaults to false
+            endpoint: '/my/delete/endpoint'
+        },
+        template: '<div class="qq-uploader span12">' +
+            '<pre class="qq-upload-drop-area span12"><span>{dragZoneText}</span></pre>' +
+            '<div class="btn btn-success qq-upload-button" style="width: auto;">{uploadButtonText}</div>' +
+            '<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+            '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;"></ul>' +
+            '</div>',
+        classes: {
+            success: 'alert alert-success',
+            fail: 'alert alert-error'
         }
     });
 };
