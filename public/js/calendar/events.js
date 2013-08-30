@@ -196,13 +196,13 @@ $(function(){
      * Toggle events in agenda
      */
     $(document).on({
-        click: function() {
+        click: function(event) {
 
-            if (event.target.nodeName == "SPAN") {
+            if (event.target.nodeName === "SPAN") {
                 return false;
             }
 
-            var body_id = $(this).children('.pull-right').find('a').attr('event-id');
+            var body_id = $(this).children('.panel-head-hidden-child').text();
 
             $('.panel-body:has(.panel-body-hidden-child:contains('+body_id+'))').toggle('show hide');
         }
