@@ -152,7 +152,6 @@ class ConversationController extends PjaxController
             preg_match_all('/\[\[attachment(\d+)_([a-z]+)_([a-z0-9]+)\]\]/', $message->body, $attachments, PREG_SET_ORDER);
 
             foreach ($attachments as $attachment) {
-
                 // Check sign
                 list($full, $res_id, $res_type, $sign) = $attachment;
 
@@ -295,6 +294,12 @@ class ConversationController extends PjaxController
 
             // Handle attachments
             $attachments = json_decode($_POST['attachments']);
+
+            // New line for attachments
+            if (count($attachments) > 0) {
+                $message->body .= '<br>';
+            }
+
             foreach ($attachments as $attachment) {
                 // Get attachment parts
                 list($res_id, $res_type, $sign) = explode('_', $attachment);
@@ -408,9 +413,9 @@ class ConversationController extends PjaxController
         }
 
         // Security file sign
-        $sign = md5(Yii::$app->params['secretString'] . '_' . $resource_id . '_' . $result['type'] . '_' . Yii::$app->params['secretString']);
-        $result['newUuid']     = $resource_id . '_' . $result['type'] . '_' . $sign;
-        $result['success']  = true;
+        $sign                   = md5(Yii::$app->params['secretString'] . '_' . $resource_id . '_' . $result['type'] . '_' . Yii::$app->params['secretString']);
+        $result['newUuid']      = $resource_id . '_' . $result['type'] . '_' . $sign;
+        $result['success']      = true;
         return json_encode($result);
     }
 
