@@ -58,7 +58,7 @@ use yii\widgets\ActiveForm;
                     </div>
                 </div>
                 <div class="col-lg-6 col-lg-offset-1">
-                    <div class="form-group">
+                    <div class="form-group drop">
                         <?php echo Html::label('Type'); ?>
                         <?php echo Html::dropDownList('type', null, array('birthday', 'corp. event', 'holiday', 'day-off'),
                             array('class' => 'form-control')) ?>

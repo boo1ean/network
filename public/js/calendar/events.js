@@ -249,6 +249,6 @@ $(function(){
                 color: color
             });
         }
-    }, '.row .drop :input');
+    }, '.drop :input');
 
 });
