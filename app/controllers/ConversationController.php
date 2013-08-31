@@ -292,9 +292,10 @@ class ConversationController extends PjaxController
             }
 
             // Send event for notification
+            $notifyBody = preg_replace('/\[\[attachment(\d+)_([a-z]+)_([a-z0-9]+)\]\]/', '[Attachment]', $message->body);
             $event = new HandlerEvent(array(
                 'conversation_id'           => $conversation->id,
-                'message_body'              => $message->body,
+                'message_body'              => $notifyBody,
             ));
             Yii::$app->trigger('CONVERSATION_MESSAGE_SENT', $event);
 
