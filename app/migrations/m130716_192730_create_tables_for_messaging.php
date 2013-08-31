@@ -33,7 +33,7 @@ class m130716_192730_create_tables_for_messaging extends \yii\db\Migration
                 'id'                => Schema::TYPE_PK,
                 'user_id'           => Schema::TYPE_INTEGER,
                 'conversation_id'   => Schema::TYPE_INTEGER,
-                'body'              => Schema::TYPE_STRING,
+                'body'              => Schema::TYPE_TEXT,
             ))->execute();
 
         // Add foreign keys in messages table
