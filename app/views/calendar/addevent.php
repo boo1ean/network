@@ -39,7 +39,7 @@ use yii\widgets\ActiveForm;
                     <div class="form-group">
                         <b>Start date</b>
                         <div class="date-time-picker input-group" style="padding-left: 0px;">
-                            <input name="start_datetime" data-format="dd/MM/yyyy hh:mm" type="text" class="form-control" value="<?php echo date('d/m/Y H:i', time())?>"/>
+                            <input name="start_datetime" data-format="dd/MM/yyyy hh:mm" type="text" class="form-control" value="<?php echo date('d/m/Y H:i', strtotime($start_date))?>"/>
                             <span class="input-group-addon add-on">
                                 <i style="color: #000000" class="glyphicon glyphicon-calendar"></i>
                             </span>
@@ -50,7 +50,7 @@ use yii\widgets\ActiveForm;
                     <div class="form-group">
                         <b>End date</b>
                         <div class="date-time-picker input-group" style="padding-left: 0px;">
-                            <input name="end_datetime" data-format="dd/MM/yyyy hh:mm" type="text" class="form-control" value="<?php echo date('d/m/Y H:i', time() + 3600*24)?>"/>
+                            <input name="end_datetime" data-format="dd/MM/yyyy hh:mm" type="text" class="form-control" value="<?php echo date('d/m/Y H:i', strtotime($end_date))?>"/>
                             <span class="input-group-addon add-on">
                                 <i style="color: #000000" class="glyphicon glyphicon-calendar"></i>
                             </span>
