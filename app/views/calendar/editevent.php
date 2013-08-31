@@ -50,7 +50,7 @@ use app\models\User;
                                 $start_date = explode('-', $event->start_date);
                                 $start_date = $start_date[2] . '/' . $start_date[1] . '/' . $start_date[0] .' ' . $event->start_time;
                             ?>
-                            <input name="start_datetime" data-format="dd/MM/yyyy hh:mm" type="text" class="form-control" value="<?php echo $start_date ?>"/>
+                            <input name="start_datetime" data-format="dd/MM/yyyy hh:mm" id='start_date' type="text" class="form-control" value="<?php echo $start_date ?>"/>
                             <span class="input-group-addon add-on">
                                 <i style="color: #000000" class="glyphicon glyphicon-calendar"></i>
                             </span>
@@ -65,7 +65,7 @@ use app\models\User;
                                 $end_date = explode('-', $event->end_date);
                                 $end_date = $end_date[2] . '/' . $end_date[1] . '/' . $end_date[0] .' ' . $event->end_time;
                             ?>
-                            <input name="end_datetime" data-format="dd/MM/yyyy hh:mm" type="text" class="form-control" value="<?php echo $end_date?>"/>
+                            <input name="end_datetime" data-format="dd/MM/yyyy hh:mm" id='end_date' type="text" class="form-control" value="<?php echo $end_date?>"/>
                             <span class="input-group-addon add-on">
                                 <i style="color: #000000" class="glyphicon glyphicon-calendar"></i>
                             </span>
