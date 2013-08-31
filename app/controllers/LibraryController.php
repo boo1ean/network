@@ -117,9 +117,9 @@ class LibraryController extends PjaxController
                     break;
                 case Book::STATUS_TAKEN:
                     $books[$key]['status']     = 'taken';
+                    unset($where['user_id']);
                     $where['status_user_book'] = BookTaking::STATUS_TAKEN;
                     $book_taking               = BookTaking::findOneByParams($where);
-
                     $books[$key]['percent'] = BookTaking::calcPercentFromDateInterval($book_taking['taken'], $book_taking['returned']);
 
                     if($books[$key]['percent'] > 100) {

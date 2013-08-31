@@ -61,12 +61,12 @@ class BookTaking extends ActiveRecord
         $now      = time();
         $datetime = explode(' ', $end);
         $date     = explode('-', $datetime[0]);
-        $time     = explode(':', $datetime[1]);
+        $time     = isset($datetime[1]) ? explode(':', $datetime[1]) : array(0,0,0);
         $returned = mktime($time[0], $time[1], $time[2], $date[1], $date[2], $date[0]);
 
         $datetime = explode(' ', $start);
         $date     = explode('-', $datetime[0]);
-        $time     = explode(':', $datetime[1]);
+        $time     = isset($datetime[1]) ? explode(':', $datetime[1]) : array(0,0,0);
         $taken    = mktime($time[0], $time[1], $time[2], $date[1], $date[2], $date[0]);
 
         return round(($now - $taken) * 100 / ($returned - $taken), $round);
