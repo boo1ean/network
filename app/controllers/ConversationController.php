@@ -299,6 +299,7 @@ class ConversationController extends PjaxController
             Yii::$app->trigger('CONVERSATION_MESSAGE_SENT', $event);
 
             $message->save();
+            $message->refresh();
 
             // Handle attachments
             $message->body = $this->handleAttachment($message->body);
@@ -306,6 +307,7 @@ class ConversationController extends PjaxController
             $result['status']  = count($message->errors) > 0 ? 'error' : $result['status'];
             $result['errors']  = $message->errors;
             $result['message'] = $message->toArray();
+            $result['message']['datetime'] = \app\helpers\DateTimeHelper::formatTime($result['message']['datetime'], true);
         }
 
         return json_encode($result);

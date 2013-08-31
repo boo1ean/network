@@ -229,7 +229,8 @@ $(document).ready(
                         } else if ('ok' == result['status']) {
                             var html = '<div class = "messageContainer"><div class = "messageUser">' + $('#avatar-container').html() +
                                 '</div> <div class = "messageBody"> <div class = "popover right in" style="z-index: 0;">' +
-                                '<div class = "arrow"></div> <h5 class="popover-title">' + obj.attr('data-title') + '</h5>' +
+                                '<div class = "arrow"></div> <h5 class="popover-title">' + obj.attr('data-title') +
+                                ' (' + result['message']['datetime'] + ') </h5>' +
                                 '<div class = "popover-content">' + result['message']['body'] + '</div> </div> </div> </div>';
                             $('#message-container').before(html);
                             form.find('textarea').val('');
