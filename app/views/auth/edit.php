@@ -13,7 +13,7 @@ use yii;
     <br/>
     <?php if (isset($message)): ?>
         <div class="row">
-            <div class="col-lg-offset-5" style="position: fixed;">
+            <div class="col-lg-offset-5" style="position: absolute;">
                 <?php echo Html::tag('div', $message, array('class' => 'alert alert-success'));?>
             </div>
         </div>
