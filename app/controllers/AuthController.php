@@ -44,12 +44,15 @@ class AuthController extends PjaxController
         if(!empty($_POST)) {
             $editProfileForm->load($_POST);
 
-            // Loop for all types of notification.
-            $notify = array();
-            foreach ($_POST['notifications'] as $key => $value) {
-                $notify[$key] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+            if (isset($_POST['notifications']))
+            {
+                // Loop for all types of notification.
+                $notify = array();
+                foreach ($_POST['notifications'] as $key => $value) {
+                    $notify[$key] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+                }
+                $editProfileForm->notifications = $notify;
             }
-            $editProfileForm->notifications = $notify;
         }
 
         if (!empty($_POST) && $editProfileForm->saveProfile()) {
